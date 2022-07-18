@@ -15,7 +15,9 @@ export const ScoreCard = () => {
           </Typography>
         </>
         <>
-          <ScoreCardFields />
+          <Paper elevation={2}>
+            <ScoreCardFields />
+          </Paper>
         </>
         <>
           <Typography variant="h1" component="div" align="center">

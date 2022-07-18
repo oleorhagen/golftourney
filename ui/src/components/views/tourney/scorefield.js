@@ -6,14 +6,14 @@ import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 const allowed_scores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const ScoreField = (props) => {
-  const [score, setScore] = React.useState();
+  const [score, setScore] = React.useState("");
 
   const handleChange = (event) => {
     setScore(event.target.value);
   };
 
   return (
-    <Paper>
+    <Paper elevation={3}>
       <Stack direction="row">
         <Typography variant="subtitle1" component="div" align="center">
           {props.hole}
@@ -22,7 +22,7 @@ const ScoreField = (props) => {
           id="outlined-select-currency"
           select
           label="Score"
-          value={allowed_scores}
+          value={score}
           onChange={handleChange}
           helperText="Please select your score"
         >
