@@ -14,8 +14,8 @@ const ScoreField = (props) => {
 
   return (
     <Paper elevation={3}>
-      <Stack direction="row">
-        <Typography variant="subtitle1" component="div" align="center">
+      <Stack direction="row" justifyContent="center" spacing={4}>
+        <Typography variant="subtitle1" component="div">
           {props.hole}
         </Typography>
         <TextField
