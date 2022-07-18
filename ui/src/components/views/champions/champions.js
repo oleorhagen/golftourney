@@ -8,8 +8,16 @@ import champImg21 from "./champs/champ21.jpg";
 
 export const Champions = () => {
   const previousChamps = [
-    { name: "Maarjus", img: champImg22 },
-    { name: "Ole M.", img: champImg21 },
+    {
+      name: "Maarjus",
+      img: champImg22,
+      text: "The winner of the 2022 Skjeberg Invitational",
+    },
+    {
+      name: "Ole M.",
+      img: champImg21,
+      text: "The winner of the 2021 Skjeberg Open",
+    },
   ];
 
   return (
@@ -20,7 +28,11 @@ export const Champions = () => {
           <Grid container spacing={2}>
             {previousChamps.map((champ) => (
               <Grid key={champ.name} item>
-                <PreviousChampion name={champ.name} img={champ.img} />
+                <PreviousChampion
+                  name={champ.name}
+                  img={champ.img}
+                  text={champ.text}
+                />
               </Grid>
             ))}
           </Grid>

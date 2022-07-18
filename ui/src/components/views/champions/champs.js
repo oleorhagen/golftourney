@@ -18,6 +18,7 @@ export const PreviousChampion = (props) => {
   //
 
   // TODO - Generate multiple formats of the images used, the one currently is too big!
+  console.log(props.text);
   return (
     <Paper elevation={3}>
       <Typography gutterBottom variant="h1" component="div" align="center">
@@ -27,10 +28,10 @@ export const PreviousChampion = (props) => {
         <img
           src={props.img}
           alt="2021 champion"
-          title="Winner of the 2022 Skjeberg Invitational"
+          title={props.text}
           width="80%"
         />
-        <figcaption>The winner of the 2022 Skjeberg Invitiational</figcaption>
+        <figcaption>{props.text}</figcaption>
       </figure>
     </Paper>
   );
