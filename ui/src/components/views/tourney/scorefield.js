@@ -19,7 +19,7 @@ const ScoreField = (props) => {
           {props.hole}
         </Typography>
         <TextField
-          id="outlined-select-currency"
+          id="outlined-select-score"
           select
           label="Score"
           value={score}
