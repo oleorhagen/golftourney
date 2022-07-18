@@ -10,8 +10,8 @@ let back_holes = [10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 export const ScoreCardFields = () => {
   return (
-    <Grid container spacing={2} direction="row" columns={2}>
-      <Grid item container key="front" direction="column">
+    <Grid container spacing={2} direction="row">
+      <Grid item container key="front" direction="column" xs={6}>
         {front_holes.map((hole) => (
           <Grid key={hole} item>
             <ScoreField hole={hole} />
@@ -19,7 +19,7 @@ export const ScoreCardFields = () => {
         ))}
       </Grid>
 
-      <Grid item container key="back" direction="column">
+      <Grid item container key="back" direction="column" xs={6}>
         {back_holes.map((hole) => (
           <Grid key={hole} item>
             <ScoreField hole={hole} />
