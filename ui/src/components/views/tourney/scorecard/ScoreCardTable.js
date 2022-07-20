@@ -20,20 +20,11 @@ function createData(hole, par, hcp, length, hcpe) {
 }
 
 const ScoreCardTable = (props) => {
-  console.log("props");
-  console.log(props);
   const [score, setScore] = React.useState("");
 
   const handleChange = (event) => {
     setScore(event.target.value);
   };
-
-  function addBack(n) {
-    if (props.back) {
-      return n + 9;
-    }
-    return n;
-  }
 
   const rows = props.data.map(({ hole, par, hcp, extra }) =>
     createData(hole, par, hcp, 500, extra)
