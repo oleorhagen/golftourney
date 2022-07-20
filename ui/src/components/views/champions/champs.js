@@ -18,7 +18,6 @@ export const PreviousChampion = (props) => {
   //
 
   // TODO - Generate multiple formats of the images used, the one currently is too big!
-  console.log(props.text);
   return (
     <Paper elevation={3}>
       <Typography gutterBottom variant="h1" component="div" align="center">
