@@ -2,7 +2,7 @@ import React from "react";
 
 import { Container, Grid } from "@mui/material";
 
-import ScoreCard from "./scorecard";
+import ScoreCard from "./scorecard/ScoreCard";
 
 export const TourneyView = () => {
   return (
