@@ -20,15 +20,15 @@ function createData(hole, par, hcp, length, hcpe) {
 }
 
 const rows = [
-  createData(1, 5, 7, 517, 1),
-  createData(2, 3, 18, 144, 2),
-  createData(3, 5, 12, 450, 1),
-  createData(4, 4, 1, 420, 2),
+  createData(1, 5, 1, 517, 1),
+  createData(2, 3, 2, 144, 2),
+  createData(3, 5, 3, 450, 1),
+  createData(4, 4, 4, 420, 2),
   createData(5, 3, 5, 301, 3),
-  createData(6, 4, 13, 281, 1),
-  createData(7, 4, 21, 322, 1),
+  createData(6, 4, 6, 281, 1),
+  createData(7, 4, 7, 322, 1),
   createData(8, 4, 8, 412, 2),
-  createData(9, 5, 3, 455, 1),
+  createData(9, 5, 9, 455, 1),
 ];
 
 const ScoreCardTable = (props) => {
