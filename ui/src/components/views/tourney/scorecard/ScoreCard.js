@@ -7,11 +7,11 @@ import ScoreCardHeader from "./ScoreCardHeader";
 import ScoreCardBody from "./ScoreCardBody";
 import ScoreCardFooter from "./ScoreCardFooter";
 
-export const ScoreCard = () => {
+export const ScoreCard = (props) => {
   return (
     <>
       <ScoreCardHeader />
-      <ScoreCardBody />
+      <ScoreCardBody scorecard={props.scorecard} />
       <ScoreCardFooter />
     </>
   );
