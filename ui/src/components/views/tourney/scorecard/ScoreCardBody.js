@@ -9,10 +9,10 @@ export default function ScoreCardBody() {
   return (
     <>
       <Grid container direction="row" spacing={2}>
-        <Grid container item key="front">
+        <Grid container item key="front" xs={6}>
           <ScoreCardTable />
         </Grid>
-        <Grid container item key="back">
+        <Grid container item key="back" xs={6}>
           <ScoreCardTable />
         </Grid>
       </Grid>
