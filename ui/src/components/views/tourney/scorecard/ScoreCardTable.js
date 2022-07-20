@@ -35,8 +35,8 @@ const ScoreCardTable = (props) => {
     return n;
   }
 
-  const rows = props.data.map(({ par, hcp }, index) =>
-    createData(addBack(index) + 1, par, hcp, 500, par)
+  const rows = props.data.map(({ hole, par, hcp, extra }) =>
+    createData(hole, par, hcp, 500, extra)
   );
   return (
     <>
