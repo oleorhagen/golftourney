@@ -14,25 +14,14 @@ const ScoreField = (props) => {
     setScore(event.target.value);
   };
 
-  const cardHeaders = ["Hole", "Par", "Hcp", "Length", "Extra"];
-
   // TODO - Add Hole Par
   // Handicap strokes awarded
   // Pretty boxes for every entity
   // Points obtained on dis hole (!)
   return (
     <>
-      <Paper elevation={2}>
-        <Stack direction="row" justifyContent="center" spacing={4}>
-          {cardHeaders.map((header) => (
-            <Typography variant="subtitle1" component="div">
-              {header}:
-            </Typography>
-          ))}
-        </Stack>
-      </Paper>
       <Paper elevation={3}>
-        <Stack direction="row" justifyContent="center" spacing={4}>
+        <Stack direction="row" justifyContent="center" spacing={1}>
           <NumberBox text={props.hole} />
           <NumberBox text="Par" />
           <NumberBox text="Hcp" />
