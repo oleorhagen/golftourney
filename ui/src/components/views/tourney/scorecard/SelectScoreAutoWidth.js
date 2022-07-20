@@ -26,7 +26,9 @@ export default function SelectScoreAutoWidth() {
           label="Score"
         >
           {acceptableScores.map((score) => (
-            <MenuItem value={score}>{score}</MenuItem>
+            <MenuItem key={score} value={score}>
+              {score}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

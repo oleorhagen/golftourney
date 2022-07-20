@@ -6,27 +6,38 @@ import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 export default function ScoreCardHeader() {
   return (
     <>
-      <Grid container direction="row">
-        <Grid item>
-          <Typography variant="h1" component="div" align="left">
-            Course: Hakadal
-          </Typography>
-          <Typography variant="h3" component="div" align="left">
-            Slope:
-          </Typography>
-          <Typography variant="h3" component="div" align="left">
-            Course Handicap
-          </Typography>
+      <Paper>
+        <Grid container>
+          <Grid item xs={6}>
+            <Typography variant="h3" component="div" align="left">
+              Course: Hakadal
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="outlined-select-handicap"
+              label="Handicap"
+              required
+              sx={{ align: "right" }}
+            ></TextField>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h3" component="div" align="left">
+              Slope:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h3" component="div" align="left">
+              Course Hcp:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h3" component="div" align="right">
+              Score: 45
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item>
-          <TextField
-            id="outlined-select-handicap"
-            label="Handicap"
-            helperText="Please input your handicap"
-            align="right"
-          ></TextField>
-        </Grid>
-      </Grid>
+      </Paper>
     </>
   );
 }
