@@ -28,8 +28,15 @@ const ScoreCardTable = (props) => {
     setScore(event.target.value);
   };
 
-  const rows = props.data.map(({ par, hcp }) =>
-    createData(1, par, hcp, 500, par)
+  function addBack(n) {
+    if (props.back) {
+      return n + 9;
+    }
+    return n;
+  }
+
+  const rows = props.data.map(({ par, hcp }, index) =>
+    createData(addBack(index) + 1, par, hcp, 500, par)
   );
   return (
     <>
