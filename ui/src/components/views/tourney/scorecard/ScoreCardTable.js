@@ -3,7 +3,7 @@ import React from "react";
 import { Container, Grid, Stack } from "@mui/material";
 import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 
-import NumberBox from "./NumberBox";
+import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -64,7 +64,9 @@ const ScoreCardTable = (props) => {
                 <TableCell align="right">{row.hcp}</TableCell>
                 <TableCell align="right">{row.length}</TableCell>
                 <TableCell align="right">{row.hcpe}</TableCell>
-                <TableCell align="right">2</TableCell>
+                <TableCell align="right">
+                  <SelectScoreAutoWidth />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
