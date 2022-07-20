@@ -18,7 +18,6 @@ export default function ScoreCardHeader() {
               id="outlined-select-handicap"
               label="Handicap"
               required
-              sx={{ align: "right" }}
             ></TextField>
           </Grid>
           <Grid item xs={12}>
