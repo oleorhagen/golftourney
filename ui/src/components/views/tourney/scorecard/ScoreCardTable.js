@@ -4,6 +4,7 @@ import { Container, Grid, Stack } from "@mui/material";
 import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 
 import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
+import RomanNumeralScore from "./RomanNumeralScore";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,15 +20,15 @@ function createData(hole, par, hcp, length, hcpe) {
 }
 
 const rows = [
-  createData(1, 5, 7, 517, "I"),
-  createData(2, 3, 18, 144, "II"),
-  createData(3, 5, 12, 450, "I"),
-  createData(4, 4, 1, 420, "II"),
-  createData(5, 3, 5, 301, "III"),
-  createData(6, 4, 13, 281, "I"),
-  createData(7, 4, 21, 322, "I"),
-  createData(8, 4, 8, 412, "II"),
-  createData(9, 5, 3, 455, "I"),
+  createData(1, 5, 7, 517, 1),
+  createData(2, 3, 18, 144, 2),
+  createData(3, 5, 12, 450, 1),
+  createData(4, 4, 1, 420, 2),
+  createData(5, 3, 5, 301, 3),
+  createData(6, 4, 13, 281, 1),
+  createData(7, 4, 21, 322, 1),
+  createData(8, 4, 8, 412, 2),
+  createData(9, 5, 3, 455, 1),
 ];
 
 const ScoreCardTable = (props) => {
@@ -63,7 +64,9 @@ const ScoreCardTable = (props) => {
                 <TableCell align="right">{row.par}</TableCell>
                 <TableCell align="right">{row.hcp}</TableCell>
                 <TableCell align="right">{row.length}</TableCell>
-                <TableCell align="right">{row.hcpe}</TableCell>
+                <TableCell align="right">
+                  <RomanNumeralScore number={row.hcpe} />
+                </TableCell>
                 <TableCell align="right">
                   <SelectScoreAutoWidth />
                 </TableCell>
