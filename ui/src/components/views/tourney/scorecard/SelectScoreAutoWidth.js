@@ -24,7 +24,7 @@ export default function SelectScoreAutoWidth() {
           autoWidth
           label="Score"
           variant="standard"
-          IconComponent=""
+          IconComponent={() => ""}
         >
           {acceptableScores.map((score) => (
             <MenuItem key={score} value={score}>
