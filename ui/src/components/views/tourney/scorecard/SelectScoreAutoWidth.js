@@ -15,13 +15,12 @@ export default function SelectScoreAutoWidth() {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 40 }}>
+      <FormControl>
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="score-simple-select-autowidth"
           value={score}
           onChange={handleChange}
-          autoWidth
           label="Score"
           variant="standard"
           IconComponent={() => ""}
