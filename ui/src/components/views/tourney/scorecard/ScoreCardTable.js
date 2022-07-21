@@ -20,12 +20,6 @@ function createData(hole, par, hcp, hcpe) {
 }
 
 const ScoreCardTable = (props) => {
-  const [score, setScore] = React.useState("");
-
-  const handleChange = (event) => {
-    setScore(event.target.value);
-  };
-
   const rows = props.data.map(({ hole, par, hcp, extra }) =>
     createData(hole, par, hcp, extra)
   );
