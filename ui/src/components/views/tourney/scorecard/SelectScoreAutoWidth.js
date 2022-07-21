@@ -4,6 +4,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import "./SelectScoreAutoWidth.css";
+
 const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function SelectScoreAutoWidth() {
