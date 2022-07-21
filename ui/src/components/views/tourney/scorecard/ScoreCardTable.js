@@ -40,6 +40,7 @@ const ScoreCardTable = (props) => {
               <TableCell align="right">Hcp</TableCell>
               <TableCell align="right">Hcp+</TableCell>
               <TableCell align="right">Score</TableCell>
+              <TableCell align="right">Points</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -59,6 +60,7 @@ const ScoreCardTable = (props) => {
                 <TableCell align="right">
                   <SelectScoreAutoWidth />
                 </TableCell>
+                <TableCell align="right">2</TableCell>
               </TableRow>
             ))}
           </TableBody>
