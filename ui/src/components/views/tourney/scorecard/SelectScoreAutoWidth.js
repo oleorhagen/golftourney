@@ -16,7 +16,6 @@ export default function SelectScoreAutoWidth() {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 40 }}>
-        <InputLabel id="score-simple-select-autowidth-label">Score</InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="score-simple-select-autowidth"
@@ -24,6 +23,8 @@ export default function SelectScoreAutoWidth() {
           onChange={handleChange}
           autoWidth
           label="Score"
+          variant="standard"
+          IconComponent=""
         >
           {acceptableScores.map((score) => (
             <MenuItem key={score} value={score}>
