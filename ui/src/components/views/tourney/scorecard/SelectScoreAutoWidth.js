@@ -15,7 +15,7 @@ export default function SelectScoreAutoWidth() {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 80 }}>
+      <FormControl sx={{ m: 1, minWidth: 40 }}>
         <InputLabel id="score-simple-select-autowidth-label">Score</InputLabel>
         <Select
           labelId="demo-simple-select-autowidth-label"
