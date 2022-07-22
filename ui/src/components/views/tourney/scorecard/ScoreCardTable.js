@@ -25,15 +25,8 @@ const ScoreCardTable = (props) => {
     createData(hole, par, hcp, extra)
   );
 
-  const [scores, setScores] = useState(Array(18).fill(null));
-
-  const onChange = (index) => {
-    return (val) => {
-      let newScores = [...scores];
-      newScores[index] = val;
-      setScores(newScores);
-    };
-  };
+  const scores = props.scores;
+  const onChange = props.onChange;
 
   return (
     <>
