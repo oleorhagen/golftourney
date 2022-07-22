@@ -20,10 +20,17 @@ export default function ScoreCardHeader() {
               required
             ></TextField>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography variant="h3" component="div" align="left">
               Slope:
             </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="outlined-select-handicap"
+              label="Tee"
+              required
+            ></TextField>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h3" component="div" align="left">
