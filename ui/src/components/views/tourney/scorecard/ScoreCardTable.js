@@ -5,6 +5,7 @@ import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 
 import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
 import RomanNumeralScore from "./RomanNumeralScore";
+import PointScore from "./PointScore";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -65,7 +66,14 @@ const ScoreCardTable = (props) => {
                 <TableCell align="right">
                   <SelectScoreAutoWidth onChange={onChange(index)} />
                 </TableCell>
-                <TableCell align="right">2</TableCell>
+                <TableCell align="right">
+                  <PointScore
+                    par={row.par}
+                    hcp={row.hcpe}
+                    score={scores[index]}
+                    active={scores[index]}
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
