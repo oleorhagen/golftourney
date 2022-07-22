@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Container, Grid, Stack } from "@mui/material";
 import { Paper, Typography, TextField, MenuItem } from "@mui/material";
@@ -23,6 +23,17 @@ const ScoreCardTable = (props) => {
   const rows = props.data.map(({ hole, par, hcp, extra }) =>
     createData(hole, par, hcp, extra)
   );
+
+  const [scores, setScores] = useState(Array(18).fill(null));
+
+  const onChange = (index) => {
+    return (val) => {
+      let newScores = [...scores];
+      newScores[index] = val;
+      setScores(newScores);
+    };
+  };
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -38,7 +49,7 @@ const ScoreCardTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row, index) => (
               <TableRow
                 key={row.hole}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -52,7 +63,7 @@ const ScoreCardTable = (props) => {
                   <RomanNumeralScore number={row.hcpe} />
                 </TableCell>
                 <TableCell align="right">
-                  <SelectScoreAutoWidth />
+                  <SelectScoreAutoWidth onChange={onChange(index)} />
                 </TableCell>
                 <TableCell align="right">2</TableCell>
               </TableRow>
