@@ -51,7 +51,6 @@ distributeStrokes(25);
 
 export default function ScoreCardBody(props) {
   const scoreCard = props.scorecard;
-  console.log("ScoreCardBody mount");
   return (
     <>
       <Grid container direction="row" spacing={2}>

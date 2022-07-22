@@ -8,11 +8,13 @@ import "./SelectScoreAutoWidth.css";
 
 const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function SelectScoreAutoWidth() {
+export default function SelectScoreAutoWidth({ onChange }) {
   const [score, setScore] = React.useState("");
 
   const handleChange = (event) => {
+    // TODO - Do we need to separately manage state here now (?)
     setScore(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
