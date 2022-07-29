@@ -3,7 +3,7 @@ import React from "react";
 import { Container, Grid, Stack } from "@mui/material";
 import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 
-export default function ScoreCardHeader() {
+export default function ScoreCardHeader({ score, points }) {
   return (
     <>
       <Paper>
@@ -37,9 +37,14 @@ export default function ScoreCardHeader() {
               Course Hcp:
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={3}>
             <Typography variant="h3" component="div" align="right">
-              Score: 45
+              Score: {score}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h3" component="div" align="right">
+              Points: {points}
             </Typography>
           </Grid>
         </Grid>
