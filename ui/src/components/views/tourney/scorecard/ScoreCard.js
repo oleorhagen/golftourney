@@ -7,6 +7,8 @@ import ScoreCardHeader from "./ScoreCardHeader";
 import ScoreCardBody from "./ScoreCardBody";
 import ScoreCardFooter from "./ScoreCardFooter";
 
+import { PointsFromScore } from "./PointScore";
+
 let testData = [
   // Front
   { hole: 1, par: 5, hcp: 7, extra: 0 },
@@ -73,7 +75,38 @@ export const ScoreCard = (props) => {
 
   return (
     <>
-      <ScoreCardHeader />
+      <ScoreCardHeader
+        score={
+          scoresFront.reduce((a, b) => a + b, 0) +
+          scoresBack.reduce((a, b) => a + b)
+        }
+        points={
+          scoresFront
+            .map((score, index) => {
+              if (!score) {
+                return 0;
+              }
+              return PointsFromScore(
+                testData[index].par,
+                testData[index].extra,
+                score
+              );
+            })
+            .reduce((a, b) => a + b) +
+          scoresBack
+            .map((score, index) => {
+              if (!score) {
+                return 0;
+              }
+              return PointsFromScore(
+                testData[index].par,
+                testData[index].extra,
+                score
+              );
+            })
+            .reduce((a, b) => a + b)
+        }
+      />
       <ScoreCardBody
         scorecard={props.scorecard}
         onChangeFront={onChangeFront}
