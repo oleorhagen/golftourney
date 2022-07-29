@@ -99,8 +99,8 @@ export const ScoreCard = (props) => {
                 return 0;
               }
               return PointsFromScore(
-                testData[index].par,
-                testData[index].extra,
+                testData[index + 9].par,
+                testData[index + 9].extra,
                 score
               );
             })
