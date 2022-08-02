@@ -10,10 +10,12 @@ CREATE TABLE IF NOT EXISTS scorecard (
 );
 
 CREATE TABLE IF NOT EXISTS hole (
-  scorecardid  serial,
-  strokes INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-  CONSTRAINT fk_hole
-  FOREIGN KEY(scorecardid)
-	REFERENCES scorecard(id)
-	ON DELETE CASCADE
-  );
+    scorecardid
+        INT,
+    strokes
+        INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
+    CONSTRAINT fk_hole
+        FOREIGN KEY (scorecardid)
+        REFERENCES scorecard (id)
+        ON DELETE CASCADE
+);
