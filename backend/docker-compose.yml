@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+
+  gateway:
+    image: traefik
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://localhost:7374/healthy || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  db:
+    image: bitnami/postgresql:latest
+    container_name: golf-db
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: golf-db
+    healthcheck:
+      test: pg_isready --user=postgres --dbname=golf-db
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+
+
+  postgraphile:
+    image: graphile/postgraphile
+    container_name: postgraphile
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5433:5433"
+    command:
+      [
+        '--connection',
+        'postgres://postgres:password@db:5432/golf-db',
+        '--port',
+        '5433',
+        '--schema',
+        'public',
+        '--enhance-graphiql',
+      ]
+  # ui:
+  #   image: oleorhagen/golf-ui:master
+  #   build:
+  #     context: ../ui
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:80"
