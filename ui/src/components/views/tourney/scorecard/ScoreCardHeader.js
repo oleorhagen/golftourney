@@ -1,9 +1,17 @@
 import React from "react";
 
-import { Container, Grid, Stack } from "@mui/material";
+import { Container, FormControl, Grid, Select, Stack } from "@mui/material";
 import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 
-export default function ScoreCardHeader({ score, points }) {
+export default function ScoreCardHeader({
+  score,
+  points,
+  hcp,
+  onChangeHcp,
+  tee,
+  onChangeTee,
+  acceptableTees,
+}) {
   return (
     <>
       <Paper>
@@ -26,11 +34,23 @@ export default function ScoreCardHeader({ score, points }) {
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              id="outlined-select-handicap"
-              label="Tee"
-              required
-            ></TextField>
+            <FormControl>
+              <Select
+                labelId="demo-simple-select-autowidth-label"
+                id="tee-simple-select-autowidth"
+                value={tee}
+                onChange={onChangeTee}
+                label="Tee"
+                variant="outlined"
+                IconComponent={() => ""}
+              >
+                {acceptableTees.map((tee) => (
+                  <MenuItem key={tee} value={tee}>
+                    {tee}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h3" component="div" align="left">
