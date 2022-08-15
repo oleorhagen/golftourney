@@ -54,6 +54,23 @@ function distributeStrokes(n) {
 distributeStrokes(25);
 
 export const ScoreCard = (props) => {
+  // TODO - now simply a 1x1 array of 57 and 20
+  // Later, this should be handled server-side
+  const slopeArray = [[26]];
+
+  const acceptableTees = [61, 57, 51, 47, 28];
+
+  const [hcp, setHcp] = useState(20.0);
+  const [tee, setTee] = useState(57);
+
+  const onChangeHcp = (event) => {
+    setHcp(event.target.value);
+  };
+
+  const onChangeTee = (event) => {
+    setTee(event.target.value);
+  };
+
   const [scoresFront, setScoresFront] = useState(Array(9).fill(null));
   const [scoresBack, setScoresBack] = useState(Array(9).fill(null));
 
@@ -76,6 +93,11 @@ export const ScoreCard = (props) => {
   return (
     <>
       <ScoreCardHeader
+        acceptableTees={acceptableTees}
+        hcp={hcp}
+        onChangeHcp={onChangeHcp}
+        tee={tee}
+        onChangeTee={onChangeTee}
         score={
           scoresFront.reduce((a, b) => a + b, 0) +
           scoresBack.reduce((a, b) => a + b)
