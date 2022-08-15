@@ -14,8 +14,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-const allowed_scores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 function createData(hole, par, hcp, hcpe) {
   return { hole, par, hcp, hcpe };
 }
