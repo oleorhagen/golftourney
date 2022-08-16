@@ -11,6 +11,7 @@ export default function ScoreCardHeader({
   tee,
   onChangeTee,
   acceptableTees,
+  acceptableHCPs,
 }) {
   return (
     <>
@@ -22,11 +23,23 @@ export default function ScoreCardHeader({
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              id="outlined-select-handicap"
-              label="Handicap"
-              required
-            ></TextField>
+            <FormControl>
+              <Select
+                labelId="demo-simple-select-autowidth-label-hcp"
+                id="hcp-simple-select-autowidth"
+                value={hcp}
+                onChange={onChangeHcp}
+                label="HCP"
+                variant="outlined"
+                IconComponent={() => ""}
+              >
+                {acceptableHCPs.map(([hcpRange, strokes], index) => (
+                  <MenuItem key={index} value={strokes}>
+                    {hcpRange}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h3" component="div" align="left">
