@@ -51,19 +51,28 @@ function distributeStrokes(n) {
   testData = extraStrokes;
 }
 
-distributeStrokes(25);
+// distributeStrokes(25);
 
 export const ScoreCard = (props) => {
-  // TODO - now simply a 1x1 array of 57 and 20
-  // Later, this should be handled server-side
-  const slopeArray = [[26]];
+  // TODO - Join the slopetable and the acceptableTees, as they really are
+  // linked
+  const slopeTable = [
+    ["20.2 - 21.5", 26],
+    ["21.6 - 23.5", 27],
+    ["23.6-30", 35],
+    ["30.1 - 35", 40],
+  ];
 
   const acceptableTees = [61, 57, 51, 47, 28];
 
-  const [hcp, setHcp] = useState(20.0);
+  const [hcp, setHcp] = useState(25); // Really the extra number of strokes
   const [tee, setTee] = useState(57);
 
   const onChangeHcp = (event) => {
+    console.log("onChangeHcp");
+    console.log(event.target.value);
+    // TODO - Reset the strokes before distributing them...
+    distributeStrokes(event.target.value);
     setHcp(event.target.value);
   };
 
@@ -93,6 +102,7 @@ export const ScoreCard = (props) => {
   return (
     <>
       <ScoreCardHeader
+        acceptableHCPs={slopeTable}
         acceptableTees={acceptableTees}
         hcp={hcp}
         onChangeHcp={onChangeHcp}
