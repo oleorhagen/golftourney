@@ -1,40 +1,33 @@
-CREATE TABLE IF NOT EXISTS scorecard (
-    id
-        SERIAL PRIMARY KEY,
-    location
-        TEXT NOT NULL,
-    golfer
-        TEXT NOT NULL,
-    updated_at
-        TIMESTAMP DEFAULT now(),
-    hole1 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole2 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole3 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole4 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole5 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole6 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole7 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole8 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole9 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole10 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole11 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole12 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole13 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole14 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole15 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole16 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole17 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
-    hole18 INT NOT NULL CHECK (strokes BETWEEN 1 AND 9)
 
+CREATE TABLE IF NOT EXISTS tournament (
+    id SERIAL PRIMARY KEY, name STRING NOT NULL
 );
 
--- CREATE TABLE IF NOT EXISTS hole (
---     scorecardid
---         INT,
---     strokes
---         INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
---     CONSTRAINT fk_hole
---         FOREIGN KEY (scorecardid)
---         REFERENCES scorecard (id)
---         ON DELETE CASCADE
--- );
+CREATE TABLE IF NOT EXISTS course (
+    id SERIAL PRIMARY KEY, name STRING NOT NULL,
+    CONSTRAINT tournament_id
+        FOREIGN KEY (tournament_id)
+        REFERENCES tournament (id)
+);
+
+CREATE TABLE IF NOT EXISTS tee (
+    id
+        SERIAL PRIMARY KEY,
+    name
+        STRING NOT NULL,
+    nr
+        INT NOT NULL,
+    CONSTRAINT course_id
+        FOREIGN KEY (course_id) REFERENCES course (id)
+);
+
+CREATE TABLE IF NOT EXISTS hole (
+    id
+        SERIAL PRIMARY KEY,
+    nr
+        INT NOT NULL CHECK (strokes BETWEEN 1 AND 18),
+    strokes
+        INT NOT NULL CHECK (strokes BETWEEN 1 AND 9),
+    CONSTRAINT tee_id
+        FOREIGN KEY (tee_id) REFERENCES tee (id)
+);
