@@ -1,10 +1,13 @@
-
 CREATE TABLE IF NOT EXISTS tournament (
-    id SERIAL PRIMARY KEY, name STRING NOT NULL
+    id SERIAL PRIMARY KEY,
+    tournament_name STRING NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS course (
-    id SERIAL PRIMARY KEY, name STRING NOT NULL,
+    id SERIAL PRIMARY KEY,
+    course_name STRING NOT NULL,
+    -- TODO - Should be an enum type (single, team)
+    style STRING NOT NULL,
     CONSTRAINT tournament_id
         FOREIGN KEY (tournament_id)
         REFERENCES tournament (id)
