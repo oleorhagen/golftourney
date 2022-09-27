@@ -8,10 +8,6 @@ export default function ScoreCardHeader({
   points,
   hcp,
   onChangeHcp,
-  tee,
-  onChangeTee,
-  acceptableTees,
-  acceptableHCPs,
 }) {
   return (
     <>
@@ -23,52 +19,6 @@ export default function ScoreCardHeader({
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <FormControl>
-              <Select
-                labelId="demo-simple-select-autowidth-label-hcp"
-                id="hcp-simple-select-autowidth"
-                value={hcp}
-                onChange={onChangeHcp}
-                label="HCP"
-                variant="outlined"
-                IconComponent={() => ""}
-              >
-                {acceptableHCPs.map(([hcpRange, strokes], index) => (
-                  <MenuItem key={index} value={strokes}>
-                    {hcpRange}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h3" component="div" align="left">
-              Slope:
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="tee-simple-select-autowidth"
-                value={tee}
-                onChange={onChangeTee}
-                label="Tee"
-                variant="outlined"
-                IconComponent={() => ""}
-              >
-                {acceptableTees.map((tee) => (
-                  <MenuItem key={tee} value={tee}>
-                    {tee}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h3" component="div" align="left">
-              Course Hcp:
-            </Typography>
           </Grid>
           <Grid item xs={3}>
             <Typography variant="h3" component="div" align="right">

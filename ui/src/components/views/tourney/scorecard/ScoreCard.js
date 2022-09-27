@@ -54,30 +54,15 @@ function distributeStrokes(n) {
 // distributeStrokes(25);
 
 export const ScoreCard = (props) => {
-  // TODO - Join the slopetable and the acceptableTees, as they really are
-  // linked
-  const slopeTable = [
-    ["20.2 - 21.5", 26],
-    ["21.6 - 23.5", 27],
-    ["23.6-30", 35],
-    ["30.1 - 35", 40],
-  ];
 
-  const acceptableTees = [61, 57, 51, 47, 28];
-
-  const [hcp, setHcp] = useState(25); // Really the extra number of strokes
-  const [tee, setTee] = useState(57);
+  const [hcpStrokes, setHcpStrokes] = useState(30);
 
   const onChangeHcp = (event) => {
     console.log("onChangeHcp");
     console.log(event.target.value);
     // TODO - Reset the strokes before distributing them...
     distributeStrokes(event.target.value);
-    setHcp(event.target.value);
-  };
-
-  const onChangeTee = (event) => {
-    setTee(event.target.value);
+    setHcpStrokes(event.target.value);
   };
 
   const [scoresFront, setScoresFront] = useState(Array(9).fill(null));
@@ -102,12 +87,8 @@ export const ScoreCard = (props) => {
   return (
     <>
       <ScoreCardHeader
-        acceptableHCPs={slopeTable}
-        acceptableTees={acceptableTees}
-        hcp={hcp}
+        hcp={hcpStrokes}
         onChangeHcp={onChangeHcp}
-        tee={tee}
-        onChangeTee={onChangeTee}
         score={
           scoresFront.reduce((a, b) => a + b, 0) +
           scoresBack.reduce((a, b) => a + b)
