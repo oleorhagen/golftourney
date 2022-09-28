@@ -31,10 +31,10 @@ def populate_courses():
     for course in ("gamle fredrikstad", "skjeberg", "borregaard", "onsoy"):
         query = """
 mutation createCourse($name: String!) {
-  createCourse(input: {course: {courseName: $name}}) {
+  createCourse(input: {course: {name: $name}}) {
     course {
       id
-      courseName
+      name
     }
   }
 }
@@ -74,6 +74,6 @@ mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!) {
                 data = client.execute(query=query, variables=variables)
                 print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
 
-# populate_players()
-# populate_courses()
+populate_players()
+populate_courses()
 populate_holes()
