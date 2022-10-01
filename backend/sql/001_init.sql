@@ -22,16 +22,26 @@ CREATE TABLE IF NOT EXISTS course (
 CREATE TABLE IF NOT EXISTS hole (
     id
         SERIAL8 PRIMARY KEY,
-    course_id SERIAL8,
-    player_id SERIAL8,
+    course_id SERIAL8 NOT NULL,
     nr
-        INT8 NOT NULL CHECK (strokes BETWEEN 1 AND 18),
+        INT8 NOT NULL CHECK (nr BETWEEN 1 AND 18),
     index
-        INT8 NOT NULL CHECK (strokes BETWEEN 1 AND 18),
-    strokes
-        INT8 CHECK (strokes BETWEEN 1 AND 9),
+        INT8 NOT NULL CHECK (index BETWEEN 1 AND 18),
     CONSTRAINT course_id
-        FOREIGN KEY (course_id) REFERENCES course (id),
-    CONSTRAINT player_id
-        FOREIGN KEY (player_id) REFERENCES player (id)
+        FOREIGN KEY (course_id) REFERENCES course (id)
+);
+
+
+CREATE TABLE IF NOT EXISTS score (
+  nr INT8 NOT NULL CHECK (nr BETWEEN 1 AND 9),
+  id SERIAL8 PRIMARY KEY,
+  player_id SERIAL8 NOT NULL,
+  course_id SERIAL8 NOT NULL,
+  hole_id SERIAL8 NOT NULL,
+  CONSTRAINT player_id
+    FOREIGN KEY (player_id) REFERENCES player (id),
+  CONSTRAINT course_id
+    FOREIGN KEY (course_id) REFERENCES course (id),
+  CONSTRAINT hole_id
+    FOREIGN KEY (hole_id) REFERENCES hole (id)
 );
