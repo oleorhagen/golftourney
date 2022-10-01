@@ -9,6 +9,7 @@ import ScoreCardFooter from "./ScoreCardFooter";
 
 import { PointsFromScore } from "./PointScore";
 
+// INPROGRESS - Get this form the db
 let testData = [
   // Front
   { hole: 1, par: 5, hcp: 7, extra: 0 },
@@ -54,7 +55,6 @@ function distributeStrokes(n) {
 // distributeStrokes(25);
 
 export const ScoreCard = (props) => {
-
   const [hcpStrokes, setHcpStrokes] = useState(30);
 
   const onChangeHcp = (event) => {

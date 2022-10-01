@@ -1,0 +1,1414 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+"""
+A signed eight-byte integer. The upper big integer values are greater than the
+max value for a JavaScript number. Therefore all big integers will be output as
+strings and not numbers.
+"""
+scalar BigInt
+
+type Course implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  name: String!
+
+  """Reads and enables pagination through a set of `Hole`."""
+  holesByCourseId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Hole`."""
+    orderBy: [HolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: HoleCondition
+  ): HolesConnection!
+
+  """Reads and enables pagination through a set of `Score`."""
+  scoresByCourseId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Score`."""
+    orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreCondition
+  ): ScoresConnection!
+}
+
+"""
+A condition to be used against `Course` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input CourseCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""An input for mutations affecting `Course`"""
+input CourseInput {
+  id: BigInt
+  name: String!
+}
+
+"""
+Represents an update to a `Course`. Fields that are set will be updated.
+"""
+input CoursePatch {
+  id: BigInt
+  name: String
+}
+
+"""A connection to a list of `Course` values."""
+type CoursesConnection {
+  """A list of `Course` objects."""
+  nodes: [Course]!
+
+  """
+  A list of edges which contains the `Course` and cursor to aid in pagination.
+  """
+  edges: [CoursesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Course` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Course` edge in the connection."""
+type CoursesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Course` at the end of the edge."""
+  node: Course
+}
+
+"""Methods to use when ordering `Course`."""
+enum CoursesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""All input for the create `Course` mutation."""
+input CreateCourseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Course` to be created by this mutation."""
+  course: CourseInput!
+}
+
+"""The output of our create `Course` mutation."""
+type CreateCoursePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Course` that was created by this mutation."""
+  course: Course
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Course`. May be used by Relay 1."""
+  courseEdge(
+    """The method to use when ordering `Course`."""
+    orderBy: [CoursesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CoursesEdge
+}
+
+"""All input for the create `Hole` mutation."""
+input CreateHoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Hole` to be created by this mutation."""
+  hole: HoleInput!
+}
+
+"""The output of our create `Hole` mutation."""
+type CreateHolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Hole` that was created by this mutation."""
+  hole: Hole
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Course` that is related to this `Hole`."""
+  courseByCourseId: Course
+
+  """An edge for our `Hole`. May be used by Relay 1."""
+  holeEdge(
+    """The method to use when ordering `Hole`."""
+    orderBy: [HolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): HolesEdge
+}
+
+"""All input for the create `Player` mutation."""
+input CreatePlayerInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Player` to be created by this mutation."""
+  player: PlayerInput!
+}
+
+"""The output of our create `Player` mutation."""
+type CreatePlayerPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Player` that was created by this mutation."""
+  player: Player
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Player`. May be used by Relay 1."""
+  playerEdge(
+    """The method to use when ordering `Player`."""
+    orderBy: [PlayersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayersEdge
+}
+
+"""All input for the create `Score` mutation."""
+input CreateScoreInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Score` to be created by this mutation."""
+  score: ScoreInput!
+}
+
+"""The output of our create `Score` mutation."""
+type CreateScorePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Score` that was created by this mutation."""
+  score: Score
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Player` that is related to this `Score`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `Score`."""
+  courseByCourseId: Course
+
+  """Reads a single `Hole` that is related to this `Score`."""
+  holeByHoleId: Hole
+
+  """An edge for our `Score`. May be used by Relay 1."""
+  scoreEdge(
+    """The method to use when ordering `Score`."""
+    orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoresEdge
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""All input for the `deleteCourseById` mutation."""
+input DeleteCourseByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""All input for the `deleteCourse` mutation."""
+input DeleteCourseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Course` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Course` mutation."""
+type DeleteCoursePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Course` that was deleted by this mutation."""
+  course: Course
+  deletedCourseId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Course`. May be used by Relay 1."""
+  courseEdge(
+    """The method to use when ordering `Course`."""
+    orderBy: [CoursesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CoursesEdge
+}
+
+"""All input for the `deleteHoleById` mutation."""
+input DeleteHoleByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""All input for the `deleteHole` mutation."""
+input DeleteHoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Hole` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Hole` mutation."""
+type DeleteHolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Hole` that was deleted by this mutation."""
+  hole: Hole
+  deletedHoleId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Course` that is related to this `Hole`."""
+  courseByCourseId: Course
+
+  """An edge for our `Hole`. May be used by Relay 1."""
+  holeEdge(
+    """The method to use when ordering `Hole`."""
+    orderBy: [HolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): HolesEdge
+}
+
+"""All input for the `deletePlayerById` mutation."""
+input DeletePlayerByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""All input for the `deletePlayer` mutation."""
+input DeletePlayerInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Player` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Player` mutation."""
+type DeletePlayerPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Player` that was deleted by this mutation."""
+  player: Player
+  deletedPlayerId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Player`. May be used by Relay 1."""
+  playerEdge(
+    """The method to use when ordering `Player`."""
+    orderBy: [PlayersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayersEdge
+}
+
+"""All input for the `deleteScoreById` mutation."""
+input DeleteScoreByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""All input for the `deleteScore` mutation."""
+input DeleteScoreInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Score` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Score` mutation."""
+type DeleteScorePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Score` that was deleted by this mutation."""
+  score: Score
+  deletedScoreId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Player` that is related to this `Score`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `Score`."""
+  courseByCourseId: Course
+
+  """Reads a single `Hole` that is related to this `Score`."""
+  holeByHoleId: Hole
+
+  """An edge for our `Score`. May be used by Relay 1."""
+  scoreEdge(
+    """The method to use when ordering `Score`."""
+    orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoresEdge
+}
+
+type Hole implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  courseId: BigInt!
+  nr: BigInt!
+  index: BigInt!
+
+  """Reads a single `Course` that is related to this `Hole`."""
+  courseByCourseId: Course
+
+  """Reads and enables pagination through a set of `Score`."""
+  scoresByHoleId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Score`."""
+    orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreCondition
+  ): ScoresConnection!
+}
+
+"""
+A condition to be used against `Hole` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input HoleCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `courseId` field."""
+  courseId: BigInt
+
+  """Checks for equality with the object’s `nr` field."""
+  nr: BigInt
+
+  """Checks for equality with the object’s `index` field."""
+  index: BigInt
+}
+
+"""An input for mutations affecting `Hole`"""
+input HoleInput {
+  id: BigInt
+  courseId: BigInt
+  nr: BigInt!
+  index: BigInt!
+}
+
+"""Represents an update to a `Hole`. Fields that are set will be updated."""
+input HolePatch {
+  id: BigInt
+  courseId: BigInt
+  nr: BigInt
+  index: BigInt
+}
+
+"""A connection to a list of `Hole` values."""
+type HolesConnection {
+  """A list of `Hole` objects."""
+  nodes: [Hole]!
+
+  """
+  A list of edges which contains the `Hole` and cursor to aid in pagination.
+  """
+  edges: [HolesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Hole` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Hole` edge in the connection."""
+type HolesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Hole` at the end of the edge."""
+  node: Hole
+}
+
+"""Methods to use when ordering `Hole`."""
+enum HolesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  COURSE_ID_ASC
+  COURSE_ID_DESC
+  NR_ASC
+  NR_DESC
+  INDEX_ASC
+  INDEX_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Course`."""
+  createCourse(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCourseInput!
+  ): CreateCoursePayload
+
+  """Creates a single `Hole`."""
+  createHole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateHoleInput!
+  ): CreateHolePayload
+
+  """Creates a single `Player`."""
+  createPlayer(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreatePlayerInput!
+  ): CreatePlayerPayload
+
+  """Creates a single `Score`."""
+  createScore(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateScoreInput!
+  ): CreateScorePayload
+
+  """Updates a single `Course` using its globally unique id and a patch."""
+  updateCourse(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCourseInput!
+  ): UpdateCoursePayload
+
+  """Updates a single `Course` using a unique key and a patch."""
+  updateCourseById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCourseByIdInput!
+  ): UpdateCoursePayload
+
+  """Updates a single `Hole` using its globally unique id and a patch."""
+  updateHole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateHoleInput!
+  ): UpdateHolePayload
+
+  """Updates a single `Hole` using a unique key and a patch."""
+  updateHoleById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateHoleByIdInput!
+  ): UpdateHolePayload
+
+  """Updates a single `Player` using its globally unique id and a patch."""
+  updatePlayer(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerInput!
+  ): UpdatePlayerPayload
+
+  """Updates a single `Player` using a unique key and a patch."""
+  updatePlayerById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerByIdInput!
+  ): UpdatePlayerPayload
+
+  """Updates a single `Score` using its globally unique id and a patch."""
+  updateScore(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScoreInput!
+  ): UpdateScorePayload
+
+  """Updates a single `Score` using a unique key and a patch."""
+  updateScoreById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScoreByIdInput!
+  ): UpdateScorePayload
+
+  """Deletes a single `Course` using its globally unique id."""
+  deleteCourse(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCourseInput!
+  ): DeleteCoursePayload
+
+  """Deletes a single `Course` using a unique key."""
+  deleteCourseById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCourseByIdInput!
+  ): DeleteCoursePayload
+
+  """Deletes a single `Hole` using its globally unique id."""
+  deleteHole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteHoleInput!
+  ): DeleteHolePayload
+
+  """Deletes a single `Hole` using a unique key."""
+  deleteHoleById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteHoleByIdInput!
+  ): DeleteHolePayload
+
+  """Deletes a single `Player` using its globally unique id."""
+  deletePlayer(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerInput!
+  ): DeletePlayerPayload
+
+  """Deletes a single `Player` using a unique key."""
+  deletePlayerById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerByIdInput!
+  ): DeletePlayerPayload
+
+  """Deletes a single `Score` using its globally unique id."""
+  deleteScore(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScoreInput!
+  ): DeleteScorePayload
+
+  """Deletes a single `Score` using a unique key."""
+  deleteScoreById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScoreByIdInput!
+  ): DeleteScorePayload
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+type Player implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  name: String!
+
+  """Reads and enables pagination through a set of `Score`."""
+  scoresByPlayerId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Score`."""
+    orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreCondition
+  ): ScoresConnection!
+}
+
+"""
+A condition to be used against `Player` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input PlayerCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""An input for mutations affecting `Player`"""
+input PlayerInput {
+  id: BigInt
+  name: String!
+}
+
+"""
+Represents an update to a `Player`. Fields that are set will be updated.
+"""
+input PlayerPatch {
+  id: BigInt
+  name: String
+}
+
+"""A connection to a list of `Player` values."""
+type PlayersConnection {
+  """A list of `Player` objects."""
+  nodes: [Player]!
+
+  """
+  A list of edges which contains the `Player` and cursor to aid in pagination.
+  """
+  edges: [PlayersEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Player` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Player` edge in the connection."""
+type PlayersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Player` at the end of the edge."""
+  node: Player
+}
+
+"""Methods to use when ordering `Player`."""
+enum PlayersOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `Course`."""
+  allCourses(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Course`."""
+    orderBy: [CoursesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CourseCondition
+  ): CoursesConnection
+
+  """Reads and enables pagination through a set of `Hole`."""
+  allHoles(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Hole`."""
+    orderBy: [HolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: HoleCondition
+  ): HolesConnection
+
+  """Reads and enables pagination through a set of `Player`."""
+  allPlayers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Player`."""
+    orderBy: [PlayersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerCondition
+  ): PlayersConnection
+
+  """Reads and enables pagination through a set of `Score`."""
+  allScores(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Score`."""
+    orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreCondition
+  ): ScoresConnection
+  courseById(id: BigInt!): Course
+  holeById(id: BigInt!): Hole
+  playerById(id: BigInt!): Player
+  scoreById(id: BigInt!): Score
+
+  """Reads a single `Course` using its globally unique `ID`."""
+  course(
+    """The globally unique `ID` to be used in selecting a single `Course`."""
+    nodeId: ID!
+  ): Course
+
+  """Reads a single `Hole` using its globally unique `ID`."""
+  hole(
+    """The globally unique `ID` to be used in selecting a single `Hole`."""
+    nodeId: ID!
+  ): Hole
+
+  """Reads a single `Player` using its globally unique `ID`."""
+  player(
+    """The globally unique `ID` to be used in selecting a single `Player`."""
+    nodeId: ID!
+  ): Player
+
+  """Reads a single `Score` using its globally unique `ID`."""
+  score(
+    """The globally unique `ID` to be used in selecting a single `Score`."""
+    nodeId: ID!
+  ): Score
+}
+
+type Score implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  nr: BigInt!
+  id: BigInt!
+  playerId: BigInt!
+  courseId: BigInt!
+  holeId: BigInt!
+
+  """Reads a single `Player` that is related to this `Score`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `Score`."""
+  courseByCourseId: Course
+
+  """Reads a single `Hole` that is related to this `Score`."""
+  holeByHoleId: Hole
+}
+
+"""
+A condition to be used against `Score` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ScoreCondition {
+  """Checks for equality with the object’s `nr` field."""
+  nr: BigInt
+
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+
+  """Checks for equality with the object’s `courseId` field."""
+  courseId: BigInt
+
+  """Checks for equality with the object’s `holeId` field."""
+  holeId: BigInt
+}
+
+"""An input for mutations affecting `Score`"""
+input ScoreInput {
+  nr: BigInt!
+  id: BigInt
+  playerId: BigInt
+  courseId: BigInt
+  holeId: BigInt
+}
+
+"""
+Represents an update to a `Score`. Fields that are set will be updated.
+"""
+input ScorePatch {
+  nr: BigInt
+  id: BigInt
+  playerId: BigInt
+  courseId: BigInt
+  holeId: BigInt
+}
+
+"""A connection to a list of `Score` values."""
+type ScoresConnection {
+  """A list of `Score` objects."""
+  nodes: [Score]!
+
+  """
+  A list of edges which contains the `Score` and cursor to aid in pagination.
+  """
+  edges: [ScoresEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Score` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Score` edge in the connection."""
+type ScoresEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Score` at the end of the edge."""
+  node: Score
+}
+
+"""Methods to use when ordering `Score`."""
+enum ScoresOrderBy {
+  NATURAL
+  NR_ASC
+  NR_DESC
+  ID_ASC
+  ID_DESC
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  COURSE_ID_ASC
+  COURSE_ID_DESC
+  HOLE_ID_ASC
+  HOLE_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""All input for the `updateCourseById` mutation."""
+input UpdateCourseByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Course` being updated.
+  """
+  coursePatch: CoursePatch!
+  id: BigInt!
+}
+
+"""All input for the `updateCourse` mutation."""
+input UpdateCourseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Course` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Course` being updated.
+  """
+  coursePatch: CoursePatch!
+}
+
+"""The output of our update `Course` mutation."""
+type UpdateCoursePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Course` that was updated by this mutation."""
+  course: Course
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Course`. May be used by Relay 1."""
+  courseEdge(
+    """The method to use when ordering `Course`."""
+    orderBy: [CoursesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CoursesEdge
+}
+
+"""All input for the `updateHoleById` mutation."""
+input UpdateHoleByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Hole` being updated.
+  """
+  holePatch: HolePatch!
+  id: BigInt!
+}
+
+"""All input for the `updateHole` mutation."""
+input UpdateHoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Hole` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Hole` being updated.
+  """
+  holePatch: HolePatch!
+}
+
+"""The output of our update `Hole` mutation."""
+type UpdateHolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Hole` that was updated by this mutation."""
+  hole: Hole
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Course` that is related to this `Hole`."""
+  courseByCourseId: Course
+
+  """An edge for our `Hole`. May be used by Relay 1."""
+  holeEdge(
+    """The method to use when ordering `Hole`."""
+    orderBy: [HolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): HolesEdge
+}
+
+"""All input for the `updatePlayerById` mutation."""
+input UpdatePlayerByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Player` being updated.
+  """
+  playerPatch: PlayerPatch!
+  id: BigInt!
+}
+
+"""All input for the `updatePlayer` mutation."""
+input UpdatePlayerInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Player` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Player` being updated.
+  """
+  playerPatch: PlayerPatch!
+}
+
+"""The output of our update `Player` mutation."""
+type UpdatePlayerPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Player` that was updated by this mutation."""
+  player: Player
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Player`. May be used by Relay 1."""
+  playerEdge(
+    """The method to use when ordering `Player`."""
+    orderBy: [PlayersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayersEdge
+}
+
+"""All input for the `updateScoreById` mutation."""
+input UpdateScoreByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Score` being updated.
+  """
+  scorePatch: ScorePatch!
+  id: BigInt!
+}
+
+"""All input for the `updateScore` mutation."""
+input UpdateScoreInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Score` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Score` being updated.
+  """
+  scorePatch: ScorePatch!
+}
+
+"""The output of our update `Score` mutation."""
+type UpdateScorePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Score` that was updated by this mutation."""
+  score: Score
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Player` that is related to this `Score`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `Score`."""
+  courseByCourseId: Course
+
+  """Reads a single `Hole` that is related to this `Score`."""
+  holeByHoleId: Hole
+
+  """An edge for our `Score`. May be used by Relay 1."""
+  scoreEdge(
+    """The method to use when ordering `Score`."""
+    orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoresEdge
+}
+
