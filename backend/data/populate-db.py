@@ -66,7 +66,7 @@ mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!) {
 }
                 """
                 variables = {
-                    "courseID": 1,
+                    "courseID": 1, # TODO - Set the correct course ID
                     "nr": nr,
                     "index": index
                 }
