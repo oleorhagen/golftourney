@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<948a6858602f15a7e1cda420becd4cee>>
+ * @generated SignedSource<<73f21a1bf9d5eaa99c637dacd03f15b2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -38,6 +38,13 @@ v3 = {
   "kind": "ScalarField",
   "name": "nr",
   "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "par",
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -64,7 +71,8 @@ return {
             "selections": [
               (v1/*: any*/),
               (v2/*: any*/),
-              (v3/*: any*/)
+              (v3/*: any*/),
+              (v4/*: any*/)
             ],
             "storageKey": null
           }
@@ -100,6 +108,7 @@ return {
               (v1/*: any*/),
               (v2/*: any*/),
               (v3/*: any*/),
+              (v4/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -116,16 +125,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "5d9d31ec62574d5e903f54b01dc422bd",
+    "cacheID": "06a4802aa4003b1b67a10b441596565c",
     "id": null,
     "metadata": {},
     "name": "viewGetHolesForCourseQuery",
     "operationKind": "query",
-    "text": "query viewGetHolesForCourseQuery {\n  allHoles(condition: {courseId: \"1\"}) {\n    nodes {\n      id\n      index\n      nr\n      nodeId\n    }\n  }\n}\n"
+    "text": "query viewGetHolesForCourseQuery {\n  allHoles(condition: {courseId: \"1\"}) {\n    nodes {\n      id\n      index\n      nr\n      par\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "5f5c8b0434726452a12e20cc9fb95adc";
+node.hash = "969f2fd32473edfe2608f4d79f71ac05";
 
 module.exports = node;

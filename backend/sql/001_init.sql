@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS hole (
         INT8 NOT NULL CHECK (nr BETWEEN 1 AND 18),
     index
         INT8 NOT NULL CHECK (index BETWEEN 1 AND 18),
+    par
+        INT8 NOT NULL CHECK (par BETWEEN 1 AND 5),
     CONSTRAINT course_id
         FOREIGN KEY (course_id) REFERENCES course (id)
 );

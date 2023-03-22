@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Container, Grid } from "@mui/material";
-
 import ScoreCard from "./scorecard/ScoreCard";
 
 import RelayEnvironment from "../../../RelayEnvironment";
@@ -33,6 +31,7 @@ const holesQuery = graphql`
         id
         index
         nr
+        par
       }
     }
   }
@@ -65,6 +64,7 @@ function TourneyApp(props) {
     <div className="TourneyApp">
       <header className="TourneyApp-header">
         <p>{id}</p>
+        {<ScoreCard courseData={nodes} />}
       </header>
     </div>
   );

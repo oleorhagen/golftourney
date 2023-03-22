@@ -18,9 +18,10 @@ function createData(hole, par, hcp, hcpe) {
   return { hole, par, hcp, hcpe };
 }
 
+// TODO - Now 1 extra stroke is hard-coded
 const ScoreCardTable = (props) => {
-  const rows = props.data.map(({ hole, par, hcp, extra }) =>
-    createData(hole, par, hcp, extra)
+  const rows = props.data.map(({ id, par, index, extra }) =>
+    createData(id, par, index, 1)
   );
 
   const scores = props.scores;

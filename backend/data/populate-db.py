@@ -50,17 +50,19 @@ def populate_holes():
         csvFile = csv.reader(f)
 
         # displaying the contents of the CSV file
+        nr = 1
         for lines in csvFile:
             if lines:
                 print(lines)
-                nr, index = lines[0], lines[1]
+                par, index = lines[0], lines[1]
                 query = """
-mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!) {
-  createHole(input: {hole: {nr: $nr, index: $index, courseId: $courseID}}) {
+mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!, $par: BigInt!) {
+  createHole(input: {hole: {nr: $nr, index: $index, courseId: $courseID, par: $par}}) {
     hole {
       id
       nr
       index
+      par
     }
   }
 }
@@ -68,11 +70,13 @@ mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!) {
                 variables = {
                     "courseID": 1, # TODO - Set the correct course ID
                     "nr": nr,
-                    "index": index
+                    "index": index,
+                    "par": par
                 }
 
                 data = client.execute(query=query, variables=variables)
                 print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
+                nr += 1
 
 populate_players()
 populate_courses()
