@@ -1,13 +1,27 @@
 import React, { useState } from "react";
 
-import { Container, Grid } from "@mui/material";
-import { Paper, Typography, TextField } from "@mui/material";
+import { commitMutation, graphql } from "babel-plugin-relay/macro";
 
 import ScoreCardHeader from "./ScoreCardHeader";
 import ScoreCardBody from "./ScoreCardBody";
 import ScoreCardFooter from "./ScoreCardFooter";
 
 import { PointsFromScore } from "./PointScore";
+
+// TODO - Have Update the score in the DB
+const updateHoleScoreMutation = graphql`
+  mutation updateHoleScoreMutation(
+    $score: ScoreInput = { nr: "3", courseId: "1", holeId: "1", playerId: "1" }
+  ) {
+    createScore(input: { score: $score }) {
+      clientMutationId
+      score {
+        id
+        nr
+      }
+    }
+  }
+`;
 
 // INPROGRESS - Get this form the db
 let testData = [
@@ -37,9 +51,6 @@ let testData = [
 // simple distribution of adding strokes to the hardest holes, then continuing..
 // Idea: Sort the array on Hcp, then loop over it until out of extra strokes
 function distributeStrokes(n) {
-  let comparator = (a, b) => {
-    return a.hcp > b.hcp;
-  };
   let extraStrokes = testData.sort((a, b) => a.hcp > b.hcp);
   let i = 0;
   while (n > 0) {
@@ -57,6 +68,8 @@ function distributeStrokes(n) {
 export const ScoreCard = (props) => {
   const [hcpStrokes, setHcpStrokes] = useState(30);
 
+  console.log(`Received the course data: ${props.courseData}`);
+
   const onChangeHcp = (event) => {
     console.log("onChangeHcp");
     console.log(event.target.value);
@@ -73,6 +86,8 @@ export const ScoreCard = (props) => {
       let newScores = [...scoresFront];
       newScores[index] = val;
       setScoresFront(newScores);
+      console.log(`Changing score for the front.. ${index} : ${val}`);
+      // TODO - Set the score on the hole in the Server here
     };
   };
 
@@ -81,6 +96,7 @@ export const ScoreCard = (props) => {
       let newScores = [...scoresBack];
       newScores[index] = val;
       setScoresBack(newScores);
+      // TODO - Set the score on the hole in the Server here
     };
   };
 
@@ -91,7 +107,7 @@ export const ScoreCard = (props) => {
         onChangeHcp={onChangeHcp}
         score={
           scoresFront.reduce((a, b) => a + b, 0) +
-          scoresBack.reduce((a, b) => a + b)
+          scoresBack.reduce((a, b) => a + b, 0)
         }
         points={
           scoresFront
@@ -100,24 +116,24 @@ export const ScoreCard = (props) => {
                 return 0;
               }
               return PointsFromScore(
-                testData[index].par,
+                props.courseData[index].par,
                 testData[index].extra,
                 score
               );
             })
-            .reduce((a, b) => a + b) +
+            .reduce((a, b) => a + b, 0) +
           scoresBack
             .map((score, index) => {
               if (!score) {
                 return 0;
               }
               return PointsFromScore(
-                testData[index + 9].par,
+                props.courseData[index + 9].par,
                 testData[index + 9].extra,
                 score
               );
             })
-            .reduce((a, b) => a + b)
+            .reduce((a, b) => a + b, 0)
         }
       />
       <ScoreCardBody
@@ -126,7 +142,9 @@ export const ScoreCard = (props) => {
         onChangeBack={onChangeBack}
         scoresFront={scoresFront}
         scoresBack={scoresBack}
-        data={testData}
+        data={props.courseData}
+        // TODO - The hcp does not map directly to extra strokes given
+        // hcpExtraStrokes={hcpStrokes}
       />
       <ScoreCardFooter />
     </>

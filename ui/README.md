@@ -1,4 +1,14 @@
-# Getting Started with Create React App
+# GolfSite
+
+## graphql.schema
+
+The schema is generated from the one created by postgraphile through:
+
+```
+get-graphql-schema http://localhost:5433/graphql > schema.graphql
+```
+
+## General React Readme
 
 This project was bootstrapped with [Create React
 App](https://github.com/facebook/create-react-app).
