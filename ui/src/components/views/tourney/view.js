@@ -56,7 +56,7 @@ function TourneyApp(props) {
     allHoles: { nodes },
   } = data;
 
-  if (nodes.Length > 0) {
+  if (nodes.length > 0) {
     const id = nodes[0].id;
 
     console.log(`id:`);
