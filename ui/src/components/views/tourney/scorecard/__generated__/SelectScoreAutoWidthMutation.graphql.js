@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9649c40b540f229455ad796f71ae8674>>
+ * @generated SignedSource<<f475224c41153cbd71c9a78a71cbdd1a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,19 +22,14 @@ v1 = {
 v2 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "id"
+  "name": "nr"
 },
 v3 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "nr"
-},
-v4 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
   "name": "playerId"
 },
-v5 = [
+v4 = [
   {
     "fields": [
       {
@@ -48,11 +43,6 @@ v5 = [
             "kind": "Variable",
             "name": "holeId",
             "variableName": "holeId"
-          },
-          {
-            "kind": "Variable",
-            "name": "id",
-            "variableName": "id"
           },
           {
             "kind": "Variable",
@@ -73,42 +63,42 @@ v5 = [
     "name": "input"
   }
 ],
-v6 = {
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "clientMutationId",
   "storageKey": null
 },
-v7 = {
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "scoreId",
   "storageKey": null
 },
-v8 = {
+v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "nr",
   "storageKey": null
 },
-v9 = {
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "playerId",
   "storageKey": null
 },
-v10 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "courseId",
   "storageKey": null
 },
-v11 = {
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -121,8 +111,7 @@ return {
       (v0/*: any*/),
       (v1/*: any*/),
       (v2/*: any*/),
-      (v3/*: any*/),
-      (v4/*: any*/)
+      (v3/*: any*/)
     ],
     "kind": "Fragment",
     "metadata": null,
@@ -130,13 +119,13 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v5/*: any*/),
+        "args": (v4/*: any*/),
         "concreteType": "CreateScorePayload",
         "kind": "LinkedField",
         "name": "createScore",
         "plural": false,
         "selections": [
-          (v6/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -145,11 +134,11 @@ return {
             "name": "score",
             "plural": false,
             "selections": [
+              (v6/*: any*/),
               (v7/*: any*/),
               (v8/*: any*/),
               (v9/*: any*/),
-              (v10/*: any*/),
-              (v11/*: any*/)
+              (v10/*: any*/)
             ],
             "storageKey": null
           }
@@ -163,9 +152,8 @@ return {
   "kind": "Request",
   "operation": {
     "argumentDefinitions": [
-      (v3/*: any*/),
       (v2/*: any*/),
-      (v4/*: any*/),
+      (v3/*: any*/),
       (v0/*: any*/),
       (v1/*: any*/)
     ],
@@ -174,13 +162,13 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v5/*: any*/),
+        "args": (v4/*: any*/),
         "concreteType": "CreateScorePayload",
         "kind": "LinkedField",
         "name": "createScore",
         "plural": false,
         "selections": [
-          (v6/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -189,11 +177,11 @@ return {
             "name": "score",
             "plural": false,
             "selections": [
+              (v6/*: any*/),
               (v7/*: any*/),
               (v8/*: any*/),
               (v9/*: any*/),
               (v10/*: any*/),
-              (v11/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -210,16 +198,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d0eed546b147cd19ebddb93151b347a0",
+    "cacheID": "b78153241c5e0f8ee02c6e96b30600d4",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthMutation(\n  $nr: BigInt!\n  $id: BigInt\n  $playerId: BigInt\n  $courseId: BigInt\n  $holeId: BigInt\n) {\n  createScore(input: {score: {nr: $nr, id: $id, playerId: $playerId, courseId: $courseId, holeId: $holeId}}) {\n    clientMutationId\n    score {\n      id\n      nr\n      playerId\n      courseId\n      holeId\n      nodeId\n    }\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthMutation(\n  $nr: BigInt!\n  $playerId: BigInt\n  $courseId: BigInt\n  $holeId: BigInt\n) {\n  createScore(input: {score: {nr: $nr, playerId: $playerId, courseId: $courseId, holeId: $holeId}}) {\n    clientMutationId\n    score {\n      scoreId\n      nr\n      playerId\n      courseId\n      holeId\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "c734edd48ec2484b7e10715894c324b8";
+node.hash = "37b419721629962e72951a01fbda9a6a";
 
 module.exports = node;

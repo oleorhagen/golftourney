@@ -9,11 +9,9 @@ import "./SelectScoreAutoWidth.css";
 import { graphql } from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
 
-// TODO - Have Update the score in the DB
 const SelectScoreAutoWidthMutation = graphql`
   mutation SelectScoreAutoWidthMutation(
     $nr: BigInt!
-    $id: BigInt
     $playerId: BigInt
     $courseId: BigInt
     $holeId: BigInt
@@ -22,7 +20,6 @@ const SelectScoreAutoWidthMutation = graphql`
       input: {
         score: {
           nr: $nr
-          id: $id
           playerId: $playerId
           courseId: $courseId
           holeId: $holeId
@@ -31,7 +28,7 @@ const SelectScoreAutoWidthMutation = graphql`
     ) {
       clientMutationId
       score {
-        id
+        scoreId
         nr
         playerId
         courseId
@@ -59,11 +56,10 @@ export default function SelectScoreAutoWidth({ onChange }) {
     console.log(`Updating the score...`);
     commitMutation({
       variables: {
-        nr: 3,
-        id: 1, // TODO - WHat is the right ID?
+        nr: event.target.value,
         playerId: 1,
         courseId: 1,
-        holeId: 2,
+        holeId: 3,
       },
     });
     setScore(event.target.value);
