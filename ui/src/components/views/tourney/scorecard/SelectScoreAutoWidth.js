@@ -12,7 +12,12 @@ import { useMutation } from "react-relay";
 // TODO - Have Update the score in the DB
 const SelectScoreAutoWidthMutation = graphql`
   mutation SelectScoreAutoWidthMutation(
-    $score: ScoreInput = { nr: "3", courseId: "1", holeId: "1", playerId: "1" }
+    $score: ScoreInput = {
+      nr: BigInt
+      courseId: BigInt
+      holeId: BigInt
+      playerId: BigInt
+    }
   ) {
     createScore(input: { score: $score }) {
       clientMutationId
