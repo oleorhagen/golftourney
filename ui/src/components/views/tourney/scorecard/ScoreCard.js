@@ -8,21 +8,6 @@ import ScoreCardFooter from "./ScoreCardFooter";
 
 import { PointsFromScore } from "./PointScore";
 
-// TODO - Have Update the score in the DB
-// const updateHoleScoreMutation = graphql`
-//   mutation updateHoleScoreMutation(
-//     $score: ScoreInput = { nr: "3", courseId: "1", holeId: "1", playerId: "1" }
-//   ) {
-//     createScore(input: { score: $score }) {
-//       clientMutationId
-//       score {
-//         id
-//         nr
-//       }
-//     }
-//   }
-// `;
-
 // INPROGRESS - Get this form the db
 let testData = [
   // Front
