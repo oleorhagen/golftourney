@@ -7,50 +7,50 @@ import { useCallback } from "react";
 
 const graphql = require("babel-plugin-relay/macro");
 
-const mutation = graphql`
-  mutation updateHoleScoreMutation(
-    $score: ScoreInput = { nr: "3", courseId: "1", holeId: "1", playerId: "1" }
-  ) {
-    createScore(input: { score: $score }) {
-      clientMutationId
-      score {
-        id
-        nr
-      }
-    }
-  }
-`;
+// const mutation = graphql`
+//   mutation updateHoleScoreMutation(
+//     $score: ScoreInput = { nr: "3", courseId: "1", holeId: "1", playerId: "1" }
+//   ) {
+//     createScore(input: { score: $score }) {
+//       clientMutationId
+//       score {
+//         id
+//         nr
+//       }
+//     }
+//   }
+// `;
 
-function getOptimisticResponse(text, todoId, courseId, holeId, playerId) {
-  return {
-    createScore: {
-      score: {
-        id,
-        nr,
-        courseId,
-        holeId,
-        playerId,
-      },
-    },
-  };
-}
+// function getOptimisticResponse(text, todoId, courseId, holeId, playerId) {
+//   return {
+//     createScore: {
+//       score: {
+//         id,
+//         nr,
+//         courseId,
+//         holeId,
+//         playerId,
+//       },
+//     },
+//   };
+// }
 
-export default function useRenameTodoMutation() {
-  const [commit] = useMutation(mutation);
-  return [
-    useCallback(
-      (text, todoId) => {
-        const input = {
-          text,
-          id,
-        };
+// export default function useRenameTodoMutation() {
+//   const [commit] = useMutation(mutation);
+//   return [
+//     useCallback(
+//       (text, todoId) => {
+//         const input = {
+//           text,
+//           id,
+//         };
 
-        return commit({
-          variables: { input },
-          optimisticResponse: getOptimisticResponse(text, todoId),
-        });
-      },
-      [commit]
-    ),
-  ];
-}
+//         return commit({
+//           variables: { input },
+//           optimisticResponse: getOptimisticResponse(text, todoId),
+//         });
+//       },
+//       [commit]
+//     ),
+//   ];
+// }
