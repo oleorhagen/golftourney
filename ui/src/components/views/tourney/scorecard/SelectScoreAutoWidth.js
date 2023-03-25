@@ -30,7 +30,7 @@ export default function SelectScoreAutoWidth({ onChange }) {
   const [score, setScore] = React.useState("");
 
   const [commitMutation, isMutationInFlight] = useMutation(
-    updateHoleScoreMutation
+    SelectScoreAutoWidthMutation
   );
 
   if (isMutationInFlight) {
@@ -39,11 +39,12 @@ export default function SelectScoreAutoWidth({ onChange }) {
 
   const handleChange = (event) => {
     // TODO - Do we need to separately manage state here now (?)
+    console.log(`Updating the score...`);
     commitMutation({
       variables: {
         nr: 3,
         courseId: 1,
-        holeId: 1,
+        holeId: 2,
         playerId: 1,
       },
     });
