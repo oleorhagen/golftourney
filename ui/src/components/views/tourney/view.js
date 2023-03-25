@@ -55,16 +55,26 @@ function TourneyApp(props) {
   const {
     allHoles: { nodes },
   } = data;
-  const id = nodes[0].id;
 
-  console.log(`id:`);
-  console.log(id);
+  if (nodes.Length > 0) {
+    const id = nodes[0].id;
 
+    console.log(`id:`);
+    console.log(id);
+
+    return (
+      <div className="TourneyApp">
+        <header className="TourneyApp-header">
+          <p>{id}</p>
+          {<ScoreCard courseData={nodes} />}
+        </header>
+      </div>
+    );
+  }
   return (
     <div className="TourneyApp">
       <header className="TourneyApp-header">
-        <p>{id}</p>
-        {<ScoreCard courseData={nodes} />}
+        <p>No data present...</p>
       </header>
     </div>
   );

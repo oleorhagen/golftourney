@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { commitMutation, graphql } from "babel-plugin-relay/macro";
+// import { commitMutation, graphql } from "babel-plugin-relay/macro";
 
 import ScoreCardHeader from "./ScoreCardHeader";
 import ScoreCardBody from "./ScoreCardBody";
@@ -9,19 +9,19 @@ import ScoreCardFooter from "./ScoreCardFooter";
 import { PointsFromScore } from "./PointScore";
 
 // TODO - Have Update the score in the DB
-const updateHoleScoreMutation = graphql`
-  mutation updateHoleScoreMutation(
-    $score: ScoreInput = { nr: "3", courseId: "1", holeId: "1", playerId: "1" }
-  ) {
-    createScore(input: { score: $score }) {
-      clientMutationId
-      score {
-        id
-        nr
-      }
-    }
-  }
-`;
+// const updateHoleScoreMutation = graphql`
+//   mutation updateHoleScoreMutation(
+//     $score: ScoreInput = { nr: "3", courseId: "1", holeId: "1", playerId: "1" }
+//   ) {
+//     createScore(input: { score: $score }) {
+//       clientMutationId
+//       score {
+//         id
+//         nr
+//       }
+//     }
+//   }
+// `;
 
 // INPROGRESS - Get this form the db
 let testData = [
