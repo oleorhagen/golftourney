@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Container, Grid, Stack } from "@mui/material";
-import { Paper, Typography, TextField, MenuItem } from "@mui/material";
+import { Paper } from "@mui/material";
 
 import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
 import RomanNumeralScore from "./RomanNumeralScore";
@@ -56,7 +55,10 @@ const ScoreCardTable = (props) => {
                   <RomanNumeralScore number={row.hcpe} />
                 </TableCell>
                 <TableCell align="right">
-                  <SelectScoreAutoWidth onChange={onChange(index)} />
+                  <SelectScoreAutoWidth
+                    onChange={onChange(index)}
+                    holeNumber={row.hole}
+                  />
                 </TableCell>
                 <TableCell align="right">
                   <PointScore

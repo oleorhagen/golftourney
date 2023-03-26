@@ -24,8 +24,6 @@ function distributeStrokes(holes, NumberOfextraStrokes) {
   holes = extraStrokes;
 }
 
-// distributeStrokes(25);
-
 export const ScoreCard = (props) => {
   const [hcpStrokes, setHcpStrokes] = useState(30);
 

@@ -40,7 +40,7 @@ const SelectScoreAutoWidthMutation = graphql`
 
 const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function SelectScoreAutoWidth({ onChange }) {
+export default function SelectScoreAutoWidth({ onChange, holeNumber }) {
   const [score, setScore] = React.useState("");
 
   const [commitMutation, isMutationInFlight] = useMutation(
@@ -53,13 +53,13 @@ export default function SelectScoreAutoWidth({ onChange }) {
 
   const handleChange = (event) => {
     // TODO - Do we need to separately manage state here now (?)
-    console.log(`Updating the score...`);
+    console.log(`Updating the score for hole ${holeNumber}...`);
     commitMutation({
       variables: {
         nr: event.target.value,
         playerId: 1,
         courseId: 1,
-        holeId: 3,
+        holeId: holeNumber,
       },
     });
     setScore(event.target.value);
