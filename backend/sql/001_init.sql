@@ -2,6 +2,8 @@
 --     id SERIAL8 PRIMARY KEY, tournament_name STRING NOT NULL
 -- );
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 
 CREATE TABLE IF NOT EXISTS player (
   id
@@ -36,7 +38,7 @@ CREATE TABLE IF NOT EXISTS hole (
 
 CREATE TABLE IF NOT EXISTS score (
   nr INT8 NOT NULL CHECK (nr BETWEEN 1 AND 9),
-  score_id SERIAL8 PRIMARY KEY,
+  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   player_id SERIAL8 NOT NULL,
   course_id SERIAL8 NOT NULL,
   hole_id SERIAL8 NOT NULL,
