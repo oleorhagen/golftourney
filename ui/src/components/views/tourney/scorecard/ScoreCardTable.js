@@ -18,16 +18,11 @@ import { useLazyLoadQuery } from "react-relay";
 
 // TODO - Should use a fragment here (?)
 const ScoreCardTableQuery = graphql`
-  query ScoreCardTableQuery(
-    $holeId: BigInt
-    $courseId: BigInt
-    $playerId: BigInt
-  ) {
-    allScores(
-      condition: { holeId: $holeId, courseId: $courseId, playerId: $playerId }
-    ) {
+  query ScoreCardTableQuery($courseId: BigInt, $playerId: BigInt) {
+    allScores(condition: { courseId: $courseId, playerId: $playerId }) {
       nodes {
         nodeId
+        holeId
         nr
       }
     }
@@ -43,6 +38,14 @@ const ScoreCardTable = (props) => {
   const rows = props.data.map(({ id, par, index, extra }) =>
     createData(id, par, index, 1)
   );
+
+  const data = useLazyLoadQuery(ScoreCardTableQuery, {
+    holeId: 1,
+    courseId: 1,
+    playerId: 1,
+  });
+  console.log(`scoreCardTable: got query`);
+  console.log(data);
 
   const scores = props.scores;
   const onChange = props.onChange;

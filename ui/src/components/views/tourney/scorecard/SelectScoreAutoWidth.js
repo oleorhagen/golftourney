@@ -41,12 +41,18 @@ const SelectScoreAutoWidthMutation = graphql`
 
 const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function SelectScoreAutoWidth({ onChange, holeNumber }) {
+export default function SelectScoreAutoWidth({ onChange, holeNumber, nodeId }) {
   const [score, setScore] = React.useState("");
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
     SelectScoreAutoWidthMutation
   );
+
+  if (!nodeId) {
+    // TODO - Create the score
+    console.log(`selectScoreAutoWidth: (nodeId)`);
+    console.log(nodeId);
+  }
 
   // const [updateMutation, { mutationData, isUpdateMutationInFlight, error }] =
   //   useMutation(SelectScoreAutoWidthUpdateMutation);
