@@ -10,9 +10,12 @@ client = GraphqlClient(endpoint="http://localhost:5433/graphql")
 # Asynchronous request
 import asyncio
 
+PLAYERS = ("Juliane", "Marius", "Ole P", "Ole M")
+COURSES = ("gamle fredrikstad", "skjeberg", "borregaard", "onsoy")
 
-def populate_players():
-    for player in ("Juliane", "Marius", "Ole P", "Ole M"):
+
+def populate_players(players):
+    for player in players:
         query = """
     mutation PlayerCreation($playa: String!) {
     createPlayer(input: { player: { name: $playa } }) {
@@ -23,12 +26,13 @@ def populate_players():
     }
     }
         """
-        variables={"playa": player}
+        variables = {"playa": player}
         data = client.execute(query=query, variables=variables)
         print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
 
-def populate_courses():
-    for course in ("gamle fredrikstad", "skjeberg", "borregaard", "onsoy"):
+
+def populate_courses(courses):
+    for course in courses:
         query = """
 mutation createCourse($name: String!) {
   createCourse(input: {course: {name: $name}}) {
@@ -39,13 +43,15 @@ mutation createCourse($name: String!) {
   }
 }
         """
-        variables={"name": course}
+        variables = {"name": course}
         data = client.execute(query=query, variables=variables)
         print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
 
-def populate_holes():
+
+def populate_holes(filename):
     import csv
-    with open('gamle-fredrikstad.csv', mode="r") as f:
+
+    with open(filename, mode="r") as f:
         # reading the CSV file
         csvFile = csv.reader(f)
 
@@ -68,16 +74,53 @@ mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!, $par: Big
 }
                 """
                 variables = {
-                    "courseID": 1, # TODO - Set the correct course ID
+                    "courseID": 1,  # TODO - Set the correct course ID
                     "nr": nr,
                     "index": index,
-                    "par": par
+                    "par": par,
+                }
+
+                data = client.execute(query=query, variables=variables)
+                print(
+                    data
+                )  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
+                nr += 1
+
+
+def populate_scores(players, courses):
+
+    for player in players:
+        for course in courses:
+            for hole_number in range(1,18):
+
+                query = """
+                    mutation createScore($courseId: BigInt!, $holeId: BigInt!, $nr: BigInt!, $playerId: BigInt!) {
+                    createScore(
+                        input: {score: {nr: $nr, courseId: $courseId, holeId: $holeId, playerId: $playerId}}
+                    ) {
+                        clientMutationId
+                        score {
+                        nodeId
+                        id
+                        nr
+                        }
+                    }
+                    }
+                """
+
+                variables = {
+                    "courseID": 1,  # TODO - Set the correct course ID
+                    "nr": 0,
+                    "playerId": 1, # TODO - retrieve
+                    "courseId": 1, # TODO - retrieve
+                    "holeId": hole_number
                 }
 
                 data = client.execute(query=query, variables=variables)
                 print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
-                nr += 1
 
-populate_players()
-populate_courses()
-populate_holes()
+
+populate_players(players=PLAYERS)
+populate_courses(courses=COURSES)
+populate_holes(filename="gamle-fredrikstad.csv")
+populate_scores(players=PLAYERS, courses=COURSES)
