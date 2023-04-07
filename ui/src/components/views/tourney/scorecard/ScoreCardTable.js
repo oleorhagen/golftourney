@@ -13,6 +13,27 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import { graphql } from "babel-plugin-relay/macro";
+import { useLazyLoadQuery } from "react-relay";
+
+// TODO - Should use a fragment here (?)
+const ScoreCardTableQuery = graphql`
+  query ScoreCardTableQuery(
+    $holeId: BigInt
+    $courseId: BigInt
+    $playerId: BigInt
+  ) {
+    allScores(
+      condition: { holeId: $holeId, courseId: $courseId, playerId: $playerId }
+    ) {
+      nodes {
+        nodeId
+        nr
+      }
+    }
+  }
+`;
+
 function createData(hole, par, hcp, hcpe) {
   return { hole, par, hcp, hcpe };
 }
