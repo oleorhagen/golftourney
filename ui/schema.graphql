@@ -442,14 +442,14 @@ type DeletePlayerPayload {
   ): PlayersEdge
 }
 
-"""All input for the `deleteScoreByScoreId` mutation."""
-input DeleteScoreByScoreIdInput {
+"""All input for the `deleteScoreById` mutation."""
+input DeleteScoreByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  scoreId: BigInt!
+  id: UUID!
 }
 
 """All input for the `deleteScore` mutation."""
@@ -717,11 +717,11 @@ type Mutation {
   ): UpdateScorePayload
 
   """Updates a single `Score` using a unique key and a patch."""
-  updateScoreByScoreId(
+  updateScoreById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateScoreByScoreIdInput!
+    input: UpdateScoreByIdInput!
   ): UpdateScorePayload
 
   """Deletes a single `Course` using its globally unique id."""
@@ -781,11 +781,11 @@ type Mutation {
   ): DeleteScorePayload
 
   """Deletes a single `Score` using a unique key."""
-  deleteScoreByScoreId(
+  deleteScoreById(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteScoreByScoreIdInput!
+    input: DeleteScoreByIdInput!
   ): DeleteScorePayload
 }
 
@@ -1049,7 +1049,7 @@ type Query implements Node {
   courseById(id: BigInt!): Course
   holeById(id: BigInt!): Hole
   playerById(id: BigInt!): Player
-  scoreByScoreId(scoreId: BigInt!): Score
+  scoreById(id: UUID!): Score
 
   """Reads a single `Course` using its globally unique `ID`."""
   course(
@@ -1082,7 +1082,7 @@ type Score implements Node {
   """
   nodeId: ID!
   nr: BigInt!
-  scoreId: BigInt!
+  id: UUID!
   playerId: BigInt!
   courseId: BigInt!
   holeId: BigInt!
@@ -1104,8 +1104,8 @@ input ScoreCondition {
   """Checks for equality with the object’s `nr` field."""
   nr: BigInt
 
-  """Checks for equality with the object’s `scoreId` field."""
-  scoreId: BigInt
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
 
   """Checks for equality with the object’s `playerId` field."""
   playerId: BigInt
@@ -1120,7 +1120,7 @@ input ScoreCondition {
 """An input for mutations affecting `Score`"""
 input ScoreInput {
   nr: BigInt!
-  scoreId: BigInt
+  id: UUID
   playerId: BigInt
   courseId: BigInt
   holeId: BigInt
@@ -1131,7 +1131,7 @@ Represents an update to a `Score`. Fields that are set will be updated.
 """
 input ScorePatch {
   nr: BigInt
-  scoreId: BigInt
+  id: UUID
   playerId: BigInt
   courseId: BigInt
   holeId: BigInt
@@ -1168,8 +1168,8 @@ enum ScoresOrderBy {
   NATURAL
   NR_ASC
   NR_DESC
-  SCORE_ID_ASC
-  SCORE_ID_DESC
+  ID_ASC
+  ID_DESC
   PLAYER_ID_ASC
   PLAYER_ID_DESC
   COURSE_ID_ASC
@@ -1354,8 +1354,8 @@ type UpdatePlayerPayload {
   ): PlayersEdge
 }
 
-"""All input for the `updateScoreByScoreId` mutation."""
-input UpdateScoreByScoreIdInput {
+"""All input for the `updateScoreById` mutation."""
+input UpdateScoreByIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -1366,7 +1366,7 @@ input UpdateScoreByScoreIdInput {
   An object where the defined keys will be set on the `Score` being updated.
   """
   scorePatch: ScorePatch!
-  scoreId: BigInt!
+  id: UUID!
 }
 
 """All input for the `updateScore` mutation."""
@@ -1419,4 +1419,9 @@ type UpdateScorePayload {
     orderBy: [ScoresOrderBy!] = [PRIMARY_KEY_ASC]
   ): ScoresEdge
 }
+
+"""
+A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
+"""
+scalar UUID
 
