@@ -4,10 +4,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import "./SelectScoreAutoWidth.css";
-
 import { graphql } from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
+
+import "./SelectScoreAutoWidth.css";
 
 const SelectScoreAutoWidthMutation = graphql`
   mutation SelectScoreAutoWidthMutation(
@@ -28,11 +28,12 @@ const SelectScoreAutoWidthMutation = graphql`
     ) {
       clientMutationId
       score {
-        scoreId
+        id
         nr
         playerId
         courseId
         holeId
+        nodeId
       }
     }
   }
@@ -43,17 +44,20 @@ const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function SelectScoreAutoWidth({ onChange, holeNumber }) {
   const [score, setScore] = React.useState("");
 
-  const [commitMutation, isMutationInFlight] = useMutation(
+  const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
     SelectScoreAutoWidthMutation
   );
 
+  // const [updateMutation, { mutationData, isUpdateMutationInFlight, error }] =
+  //   useMutation(SelectScoreAutoWidthUpdateMutation);
+
   if (isMutationInFlight) {
     console.log(`mutation is in flight...`);
+  } else {
+    console.log(`mutation is not in flight anylonger`);
   }
 
   const handleChange = (event) => {
-    // TODO - Do we need to separately manage state here now (?)
-    console.log(`Updating the score for hole ${holeNumber}...`);
     commitMutation({
       variables: {
         nr: event.target.value,
@@ -62,6 +66,8 @@ export default function SelectScoreAutoWidth({ onChange, holeNumber }) {
         holeId: holeNumber,
       },
     });
+    console.log("created score!");
+    console.log(createdData);
     setScore(event.target.value);
     onChange(event.target.value);
   };
