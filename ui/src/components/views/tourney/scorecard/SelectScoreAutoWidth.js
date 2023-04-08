@@ -10,31 +10,9 @@ import { useMutation } from "react-relay";
 import "./SelectScoreAutoWidth.css";
 
 const SelectScoreAutoWidthMutation = graphql`
-  mutation SelectScoreAutoWidthMutation(
-    $strokes: BigInt!
-    $playerId: BigInt
-    $courseId: BigInt
-    $holeId: BigInt
-  ) {
-    createScore(
-      input: {
-        score: {
-          strokes: $strokes
-          playerId: $playerId
-          courseId: $courseId
-          holeId: $holeId
-        }
-      }
-    ) {
+  mutation SelectScoreAutoWidthMutation($nodeId: ID!, $strokes: BigInt!) {
+    updateScore(input: { nodeId: $nodeId, scorePatch: { strokes: $strokes } }) {
       clientMutationId
-      score {
-        id
-        strokes
-        playerId
-        courseId
-        holeId
-        nodeId
-      }
     }
   }
 `;
@@ -56,12 +34,6 @@ export default function SelectScoreAutoWidth({
     SelectScoreAutoWidthMutation
   );
 
-  if (!nodeId) {
-    // TODO - Create the score
-    console.log(`selectScoreAutoWidth: (nodeId)`);
-    console.log(nodeId);
-  }
-
   // const [updateMutation, { mutationData, isUpdateMutationInFlight, error }] =
   //   useMutation(SelectScoreAutoWidthUpdateMutation);
 
@@ -77,7 +49,7 @@ export default function SelectScoreAutoWidth({
         strokes: event.target.value,
         playerId: 1,
         courseId: 1,
-        holeId: holeNumber,
+        nodeId: nodeId,
       },
     });
     console.log("created score!");
