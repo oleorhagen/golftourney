@@ -11,7 +11,7 @@ import "./SelectScoreAutoWidth.css";
 
 const SelectScoreAutoWidthMutation = graphql`
   mutation SelectScoreAutoWidthMutation(
-    $nr: BigInt!
+    $strokes: BigInt!
     $playerId: BigInt
     $courseId: BigInt
     $holeId: BigInt
@@ -19,7 +19,7 @@ const SelectScoreAutoWidthMutation = graphql`
     createScore(
       input: {
         score: {
-          nr: $nr
+          strokes: $strokes
           playerId: $playerId
           courseId: $courseId
           holeId: $holeId
@@ -29,7 +29,7 @@ const SelectScoreAutoWidthMutation = graphql`
       clientMutationId
       score {
         id
-        nr
+        strokes
         playerId
         courseId
         holeId
@@ -66,7 +66,7 @@ export default function SelectScoreAutoWidth({ onChange, holeNumber, nodeId }) {
   const handleChange = (event) => {
     commitMutation({
       variables: {
-        nr: event.target.value,
+        strokes: event.target.value,
         playerId: 1,
         courseId: 1,
         holeId: holeNumber,

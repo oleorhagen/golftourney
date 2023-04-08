@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cabb49f38698bf50fc7713a66fa57cc4>>
+ * @generated SignedSource<<66b40bc8feba0a61ce9eb4b6093dcb14>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,12 +22,12 @@ v1 = {
 v2 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "nr"
+  "name": "playerId"
 },
 v3 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "playerId"
+  "name": "strokes"
 },
 v4 = [
   {
@@ -49,13 +49,13 @@ v4 = [
               },
               {
                 "kind": "Variable",
-                "name": "nr",
-                "variableName": "nr"
+                "name": "playerId",
+                "variableName": "playerId"
               },
               {
                 "kind": "Variable",
-                "name": "playerId",
-                "variableName": "playerId"
+                "name": "strokes",
+                "variableName": "strokes"
               }
             ],
             "kind": "ObjectValue",
@@ -97,7 +97,7 @@ v4 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "nr",
+            "name": "strokes",
             "storageKey": null
           },
           {
@@ -153,8 +153,8 @@ return {
   "kind": "Request",
   "operation": {
     "argumentDefinitions": [
-      (v2/*: any*/),
       (v3/*: any*/),
+      (v2/*: any*/),
       (v0/*: any*/),
       (v1/*: any*/)
     ],
@@ -163,16 +163,16 @@ return {
     "selections": (v4/*: any*/)
   },
   "params": {
-    "cacheID": "f8f4b47f6bda54b1630540ba28f5aa42",
+    "cacheID": "f0ef8af3a189aaf21ea41875829e6003",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthMutation(\n  $nr: BigInt!\n  $playerId: BigInt\n  $courseId: BigInt\n  $holeId: BigInt\n) {\n  createScore(input: {score: {nr: $nr, playerId: $playerId, courseId: $courseId, holeId: $holeId}}) {\n    clientMutationId\n    score {\n      id\n      nr\n      playerId\n      courseId\n      holeId\n      nodeId\n    }\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthMutation(\n  $strokes: BigInt!\n  $playerId: BigInt\n  $courseId: BigInt\n  $holeId: BigInt\n) {\n  createScore(input: {score: {strokes: $strokes, playerId: $playerId, courseId: $courseId, holeId: $holeId}}) {\n    clientMutationId\n    score {\n      id\n      strokes\n      playerId\n      courseId\n      holeId\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "bd3a18cb5c987ff52f74bae01b2009b9";
+node.hash = "47fbb814a33f3855d0f440089378df4e";
 
 module.exports = node;

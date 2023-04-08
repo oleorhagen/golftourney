@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<01a1fb527d9fb488fe8678da7283c226>>
+ * @generated SignedSource<<e8786984fca859c79c226112f9d174be>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -73,7 +73,7 @@ v1 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "nr",
+            "name": "strokes",
             "storageKey": null
           }
         ],
@@ -101,16 +101,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "6417c0e8cdfd975395b14efb088af32f",
+    "cacheID": "de330f558f7fafd83a859c4877122669",
     "id": null,
     "metadata": {},
     "name": "ScoreCardTableQuery",
     "operationKind": "query",
-    "text": "query ScoreCardTableQuery(\n  $courseId: BigInt\n  $playerId: BigInt\n) {\n  allScores(condition: {courseId: $courseId, playerId: $playerId}) {\n    nodes {\n      nodeId\n      holeId\n      nr\n    }\n  }\n}\n"
+    "text": "query ScoreCardTableQuery(\n  $courseId: BigInt\n  $playerId: BigInt\n) {\n  allScores(condition: {courseId: $courseId, playerId: $playerId}) {\n    nodes {\n      nodeId\n      holeId\n      strokes\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "d7a9af47af01295f2e1885865e390d95";
+node.hash = "3bafa45299493da3f56eccf5f2b6536d";
 
 module.exports = node;
