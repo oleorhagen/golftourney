@@ -32,6 +32,12 @@ const holesQuery = graphql`
         index
         nr
         par
+        scoresByHoleId(condition: { courseId: "1", playerId: "1" }) {
+          nodes {
+            nodeId
+            strokes
+          }
+        }
       }
     }
   }

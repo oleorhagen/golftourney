@@ -1081,7 +1081,7 @@ type Score implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
-  nr: BigInt!
+  strokes: BigInt!
   id: UUID!
   playerId: BigInt!
   courseId: BigInt!
@@ -1101,8 +1101,8 @@ type Score implements Node {
 A condition to be used against `Score` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
 input ScoreCondition {
-  """Checks for equality with the object’s `nr` field."""
-  nr: BigInt
+  """Checks for equality with the object’s `strokes` field."""
+  strokes: BigInt
 
   """Checks for equality with the object’s `id` field."""
   id: UUID
@@ -1119,7 +1119,7 @@ input ScoreCondition {
 
 """An input for mutations affecting `Score`"""
 input ScoreInput {
-  nr: BigInt!
+  strokes: BigInt!
   id: UUID
   playerId: BigInt
   courseId: BigInt
@@ -1130,7 +1130,7 @@ input ScoreInput {
 Represents an update to a `Score`. Fields that are set will be updated.
 """
 input ScorePatch {
-  nr: BigInt
+  strokes: BigInt
   id: UUID
   playerId: BigInt
   courseId: BigInt
@@ -1166,8 +1166,8 @@ type ScoresEdge {
 """Methods to use when ordering `Score`."""
 enum ScoresOrderBy {
   NATURAL
-  NR_ASC
-  NR_DESC
+  STROKES_ASC
+  STROKES_DESC
   ID_ASC
   ID_DESC
   PLAYER_ID_ASC

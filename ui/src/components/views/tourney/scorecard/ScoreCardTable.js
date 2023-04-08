@@ -23,7 +23,7 @@ const ScoreCardTableQuery = graphql`
       nodes {
         nodeId
         holeId
-        nr
+        strokes
       }
     }
   }
