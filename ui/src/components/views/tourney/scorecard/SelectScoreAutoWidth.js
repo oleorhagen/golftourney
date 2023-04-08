@@ -41,8 +41,16 @@ const SelectScoreAutoWidthMutation = graphql`
 
 const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function SelectScoreAutoWidth({ onChange, holeNumber, nodeId }) {
-  const [score, setScore] = React.useState("");
+export default function SelectScoreAutoWidth({
+  onChange,
+  holeNumber,
+  nodeId,
+  strokes,
+}) {
+  if (strokes == 0) {
+    strokes = "";
+  }
+  const [score, setScore] = React.useState(strokes);
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
     SelectScoreAutoWidthMutation
@@ -57,11 +65,11 @@ export default function SelectScoreAutoWidth({ onChange, holeNumber, nodeId }) {
   // const [updateMutation, { mutationData, isUpdateMutationInFlight, error }] =
   //   useMutation(SelectScoreAutoWidthUpdateMutation);
 
-  if (isMutationInFlight) {
-    console.log(`mutation is in flight...`);
-  } else {
-    console.log(`mutation is not in flight anylonger`);
-  }
+  // if (isMutationInFlight) {
+  //   console.log(`mutation is in flight...`);
+  // } else {
+  //   console.log(`mutation is not in flight anylonger`);
+  // }
 
   const handleChange = (event) => {
     commitMutation({
