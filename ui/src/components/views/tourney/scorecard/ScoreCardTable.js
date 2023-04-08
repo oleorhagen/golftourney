@@ -13,39 +13,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import { graphql } from "babel-plugin-relay/macro";
-import { useLazyLoadQuery } from "react-relay";
-
-// TODO - Should use a fragment here (?)
-const ScoreCardTableQuery = graphql`
-  query ScoreCardTableQuery($courseId: BigInt, $playerId: BigInt) {
-    allScores(condition: { courseId: $courseId, playerId: $playerId }) {
-      nodes {
-        nodeId
-        holeId
-        strokes
-      }
-    }
+function createData(hole, par, hcp, hcpe, nodes) {
+  if (!nodes || nodes.length == 0) {
+    console.log(`scoreCardTable: no nodes set...`);
+    // TODO panic -> This should never happen
+    return { hole, par, hcp, hcpe };
   }
-`;
-
-function createData(hole, par, hcp, hcpe) {
-  return { hole, par, hcp, hcpe };
+  console.log(`scoreCardTable: node is set: `);
+  console.log(hole, par, hcp, hcpe, nodes);
+  console.log(nodes);
+  const nodeId = nodes[0].nodeId;
+  const strokes = nodes[0].strokes;
+  return { hole, par, hcp, hcpe, nodeId, strokes };
 }
 
 // TODO - Now 1 extra stroke is hard-coded
 const ScoreCardTable = (props) => {
-  const rows = props.data.map(({ id, par, index, extra }) =>
-    createData(id, par, index, 1)
+  const rows = props.data.map(
+    ({ id, par, index, extra, scoresByHoleId: { nodes } }) =>
+      createData(id, par, index, 1, nodes)
   );
 
-  const data = useLazyLoadQuery(ScoreCardTableQuery, {
-    holeId: 1,
-    courseId: 1,
-    playerId: 1,
-  });
-  console.log(`scoreCardTable: got query`);
-  console.log(data);
+  console.log(`scoreCardTable rows:`);
+  console.log(rows);
 
   const scores = props.scores;
   const onChange = props.onChange;
@@ -82,6 +72,8 @@ const ScoreCardTable = (props) => {
                   <SelectScoreAutoWidth
                     onChange={onChange(index)}
                     holeNumber={row.hole}
+                    nodeId={row.nodeId}
+                    strokes={row.strokes}
                   />
                 </TableCell>
                 <TableCell align="right">

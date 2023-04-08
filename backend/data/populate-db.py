@@ -92,7 +92,7 @@ def populate_scores(players, courses):
     # for player in players:
     for player in [1]:
         for course in [1]:
-            for hole_number in range(1,18):
+            for hole_number in range(1,18+1):
 
                 query = """
                     mutation createScore($courseId: BigInt!, $holeId: BigInt!, $strokes: BigInt!, $playerId: BigInt!) {
