@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<42f37e59f4cb4d8f00461207f35fabf3>>
+ * @generated SignedSource<<269efa8d4c248491dcdc4318525adf3c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,19 +9,22 @@
 'use strict';
 
 var node = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "nodeId"
-  },
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "strokes"
-  }
-],
-v1 = [
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "nodeId"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "points"
+},
+v2 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "strokes"
+},
+v3 = [
   {
     "alias": null,
     "args": [
@@ -34,6 +37,11 @@ v1 = [
           },
           {
             "fields": [
+              {
+                "kind": "Variable",
+                "name": "points",
+                "variableName": "points"
+              },
               {
                 "kind": "Variable",
                 "name": "strokes",
@@ -66,32 +74,40 @@ v1 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/),
+      (v2/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "SelectScoreAutoWidthMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v3/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v2/*: any*/),
+      (v1/*: any*/)
+    ],
     "kind": "Operation",
     "name": "SelectScoreAutoWidthMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "74b5ae40dc810799614245398ebc78d3",
+    "cacheID": "cde6f4916baffd4585c1c4235409c5f2",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthMutation(\n  $nodeId: ID!\n  $strokes: BigInt!\n) {\n  updateScore(input: {nodeId: $nodeId, scorePatch: {strokes: $strokes}}) {\n    clientMutationId\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthMutation(\n  $nodeId: ID!\n  $strokes: BigInt!\n  $points: BigInt!\n) {\n  updateScore(input: {nodeId: $nodeId, scorePatch: {strokes: $strokes, points: $points}}) {\n    clientMutationId\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "383578ba7de744cbbc4e528f948868c7";
+node.hash = "190cf5f632acf8bc089396fa3ff51153";
 
 module.exports = node;
