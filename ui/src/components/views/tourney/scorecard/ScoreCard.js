@@ -6,7 +6,7 @@ import ScoreCardHeader from "./ScoreCardHeader";
 import ScoreCardBody from "./ScoreCardBody";
 import ScoreCardFooter from "./ScoreCardFooter";
 
-import { PointsFromScore } from "./PointScore";
+// import { PointsFromScore } from "./PointScore";
 
 // Distribute the number of extra strokes on the available holes. Through a
 // simple distribution of adding strokes to the hardest holes, then continuing..
@@ -74,11 +74,7 @@ export const ScoreCard = (props) => {
               if (!score) {
                 return 0;
               }
-              return PointsFromScore(
-                props.courseData[index].par,
-                1, // TODO - How to handle extra strokes now?
-                score
-              );
+              return score;
             })
             .reduce((a, b) => a + b, 0) +
           scoresBack
@@ -86,11 +82,7 @@ export const ScoreCard = (props) => {
               if (!score) {
                 return 0;
               }
-              return PointsFromScore(
-                props.courseData[index + 9].par,
-                1, // TODO - How to handle extra strokes now ?
-                score
-              );
+              return score;
             })
             .reduce((a, b) => a + b, 0)
         }

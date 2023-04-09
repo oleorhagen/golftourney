@@ -24,7 +24,8 @@ function createData(hole, par, hcp, hcpe, nodes) {
   console.log(nodes);
   const nodeId = nodes[0].nodeId;
   const strokes = nodes[0].strokes;
-  return { hole, par, hcp, hcpe, nodeId, strokes };
+  const points = nodes[0].points;
+  return { hole, par, hcp, hcpe, nodeId, strokes, points };
 }
 
 // TODO - Now 1 extra stroke is hard-coded
@@ -77,12 +78,7 @@ const ScoreCardTable = (props) => {
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <PointScore
-                    par={row.par}
-                    hcp={row.hcpe}
-                    score={scores[index]}
-                    active={scores[index]}
-                  />
+                  <PointScore par={row.par} hcp={row.hcpe} score={row.points} />
                 </TableCell>
               </TableRow>
             ))}
