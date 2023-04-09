@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7bd17f5b2e371f2ade2d26ead1047913>>
+ * @generated SignedSource<<3b38aa6de580bac27baa7d42f4adf7ae>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -85,6 +85,13 @@ v6 = {
           "kind": "ScalarField",
           "name": "strokes",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "points",
+          "storageKey": null
         }
       ],
       "storageKey": null
@@ -167,16 +174,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "55b2852c64fbe0491bdaa8073b89502f",
+    "cacheID": "bce637d22ac54ff3108e6241ebd63507",
     "id": null,
     "metadata": {},
     "name": "viewGetHolesForCourseQuery",
     "operationKind": "query",
-    "text": "query viewGetHolesForCourseQuery {\n  allHoles(condition: {courseId: \"1\"}) {\n    nodes {\n      id\n      index\n      nr\n      par\n      scoresByHoleId(condition: {courseId: \"1\", playerId: \"1\"}) {\n        nodes {\n          nodeId\n          strokes\n        }\n      }\n      nodeId\n    }\n  }\n}\n"
+    "text": "query viewGetHolesForCourseQuery {\n  allHoles(condition: {courseId: \"1\"}) {\n    nodes {\n      id\n      index\n      nr\n      par\n      scoresByHoleId(condition: {courseId: \"1\", playerId: \"1\"}) {\n        nodes {\n          nodeId\n          strokes\n          points\n        }\n      }\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "59abbaf2152b8b12ab64d77b2e229e96";
+node.hash = "57519da619977a27c13c5bd750728dfb";
 
 module.exports = node;
