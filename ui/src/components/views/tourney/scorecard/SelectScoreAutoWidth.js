@@ -22,6 +22,12 @@ const SelectScoreAutoWidthMutation = graphql`
       }
     ) {
       clientMutationId
+      score {
+        id
+        nodeId
+        strokes
+        points
+      }
     }
   }
 `;

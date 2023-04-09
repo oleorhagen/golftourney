@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<269efa8d4c248491dcdc4318525adf3c>>
+ * @generated SignedSource<<7f1440e27acd0879900e180c8fc2e766>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -67,6 +67,45 @@ v3 = [
         "kind": "ScalarField",
         "name": "clientMutationId",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Score",
+        "kind": "LinkedField",
+        "name": "score",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "nodeId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "strokes",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "points",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -98,16 +137,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "cde6f4916baffd4585c1c4235409c5f2",
+    "cacheID": "7278476d46e349b536fc8c654cccb6b2",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthMutation(\n  $nodeId: ID!\n  $strokes: BigInt!\n  $points: BigInt!\n) {\n  updateScore(input: {nodeId: $nodeId, scorePatch: {strokes: $strokes, points: $points}}) {\n    clientMutationId\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthMutation(\n  $nodeId: ID!\n  $strokes: BigInt!\n  $points: BigInt!\n) {\n  updateScore(input: {nodeId: $nodeId, scorePatch: {strokes: $strokes, points: $points}}) {\n    clientMutationId\n    score {\n      id\n      nodeId\n      strokes\n      points\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "190cf5f632acf8bc089396fa3ff51153";
+node.hash = "a321d58d00634d6de5a01f6b66cd4024";
 
 module.exports = node;
