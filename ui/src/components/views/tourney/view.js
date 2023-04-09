@@ -34,6 +34,7 @@ const holesQuery = graphql`
         par
         scoresByHoleId(condition: { courseId: "1", playerId: "1" }) {
           nodes {
+            id
             nodeId
             strokes
             points

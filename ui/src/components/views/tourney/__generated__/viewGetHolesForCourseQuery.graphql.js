@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3b38aa6de580bac27baa7d42f4adf7ae>>
+ * @generated SignedSource<<65a58ef0eaec5518dab317e8a7e0502e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -78,6 +78,7 @@ v6 = {
       "name": "nodes",
       "plural": true,
       "selections": [
+        (v1/*: any*/),
         (v5/*: any*/),
         {
           "alias": null,
@@ -174,16 +175,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "bce637d22ac54ff3108e6241ebd63507",
+    "cacheID": "ba5f9bb9d2e0c0e3172fc6441e0262a5",
     "id": null,
     "metadata": {},
     "name": "viewGetHolesForCourseQuery",
     "operationKind": "query",
-    "text": "query viewGetHolesForCourseQuery {\n  allHoles(condition: {courseId: \"1\"}) {\n    nodes {\n      id\n      index\n      nr\n      par\n      scoresByHoleId(condition: {courseId: \"1\", playerId: \"1\"}) {\n        nodes {\n          nodeId\n          strokes\n          points\n        }\n      }\n      nodeId\n    }\n  }\n}\n"
+    "text": "query viewGetHolesForCourseQuery {\n  allHoles(condition: {courseId: \"1\"}) {\n    nodes {\n      id\n      index\n      nr\n      par\n      scoresByHoleId(condition: {courseId: \"1\", playerId: \"1\"}) {\n        nodes {\n          id\n          nodeId\n          strokes\n          points\n        }\n      }\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "57519da619977a27c13c5bd750728dfb";
+node.hash = "a610bc7ea8d26b603d23f76cb7ff10af";
 
 module.exports = node;
