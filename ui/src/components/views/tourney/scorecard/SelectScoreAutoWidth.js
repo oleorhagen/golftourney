@@ -28,6 +28,25 @@ const SelectScoreAutoWidthMutation = graphql`
 
 const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+// TODO - Make this create the correct score on the server
+function PointsFromScore(par, extraHcpStrokes, score) {
+  console.log(
+    `pointsFromScore: par: ${par}, extraHcpStrokes: ${extraHcpStrokes}, score: ${score}`
+  );
+  console.log(typeof par);
+  console.log(typeof extraHcpStrokes);
+  console.log(typeof score);
+  console.log(Number(par));
+  console.log(Number(extraHcpStrokes));
+  console.log(Number(score));
+  let res = Number(par) + Number(extraHcpStrokes) - Number(score) + 2;
+  if (res <= 0) {
+    return 0;
+  }
+  console.log(`PointsFromScore result: ${res}`);
+  return res;
+}
+
 export default function SelectScoreAutoWidth({
   onChange,
   holeNumber,
