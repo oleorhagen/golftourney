@@ -10,8 +10,17 @@ import { useMutation } from "react-relay";
 import "./SelectScoreAutoWidth.css";
 
 const SelectScoreAutoWidthMutation = graphql`
-  mutation SelectScoreAutoWidthMutation($nodeId: ID!, $strokes: BigInt!) {
-    updateScore(input: { nodeId: $nodeId, scorePatch: { strokes: $strokes } }) {
+  mutation SelectScoreAutoWidthMutation(
+    $nodeId: ID!
+    $strokes: BigInt!
+    $points: BigInt!
+  ) {
+    updateScore(
+      input: {
+        nodeId: $nodeId
+        scorePatch: { strokes: $strokes, points: $points }
+      }
+    ) {
       clientMutationId
     }
   }
@@ -47,6 +56,7 @@ export default function SelectScoreAutoWidth({
     commitMutation({
       variables: {
         strokes: event.target.value,
+        points: 1, // TODO
         playerId: 1,
         courseId: 1,
         nodeId: nodeId,
