@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS hole (
 
 CREATE TABLE IF NOT EXISTS score (
   strokes INT8 NOT NULL CHECK (strokes BETWEEN 0 AND 9),
+  points INT8 NOT NULL CHECK (points BETWEEN 0 AND 9),
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   player_id SERIAL8 NOT NULL,
   course_id SERIAL8 NOT NULL,
