@@ -1082,6 +1082,7 @@ type Score implements Node {
   """
   nodeId: ID!
   strokes: BigInt!
+  points: BigInt!
   id: UUID!
   playerId: BigInt!
   courseId: BigInt!
@@ -1104,6 +1105,9 @@ input ScoreCondition {
   """Checks for equality with the object’s `strokes` field."""
   strokes: BigInt
 
+  """Checks for equality with the object’s `points` field."""
+  points: BigInt
+
   """Checks for equality with the object’s `id` field."""
   id: UUID
 
@@ -1120,6 +1124,7 @@ input ScoreCondition {
 """An input for mutations affecting `Score`"""
 input ScoreInput {
   strokes: BigInt!
+  points: BigInt!
   id: UUID
   playerId: BigInt
   courseId: BigInt
@@ -1131,6 +1136,7 @@ Represents an update to a `Score`. Fields that are set will be updated.
 """
 input ScorePatch {
   strokes: BigInt
+  points: BigInt
   id: UUID
   playerId: BigInt
   courseId: BigInt
@@ -1168,6 +1174,8 @@ enum ScoresOrderBy {
   NATURAL
   STROKES_ASC
   STROKES_DESC
+  POINTS_ASC
+  POINTS_DESC
   ID_ASC
   ID_DESC
   PLAYER_ID_ASC

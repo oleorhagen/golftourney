@@ -95,15 +95,16 @@ def populate_scores(players, courses):
             for hole_number in range(1,18+1):
 
                 query = """
-                    mutation createScore($courseId: BigInt!, $holeId: BigInt!, $strokes: BigInt!, $playerId: BigInt!) {
+                    mutation createScore($courseId: BigInt!, $holeId: BigInt!, $strokes: BigInt!, $points: BigInt!, $playerId: BigInt!) {
                     createScore(
-                        input: {score: {strokes: $strokes, courseId: $courseId, holeId: $holeId, playerId: $playerId}}
+                        input: {score: {strokes: $strokes, points: $points, courseId: $courseId, holeId: $holeId, playerId: $playerId}}
                     ) {
                         clientMutationId
                         score {
                             nodeId
                             id
                             strokes
+                            points
                         }
                     }
                     }
@@ -112,6 +113,7 @@ def populate_scores(players, courses):
                 variables = {
                     "courseID": 1,  # TODO - Set the correct course ID
                     "strokes": 0,
+                    "points": 0,
                     "playerId": 1, # TODO - retrieve
                     "courseId": 1, # TODO - retrieve
                     "holeId": hole_number

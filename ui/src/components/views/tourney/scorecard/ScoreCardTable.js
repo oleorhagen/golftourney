@@ -14,7 +14,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 function createData(hole, par, hcp, hcpe, nodes) {
-  if (!nodes || nodes.length == 0) {
+  if (!nodes || nodes.length === 0) {
     console.log(`scoreCardTable: no nodes set...`);
     // TODO panic -> This should never happen
     return { hole, par, hcp, hcpe };

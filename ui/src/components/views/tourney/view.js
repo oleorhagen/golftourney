@@ -36,6 +36,7 @@ const holesQuery = graphql`
           nodes {
             nodeId
             strokes
+            points
           }
         }
       }
