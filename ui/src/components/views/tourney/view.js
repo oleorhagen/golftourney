@@ -1,5 +1,6 @@
 import React from "react";
 
+import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
 
 import RelayEnvironment from "../../../RelayEnvironment";
@@ -74,6 +75,7 @@ function TourneyApp(props) {
       <div className="TourneyApp">
         <header className="TourneyApp-header">
           <p>{id}</p>
+          <PlayerStats id={id} />
           {<ScoreCard courseData={nodes} />}
         </header>
       </div>
