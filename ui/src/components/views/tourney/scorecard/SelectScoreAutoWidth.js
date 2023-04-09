@@ -52,6 +52,7 @@ export default function SelectScoreAutoWidth({
   holeNumber,
   nodeId,
   strokes,
+  par,
 }) {
   if (strokes == 0) {
     strokes = "";
@@ -72,10 +73,11 @@ export default function SelectScoreAutoWidth({
   // }
 
   const handleChange = (event) => {
+    console.log("selectScoreAutoWidth: ...");
     commitMutation({
       variables: {
         strokes: event.target.value,
-        points: 1, // TODO
+        points: PointsFromScore(par, 1, event.target.value),
         playerId: 1,
         courseId: 1,
         nodeId: nodeId,
