@@ -38,7 +38,6 @@ const ScoreCardTable = (props) => {
   console.log(`scoreCardTable rows:`);
   console.log(rows);
 
-  const scores = props.scores;
   const onChange = props.onChange;
 
   return (
@@ -75,6 +74,7 @@ const ScoreCardTable = (props) => {
                     holeNumber={row.hole}
                     nodeId={row.nodeId}
                     strokes={row.strokes}
+                    par={row.par}
                   />
                 </TableCell>
                 <TableCell align="right">
