@@ -1,16 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  TextField,
-  InputLabel,
-  MenuItem,
-  Typography,
-  Select,
-  FormControl,
-  Paper,
-} from "@mui/material";
-
-const acceptableInput = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+import { TextField, Typography, Paper } from "@mui/material";
 
 export default function PlayerStats(props) {
   const [hcp, setHcp] = useState("");
