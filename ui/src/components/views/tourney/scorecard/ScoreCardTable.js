@@ -19,10 +19,10 @@ function GetExtraStroke(hole, NumberOfExtraStrokes) {
     console.log("No Extra Strokes set!");
     return 0;
   }
-  var extraStrokes = Math.floor(NumberOfExtraStrokes / 18);
-  console.log(`number of extra strokes: ${NumberOfExtraStrokes}`);
-  // if (hole)
-  if (hole >= NumberOfExtraStrokes % 18) {
+  const holeN = Number(hole);
+  const NumberOfExtraStrokesN = Number(NumberOfExtraStrokes);
+  var extraStrokes = Math.floor(NumberOfExtraStrokesN / 18);
+  if (holeN <= NumberOfExtraStrokesN % 18) {
     extraStrokes = extraStrokes + 1;
   }
   console.log(`giving ${extraStrokes} strokes`);
