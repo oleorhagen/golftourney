@@ -1,14 +1,8 @@
 import React from "react";
 
-import { Container, FormControl, Grid, Select, Stack } from "@mui/material";
-import { Paper, Typography, TextField, MenuItem } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 
-export default function ScoreCardHeader({
-  score,
-  points,
-  hcp,
-  onChangeHcp,
-}) {
+export default function ScoreCardHeader({ score, points }) {
   return (
     <>
       <Paper>
@@ -18,8 +12,7 @@ export default function ScoreCardHeader({
               Course: Hakadal
             </Typography>
           </Grid>
-          <Grid item xs={6}>
-          </Grid>
+          <Grid item xs={6}></Grid>
           <Grid item xs={3}>
             <Typography variant="h3" component="div" align="right">
               Score: {score}

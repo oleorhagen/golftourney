@@ -14,7 +14,7 @@ export default function PlayerStats(props) {
         <TextField
           id="outlined-controlled-hcp-select"
           error={error}
-          label="Current Handicap"
+          label="Extra Strokes on the Course"
           value={hcp}
           onChange={(event) => {
             if (isNaN(Number(event.target.value))) {
@@ -28,6 +28,7 @@ export default function PlayerStats(props) {
             }
             setError(false);
             setHcp(event.target.value);
+            props.onChange(event.target.value);
           }}
         />
       </Paper>
