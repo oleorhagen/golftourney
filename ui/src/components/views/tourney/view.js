@@ -26,14 +26,16 @@ import {
 // const coursesQueryReference = loadQuery(RelayEnvironment, coursesQuery);
 
 const holesQuery = graphql`
-  query viewGetHolesForCourseQuery {
-    allHoles(condition: { courseId: "1" }) {
+  query viewGetHolesForCourseQuery($courseId: BigInt!, $playerId: BigInt!) {
+    allHoles(condition: { courseId: $courseId }) {
       nodes {
         id
         index
         nr
         par
-        scoresByHoleId(condition: { courseId: "1", playerId: "1" }) {
+        scoresByHoleId(
+          condition: { courseId: $courseId, playerId: $playerId }
+        ) {
           nodes {
             id
             nodeId
@@ -45,7 +47,6 @@ const holesQuery = graphql`
     }
   }
 `;
-const holesQueryReference = loadQuery(RelayEnvironment, holesQuery);
 
 // Inner component that reads the preloaded query results via `usePreloadedQuery()`.
 // This works as follows:
@@ -56,7 +57,13 @@ const holesQueryReference = loadQuery(RelayEnvironment, holesQuery);
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function TourneyApp(props) {
-  const data = usePreloadedQuery(holesQuery, props.preloadedQuery);
+  // TODO - Should not be called here
+  // Should not be inside a react render function
+  const holesQueryReference = loadQuery(RelayEnvironment, holesQuery, {
+    playerId: props.playerId,
+    courseId: 1,
+  });
+  const data = usePreloadedQuery(holesQuery, holesQueryReference);
 
   console.log(`tourney app: data: ${data}`);
   console.log(data);
@@ -76,7 +83,13 @@ function TourneyApp(props) {
         <header className="TourneyApp-header">
           <p>{id}</p>
           <PlayerStats id={id} />
-          {<ScoreCard courseData={nodes} />}
+          {
+            <ScoreCard
+              playerId={props.playerId}
+              courseId={1}
+              courseData={nodes}
+            />
+          }
         </header>
       </div>
     );
@@ -96,7 +109,7 @@ function TourneyView(props) {
       <h1>Tourney</h1>
       <RelayEnvironmentProvider environment={RelayEnvironment}>
         <React.Suspense fallback={"Loading..."}>
-          <TourneyApp preloadedQuery={holesQueryReference} />
+          <TourneyApp playerId={1} />
           {/* <ScoreCard /> */}
         </React.Suspense>
       </RelayEnvironmentProvider>
