@@ -4,22 +4,6 @@ import ScoreCardHeader from "./ScoreCardHeader";
 import ScoreCardBody from "./ScoreCardBody";
 import ScoreCardFooter from "./ScoreCardFooter";
 
-// Distribute the number of extra strokes on the available holes. Through a
-// simple distribution of adding strokes to the hardest holes, then continuing..
-// Idea: Sort the array on Hcp, then loop over it until out of extra strokes
-function distributeStrokes(holes, NumberOfextraStrokes) {
-  let extraStrokes = holes.sort((a, b) => a.hcp > b.hcp);
-  let i = 0;
-  while (NumberOfextraStrokes > 0) {
-    extraStrokes[i % extraStrokes.length].extra++;
-    i++;
-    NumberOfextraStrokes--;
-  }
-  // Sort by holes again
-  extraStrokes.sort((a, b) => a.hole > b.hole);
-  holes = extraStrokes;
-}
-
 export const ScoreCard = (props) => {
   console.log(`Received the course data: ${props.courseData}`);
 
