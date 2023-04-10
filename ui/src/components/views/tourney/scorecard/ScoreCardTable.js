@@ -95,6 +95,7 @@ const ScoreCardTable = (props) => {
                     nodeId={row.nodeId}
                     strokes={row.strokes}
                     par={row.par}
+                    hcpe={row.hcpe}
                   />
                 </TableCell>
                 <TableCell align="right">

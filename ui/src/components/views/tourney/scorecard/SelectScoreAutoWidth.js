@@ -59,6 +59,7 @@ export default function SelectScoreAutoWidth({
   nodeId,
   strokes,
   par,
+  hcpe,
 }) {
   if (strokes == 0) {
     strokes = "";
@@ -69,21 +70,12 @@ export default function SelectScoreAutoWidth({
     SelectScoreAutoWidthMutation
   );
 
-  // const [updateMutation, { mutationData, isUpdateMutationInFlight, error }] =
-  //   useMutation(SelectScoreAutoWidthUpdateMutation);
-
-  // if (isMutationInFlight) {
-  //   console.log(`mutation is in flight...`);
-  // } else {
-  //   console.log(`mutation is not in flight anylonger`);
-  // }
-
   const handleChange = (event) => {
     console.log("selectScoreAutoWidth: ...");
     commitMutation({
       variables: {
         strokes: event.target.value,
-        points: PointsFromScore(par, 1, event.target.value),
+        points: PointsFromScore(par, hcpe, event.target.value),
         playerId: 1,
         courseId: 1,
         nodeId: nodeId,
