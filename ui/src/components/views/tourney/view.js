@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
@@ -57,6 +57,8 @@ const holesQuery = graphql`
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function TourneyApp(props) {
+  const [hcpStrokes, setHcpStrokes] = useState("");
+
   // TODO - Should not be called here
   // Should not be inside a react render function
   const holesQueryReference = loadQuery(RelayEnvironment, holesQuery, {
@@ -77,17 +79,24 @@ function TourneyApp(props) {
 
     console.log(`id:`);
     console.log(id);
+    // Set the extra strokes here (?)
 
     return (
       <div className="TourneyApp">
         <header className="TourneyApp-header">
           <p>{id}</p>
-          <PlayerStats id={id} />
+          <PlayerStats
+            id={id}
+            onChange={(extraStrokes) => {
+              setHcpStrokes(extraStrokes);
+            }}
+          />
           {
             <ScoreCard
               playerId={props.playerId}
               courseId={1}
               courseData={nodes}
+              extraStrokes={hcpStrokes}
             />
           }
         </header>

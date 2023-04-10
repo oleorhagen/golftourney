@@ -13,26 +13,46 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-function createData(hole, par, hcp, hcpe, nodes) {
+// Get the extra stroke
+function GetExtraStroke(hole, NumberOfExtraStrokes) {
+  if (!NumberOfExtraStrokes) {
+    console.log("No Extra Strokes set!");
+    return 0;
+  }
+  var extraStrokes = Math.floor(NumberOfExtraStrokes / 18);
+  console.log(`number of extra strokes: ${NumberOfExtraStrokes}`);
+  // if (hole)
+  if (hole >= NumberOfExtraStrokes % 18) {
+    extraStrokes = extraStrokes + 1;
+  }
+  console.log(`giving ${extraStrokes} strokes`);
+  return extraStrokes;
+}
+
+function createData(hole, par, hcp, hcpExtraStrokes, nodes) {
   if (!nodes || nodes.length === 0) {
     console.log(`scoreCardTable: no nodes set...`);
     // TODO panic -> This should never happen
-    return { hole, par, hcp, hcpe };
+    return { hole, par, hcp, hcpExtraStrokes };
   }
   console.log(`scoreCardTable: node is set: `);
-  console.log(hole, par, hcp, hcpe, nodes);
+  console.log(hole, par, hcp, hcpExtraStrokes, nodes);
   console.log(nodes);
   const nodeId = nodes[0].nodeId;
   const strokes = nodes[0].strokes;
   const points = nodes[0].points;
+  const hcpe = GetExtraStroke(hcp, hcpExtraStrokes);
+  console.log(hcpe);
   return { hole, par, hcp, hcpe, nodeId, strokes, points };
 }
 
 // TODO - Now 1 extra stroke is hard-coded
 const ScoreCardTable = (props) => {
+  console.log(`ScoreCardTable props:`);
+  console.log(props);
   const rows = props.data.map(
     ({ id, par, index, extra, scoresByHoleId: { nodes } }) =>
-      createData(id, par, index, 1, nodes)
+      createData(id, par, index, props.extraStrokes, nodes)
   );
 
   console.log(`scoreCardTable rows:`);
