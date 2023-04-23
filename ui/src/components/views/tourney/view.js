@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
@@ -14,6 +14,26 @@ import {
   loadQuery,
   usePreloadedQuery,
 } from "react-relay/hooks";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
 // const coursesQuery = graphql`
 //   query viewCoursesQuery {
@@ -103,20 +123,73 @@ function TourneyApp(props) {
               <Tab label="Day 4" />
             </Tabs>
           </Box>
-          <PlayerStats
-            id={id}
-            onChange={(extraStrokes) => {
-              setHcpStrokes(extraStrokes);
-            }}
-          />
-          {
-            <ScoreCard
-              playerId={props.playerId}
-              courseId={1}
-              courseData={nodes}
-              extraStrokes={hcpStrokes}
+          <TabPanel value={value} index={0}>
+            Hakadal
+            <PlayerStats
+              id={id}
+              onChange={(extraStrokes) => {
+                setHcpStrokes(extraStrokes);
+              }}
             />
-          }
+            {
+              <ScoreCard
+                playerId={props.playerId}
+                courseId={1}
+                courseData={nodes}
+                extraStrokes={hcpStrokes}
+              />
+            }
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            Grorud
+            <PlayerStats
+              id={id}
+              onChange={(extraStrokes) => {
+                setHcpStrokes(extraStrokes);
+              }}
+            />
+            {
+              <ScoreCard
+                playerId={props.playerId}
+                courseId={1}
+                courseData={nodes}
+                extraStrokes={hcpStrokes}
+              />
+            }
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            Gamle Frekkstad
+            <PlayerStats
+              id={id}
+              onChange={(extraStrokes) => {
+                setHcpStrokes(extraStrokes);
+              }}
+            />
+            {
+              <ScoreCard
+                playerId={props.playerId}
+                courseId={1}
+                courseData={nodes}
+                extraStrokes={hcpStrokes}
+              />
+            }
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <PlayerStats
+              id={id}
+              onChange={(extraStrokes) => {
+                setHcpStrokes(extraStrokes);
+              }}
+            />
+            {
+              <ScoreCard
+                playerId={props.playerId}
+                courseId={1}
+                courseData={nodes}
+                extraStrokes={hcpStrokes}
+              />
+            }
+          </TabPanel>
         </header>
       </div>
     );
