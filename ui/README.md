@@ -1,5 +1,15 @@
 # GolfSite
 
+## TODO
+
+* Look at the history of web-auth: https://auth0.com/docs/videos
+
+* User identification with AWS amplify and cognito:
+
+https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/authenticate-react-application-users-by-using-amazon-cognito-and-aws-amplify.html
+
+* Deploy
+
 ## graphql.schema
 
 The schema is generated from the one created by postgraphile through:
