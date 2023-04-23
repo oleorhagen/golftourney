@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { Box, Tab, Tabs } from "@mui/material";
+
 import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
 
@@ -67,6 +69,14 @@ function TourneyApp(props) {
   });
   const data = usePreloadedQuery(holesQuery, holesQueryReference);
 
+  const [value, setValue] = useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    console.log("Handle tab change");
+    console.log(event);
+    setValue(newValue);
+  };
+
   console.log(`tourney app: data: ${data}`);
   console.log(data);
 
@@ -85,6 +95,14 @@ function TourneyApp(props) {
       <div className="TourneyApp">
         <header className="TourneyApp-header">
           <p>{id}</p>
+          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+            <Tabs value={value} onChange={handleTabChange} centered>
+              <Tab label="Day 1" />
+              <Tab label="Day 2" />
+              <Tab label="Day 3" />
+              <Tab label="Day 4" />
+            </Tabs>
+          </Box>
           <PlayerStats
             id={id}
             onChange={(extraStrokes) => {
