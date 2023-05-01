@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 
+// AWS user authentication
 import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
 import { Authenticator } from "@aws-amplify/ui-react";
@@ -21,6 +22,9 @@ import ChampionsView from "./components/views/champions/champions";
 import MainView from "./components/views/main/view";
 import TourneyView from "./components/views/tourney/view";
 
+// Utils
+import user2ID from "./user-to-id";
+
 // Configure Amplify in index file or root file
 Amplify.configure({
   Auth: {
@@ -40,24 +44,29 @@ function App() {
 
   return (
     <Authenticator hideSignUp={true}>
-      {({ signOut, user }) => (
-        <div className="App">
-          <>
-            <NavBar navBarItems={navBarItems} />
-            <Container
-              maxWidth="xl"
-              sx={{ marginTop: (theme) => theme.spacing(4) }}
-            >
-              <div>
-                <p>Welcome {user.username}</p>
-                <button onClick={signOut}>Sign out</button>
-              </div>
-              <main>{currentView}</main>
-            </Container>
-            <Footer />
-          </>
-        </div>
-      )}
+      {({ signOut, user }) => {
+        console.log(user);
+        return (
+          <div className="App">
+            <>
+              <NavBar navBarItems={navBarItems} />
+              <Container
+                maxWidth="xl"
+                sx={{ marginTop: (theme) => theme.spacing(4) }}
+              >
+                <div>
+                  <p>Welcome {user.username}</p>
+                  <p>With user id: {user2ID(user.username)}</p>
+                  <p>Welcome {user.attributes.sub}</p>
+                  <button onClick={signOut}>Sign out</button>
+                </div>
+                <main>{currentView}</main>
+              </Container>
+              <Footer />
+            </>
+          </div>
+        );
+      }}
     </Authenticator>
   );
 }
