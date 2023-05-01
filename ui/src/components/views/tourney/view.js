@@ -4,6 +4,7 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
+import TourneyGraph from "./scoregraph/scoreGraph";
 
 import RelayEnvironment from "../../../RelayEnvironment";
 
@@ -190,6 +191,7 @@ function TourneyApp(props) {
               />
             }
           </TabPanel>
+          <TourneyGraph />
         </header>
       </div>
     );
