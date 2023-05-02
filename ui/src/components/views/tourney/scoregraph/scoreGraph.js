@@ -188,13 +188,14 @@ function TourneyGraph(props) {
           />
           <AxisBottom
             label="holes"
+            top={yMax}
             hideZero={true}
             scale={xScale}
             stroke={"#000000"}
             tickFormat={formatValue}
             tickStroke={"#000000"}
             tickTextFill={"#000000"}
-            numTicks={5}
+            numTicks={scores.length + 1}
             tickLabelProps={() => ({
               fill: "#000000",
               fontSize: 11,
