@@ -71,6 +71,11 @@ const holesQuery = graphql`
   }
 `;
 
+const holesQueryReference = loadQuery(RelayEnvironment, holesQuery, {
+  playerId: 1,
+  courseId: 1,
+});
+
 // Inner component that reads the preloaded query results via `usePreloadedQuery()`.
 // This works as follows:
 // - If the query has completed, it returns the results of the query.
@@ -82,12 +87,6 @@ const holesQuery = graphql`
 function TourneyApp(props) {
   const [hcpStrokes, setHcpStrokes] = useState("");
 
-  // TODO - Should not be called here
-  // Should not be inside a react render function
-  const holesQueryReference = loadQuery(RelayEnvironment, holesQuery, {
-    playerId: props.playerId,
-    courseId: 1,
-  });
   const data = usePreloadedQuery(holesQuery, holesQueryReference);
 
   const [value, setValue] = useState(0);

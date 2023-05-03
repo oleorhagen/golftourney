@@ -42,8 +42,6 @@ import graphql from "babel-plugin-relay/macro";
 
 import { useLazyLoadQuery } from "react-relay/hooks";
 
-// const defaultMargin = { top: 10, right: 10, bottom: 10, left: 10 };
-
 const getScoresQuery = graphql`
   query scoreGraphQuery {
     allScores(orderBy: HOLE_ID_ASC) {
@@ -56,39 +54,38 @@ const getScoresQuery = graphql`
   }
 `;
 
-const scores = [
-  {
-    points: "0",
-    playerId: "1",
-    holeId: "0",
-  },
-  {
-    points: "2",
-    playerId: "1",
-    holeId: "1",
-  },
-  {
-    points: "3",
-    playerId: "1",
-    holeId: "2",
-  },
-  {
-    points: "4",
-    playerId: "1",
-    holeId: "3",
-  },
-
-  {
-    points: "7",
-    playerId: "1",
-    holeId: "4",
-  },
-  {
-    points: "7",
-    playerId: "1",
-    holeId: "5",
-  },
-];
+// const scores = [
+//   {
+//     points: "0",
+//     playerId: "1",
+//     holeId: "0",
+//   },
+//   {
+//     points: "2",
+//     playerId: "1",
+//     holeId: "1",
+//   },
+//   {
+//     points: "3",
+//     playerId: "1",
+//     holeId: "2",
+//   },
+//   {
+//     points: "4",
+//     playerId: "1",
+//     holeId: "3",
+//   },
+//   {
+//     points: "7",
+//     playerId: "1",
+//     holeId: "4",
+//   },
+//   {
+//     points: "7",
+//     playerId: "1",
+//     holeId: "5",
+//   },
+// ];
 
 // colors
 export const primaryColor = "#8921e0";
@@ -114,41 +111,8 @@ const x = (d) => {
 };
 const y = (d) => Number(d.points);
 
-// scales
-const xScale = scaleLinear({
-  range: [0, xMax], // Scale the x values to this
-  domain: [0, scores.length], // Returns the min and max of the values
-  nice: true,
-});
-const yScale = scaleLinear({
-  range: [yMax, 0],
-  domain: [
-    0,
-    scores.reduce((a, b) => {
-      return Number(a.points) > Number(b.points)
-        ? Number(a.points)
-        : Number(b.points);
-    }) + 2,
-  ],
-  nice: true,
-});
-
 // Format x-axis values;
 const formatValue = (value) => Math.round(value);
-
-// // positions
-// const getX = (d) => xScale(d.holeID );
-// const getY = (d) => yScale(d.points);
-
-const accessors = {
-  xAccessor: (d) => d.x,
-  yAccessor: (d) => d.y,
-};
-
-const scoreAccessors = {
-  xAccessor: (d) => d.holeId,
-  yAccessor: (d) => d.points,
-};
 
 function compareFunction(a, b) {
   return Number(a.holeId) < Number(b.holeId);
@@ -157,15 +121,37 @@ function compareFunction(a, b) {
 function TourneyGraph(props) {
   // TODO - Get the scores from the server - Should this be a subscription (?)
 
-  // const data = useLazyLoadQuery(getScoresQuery);
-  // console.log("Current score data:");
-  // console.log(data);
+  const data = useLazyLoadQuery(getScoresQuery);
+  console.log("Current score data:");
+  console.log(data);
 
-  // // Get the score nodes
-  // const {
-  //     allScores: { nodes },
-  // } = data;
-  // const scores = [...nodes].sort(compareFunction);
+  // Get the score nodes
+  const {
+    allScores: { nodes },
+  } = data;
+  const scores = [...nodes].sort(compareFunction);
+
+  console.log(`scores:`);
+  console.log(scores);
+
+  // scales
+  const xScale = scaleLinear({
+    range: [0, xMax], // Scale the x values to this
+    domain: [0, scores.length], // Returns the min and max of the values
+    nice: true,
+  });
+  const yScale = scaleLinear({
+    range: [yMax, 0],
+    domain: [
+      0,
+      scores.reduce((a, b) => {
+        return Number(a.points) > Number(b.points)
+          ? Number(a.points)
+          : Number(b.points);
+      }) + 2,
+    ],
+    nice: true,
+  });
 
   return (
     <>
@@ -188,7 +174,7 @@ function TourneyGraph(props) {
           />
           <AxisBottom
             label="holes"
-            top={yMax}
+            top={height}
             hideZero={true}
             scale={xScale}
             stroke={"#000000"}
