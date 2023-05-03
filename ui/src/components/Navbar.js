@@ -34,7 +34,7 @@ export const NavBar = ({ navBarItems }) => {
         <Typography
           variant="h6"
           color="inherit"
-          component="div"
+          component={"span"}
           textAlign="left"
           sx={{ flexGrow: 1 }}
         >
