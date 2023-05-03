@@ -17,6 +17,7 @@ import {
   curveLinear,
   curveCatmullRom,
   curveStep,
+  curveStepAfter,
 } from "@visx/curve";
 
 import { AxisLeft, AxisBottom, AxisTop } from "@visx/axis";
@@ -104,17 +105,22 @@ function TourneyGraph(props) {
   console.log("cum sum:");
   console.log(cum_sum);
 
+  const xScale_len = scores.filter((d) => d.points != "0").length + 1;
+  console.log(`x len: ${xScale_len}`);
+
+  const data_ = cum_sum.slice(0, xScale_len);
+  console.log("graph data: ");
+  console.log(data_);
+
   // scales
   const xScale = scaleLinear({
     range: [0, xMax], // Scale the x values to this
-    domain: [0, scores.length], // Returns the min and max of the values
-    nice: true,
+    domain: extent(data_), // Returns the min and max of the values
   });
 
   const yScale = scaleLinear({
     range: [yMax, 0],
-    domain: [0, Math.max(...cum_sum) + 2],
-    nice: true,
+    domain: extent(data_),
   });
 
   return (
@@ -136,25 +142,9 @@ function TourneyGraph(props) {
               textAnchor: "end",
             })}
           />
-          <AxisBottom
-            label="holes"
-            top={height}
-            hideZero={true}
-            scale={xScale}
-            stroke={"#000000"}
-            tickFormat={formatValue}
-            tickStroke={"#000000"}
-            tickTextFill={"#000000"}
-            numTicks={scores.length + 1}
-            tickLabelProps={() => ({
-              fill: "#000000",
-              fontSize: 11,
-              textAnchor: "bottom",
-            })}
-          />
           <LinePath
-            curve={curveStep}
-            data={cum_sum}
+            curve={curveStepAfter}
+            data={cum_sum.slice(0, xScale_len)}
             x={(d) => xScale(d) ?? 0}
             y={(d) => yScale(d) ?? 0}
             stroke={"#000000"}
