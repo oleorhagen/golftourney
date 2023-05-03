@@ -44,7 +44,7 @@ import { useLazyLoadQuery } from "react-relay/hooks";
 
 const getScoresQuery = graphql`
   query scoreGraphQuery {
-    allScores(orderBy: HOLE_ID_ASC) {
+    allScores(orderBy: HOLE_ID_DESC) {
       nodes {
         points
         playerId
@@ -53,39 +53,6 @@ const getScoresQuery = graphql`
     }
   }
 `;
-
-// const scores = [
-//   {
-//     points: "0",
-//     playerId: "1",
-//     holeId: "0",
-//   },
-//   {
-//     points: "2",
-//     playerId: "1",
-//     holeId: "1",
-//   },
-//   {
-//     points: "3",
-//     playerId: "1",
-//     holeId: "2",
-//   },
-//   {
-//     points: "4",
-//     playerId: "1",
-//     holeId: "3",
-//   },
-//   {
-//     points: "7",
-//     playerId: "1",
-//     holeId: "4",
-//   },
-//   {
-//     points: "7",
-//     playerId: "1",
-//     holeId: "5",
-//   },
-// ];
 
 // colors
 export const primaryColor = "#8921e0";
@@ -104,18 +71,11 @@ const margin = {
 const xMax = width - margin.left - margin.right;
 const yMax = height - margin.top - margin.bottom;
 
-const x = (d) => {
-  console.log("x accessor");
-  console.log(Number(d.holeId));
-  return Number(d.holeId);
-};
-const y = (d) => Number(d.points);
-
 // Format x-axis values;
 const formatValue = (value) => Math.round(value);
 
 function compareFunction(a, b) {
-  return Number(a.holeId) < Number(b.holeId);
+  return Number(a.holeId) > Number(b.holeId);
 }
 
 function TourneyGraph(props) {
@@ -134,22 +94,26 @@ function TourneyGraph(props) {
   console.log(`scores:`);
   console.log(scores);
 
+  var player_points_array = [0].concat(scores.map((e) => Number(e.points)));
+
+  console.log("player poitns array:");
+  console.log(player_points_array);
+
+  let sum = 0;
+  var cum_sum = player_points_array.map(((sum = 0), (n) => (sum += n)));
+  console.log("cum sum:");
+  console.log(cum_sum);
+
   // scales
   const xScale = scaleLinear({
     range: [0, xMax], // Scale the x values to this
     domain: [0, scores.length], // Returns the min and max of the values
     nice: true,
   });
+
   const yScale = scaleLinear({
     range: [yMax, 0],
-    domain: [
-      0,
-      scores.reduce((a, b) => {
-        return Number(a.points) > Number(b.points)
-          ? Number(a.points)
-          : Number(b.points);
-      }) + 2,
-    ],
+    domain: [0, Math.max(...cum_sum) + 2],
     nice: true,
   });
 
@@ -190,9 +154,9 @@ function TourneyGraph(props) {
           />
           <LinePath
             curve={curveStep}
-            data={scores}
-            x={(d) => xScale(Number(d.holeId)) ?? 0}
-            y={(d) => yScale(Number(d.points)) ?? 0}
+            data={cum_sum}
+            x={(d) => xScale(d) ?? 0}
+            y={(d) => yScale(d) ?? 0}
             stroke={"#000000"}
             strokeWidth={3}
           />

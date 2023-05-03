@@ -211,7 +211,6 @@ function TourneyView(props) {
       <RelayEnvironmentProvider environment={RelayEnvironment}>
         <React.Suspense fallback={"Loading..."}>
           <TourneyApp playerId={1} />
-          {/* <ScoreCard /> */}
         </React.Suspense>
       </RelayEnvironmentProvider>
     </>
