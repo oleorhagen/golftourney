@@ -14,6 +14,7 @@ import {
   RelayEnvironmentProvider,
   loadQuery,
   usePreloadedQuery,
+  useLazyLoadQuery,
 } from "react-relay/hooks";
 
 function CustomTabPanel(props) {
@@ -32,16 +33,16 @@ function CustomTabPanel(props) {
   );
 }
 
-// const coursesQuery = graphql`
-//   query viewCoursesQuery {
-//     allCourses {
-//       nodes {
-//         id
-//         name
-//       }
-//     }
-//   }
-// `;
+const coursesQuery = graphql`
+  query viewCoursesQuery {
+    allCourses {
+      nodes {
+        id
+        name
+      }
+    }
+  }
+`;
 // const coursesQueryReference = loadQuery(RelayEnvironment, coursesQuery);
 
 const holesQuery = graphql`
@@ -67,11 +68,6 @@ const holesQuery = graphql`
   }
 `;
 
-const holesQueryReference = loadQuery(RelayEnvironment, holesQuery, {
-  playerId: 1,
-  courseId: 1,
-});
-
 // Inner component that reads the preloaded query results via `usePreloadedQuery()`.
 // This works as follows:
 // - If the query has completed, it returns the results of the query.
@@ -82,7 +78,28 @@ const holesQueryReference = loadQuery(RelayEnvironment, holesQuery, {
 //   handling the failure case here.
 function TourneyApp(props) {
   const [hcpStrokes, setHcpStrokes] = useState("");
-  const data = usePreloadedQuery(holesQuery, holesQueryReference);
+  // const data = useLazyLoadQuery(holesQuery, holesQueryReference);
+
+  const course_data = useLazyLoadQuery(coursesQuery);
+  console.log("course data:");
+  console.log(course_data);
+
+  var course_nodes = [];
+
+  {
+    const {
+      allCourses: { nodes },
+    } = course_data;
+    course_nodes = nodes;
+  }
+
+  console.log("course nodes:");
+  console.log(course_nodes);
+
+  const data = useLazyLoadQuery(holesQuery, {
+    playerId: 1,
+    courseId: 1,
+  });
 
   const [value, setValue] = useState(0);
 
@@ -112,10 +129,9 @@ function TourneyApp(props) {
           <p>{id}</p>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <Tabs value={value} onChange={handleTabChange} centered>
-              <Tab label="Day 1" />
-              <Tab label="Day 2" />
-              <Tab label="Day 3" />
-              <Tab label="Day 4" />
+              {course_nodes.map((n) => (
+                <Tab label={n.name} />
+              ))}
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
@@ -135,7 +151,7 @@ function TourneyApp(props) {
               />
             </div>
           </CustomTabPanel>
-          <TourneyGraph />
+          {/* <TourneyGraph /> */}
         </div>
       </div>
     );
