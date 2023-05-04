@@ -123,6 +123,9 @@ function TourneyGraph(props) {
     domain: extent(data_),
   });
 
+  // TODO - use the colour palette from here:
+  /* https://github.com/BlakeRMills/MetBrewer */
+
   return (
     <>
       <Typography variant="h3">Current Scores</Typography>

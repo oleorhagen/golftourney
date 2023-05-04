@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e99283d761d51c361328d83b6863f44c>>
+ * @generated SignedSource<<55337e1b27a6973629471be338521213>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ var v0 = [
   {
     "kind": "Literal",
     "name": "orderBy",
-    "value": "HOLE_ID_ASC"
+    "value": "HOLE_ID_DESC"
   }
 ],
 v1 = {
@@ -67,7 +67,7 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "allScores(orderBy:\"HOLE_ID_ASC\")"
+        "storageKey": "allScores(orderBy:\"HOLE_ID_DESC\")"
       }
     ],
     "type": "Query",
@@ -109,21 +109,21 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "allScores(orderBy:\"HOLE_ID_ASC\")"
+        "storageKey": "allScores(orderBy:\"HOLE_ID_DESC\")"
       }
     ]
   },
   "params": {
-    "cacheID": "006ada2928275272cb5611e547685345",
+    "cacheID": "89b2b0ec03ba4615117b405344be1c8b",
     "id": null,
     "metadata": {},
     "name": "scoreGraphQuery",
     "operationKind": "query",
-    "text": "query scoreGraphQuery {\n  allScores(orderBy: HOLE_ID_ASC) {\n    nodes {\n      points\n      playerId\n      holeId\n      nodeId\n    }\n  }\n}\n"
+    "text": "query scoreGraphQuery {\n  allScores(orderBy: HOLE_ID_DESC) {\n    nodes {\n      points\n      playerId\n      holeId\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "84adb9a28e9a3a485e57d5c197f71003";
+node.hash = "b3ba9fd58de6fb0c89b6fa133e1ab1cf";
 
 module.exports = node;

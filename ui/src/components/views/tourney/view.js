@@ -16,7 +16,7 @@ import {
   usePreloadedQuery,
 } from "react-relay/hooks";
 
-function TabPanel(props) {
+function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -27,11 +27,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -86,7 +82,6 @@ const holesQueryReference = loadQuery(RelayEnvironment, holesQuery, {
 //   handling the failure case here.
 function TourneyApp(props) {
   const [hcpStrokes, setHcpStrokes] = useState("");
-
   const data = usePreloadedQuery(holesQuery, holesQueryReference);
 
   const [value, setValue] = useState(0);
@@ -113,7 +108,7 @@ function TourneyApp(props) {
 
     return (
       <div className="TourneyApp">
-        <header className="TourneyApp-header">
+        <div className="TourneyApp-header">
           <p>{id}</p>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <Tabs value={value} onChange={handleTabChange} centered>
@@ -123,75 +118,25 @@ function TourneyApp(props) {
               <Tab label="Day 4" />
             </Tabs>
           </Box>
-          <TabPanel value={value} index={0}>
-            Hakadal
-            <PlayerStats
-              id={id}
-              onChange={(extraStrokes) => {
-                setHcpStrokes(extraStrokes);
-              }}
-            />
-            {
+          <CustomTabPanel value={value} index={0}>
+            <div>
+              Hakadal
+              <PlayerStats
+                id={id}
+                onChange={(extraStrokes) => {
+                  setHcpStrokes(extraStrokes);
+                }}
+              />
               <ScoreCard
                 playerId={props.playerId}
                 courseId={1}
                 courseData={nodes}
                 extraStrokes={hcpStrokes}
               />
-            }
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            Grorud
-            <PlayerStats
-              id={id}
-              onChange={(extraStrokes) => {
-                setHcpStrokes(extraStrokes);
-              }}
-            />
-            {
-              <ScoreCard
-                playerId={props.playerId}
-                courseId={1}
-                courseData={nodes}
-                extraStrokes={hcpStrokes}
-              />
-            }
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            Gamle Frekkstad
-            <PlayerStats
-              id={id}
-              onChange={(extraStrokes) => {
-                setHcpStrokes(extraStrokes);
-              }}
-            />
-            {
-              <ScoreCard
-                playerId={props.playerId}
-                courseId={1}
-                courseData={nodes}
-                extraStrokes={hcpStrokes}
-              />
-            }
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <PlayerStats
-              id={id}
-              onChange={(extraStrokes) => {
-                setHcpStrokes(extraStrokes);
-              }}
-            />
-            {
-              <ScoreCard
-                playerId={props.playerId}
-                courseId={1}
-                courseData={nodes}
-                extraStrokes={hcpStrokes}
-              />
-            }
-          </TabPanel>
+            </div>
+          </CustomTabPanel>
           <TourneyGraph />
-        </header>
+        </div>
       </div>
     );
   }
