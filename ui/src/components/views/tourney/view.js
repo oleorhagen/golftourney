@@ -34,39 +34,59 @@ function CustomTabPanel(props) {
 }
 
 const coursesQuery = graphql`
-  query viewCoursesQuery {
+  query viewAllCoursesAndHolesQuery {
     allCourses {
       nodes {
         id
         name
-      }
-    }
-  }
-`;
-// const coursesQueryReference = loadQuery(RelayEnvironment, coursesQuery);
-
-const holesQuery = graphql`
-  query viewGetHolesForCourseQuery($courseId: BigInt!, $playerId: BigInt!) {
-    allHoles(condition: { courseId: $courseId }) {
-      nodes {
-        id
-        index
-        nr
-        par
-        scoresByHoleId(
-          condition: { courseId: $courseId, playerId: $playerId }
-        ) {
+        holesByCourseId {
           nodes {
+            courseId
             id
+            index
+            nr
+            par
             nodeId
-            strokes
-            points
+            scoresByHoleId(condition: { playerId: "1" }) {
+              nodes {
+                points
+                strokes
+                id
+                holeId
+                nodeId
+                courseId
+              }
+            }
           }
         }
       }
     }
   }
 `;
+// const coursesQueryReference = loadQuery(RelayEnvironment, coursesQuery);
+
+// const holesQuery = graphql`
+//   query viewGetHolesForCourseQuery($courseId: BigInt!, $playerId: BigInt!) {
+//     allHoles(condition: { courseId: $courseId }) {
+//       nodes {
+//         id
+//         index
+//         nr
+//         par
+//         scoresByHoleId(
+//           condition: { courseId: $courseId, playerId: $playerId }
+//         ) {
+//           nodes {
+//             id
+//             nodeId
+//             strokes
+//             points
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
 // Inner component that reads the preloaded query results via `usePreloadedQuery()`.
 // This works as follows:
@@ -96,10 +116,10 @@ function TourneyApp(props) {
   console.log("course nodes:");
   console.log(course_nodes);
 
-  const data = useLazyLoadQuery(holesQuery, {
-    playerId: 1,
-    courseId: 1,
-  });
+  // const data = useLazyLoadQuery(holesQuery, {
+  //   playerId: 1,
+  //   courseId: 1,
+  // });
 
   const [value, setValue] = useState(0);
 
@@ -109,15 +129,15 @@ function TourneyApp(props) {
     setValue(newValue);
   };
 
-  console.log(`tourney app: data: ${data}`);
-  console.log(data);
+  // console.log(`tourney app: data: ${data}`);
+  // console.log(data);
 
-  const {
-    allHoles: { nodes },
-  } = data;
+  // const {
+  //   allHoles: { nodes },
+  // } = data;
 
-  if (nodes.length > 0) {
-    const id = nodes[0].id;
+  if (course_nodes.length > 0) {
+    const id = course_nodes[0].id;
 
     console.log(`id:`);
     console.log(id);
@@ -129,28 +149,31 @@ function TourneyApp(props) {
           <p>{id}</p>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <Tabs value={value} onChange={handleTabChange} centered>
-              {course_nodes.map((n) => (
-                <Tab label={n.name} />
+              {course_nodes.map((n, i) => (
+                <Tab label={n.name} key={i} />
               ))}
             </Tabs>
           </Box>
-          <CustomTabPanel value={value} index={0}>
-            <div>
-              Hakadal
-              <PlayerStats
-                id={id}
-                onChange={(extraStrokes) => {
-                  setHcpStrokes(extraStrokes);
-                }}
-              />
-              <ScoreCard
-                playerId={props.playerId}
-                courseId={1}
-                courseData={nodes}
-                extraStrokes={hcpStrokes}
-              />
-            </div>
-          </CustomTabPanel>
+          {course_nodes.map((n, i) => {
+            return (
+              <CustomTabPanel value={value} index={i} key={i}>
+                <div>
+                  <PlayerStats
+                    id={id}
+                    onChange={(extraStrokes) => {
+                      setHcpStrokes(extraStrokes);
+                    }}
+                  />
+                  <ScoreCard
+                    playerId={props.playerId}
+                    courseId={i}
+                    courseData={course_nodes[i]}
+                    extraStrokes={hcpStrokes}
+                  />
+                </div>
+              </CustomTabPanel>
+            );
+          })}
           {/* <TourneyGraph /> */}
         </div>
       </div>
