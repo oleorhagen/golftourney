@@ -27,6 +27,19 @@ export const ScoreCard = (props) => {
     };
   };
 
+  const {
+    holesByCourseId: { nodes },
+  } = props.courseData;
+
+  const holes = nodes; // alias it to holes
+
+  console.log("scorecard course data:");
+  console.log(holes);
+
+  if (holes.length == 0) {
+    return "Noo data";
+  }
+
   return (
     <>
       <ScoreCardHeader
@@ -59,7 +72,7 @@ export const ScoreCard = (props) => {
         onChangeBack={onChangeBack}
         scoresFront={scoresFront}
         scoresBack={scoresBack}
-        data={props.courseData}
+        data={holes}
         {...props}
       />
       <ScoreCardFooter />
