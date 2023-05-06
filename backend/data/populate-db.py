@@ -13,16 +13,19 @@ client = GraphqlClient(endpoint="http://localhost:5433/graphql")
 # Asynchronous request
 import asyncio
 
+
 class Person:
     def __init__(self, name):
         self.name = name
         self.id = None
 
+
 class Course:
     def __init__(self, name, csv_file):
         self.name = name
         self.csv_file = csv_file
-        self.id=None
+        self.id = None
+
 
 PLAYERS = (
     Person(name="Juliane"),
@@ -55,7 +58,7 @@ def populate_players(players):
         data = client.execute(query=query, variables=variables)
         print(f"Created player: {data}")
         # {'data': {'createPlayer': {'player': {'id': '1', 'name': 'Juliane'}}}}
-        player.id=data["data"]["createPlayer"]["player"]["id"]
+        player.id = data["data"]["createPlayer"]["player"]["id"]
         print(player)
 
 
@@ -74,7 +77,7 @@ mutation createCourse($name: String!) {
         variables = {"name": course.name}
         data = client.execute(query=query, variables=variables)
         print(f"Populate courses received: {data}")
-        course.id=data["data"]["createCourse"]["course"]["id"]
+        course.id = data["data"]["createCourse"]["course"]["id"]
         print(course)
 
 
@@ -95,19 +98,21 @@ def populate_holes(courses):
                     print(lines)
                     par, index = lines[0], lines[1]
                     query = """
-    mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!, $par: BigInt!) {
-    createHole(input: {hole: {nr: $nr, index: $index, courseId: $courseID, par: $par}}) {
-        hole {
-        id
-        nr
-        index
-        par
-        }
+mutation createHole($courseId: UUID!, $nr: BigInt!, $index: BigInt!, $par: BigInt!) {
+  createHole(
+    input: { hole: { nr: $nr, index: $index, courseId: $courseId, par: $par } }
+  ) {
+    hole {
+      id
+      nr
+      index
+      par
     }
-    }
+  }
+}
                     """
                     variables = {
-                        "courseID": course.id,
+                        "courseId": course.id,
                         "nr": nr,
                         "index": index,
                         "par": par,
