@@ -34,7 +34,7 @@ function CustomTabPanel(props) {
 }
 
 const coursesQuery = graphql`
-  query viewAllCoursesAndHolesQuery {
+  query viewAllCoursesAndHolesQuery($playerId: BigInt!) {
     allCourses {
       nodes {
         id
@@ -47,7 +47,7 @@ const coursesQuery = graphql`
             nr
             par
             nodeId
-            scoresByHoleId(condition: { playerId: "1" }) {
+            scoresByHoleId(condition: { playerId: $playerId }) {
               nodes {
                 points
                 strokes
@@ -98,9 +98,10 @@ const coursesQuery = graphql`
 //   handling the failure case here.
 function TourneyApp(props) {
   const [hcpStrokes, setHcpStrokes] = useState("");
-  // const data = useLazyLoadQuery(holesQuery, holesQueryReference);
 
-  const course_data = useLazyLoadQuery(coursesQuery);
+  const course_data = useLazyLoadQuery(coursesQuery, {
+    playerId: props.playerId,
+  });
   console.log("course data:");
   console.log(course_data);
 
@@ -189,6 +190,9 @@ function TourneyApp(props) {
 }
 
 function TourneyView(props) {
+  console.log("tourney View");
+  console.log(props);
+
   return (
     <>
       <h1>Tourney</h1>

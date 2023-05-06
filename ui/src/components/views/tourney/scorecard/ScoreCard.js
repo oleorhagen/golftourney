@@ -42,30 +42,30 @@ export const ScoreCard = (props) => {
 
   return (
     <>
-      <ScoreCardHeader
-        score={
-          scoresFront.reduce((a, b) => a + b, 0) +
-          scoresBack.reduce((a, b) => a + b, 0)
-        }
-        points={
-          scoresFront
-            .map((score, index) => {
-              if (!score) {
-                return 0;
-              }
-              return score;
-            })
-            .reduce((a, b) => a + b, 0) +
-          scoresBack
-            .map((score, index) => {
-              if (!score) {
-                return 0;
-              }
-              return score;
-            })
-            .reduce((a, b) => a + b, 0)
-        }
-      />
+      {/* <ScoreCardHeader */}
+      {/*   score={ */}
+      {/*     scoresFront.reduce((a, b) => a + b, 0) + */}
+      {/*     scoresBack.reduce((a, b) => a + b, 0) */}
+      {/*   } */}
+      {/*   points={ */}
+      {/*     scoresFront */}
+      {/*       .map((score, index) => { */}
+      {/*         if (!score) { */}
+      {/*           return 0; */}
+      {/*         } */}
+      {/*         return score; */}
+      {/*       }) */}
+      {/*       .reduce((a, b) => a + b, 0) + */}
+      {/*     scoresBack */}
+      {/*       .map((score, index) => { */}
+      {/*         if (!score) { */}
+      {/*           return 0; */}
+      {/*         } */}
+      {/*         return score; */}
+      {/*       }) */}
+      {/*       .reduce((a, b) => a + b, 0) */}
+      {/*   } */}
+      {/* /> */}
       <ScoreCardBody
         scorecard={props.scorecard}
         onChangeFront={onChangeFront}
