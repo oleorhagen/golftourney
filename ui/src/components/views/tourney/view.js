@@ -73,6 +73,7 @@ const coursesQuery = graphql`
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function TourneyApp(props) {
+  // TODO - This needs to be per hole
   const [hcpStrokes, setHcpStrokes] = useState(
     localStorage.getItem(props.playerId)
   );
