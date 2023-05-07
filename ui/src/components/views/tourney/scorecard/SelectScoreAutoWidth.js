@@ -32,6 +32,33 @@ const SelectScoreAutoWidthMutation = graphql`
   }
 `;
 
+// Create the score if it does not exist
+// const SelectCreateEmptyScore = graphql`
+//   mutation CreateScoreMutation(
+//     $playerId: UUID!
+//     $courseId: UUID!
+//     $holeId: UUID!
+//   ) {
+//     createScore(
+//       input: {
+//         score: {
+//           strokes: "0"
+//           points: "0"
+//           playerId: $playerId
+//           courseId: $courseId
+//           holeId: $holeId
+//         }
+//       }
+//     ) {
+//       clientMutationId
+//       score {
+//         id
+//         nodeId
+//       }
+//     }
+//   }
+// `;
+
 const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // TODO - Make this create the correct score on the server
@@ -55,7 +82,9 @@ function PointsFromScore(par, extraHcpStrokes, score) {
 
 export default function SelectScoreAutoWidth({
   onChange,
-  holeNumber,
+  holeId,
+  playerId,
+  courseId,
   nodeId,
   strokes,
   par,
@@ -70,14 +99,19 @@ export default function SelectScoreAutoWidth({
     SelectScoreAutoWidthMutation
   );
 
+  if (!nodeId) {
+    console.log("No node ID, the score needs to be created!");
+    return <div></div>;
+  }
+
   const handleChange = (event) => {
     console.log("selectScoreAutoWidth: ...");
     commitMutation({
       variables: {
         strokes: event.target.value,
         points: PointsFromScore(par, hcpe, event.target.value),
-        playerId: 1,
-        courseId: 1,
+        playerId: playerId,
+        courseId: courseId,
         nodeId: nodeId,
       },
     });
