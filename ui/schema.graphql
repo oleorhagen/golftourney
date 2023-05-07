@@ -16,7 +16,7 @@ type Course implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
-  id: BigInt!
+  id: UUID!
   name: String!
 
   """Reads and enables pagination through a set of `Hole`."""
@@ -83,7 +83,7 @@ A condition to be used against `Course` object types. All fields are tested for 
 """
 input CourseCondition {
   """Checks for equality with the object’s `id` field."""
-  id: BigInt
+  id: UUID
 
   """Checks for equality with the object’s `name` field."""
   name: String
@@ -91,7 +91,7 @@ input CourseCondition {
 
 """An input for mutations affecting `Course`"""
 input CourseInput {
-  id: BigInt
+  id: UUID
   name: String!
 }
 
@@ -99,7 +99,7 @@ input CourseInput {
 Represents an update to a `Course`. Fields that are set will be updated.
 """
 input CoursePatch {
-  id: BigInt
+  id: UUID
   name: String
 }
 
@@ -302,7 +302,7 @@ input DeleteCourseByIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  id: BigInt!
+  id: UUID!
 }
 
 """All input for the `deleteCourse` mutation."""
@@ -350,7 +350,7 @@ input DeleteHoleByIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  id: BigInt!
+  id: UUID!
 }
 
 """All input for the `deleteHole` mutation."""
@@ -401,7 +401,7 @@ input DeletePlayerByIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  id: BigInt!
+  id: UUID!
 }
 
 """All input for the `deletePlayer` mutation."""
@@ -504,8 +504,8 @@ type Hole implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
-  id: BigInt!
-  courseId: BigInt!
+  id: UUID!
+  courseId: UUID!
   nr: BigInt!
   index: BigInt!
   par: BigInt!
@@ -548,10 +548,10 @@ A condition to be used against `Hole` object types. All fields are tested for eq
 """
 input HoleCondition {
   """Checks for equality with the object’s `id` field."""
-  id: BigInt
+  id: UUID
 
   """Checks for equality with the object’s `courseId` field."""
-  courseId: BigInt
+  courseId: UUID
 
   """Checks for equality with the object’s `nr` field."""
   nr: BigInt
@@ -565,8 +565,8 @@ input HoleCondition {
 
 """An input for mutations affecting `Hole`"""
 input HoleInput {
-  id: BigInt
-  courseId: BigInt
+  id: UUID
+  courseId: UUID!
   nr: BigInt!
   index: BigInt!
   par: BigInt!
@@ -574,8 +574,8 @@ input HoleInput {
 
 """Represents an update to a `Hole`. Fields that are set will be updated."""
 input HolePatch {
-  id: BigInt
-  courseId: BigInt
+  id: UUID
+  courseId: UUID
   nr: BigInt
   index: BigInt
   par: BigInt
@@ -817,7 +817,7 @@ type Player implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
-  id: BigInt!
+  id: UUID!
   name: String!
 
   """Reads and enables pagination through a set of `Score`."""
@@ -855,7 +855,7 @@ A condition to be used against `Player` object types. All fields are tested for 
 """
 input PlayerCondition {
   """Checks for equality with the object’s `id` field."""
-  id: BigInt
+  id: UUID
 
   """Checks for equality with the object’s `name` field."""
   name: String
@@ -863,7 +863,7 @@ input PlayerCondition {
 
 """An input for mutations affecting `Player`"""
 input PlayerInput {
-  id: BigInt
+  id: UUID
   name: String!
 }
 
@@ -871,7 +871,7 @@ input PlayerInput {
 Represents an update to a `Player`. Fields that are set will be updated.
 """
 input PlayerPatch {
-  id: BigInt
+  id: UUID
   name: String
 }
 
@@ -1046,9 +1046,9 @@ type Query implements Node {
     """
     condition: ScoreCondition
   ): ScoresConnection
-  courseById(id: BigInt!): Course
-  holeById(id: BigInt!): Hole
-  playerById(id: BigInt!): Player
+  courseById(id: UUID!): Course
+  holeById(id: UUID!): Hole
+  playerById(id: UUID!): Player
   scoreById(id: UUID!): Score
 
   """Reads a single `Course` using its globally unique `ID`."""
@@ -1084,9 +1084,9 @@ type Score implements Node {
   strokes: BigInt!
   points: BigInt!
   id: UUID!
-  playerId: BigInt!
-  courseId: BigInt!
-  holeId: BigInt!
+  playerId: UUID!
+  courseId: UUID!
+  holeId: UUID!
 
   """Reads a single `Player` that is related to this `Score`."""
   playerByPlayerId: Player
@@ -1112,13 +1112,13 @@ input ScoreCondition {
   id: UUID
 
   """Checks for equality with the object’s `playerId` field."""
-  playerId: BigInt
+  playerId: UUID
 
   """Checks for equality with the object’s `courseId` field."""
-  courseId: BigInt
+  courseId: UUID
 
   """Checks for equality with the object’s `holeId` field."""
-  holeId: BigInt
+  holeId: UUID
 }
 
 """An input for mutations affecting `Score`"""
@@ -1126,9 +1126,9 @@ input ScoreInput {
   strokes: BigInt!
   points: BigInt!
   id: UUID
-  playerId: BigInt
-  courseId: BigInt
-  holeId: BigInt
+  playerId: UUID!
+  courseId: UUID!
+  holeId: UUID!
 }
 
 """
@@ -1138,9 +1138,9 @@ input ScorePatch {
   strokes: BigInt
   points: BigInt
   id: UUID
-  playerId: BigInt
-  courseId: BigInt
-  holeId: BigInt
+  playerId: UUID
+  courseId: UUID
+  holeId: UUID
 }
 
 """A connection to a list of `Score` values."""
@@ -1200,7 +1200,7 @@ input UpdateCourseByIdInput {
   An object where the defined keys will be set on the `Course` being updated.
   """
   coursePatch: CoursePatch!
-  id: BigInt!
+  id: UUID!
 }
 
 """All input for the `updateCourse` mutation."""
@@ -1257,7 +1257,7 @@ input UpdateHoleByIdInput {
   An object where the defined keys will be set on the `Hole` being updated.
   """
   holePatch: HolePatch!
-  id: BigInt!
+  id: UUID!
 }
 
 """All input for the `updateHole` mutation."""
@@ -1317,7 +1317,7 @@ input UpdatePlayerByIdInput {
   An object where the defined keys will be set on the `Player` being updated.
   """
   playerPatch: PlayerPatch!
-  id: BigInt!
+  id: UUID!
 }
 
 """All input for the `updatePlayer` mutation."""

@@ -15,9 +15,9 @@ import asyncio
 
 
 class Person:
-    def __init__(self, name):
+    def __init__(self, name, id):
         self.name = name
-        self.id = None
+        self.id = id
 
 
 class Course:
@@ -28,10 +28,10 @@ class Course:
 
 
 PLAYERS = (
-    Person(name="Juliane"),
-    Person(name="Marius"),
-    Person(name="Ole P"),
-    Person(name="Ole M"),
+    # Person(name="Juliane", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
+    # Person(name="Marius", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
+    Person(name="Ole P", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
+    # Person(name="Ole M", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
 )
 
 COURSES = (
@@ -45,14 +45,14 @@ COURSES = (
 def populate_players(players):
     for player in players:
         query = """
-    mutation PlayerCreation($playa: String!) {
-    createPlayer(input: { player: { name: $playa } }) {
-        player {
-        id
-        name
-        }
+mutation PlayerCreation($playa: String!, $id: UUID) {
+  createPlayer(input: { player: { name: $playa, id: $id } }) {
+    player {
+      id
+      name
     }
-    }
+  }
+}
         """
         variables = {"playa": player.name}
         data = client.execute(query=query, variables=variables)
