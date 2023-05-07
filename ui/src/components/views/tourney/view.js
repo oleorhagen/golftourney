@@ -34,7 +34,7 @@ function CustomTabPanel(props) {
 }
 
 const coursesQuery = graphql`
-  query viewAllCoursesAndHolesQuery($playerId: BigInt!) {
+  query viewAllCoursesAndHolesQuery($playerId: UUID!) {
     allCourses {
       nodes {
         id
@@ -63,30 +63,6 @@ const coursesQuery = graphql`
     }
   }
 `;
-// const coursesQueryReference = loadQuery(RelayEnvironment, coursesQuery);
-
-// const holesQuery = graphql`
-//   query viewGetHolesForCourseQuery($courseId: BigInt!, $playerId: BigInt!) {
-//     allHoles(condition: { courseId: $courseId }) {
-//       nodes {
-//         id
-//         index
-//         nr
-//         par
-//         scoresByHoleId(
-//           condition: { courseId: $courseId, playerId: $playerId }
-//         ) {
-//           nodes {
-//             id
-//             nodeId
-//             strokes
-//             points
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
 
 // Inner component that reads the preloaded query results via `usePreloadedQuery()`.
 // This works as follows:
@@ -117,11 +93,6 @@ function TourneyApp(props) {
   console.log("course nodes:");
   console.log(course_nodes);
 
-  // const data = useLazyLoadQuery(holesQuery, {
-  //   playerId: 1,
-  //   courseId: 1,
-  // });
-
   const [value, setValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -129,13 +100,6 @@ function TourneyApp(props) {
     console.log(event);
     setValue(newValue);
   };
-
-  // console.log(`tourney app: data: ${data}`);
-  // console.log(data);
-
-  // const {
-  //   allHoles: { nodes },
-  // } = data;
 
   if (course_nodes.length > 0) {
     const id = course_nodes[0].id;
@@ -198,7 +162,7 @@ function TourneyView(props) {
       <h1>Tourney</h1>
       <RelayEnvironmentProvider environment={RelayEnvironment}>
         <React.Suspense fallback={"Loading..."}>
-          <TourneyApp playerId={1} />
+          <TourneyApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
         </React.Suspense>
       </RelayEnvironmentProvider>
     </>
