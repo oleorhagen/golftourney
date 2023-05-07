@@ -131,7 +131,6 @@ function TourneyApp(props) {
                   />
                   <ScoreCard
                     playerId={props.playerId}
-                    courseId={i}
                     courseData={course_nodes[i]}
                     extraStrokes={hcpStrokes}
                   />

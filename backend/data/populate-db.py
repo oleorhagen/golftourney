@@ -131,7 +131,7 @@ mutation createHole($courseId: UUID!, $nr: BigInt!, $index: BigInt!, $par: BigIn
 #             for hole_number in range(1, 18 + 1):
 
 #                 query = """
-#                     mutation createScore($courseId: BigInt!, $holeId: BigInt!, $strokes: BigInt!, $points: BigInt!, $playerId: BigInt!) {
+#                     mutation createScore($courseId: UUID!, $holeId: UUID!, $strokes: BigInt!, $points: BigInt!, $playerId: UUID!) {
 #                     createScore(
 #                         input: {score: {strokes: $strokes, points: $points, courseId: $courseId, holeId: $holeId, playerId: $playerId}}
 #                     ) {
@@ -147,11 +147,10 @@ mutation createHole($courseId: UUID!, $nr: BigInt!, $index: BigInt!, $par: BigIn
 #                 """
 
 #                 variables = {
-#                     "courseID": 1,  # TODO - Set the correct course ID
 #                     "strokes": 0,
 #                     "points": 0,
-#                     "playerId": 1,  # TODO - retrieve
-#                     "courseId": 1,  # TODO - retrieve
+#                     "playerId": player.id,
+#                     "courseId": course.id,
 #                     "holeId": hole_number,
 #                 }
 

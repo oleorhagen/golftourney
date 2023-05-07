@@ -29,11 +29,11 @@ function GetExtraStroke(hole, NumberOfExtraStrokes) {
   return extraStrokes;
 }
 
-function createData(hole, par, hcp, hcpExtraStrokes, nodes) {
+function createData(courseId, hole, par, hcp, hcpExtraStrokes, nodes) {
   if (!nodes || nodes.length === 0) {
     console.log(`scoreCardTable: no nodes set...`);
     // TODO panic -> This should never happen
-    return { hole, par, hcp, hcpExtraStrokes };
+    return { courseId, hole, par, hcp, hcpExtraStrokes };
   }
   console.log(`scoreCardTable: node is set: `);
   console.log(hole, par, hcp, hcpExtraStrokes, nodes);
@@ -43,7 +43,7 @@ function createData(hole, par, hcp, hcpExtraStrokes, nodes) {
   const points = nodes[0].points;
   const hcpe = GetExtraStroke(hcp, hcpExtraStrokes);
   console.log(hcpe);
-  return { hole, par, hcp, hcpe, nodeId, strokes, points };
+  return { courseId, hole, par, hcp, hcpe, nodeId, strokes, points };
 }
 
 // TODO - Now 1 extra stroke is hard-coded
@@ -51,8 +51,8 @@ const ScoreCardTable = (props) => {
   console.log(`ScoreCardTable props:`);
   console.log(props);
   const rows = props.data.map(
-    ({ nr, par, index, extra, scoresByHoleId: { nodes } }) =>
-      createData(nr, par, index, props.extraStrokes, nodes)
+    ({ courseId, nr, par, index, extra, scoresByHoleId: { nodes } }) =>
+      createData(courseId, nr, par, index, props.extraStrokes, nodes)
   );
 
   console.log(`scoreCardTable rows:`);
@@ -90,6 +90,8 @@ const ScoreCardTable = (props) => {
                 </TableCell>
                 <TableCell align="right">
                   <SelectScoreAutoWidth
+                    playerId={props.playerId}
+                    courseId={row.courseId}
                     onChange={onChange(index)}
                     holeNumber={row.hole}
                     nodeId={row.nodeId}
