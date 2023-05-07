@@ -26,12 +26,13 @@ class Course:
         self.csv_file = csv_file
         self.id = None
 
+
 class Hole:
     def __init__(self, dict_):
-        self.id = dict_['id']
-        self.nr = dict_['nr']
-        self.index = dict_['index']
-        self.par = dict_['par']
+        self.id = dict_["id"]
+        self.nr = dict_["nr"]
+        self.index = dict_["index"]
+        self.par = dict_["par"]
 
 
 PLAYERS = (
@@ -118,6 +119,7 @@ mutation createScore(
 }
                 """
 
+
 def populate_holes(courses, players):
     print("Populating the holes")
     import csv
@@ -165,16 +167,17 @@ mutation createHole($courseId: UUID!, $nr: BigInt!, $index: BigInt!, $par: BigIn
                     for player in players:
                         # Create the initial empty score
                         variables = {
-                              "courseId": course.id,
+                            "courseId": course.id,
                             "holeId": hole.id,
-                            "strokes": '0',
+                            "strokes": "0",
                             "points": "0",
                             "playerId": player.id,
                         }
-                        data = client.execute(query=query, variables=variables)
+                        data = client.execute(query=score_query, variables=variables)
                         print(f"Created scores: {data}")
 
     return holes
+
 
 populate_players(players=PLAYERS)
 populate_courses(courses=COURSES)
