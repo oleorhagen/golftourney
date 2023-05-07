@@ -73,7 +73,9 @@ const coursesQuery = graphql`
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function TourneyApp(props) {
-  const [hcpStrokes, setHcpStrokes] = useState("");
+  const [hcpStrokes, setHcpStrokes] = useState(
+    localStorage.getItem(props.playerId)
+  );
 
   const course_data = useLazyLoadQuery(coursesQuery, {
     playerId: props.playerId,
@@ -125,7 +127,9 @@ function TourneyApp(props) {
                 <div>
                   <PlayerStats
                     id={id}
+                    playerId={props.playerId}
                     onChange={(extraStrokes) => {
+                      localStorage.setItem(props.playerId, extraStrokes);
                       setHcpStrokes(extraStrokes);
                     }}
                   />

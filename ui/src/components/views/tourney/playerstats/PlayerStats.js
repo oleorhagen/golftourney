@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { TextField, Typography, Paper } from "@mui/material";
 
 export default function PlayerStats(props) {
-  const [hcp, setHcp] = useState("");
+  const [hcp, setHcp] = useState(localStorage.getItem(props.playerId));
   const [error, setError] = useState(false);
 
   return (
