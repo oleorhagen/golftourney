@@ -67,11 +67,11 @@ const ScoreCardTable = (props) => {
           <TableHead>
             <TableRow>
               <TableCell>Hole</TableCell>
-              <TableCell align="right">Par</TableCell>
-              <TableCell align="right">Hcp</TableCell>
-              <TableCell align="right">Hcp+</TableCell>
-              <TableCell align="right">Score</TableCell>
-              <TableCell align="right">Points</TableCell>
+              {["Par", "Hcp", "Hcp+", "Score", "Points"].map(
+                (cellText, idx) => (
+                  <TableCell key={idx}>{cellText}</TableCell>
+                )
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
