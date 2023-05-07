@@ -51,8 +51,8 @@ const ScoreCardTable = (props) => {
   console.log(`ScoreCardTable props:`);
   console.log(props);
   const rows = props.data.map(
-    ({ id, par, index, extra, scoresByHoleId: { nodes } }) =>
-      createData(id, par, index, props.extraStrokes, nodes)
+    ({ nr, par, index, extra, scoresByHoleId: { nodes } }) =>
+      createData(nr, par, index, props.extraStrokes, nodes)
   );
 
   console.log(`scoreCardTable rows:`);
