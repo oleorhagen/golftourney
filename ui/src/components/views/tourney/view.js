@@ -9,6 +9,7 @@ import TourneyGraph from "./scoregraph/scoreGraph";
 import RelayEnvironment from "../../../RelayEnvironment";
 
 import graphql from "babel-plugin-relay/macro";
+import { useMutation } from "react-relay";
 
 import {
   RelayEnvironmentProvider,
@@ -73,10 +74,9 @@ const coursesQuery = graphql`
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function TourneyApp(props) {
-  // TODO - This needs to be per hole
-  const [hcpStrokes, setHcpStrokes] = useState(
-    localStorage.getItem(props.playerId)
-  );
+  // const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
+  //   viewSetHandicapForCourseMutation
+  // );
 
   const course_data = useLazyLoadQuery(coursesQuery, {
     playerId: props.playerId,
@@ -105,16 +105,16 @@ function TourneyApp(props) {
   };
 
   if (course_nodes.length > 0) {
-    const id = course_nodes[0].id;
+    const course_id = course_nodes[0].id;
 
-    console.log(`id:`);
-    console.log(id);
-    // Set the extra strokes here (?)
+    console.log(`course id:`);
+    console.log(course_id);
+    console.log(course_nodes[0]);
 
     return (
       <div className="TourneyApp">
         <div className="TourneyApp-header">
-          <p>{id}</p>
+          <p>Course ID: {course_id}</p>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <Tabs value={value} onChange={handleTabChange} centered>
               {course_nodes.map((n, i) => (
@@ -127,17 +127,16 @@ function TourneyApp(props) {
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>
                   <PlayerStats
-                    id={id}
+                    course_id={course_id}
                     playerId={props.playerId}
                     onChange={(extraStrokes) => {
-                      localStorage.setItem(props.playerId, extraStrokes);
-                      setHcpStrokes(extraStrokes);
+                      console.log(`extra strokes given: ${extraStrokes}`);
                     }}
                   />
                   <ScoreCard
                     playerId={props.playerId}
                     courseData={course_nodes[i]}
-                    extraStrokes={hcpStrokes}
+                    extraStrokes={10} // TODO - Get the handicap from the DB
                   />
                 </div>
               </CustomTabPanel>

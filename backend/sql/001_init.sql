@@ -47,3 +47,13 @@ CREATE TABLE IF NOT EXISTS score (
   CONSTRAINT hole_id
     FOREIGN KEY (hole_id) REFERENCES hole (id)
 );
+
+CREATE TABLE IF NOT EXISTS course_handicap (
+  handicap INT8 NOT NULL CHECK ( handicap BETWEEN 0 AND 54),
+  player_id uuid NOT NULL,
+  course_id uuid NOT NULL,
+  CONSTRAINT player_id
+    FOREIGN KEY (player_id) REFERENCES player (id),
+  CONSTRAINT course_id
+    FOREIGN KEY (course_id) REFERENCES course (id)
+);
