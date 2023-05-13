@@ -76,6 +76,35 @@ type Course implements Node {
     """
     condition: ScoreCondition
   ): ScoresConnection!
+
+  """Reads and enables pagination through a set of `CourseHandicap`."""
+  courseHandicapsByCourseId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CourseHandicap`."""
+    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CourseHandicapCondition
+  ): CourseHandicapsConnection!
 }
 
 """
@@ -87,6 +116,77 @@ input CourseCondition {
 
   """Checks for equality with the object’s `name` field."""
   name: String
+}
+
+type CourseHandicap {
+  handicap: BigInt!
+  playerId: UUID!
+  courseId: UUID!
+
+  """Reads a single `Player` that is related to this `CourseHandicap`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `CourseHandicap`."""
+  courseByCourseId: Course
+}
+
+"""
+A condition to be used against `CourseHandicap` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input CourseHandicapCondition {
+  """Checks for equality with the object’s `handicap` field."""
+  handicap: BigInt
+
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: UUID
+
+  """Checks for equality with the object’s `courseId` field."""
+  courseId: UUID
+}
+
+"""An input for mutations affecting `CourseHandicap`"""
+input CourseHandicapInput {
+  handicap: BigInt!
+  playerId: UUID!
+  courseId: UUID!
+}
+
+"""A connection to a list of `CourseHandicap` values."""
+type CourseHandicapsConnection {
+  """A list of `CourseHandicap` objects."""
+  nodes: [CourseHandicap]!
+
+  """
+  A list of edges which contains the `CourseHandicap` and cursor to aid in pagination.
+  """
+  edges: [CourseHandicapsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CourseHandicap` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CourseHandicap` edge in the connection."""
+type CourseHandicapsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CourseHandicap` at the end of the edge."""
+  node: CourseHandicap
+}
+
+"""Methods to use when ordering `CourseHandicap`."""
+enum CourseHandicapsOrderBy {
+  NATURAL
+  HANDICAP_ASC
+  HANDICAP_DESC
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  COURSE_ID_ASC
+  COURSE_ID_DESC
 }
 
 """An input for mutations affecting `Course`"""
@@ -138,6 +238,47 @@ enum CoursesOrderBy {
   NAME_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
+}
+
+"""All input for the create `CourseHandicap` mutation."""
+input CreateCourseHandicapInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `CourseHandicap` to be created by this mutation."""
+  courseHandicap: CourseHandicapInput!
+}
+
+"""The output of our create `CourseHandicap` mutation."""
+type CreateCourseHandicapPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CourseHandicap` that was created by this mutation."""
+  courseHandicap: CourseHandicap
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Player` that is related to this `CourseHandicap`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `CourseHandicap`."""
+  courseByCourseId: Course
+
+  """An edge for our `CourseHandicap`. May be used by Relay 1."""
+  courseHandicapEdge(
+    """The method to use when ordering `CourseHandicap`."""
+    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+  ): CourseHandicapsEdge
 }
 
 """All input for the create `Course` mutation."""
@@ -636,6 +777,14 @@ type Mutation {
     input: CreateCourseInput!
   ): CreateCoursePayload
 
+  """Creates a single `CourseHandicap`."""
+  createCourseHandicap(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCourseHandicapInput!
+  ): CreateCourseHandicapPayload
+
   """Creates a single `Hole`."""
   createHole(
     """
@@ -848,6 +997,35 @@ type Player implements Node {
     """
     condition: ScoreCondition
   ): ScoresConnection!
+
+  """Reads and enables pagination through a set of `CourseHandicap`."""
+  courseHandicapsByPlayerId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CourseHandicap`."""
+    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CourseHandicapCondition
+  ): CourseHandicapsConnection!
 }
 
 """
@@ -959,6 +1137,35 @@ type Query implements Node {
     """
     condition: CourseCondition
   ): CoursesConnection
+
+  """Reads and enables pagination through a set of `CourseHandicap`."""
+  allCourseHandicaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CourseHandicap`."""
+    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CourseHandicapCondition
+  ): CourseHandicapsConnection
 
   """Reads and enables pagination through a set of `Hole`."""
   allHoles(
