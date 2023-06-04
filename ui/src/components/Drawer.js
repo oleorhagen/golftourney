@@ -70,7 +70,7 @@ export default function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Skjeberg Invitational
           </Typography>
         </Toolbar>
       </AppBar>
