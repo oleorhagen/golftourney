@@ -14,6 +14,7 @@ import React, { useState } from "react";
 
 import { Container } from "@mui/material";
 
+import Drawer from "./components/Drawer";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -48,6 +49,7 @@ function App() {
         console.log(user);
         return (
           <div className="App">
+            <Drawer />
             <>
               <NavBar navBarItems={navBarItems} />
               <Container
