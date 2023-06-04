@@ -49,9 +49,8 @@ function App() {
         console.log(user);
         return (
           <div className="App">
-            <Drawer />
+            <Drawer navBarItems={navBarItems} />
             <>
-              <NavBar navBarItems={navBarItems} />
               <Container
                 maxWidth="xl"
                 sx={{ marginTop: (theme) => theme.spacing(4) }}
