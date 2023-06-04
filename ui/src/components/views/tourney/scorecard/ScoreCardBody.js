@@ -12,24 +12,12 @@ export default function ScoreCardBody(props) {
   return (
     <>
       <Grid container direction="row" spacing={2}>
-        <Grid container item key="front" xs={6}>
-          <ScoreCardTable
-            {...props}
-            front
-            data={data.slice(0, 9)}
-            onChange={props.onChangeFront}
-            scores={props.scoresFront}
-          />
-        </Grid>
-        <Grid container item key="back" xs={6}>
-          <ScoreCardTable
-            {...props}
-            back
-            data={data.slice(9)}
-            onChange={props.onChangeBack}
-            scores={props.scoresBack}
-          />
-        </Grid>
+        <ScoreCardTable
+          {...props}
+          front
+          data={data}
+          onChange={props.onChange}
+        />
       </Grid>
     </>
   );
