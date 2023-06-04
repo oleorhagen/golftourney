@@ -7,23 +7,16 @@ import ScoreCardFooter from "./ScoreCardFooter";
 export const ScoreCard = (props) => {
   console.log(`Received the course data: ${props.courseData}`);
 
-  const [scoresFront, setScoresFront] = useState(Array(9).fill(null));
-  const [scoresBack, setScoresBack] = useState(Array(9).fill(null));
+  const [scoresAll, setScoresAll] = useState(
+    Array(props.courseData.Length).fill(null)
+  );
 
-  const onChangeFront = (index) => {
+  const onChangeAll = (index) => {
     return (val) => {
-      let newScores = [...scoresFront];
+      let newScores = [...scoresAll];
       newScores[index] = val;
-      setScoresFront(newScores);
+      setScoresAll(newScores);
       console.log(`Changing score for the front.. ${index} : ${val}`);
-    };
-  };
-
-  const onChangeBack = (index) => {
-    return (val) => {
-      let newScores = [...scoresBack];
-      newScores[index] = val;
-      setScoresBack(newScores);
     };
   };
 
@@ -42,36 +35,9 @@ export const ScoreCard = (props) => {
 
   return (
     <>
-      {/* <ScoreCardHeader */}
-      {/*   score={ */}
-      {/*     scoresFront.reduce((a, b) => a + b, 0) + */}
-      {/*     scoresBack.reduce((a, b) => a + b, 0) */}
-      {/*   } */}
-      {/*   points={ */}
-      {/*     scoresFront */}
-      {/*       .map((score, index) => { */}
-      {/*         if (!score) { */}
-      {/*           return 0; */}
-      {/*         } */}
-      {/*         return score; */}
-      {/*       }) */}
-      {/*       .reduce((a, b) => a + b, 0) + */}
-      {/*     scoresBack */}
-      {/*       .map((score, index) => { */}
-      {/*         if (!score) { */}
-      {/*           return 0; */}
-      {/*         } */}
-      {/*         return score; */}
-      {/*       }) */}
-      {/*       .reduce((a, b) => a + b, 0) */}
-      {/*   } */}
-      {/* /> */}
       <ScoreCardBody
         scorecard={props.scorecard}
-        onChangeFront={onChangeFront}
-        onChangeBack={onChangeBack}
-        scoresFront={scoresFront}
-        scoresBack={scoresBack}
+        onChange={onChangeAll}
         data={holes}
         {...props}
       />
