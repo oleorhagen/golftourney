@@ -57,3 +57,16 @@ CREATE TABLE IF NOT EXISTS course_handicap (
   CONSTRAINT course_id
     FOREIGN KEY (course_id) REFERENCES course (id)
 );
+
+CREATE TABLE IF NOT EXISTS competition (
+  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  competition_type VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS competition_score (
+  placement INT8 NOT NULL CHECK ( placement BETWEEN 1 AND 4),
+  player_id uuid NOT NULL,
+  CONSTRAINT player_id
+    FOREIGN KEY (player_id) REFERENCES player (id)
+);
+

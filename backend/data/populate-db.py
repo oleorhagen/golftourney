@@ -49,6 +49,7 @@ COURSES = (
     Course(name="onsoy", csv_file="onsoy.csv"),
 )
 
+COMPETITIONS = ("driver", "iron", "chipping", "putting")
 
 def populate_players(players):
     for player in players:
@@ -179,7 +180,28 @@ mutation createHole($courseId: UUID!, $nr: BigInt!, $index: BigInt!, $par: BigIn
     return holes
 
 
+def populate_competitions(types):
+    query = """
+mutation CreateCompetitionMutation($type: String!) {
+  createCompetition(input: {competition: {competitionType: $type}}) {
+    competition {
+      competitionType
+      id
+      nodeId
+    }
+  }
+}
+     """
+    for comp_type in types:
+        variables = {
+            "type": comp_type,
+        }
+        data = client.execute(query=query, variables=variables)
+        print(f"populate competition data: {data}")
+
+
 populate_players(players=PLAYERS)
 populate_courses(courses=COURSES)
+populate_competitions(types=COMPETITIONS)
 HOLES = populate_holes(courses=COURSES, players=PLAYERS)
 print(HOLES)
