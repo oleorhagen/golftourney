@@ -22,6 +22,7 @@ import Footer from "./components/Footer";
 import ChampionsView from "./components/views/champions/champions";
 import MainView from "./components/views/main/view";
 import TourneyView from "./components/views/tourney/view";
+import CompetitionView from "./components/views/competitions/view";
 
 // Utils
 import user2ID from "./user-to-id";
@@ -40,6 +41,7 @@ function App() {
   const navBarItems = [
     { name: "Home", view: () => setView(MainView) },
     { name: "Tourney", view: () => setView(TourneyView) },
+    { name: "Competitions", view: () => setView(CompetitionView) },
     { name: "Champions", view: () => setView(ChampionsView) },
   ];
 
