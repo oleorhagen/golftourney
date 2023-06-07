@@ -30,32 +30,13 @@ function CustomTabPanel(props) {
   );
 }
 
-const coursesQuery = graphql`
-  query viewAllCoursesAndHolesQuery($playerId: UUID!) {
-    allCourses {
+const competitionsQuery = graphql`
+  query viewCompetitionsQuery {
+    allCompetitions {
       nodes {
+        competitionType
         id
-        name
-        holesByCourseId {
-          nodes {
-            courseId
-            id
-            index
-            nr
-            par
-            nodeId
-            scoresByHoleId(condition: { playerId: $playerId }) {
-              nodes {
-                points
-                strokes
-                id
-                holeId
-                nodeId
-                courseId
-              }
-            }
-          }
-        }
+        nodeId
       }
     }
   }
@@ -74,23 +55,21 @@ function CompetitionApp(props) {
   //   viewSetHandicapForCourseMutation
   // );
 
-  const course_data = useLazyLoadQuery(coursesQuery, {
-    playerId: props.playerId,
-  });
+  const competition_data = useLazyLoadQuery(competitionsQuery);
   console.log("course data:");
-  console.log(course_data);
+  console.log(competition_data);
 
-  var course_nodes = [];
+  var competition_nodes = [];
 
   {
     const {
-      allCourses: { nodes },
-    } = course_data;
-    course_nodes = nodes;
+      allCompetitions: { nodes },
+    } = competition_data;
+    competition_nodes = nodes;
   }
 
   console.log("course nodes:");
-  console.log(course_nodes);
+  console.log(competition_nodes);
 
   const [value, setValue] = useState(0);
 
@@ -100,28 +79,21 @@ function CompetitionApp(props) {
     setValue(newValue);
   };
 
-  if (course_nodes.length > 0) {
-    const course_id = course_nodes[0].id;
-
-    console.log(`course id:`);
-    console.log(course_id);
-    console.log(course_nodes[0]);
-
+  if (competition_nodes.length > 0) {
     return (
       <div className="CompetitionApp">
         <div className="CompetitionApp-header">
-          <p>Course ID: {course_id}</p>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <Tabs value={value} onChange={handleTabChange} centered>
-              {course_nodes.map((n, i) => (
-                <Tab label={n.name} key={i} />
+              {competition_nodes.map((n, i) => (
+                <Tab label={n.competitionType} key={i} />
               ))}
             </Tabs>
           </Box>
-          {course_nodes.map((n, i) => {
+          {competition_nodes.map((n, i) => {
             return (
               <CustomTabPanel value={value} index={i} key={i}>
-                <div>Foobar</div>
+                <div>{n.competitionType}</div>
               </CustomTabPanel>
             );
           })}
