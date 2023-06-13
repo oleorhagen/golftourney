@@ -64,9 +64,15 @@ CREATE TABLE IF NOT EXISTS competition (
 );
 
 CREATE TABLE IF NOT EXISTS competition_score (
+  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   placement INT8 NOT NULL CHECK ( placement BETWEEN 1 AND 4),
+  competition_id uuid NOT NULL,
+    FOREIGN KEY (competition_id) REFERENCES competition (id),
   player_id uuid NOT NULL,
   CONSTRAINT player_id
     FOREIGN KEY (player_id) REFERENCES player (id)
 );
 
+CREATE FUNCTION my_function() RETURNS int AS $$
+select count (*) from player
+$$ LANGUAGE sql IMMUTABLE;

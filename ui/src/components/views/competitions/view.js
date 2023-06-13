@@ -14,6 +14,8 @@ import {
   useLazyLoadQuery,
 } from "react-relay/hooks";
 
+import PlacementSelection from "./PlacementSelection";
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -68,7 +70,7 @@ function CompetitionApp(props) {
     competition_nodes = nodes;
   }
 
-  console.log("course nodes:");
+  console.log("competition nodes:");
   console.log(competition_nodes);
 
   const [value, setValue] = useState(0);
@@ -91,9 +93,17 @@ function CompetitionApp(props) {
             </Tabs>
           </Box>
           {competition_nodes.map((n, i) => {
+            console.log(`n node: ${n}`);
+            console.log(n.nodeId);
+            console.log(n.id);
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>{n.competitionType}</div>
+                <PlacementSelection
+                  playerId={props.playerId}
+                  competitionId={n.id}
+                  nodeId={n.nodeId}
+                />
               </CustomTabPanel>
             );
           })}
