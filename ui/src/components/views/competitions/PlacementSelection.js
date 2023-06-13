@@ -44,7 +44,7 @@ export default function PlacementSelection(props) {
     console.log(`misssing data in placement`);
   }
 
-  const [placement, setPlacement] = React.useState(1);
+  const [placement, setPlacement] = React.useState("");
 
   const handleChange = (event) => {
     console.log("handle placment change");
@@ -72,7 +72,7 @@ export default function PlacementSelection(props) {
           id="placement-simple-select-autowidth"
           value={placement}
           onChange={handleChange}
-          label="Score"
+          label="Placement"
           variant="standard"
           IconComponent={() => ""}
         >
