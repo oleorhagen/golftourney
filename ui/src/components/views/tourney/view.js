@@ -136,7 +136,7 @@ function TourneyApp(props) {
                   <ScoreCard
                     playerId={props.playerId}
                     courseData={course_nodes[i]}
-                    extraStrokes={10} // TODO - Get the handicap from the DB
+                    extraStrokes={22} // TODO - Get the handicap from the DB
                   />
                 </div>
               </CustomTabPanel>

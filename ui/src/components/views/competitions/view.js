@@ -33,12 +33,21 @@ function CustomTabPanel(props) {
 }
 
 const competitionsQuery = graphql`
-  query viewCompetitionsQuery {
+  query viewCompetitionsQuery($playerId: UUID!) {
     allCompetitions {
       nodes {
         competitionType
         id
         nodeId
+        competitionScoresByCompetitionId(condition: { playerId: $playerId }) {
+          nodes {
+            competitionId
+            id
+            nodeId
+            placement
+            playerId
+          }
+        }
       }
     }
   }
@@ -56,9 +65,10 @@ function CompetitionApp(props) {
   // const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
   //   viewSetHandicapForCourseMutation
   // );
-
-  const competition_data = useLazyLoadQuery(competitionsQuery);
-  console.log("course data:");
+  const competition_data = useLazyLoadQuery(competitionsQuery, {
+    playerId: props.playerId,
+  });
+  console.log("competition data:");
   console.log(competition_data);
 
   var competition_nodes = [];
@@ -102,7 +112,10 @@ function CompetitionApp(props) {
                 <PlacementSelection
                   playerId={props.playerId}
                   competitionId={n.id}
-                  nodeId={n.nodeId}
+                  nodeId={n.competitionScoresByCompetitionId.nodes[0]?.id}
+                  placement={
+                    n.competitionScoresByCompetitionId.nodes[0]?.placement
+                  }
                 />
               </CustomTabPanel>
             );
