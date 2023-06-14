@@ -91,9 +91,9 @@ export default function PlacementSelection(props) {
           variant="standard"
           IconComponent={() => ""}
         >
-          {acceptablePlacements.map((placement) => (
-            <MenuItem key={placement} value={placement}>
-              {placement}
+          {acceptablePlacements.map((acceptablePlacement) => (
+            <MenuItem key={acceptablePlacement} value={acceptablePlacement}>
+              {acceptablePlacement}
             </MenuItem>
           ))}
         </Select>
