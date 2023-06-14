@@ -27,24 +27,40 @@ const competitionsScoreMutation = graphql`
   }
 `;
 
+const competitionsScoreUpdateMutation = graphql`
+  mutation PlacementSelectionUpdateMutation(
+    $placement: BigInt!
+    $nodeId: UUID!
+  ) {
+    updateCompetitionScoreById(
+      input: { competitionScorePatch: { placement: $placement }, id: $nodeId }
+    ) {
+      clientMutationId
+      competitionScore {
+        placement
+        nodeId
+        id
+      }
+    }
+  }
+`;
+
 const acceptablePlacements = [1, 2, 3, 4];
 
 export default function PlacementSelection(props) {
-  const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
-    competitionsScoreMutation
-  );
-
   console.log(`placement got props: ${props}`);
   console.log(props);
   const nodeId = props.nodeId;
   const playerId = props.playerId;
   const competitionId = props.competitionId;
 
-  if (!nodeId || !playerId || !competitionId) {
+  if (!playerId || !competitionId) {
     console.log(`misssing data in placement`);
   }
 
-  const [placement, setPlacement] = React.useState("");
+  const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
+    props.nodeId ? competitionsScoreUpdateMutation : competitionsScoreMutation
+  );
 
   const handleChange = (event) => {
     console.log("handle placment change");
@@ -61,7 +77,6 @@ export default function PlacementSelection(props) {
     });
     console.log("created placement!");
     console.log(createdData);
-    setPlacement(event.target.value);
   };
 
   return (
@@ -70,7 +85,7 @@ export default function PlacementSelection(props) {
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="placement-simple-select-autowidth"
-          value={placement}
+          value={props.placement || ""}
           onChange={handleChange}
           label="Placement"
           variant="standard"
