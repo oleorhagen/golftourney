@@ -116,7 +116,12 @@ function TourneyApp(props) {
         <div className="TourneyApp-header">
           <p>Course ID: {course_id}</p>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-            <Tabs value={value} onChange={handleTabChange} centered>
+            <Tabs
+              value={value}
+              onChange={handleTabChange}
+              variant="fullWidth"
+              orientation="vertical"
+            >
               {course_nodes.map((n, i) => (
                 <Tab label={n.name} key={i} />
               ))}
