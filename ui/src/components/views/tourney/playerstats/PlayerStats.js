@@ -35,7 +35,7 @@ export default function PlayerStats(props) {
 
   return (
     <div className="player-state">
-      <Paper>
+      <Paper sx={{ marginBottom: 10 }}>
         <Typography>Player ID: {props.playerId} </Typography>
         <Typography>Player HCP: {hcp} </Typography>
         <TextField
