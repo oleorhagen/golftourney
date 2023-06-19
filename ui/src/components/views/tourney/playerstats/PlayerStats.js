@@ -25,13 +25,48 @@ const PlayerStatsSetHandicapMutation = graphql`
   }
 `;
 
+const PlayerStatsUpdateHandicapMutation = graphql`
+  mutation PlayerStatsUpdateCourseHandicapMutation(
+    $id: UUID!
+    $handicap: BigInt!
+  ) {
+    updateCourseHandicapById(
+      input: { courseHandicapPatch: { handicap: $handicap }, id: $id }
+    ) {
+      clientMutationId
+      courseHandicap {
+        handicap
+        id
+        nodeId
+        courseId
+        createdAt
+        playerId
+      }
+    }
+  }
+`;
+
 export default function PlayerStats(props) {
   const [hcp, setHcp] = useState("");
   const [error, setError] = useState(false);
 
+  console.log(`player stats id ${props.id}`);
+  console.log(props);
+
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
-    PlayerStatsSetHandicapMutation
+    props.id
+      ? PlayerStatsUpdateHandicapMutation
+      : PlayerStatsSetHandicapMutation
   );
+
+  if (props.id) {
+    console.log(`Got nodeID`);
+    console.log(commitMutation);
+  }
+
+  if (props.id) {
+    console.log(`yay - we got a id to work with now!`);
+  }
 
   return (
     <div className="player-state">
@@ -60,6 +95,12 @@ export default function PlayerStats(props) {
                 handicap: event.target.value,
                 playerId: props.playerId,
                 courseId: props.course_id,
+                id: props.id,
+              },
+              onError: (e) => {
+                console.log(
+                  `oh nooo, error creating mutation player handicap ${e}`
+                );
               },
             });
             props.onChange(event.target.value);
