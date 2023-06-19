@@ -297,7 +297,7 @@ type Course implements Node {
     after: Cursor
 
     """The method to use when ordering `CourseHandicap`."""
-    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+    orderBy: [CourseHandicapsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -317,10 +317,16 @@ input CourseCondition {
   name: String
 }
 
-type CourseHandicap {
+type CourseHandicap implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
   handicap: BigInt!
   playerId: UUID!
   courseId: UUID!
+  createdAt: Datetime
 
   """Reads a single `Player` that is related to this `CourseHandicap`."""
   playerByPlayerId: Player
@@ -334,6 +340,9 @@ A condition to be used against `CourseHandicap` object types. All fields are
 tested for equality and combined with a logical ‘and.’
 """
 input CourseHandicapCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
   """Checks for equality with the object’s `handicap` field."""
   handicap: BigInt
 
@@ -342,13 +351,29 @@ input CourseHandicapCondition {
 
   """Checks for equality with the object’s `courseId` field."""
   courseId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
 }
 
 """An input for mutations affecting `CourseHandicap`"""
 input CourseHandicapInput {
+  id: UUID
   handicap: BigInt!
   playerId: UUID!
   courseId: UUID!
+  createdAt: Datetime
+}
+
+"""
+Represents an update to a `CourseHandicap`. Fields that are set will be updated.
+"""
+input CourseHandicapPatch {
+  id: UUID
+  handicap: BigInt
+  playerId: UUID
+  courseId: UUID
+  createdAt: Datetime
 }
 
 """A connection to a list of `CourseHandicap` values."""
@@ -380,12 +405,18 @@ type CourseHandicapsEdge {
 """Methods to use when ordering `CourseHandicap`."""
 enum CourseHandicapsOrderBy {
   NATURAL
+  ID_ASC
+  ID_DESC
   HANDICAP_ASC
   HANDICAP_DESC
   PLAYER_ID_ASC
   PLAYER_ID_DESC
   COURSE_ID_ASC
   COURSE_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
 """An input for mutations affecting `Course`"""
@@ -554,7 +585,7 @@ type CreateCourseHandicapPayload {
   """An edge for our `CourseHandicap`. May be used by Relay 1."""
   courseHandicapEdge(
     """The method to use when ordering `CourseHandicap`."""
-    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+    orderBy: [CourseHandicapsOrderBy!] = [PRIMARY_KEY_ASC]
   ): CourseHandicapsEdge
 }
 
@@ -713,6 +744,12 @@ type CreateScorePayload {
 """A location in a connection that can be used for resuming pagination."""
 scalar Cursor
 
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
 """All input for the `deleteCompetitionById` mutation."""
 input DeleteCompetitionByIdInput {
   """
@@ -825,6 +862,60 @@ input DeleteCourseByIdInput {
   """
   clientMutationId: String
   id: UUID!
+}
+
+"""All input for the `deleteCourseHandicapById` mutation."""
+input DeleteCourseHandicapByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deleteCourseHandicap` mutation."""
+input DeleteCourseHandicapInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CourseHandicap` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `CourseHandicap` mutation."""
+type DeleteCourseHandicapPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CourseHandicap` that was deleted by this mutation."""
+  courseHandicap: CourseHandicap
+  deletedCourseHandicapId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Player` that is related to this `CourseHandicap`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `CourseHandicap`."""
+  courseByCourseId: Course
+
+  """An edge for our `CourseHandicap`. May be used by Relay 1."""
+  courseHandicapEdge(
+    """The method to use when ordering `CourseHandicap`."""
+    orderBy: [CourseHandicapsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CourseHandicapsEdge
 }
 
 """All input for the `deleteCourse` mutation."""
@@ -1258,6 +1349,24 @@ type Mutation {
     input: UpdateCourseByIdInput!
   ): UpdateCoursePayload
 
+  """
+  Updates a single `CourseHandicap` using its globally unique id and a patch.
+  """
+  updateCourseHandicap(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCourseHandicapInput!
+  ): UpdateCourseHandicapPayload
+
+  """Updates a single `CourseHandicap` using a unique key and a patch."""
+  updateCourseHandicapById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCourseHandicapByIdInput!
+  ): UpdateCourseHandicapPayload
+
   """Updates a single `Hole` using its globally unique id and a patch."""
   updateHole(
     """
@@ -1353,6 +1462,22 @@ type Mutation {
     """
     input: DeleteCourseByIdInput!
   ): DeleteCoursePayload
+
+  """Deletes a single `CourseHandicap` using its globally unique id."""
+  deleteCourseHandicap(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCourseHandicapInput!
+  ): DeleteCourseHandicapPayload
+
+  """Deletes a single `CourseHandicap` using a unique key."""
+  deleteCourseHandicapById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCourseHandicapByIdInput!
+  ): DeleteCourseHandicapPayload
 
   """Deletes a single `Hole` using its globally unique id."""
   deleteHole(
@@ -1484,7 +1609,7 @@ type Player implements Node {
     after: Cursor
 
     """The method to use when ordering `CourseHandicap`."""
-    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+    orderBy: [CourseHandicapsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -1711,7 +1836,7 @@ type Query implements Node {
     after: Cursor
 
     """The method to use when ordering `CourseHandicap`."""
-    orderBy: [CourseHandicapsOrderBy!] = [NATURAL]
+    orderBy: [CourseHandicapsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -1808,6 +1933,7 @@ type Query implements Node {
   competitionById(id: UUID!): Competition
   competitionScoreById(id: UUID!): CompetitionScore
   courseById(id: UUID!): Course
+  courseHandicapById(id: UUID!): CourseHandicap
   holeById(id: UUID!): Hole
   playerById(id: UUID!): Player
   scoreById(id: UUID!): Score
@@ -1834,6 +1960,14 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Course`."""
     nodeId: ID!
   ): Course
+
+  """Reads a single `CourseHandicap` using its globally unique `ID`."""
+  courseHandicap(
+    """
+    The globally unique `ID` to be used in selecting a single `CourseHandicap`.
+    """
+    nodeId: ID!
+  ): CourseHandicap
 
   """Reads a single `Hole` using its globally unique `ID`."""
   hole(
@@ -2101,6 +2235,69 @@ input UpdateCourseByIdInput {
   """
   coursePatch: CoursePatch!
   id: UUID!
+}
+
+"""All input for the `updateCourseHandicapById` mutation."""
+input UpdateCourseHandicapByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `CourseHandicap` being updated.
+  """
+  courseHandicapPatch: CourseHandicapPatch!
+  id: UUID!
+}
+
+"""All input for the `updateCourseHandicap` mutation."""
+input UpdateCourseHandicapInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CourseHandicap` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `CourseHandicap` being updated.
+  """
+  courseHandicapPatch: CourseHandicapPatch!
+}
+
+"""The output of our update `CourseHandicap` mutation."""
+type UpdateCourseHandicapPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CourseHandicap` that was updated by this mutation."""
+  courseHandicap: CourseHandicap
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Player` that is related to this `CourseHandicap`."""
+  playerByPlayerId: Player
+
+  """Reads a single `Course` that is related to this `CourseHandicap`."""
+  courseByCourseId: Course
+
+  """An edge for our `CourseHandicap`. May be used by Relay 1."""
+  courseHandicapEdge(
+    """The method to use when ordering `CourseHandicap`."""
+    orderBy: [CourseHandicapsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CourseHandicapsEdge
 }
 
 """All input for the `updateCourse` mutation."""

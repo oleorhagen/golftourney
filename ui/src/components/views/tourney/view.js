@@ -62,6 +62,15 @@ const coursesQuery = graphql`
         }
       }
     }
+    allCourseHandicaps(condition: { playerId: $playerId }) {
+      nodes {
+        courseId
+        handicap
+        playerId
+        id
+        nodeId
+      }
+    }
   }
 `;
 
@@ -86,15 +95,26 @@ function TourneyApp(props) {
 
   var course_nodes = [];
 
-  {
-    const {
-      allCourses: { nodes },
-    } = course_data;
-    course_nodes = nodes;
-  }
+  const {
+    allCourses: { nodes },
+    allCourseHandicaps: {
+      nodes: [handicap, ...rest],
+    },
+  } = course_data;
+  course_nodes = nodes;
 
   console.log("course nodes:");
   console.log(course_nodes);
+
+  console.log(`got course handicaps:`);
+  // console.log(handicap_nodes);
+  console.log(handicap);
+
+  if (rest) {
+    console.error("Got more handicaps than expected");
+    console.error(rest);
+    console.error(handicap);
+  }
 
   const [value, setValue] = useState(0);
 
@@ -134,6 +154,8 @@ function TourneyApp(props) {
                   <PlayerStats
                     course_id={course_id}
                     playerId={props.playerId}
+                    id={handicap?.id}
+                    handicap={handicap?.handicap}
                     onChange={(extraStrokes) => {
                       console.log(`extra strokes given: ${extraStrokes}`);
                     }}
