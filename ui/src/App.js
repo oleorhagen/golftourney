@@ -1,14 +1,14 @@
 import logo from "./logo.svg";
 import "./App.css";
 
+import { Outlet } from "react-router-dom";
+
 // AWS user authentication
 import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { Auth } from "aws-amplify";
-// TODO
-// (await Auth.currentSession()).getIdToken().getJwtToken()
 
 import React, { useState } from "react";
 
@@ -17,12 +17,6 @@ import { Container } from "@mui/material";
 import Drawer from "./components/Drawer";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
-
-// Views
-import ChampionsView from "./components/views/champions/champions";
-import MainView from "./components/views/main/view";
-import TourneyView from "./components/views/tourney/view";
-import CompetitionView from "./components/views/competitions/view";
 
 // Utils
 import user2ID from "./user-to-id";
@@ -37,12 +31,12 @@ Amplify.configure({
 });
 
 function App() {
-  const [currentView, setView] = useState(MainView);
+  // const [currentView, setView] = useState(MainView);
   const navBarItems = [
-    { name: "Home", view: () => setView(MainView) },
-    { name: "Tourney", view: () => setView(TourneyView) },
-    { name: "Competitions", view: () => setView(CompetitionView) },
-    { name: "Champions", view: () => setView(ChampionsView) },
+    { name: "Home", link: "/" },
+    { name: "Tourney", link: "/tourney" },
+    { name: "Competitions", link: "/competition" },
+    { name: "Champions", link: "/champions" },
   ];
 
   return (
@@ -63,7 +57,9 @@ function App() {
                   <p>Welcome {user.attributes.sub}</p>
                   <button onClick={signOut}>Sign out</button>
                 </div>
-                <main>{currentView}</main>
+                <main>
+                  <Outlet />
+                </main>
               </Container>
               <Footer />
             </>
