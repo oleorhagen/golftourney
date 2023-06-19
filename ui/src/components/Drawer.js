@@ -16,6 +16,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
+import { Link as RouterLink } from "react-router-dom";
+
+const Link = React.forwardRef(function Link(itemProps, ref) {
+  return <RouterLink ref={ref} {...itemProps} role={undefined} />;
+});
+
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -33,8 +39,9 @@ export default function ResponsiveDrawer(props) {
       {navBarItems.map((item) => (
         <ListItem key={item.name} disablePadding>
           <ListItemButton
+            component={Link}
+            to={item.link}
             sx={{ textAlign: "center" }}
-            onClick={() => item.view()}
           >
             <ListItemText primary={item.name} />
           </ListItemButton>

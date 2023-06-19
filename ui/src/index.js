@@ -3,11 +3,47 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import ErrorPage from "./routes/error-page";
+
+// Views
+import MainView from "./components/views/main/view";
+import TourneyView from "./components/views/tourney/view";
+import ChampionsView from "./components/views/champions/champions";
+import CompetitionView from "./components/views/competitions/view";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <MainView />,
+      },
+      {
+        path: "/tourney",
+        element: <TourneyView />,
+      },
+
+      {
+        path: "/champions",
+        element: <ChampionsView />,
+      },
+      {
+        path: "/competition",
+        element: <CompetitionView />,
+      },
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
