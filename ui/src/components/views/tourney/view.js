@@ -60,15 +60,16 @@ const coursesQuery = graphql`
             }
           }
         }
-      }
-    }
-    allCourseHandicaps(condition: { playerId: $playerId }) {
-      nodes {
-        courseId
-        handicap
-        playerId
-        id
-        nodeId
+        courseHandicapsByCourseId {
+          nodes {
+            courseId
+            createdAt
+            handicap
+            id
+            nodeId
+            playerId
+          }
+        }
       }
     }
   }
@@ -97,26 +98,14 @@ function TourneyApp(props) {
 
   const {
     allCourses: { nodes },
-    allCourseHandicaps: {
-      nodes: [handicap, ...rest],
-    },
   } = course_data;
   course_nodes = nodes;
 
   console.log("course nodes:");
   console.log(course_nodes);
 
-  console.log(`got course handicaps:`);
-  // console.log(handicap_nodes);
-  console.log(handicap);
-
-  if (rest) {
-    console.error("Got more handicaps than expected");
-    console.error(rest);
-    console.error(handicap);
-  }
-
   const [value, setValue] = useState(0);
+  const [hcp, setHcp] = useState(0);
 
   const handleTabChange = (event, newValue) => {
     console.log("Handle tab change");
@@ -125,16 +114,9 @@ function TourneyApp(props) {
   };
 
   if (course_nodes.length > 0) {
-    const course_id = course_nodes[0].id;
-
-    console.log(`course id:`);
-    console.log(course_id);
-    console.log(course_nodes[0]);
-
     return (
       <div className="TourneyApp">
         <div className="TourneyApp-header">
-          <p>Course ID: {course_id}</p>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <Tabs
               value={value}
@@ -148,22 +130,23 @@ function TourneyApp(props) {
             </Tabs>
           </Box>
           {course_nodes.map((n, i) => {
+            console.log(`map got: ${JSON.stringify(n)}`);
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>
                   <PlayerStats
-                    course_id={course_id}
+                    course_id={n.id}
                     playerId={props.playerId}
-                    id={handicap?.id}
-                    handicap={handicap?.handicap}
+                    id={n.courseHandicapsByCourseId?.nodes[0]?.id}
+                    handicap={n.courseHandicapsByCourseId?.nodes[0]?.handicap}
                     onChange={(extraStrokes) => {
-                      console.log(`extra strokes given: ${extraStrokes}`);
+                      setHcp(extraStrokes);
                     }}
                   />
                   <ScoreCard
                     playerId={props.playerId}
-                    courseData={course_nodes[i]}
-                    extraStrokes={22} // TODO - Get the handicap from the DB
+                    courseData={n}
+                    extraStrokes={hcp}
                   />
                 </div>
               </CustomTabPanel>

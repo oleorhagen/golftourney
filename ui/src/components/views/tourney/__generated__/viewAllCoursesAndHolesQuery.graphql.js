@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0dd88781f6ca1ba6e3ddb842ef177396>>
+ * @generated SignedSource<<776265d888d580e66571a80c8d544630>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -44,20 +44,7 @@ v4 = {
   "name": "nodeId",
   "storageKey": null
 },
-v5 = [
-  {
-    "fields": [
-      {
-        "kind": "Variable",
-        "name": "playerId",
-        "variableName": "playerId"
-      }
-    ],
-    "kind": "ObjectValue",
-    "name": "condition"
-  }
-],
-v6 = {
+v5 = {
   "alias": null,
   "args": null,
   "concreteType": "HolesConnection",
@@ -99,7 +86,19 @@ v6 = {
         (v4/*: any*/),
         {
           "alias": null,
-          "args": (v5/*: any*/),
+          "args": [
+            {
+              "fields": [
+                {
+                  "kind": "Variable",
+                  "name": "playerId",
+                  "variableName": "playerId"
+                }
+              ],
+              "kind": "ObjectValue",
+              "name": "condition"
+            }
+          ],
           "concreteType": "ScoresConnection",
           "kind": "LinkedField",
           "name": "scoresByHoleId",
@@ -149,12 +148,12 @@ v6 = {
   ],
   "storageKey": null
 },
-v7 = {
+v6 = {
   "alias": null,
-  "args": (v5/*: any*/),
+  "args": null,
   "concreteType": "CourseHandicapsConnection",
   "kind": "LinkedField",
-  "name": "allCourseHandicaps",
+  "name": "courseHandicapsByCourseId",
   "plural": false,
   "selections": [
     {
@@ -170,18 +169,25 @@ v7 = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "handicap",
+          "name": "createdAt",
           "storageKey": null
         },
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "playerId",
+          "name": "handicap",
           "storageKey": null
         },
         (v1/*: any*/),
-        (v4/*: any*/)
+        (v4/*: any*/),
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "playerId",
+          "storageKey": null
+        }
       ],
       "storageKey": null
     }
@@ -213,14 +219,14 @@ return {
             "selections": [
               (v1/*: any*/),
               (v2/*: any*/),
+              (v5/*: any*/),
               (v6/*: any*/)
             ],
             "storageKey": null
           }
         ],
         "storageKey": null
-      },
-      (v7/*: any*/)
+      }
     ],
     "type": "Query",
     "abstractKey": null
@@ -249,6 +255,7 @@ return {
             "selections": [
               (v1/*: any*/),
               (v2/*: any*/),
+              (v5/*: any*/),
               (v6/*: any*/),
               (v4/*: any*/)
             ],
@@ -256,21 +263,20 @@ return {
           }
         ],
         "storageKey": null
-      },
-      (v7/*: any*/)
+      }
     ]
   },
   "params": {
-    "cacheID": "909a61a5db873f62e22dc32092c2e994",
+    "cacheID": "b7c3f0c506ac29e7bbc40924fa90009f",
     "id": null,
     "metadata": {},
     "name": "viewAllCoursesAndHolesQuery",
     "operationKind": "query",
-    "text": "query viewAllCoursesAndHolesQuery(\n  $playerId: UUID!\n) {\n  allCourses {\n    nodes {\n      id\n      name\n      holesByCourseId {\n        nodes {\n          courseId\n          id\n          index\n          nr\n          par\n          nodeId\n          scoresByHoleId(condition: {playerId: $playerId}) {\n            nodes {\n              points\n              strokes\n              id\n              holeId\n              nodeId\n              courseId\n            }\n          }\n        }\n      }\n      nodeId\n    }\n  }\n  allCourseHandicaps(condition: {playerId: $playerId}) {\n    nodes {\n      courseId\n      handicap\n      playerId\n      id\n      nodeId\n    }\n  }\n}\n"
+    "text": "query viewAllCoursesAndHolesQuery(\n  $playerId: UUID!\n) {\n  allCourses {\n    nodes {\n      id\n      name\n      holesByCourseId {\n        nodes {\n          courseId\n          id\n          index\n          nr\n          par\n          nodeId\n          scoresByHoleId(condition: {playerId: $playerId}) {\n            nodes {\n              points\n              strokes\n              id\n              holeId\n              nodeId\n              courseId\n            }\n          }\n        }\n      }\n      courseHandicapsByCourseId {\n        nodes {\n          courseId\n          createdAt\n          handicap\n          id\n          nodeId\n          playerId\n        }\n      }\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "e2c75ad26ac9b38cc4880500b6266e55";
+node.hash = "4f45dac1b77d5bb9295ade3c875fe6c7";
 
 module.exports = node;
