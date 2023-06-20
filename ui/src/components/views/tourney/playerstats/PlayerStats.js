@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { TextField, Typography, Paper } from "@mui/material";
+import { Button, TextField, Typography, Paper } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 
 import graphql from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
@@ -90,9 +91,16 @@ export default function PlayerStats(props) {
             }
             setError(false);
             setHcp(event.target.value);
+          }}
+        />
+        <Button
+          endIcon={<SendIcon />}
+          variant="outlined"
+          onClick={() => {
+            console.log(`button clicked!`);
             commitMutation({
               variables: {
-                handicap: event.target.value,
+                handicap: hcp,
                 playerId: props.playerId,
                 courseId: props.course_id,
                 id: props.id,
@@ -102,10 +110,15 @@ export default function PlayerStats(props) {
                   `oh nooo, error creating mutation player handicap ${e}`
                 );
               },
+              onSuccess: () => {
+                console.log(`successfully updated the handicap on the server`);
+                // /* props.onChange(event.target.value); */
+              },
             });
-            props.onChange(event.target.value);
           }}
-        />
+        >
+          Submit
+        </Button>
       </Paper>
     </div>
   );
