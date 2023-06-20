@@ -27,7 +27,6 @@ const router = createBrowserRouter([
         path: "/tourney",
         element: <TourneyView />,
       },
-
       {
         path: "/champions",
         element: <ChampionsView />,
