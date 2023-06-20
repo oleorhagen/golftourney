@@ -118,9 +118,9 @@ export default function PlayerStats(props) {
                   `oh nooo, error creating mutation player handicap ${e}`
                 );
               },
-              onSuccess: (data) => {
+              onCompleted: (data) => {
                 console.log(
-                  `successfully updated the handicap on the server ${data}`
+                  `successfully updated (completed) the handicap on the server ${data}`
                 );
                 props.onChange(hcp);
               },
