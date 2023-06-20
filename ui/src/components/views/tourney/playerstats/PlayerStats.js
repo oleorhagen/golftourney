@@ -22,6 +22,14 @@ const PlayerStatsSetHandicapMutation = graphql`
       }
     ) {
       clientMutationId
+      courseHandicap {
+        handicap
+        id
+        nodeId
+        courseId
+        createdAt
+        playerId
+      }
     }
   }
 `;
@@ -73,7 +81,7 @@ export default function PlayerStats(props) {
     <div className="player-state">
       <Paper sx={{ marginBottom: 10 }}>
         <Typography>Player ID: {props.playerId} </Typography>
-        <Typography>Player HCP: {hcp} </Typography>
+        <Typography>Player HCP: {props?.handicap} </Typography>
         <TextField
           id="outlined-controlled-hcp-select"
           error={error}
@@ -110,9 +118,11 @@ export default function PlayerStats(props) {
                   `oh nooo, error creating mutation player handicap ${e}`
                 );
               },
-              onSuccess: () => {
-                console.log(`successfully updated the handicap on the server`);
-                // /* props.onChange(event.target.value); */
+              onSuccess: (data) => {
+                console.log(
+                  `successfully updated the handicap on the server ${data}`
+                );
+                props.onChange(hcp);
               },
             });
           }}

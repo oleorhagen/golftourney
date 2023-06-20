@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<daef9666795e40312271844adadc1fb6>>
+ * @generated SignedSource<<7db2261f6079aa86b0f84ac4d91cbe0b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -67,6 +67,59 @@ v3 = [
         "kind": "ScalarField",
         "name": "clientMutationId",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "CourseHandicap",
+        "kind": "LinkedField",
+        "name": "courseHandicap",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "handicap",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "nodeId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "courseId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "createdAt",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "playerId",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -98,16 +151,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "eb718f34a4f3783fc095539d8bb61dca",
+    "cacheID": "de7c7f7a01f826bf86b598cba8f979ce",
     "id": null,
     "metadata": {},
     "name": "PlayerStatsSetHandicapMutation",
     "operationKind": "mutation",
-    "text": "mutation PlayerStatsSetHandicapMutation(\n  $handicap: BigInt!\n  $playerId: UUID!\n  $courseId: UUID!\n) {\n  createCourseHandicap(input: {courseHandicap: {handicap: $handicap, playerId: $playerId, courseId: $courseId}}) {\n    clientMutationId\n  }\n}\n"
+    "text": "mutation PlayerStatsSetHandicapMutation(\n  $handicap: BigInt!\n  $playerId: UUID!\n  $courseId: UUID!\n) {\n  createCourseHandicap(input: {courseHandicap: {handicap: $handicap, playerId: $playerId, courseId: $courseId}}) {\n    clientMutationId\n    courseHandicap {\n      handicap\n      id\n      nodeId\n      courseId\n      createdAt\n      playerId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "645454e8dc524857c3ceee253005213c";
+node.hash = "15290171a303236d6625e62bfa49f506";
 
 module.exports = node;
