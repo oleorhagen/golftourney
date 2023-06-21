@@ -82,6 +82,8 @@ const ScoreCardTable = (props) => {
   console.log(`scoreCardTable rows:`);
   console.log(rows);
 
+  rows.sort((a, b) => Number(a.hole) > Number(b.hole));
+
   const onChange = props.onChange;
 
   return (
