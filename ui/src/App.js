@@ -38,7 +38,9 @@ function App() {
     { name: "Tourney", link: "/tourney" },
     { name: "Competitions", link: "/competition" },
     { name: "Champions", link: "/champions" },
-    { name: "Standings", link: "/standings" },
+    { name: "LeaderBoard", link: "/leaderboard" },
+    { name: "Players", link: "/players" },
+    { name: "Schedule", link: "/schedule" },
   ];
 
   return (
