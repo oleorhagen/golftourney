@@ -1,9 +1,22 @@
 import React from "react";
 
-import { Stack, Typography, Skeleton } from "@mui/material";
+import { Paper, Stack, Typography, Skeleton } from "@mui/material";
 
 const Player = (props) => {
-  return (
+  return props.name ? (
+    <Paper>
+      <Typography variant="h4" color="text.primary" align="left">
+          Name: {props.name}
+      </Typography>
+      <Typography variant="h4" color="text.primary" align="center">
+          Hcp: {props.hcp}
+      </Typography>
+      <Typography variant="h4" color="text.primary" align="right">
+          sex: {props.sex}
+      </Typography>
+      <Skeleton variant="rounded" width={210} height={60} />{" "}
+    </Paper>
+  ) : (
     <>
       <Typography variant="h3" color="text.secondary" align="center">
         {" "}
@@ -34,8 +47,13 @@ const PlayersView = () => {
         marginBottom={8}
         spacing={4}
       >
-        {["Ole Petter", "Ole Martin", "Julius", "Marius"].map((n, i) => (
-          <Player key={i} name={n} />
+        {[
+          { name: "Ole Petter", hcp: 20, sex: "male" },
+          { name: "Ole Martin", hcp: 25, sex: "male" },
+          { name: "Julius", hcp: 21, sex: "female" },
+          { name: "Marius", hcp: 37, sex: "male" },
+        ].map((n, i) => (
+          <Player key={i} {...n} />
         ))}
       </Stack>
     </>
