@@ -9,7 +9,6 @@ import TourneyGraph from "./scoregraph/scoreGraph";
 import RelayEnvironment from "../../../RelayEnvironment";
 
 import graphql from "babel-plugin-relay/macro";
-import { useMutation } from "react-relay";
 
 import {
   RelayEnvironmentProvider,
@@ -62,12 +61,7 @@ const coursesQuery = graphql`
         }
         courseHandicapsByCourseId {
           nodes {
-            courseId
-            createdAt
-            handicap
-            id
-            nodeId
-            playerId
+            ...PlayerStatsHandicapFragment
           }
         }
       }
@@ -84,15 +78,10 @@ const coursesQuery = graphql`
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function TourneyApp(props) {
-  // const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
-  //   viewSetHandicapForCourseMutation
-  // );
-
   const course_data = useLazyLoadQuery(coursesQuery, {
     playerId: props.playerId,
   });
-  console.log("course data:");
-  console.log(course_data);
+  console.log(`Tourney app course data: ${JSON.stringify(course_data)}`);
 
   var course_nodes = [];
 
@@ -135,6 +124,7 @@ function TourneyApp(props) {
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>
                   <PlayerStats
+                    handicap_fragment={n.courseHandicapsByCourseId.nodes[0]}
                     course_id={n.id}
                     playerId={props.playerId}
                     id={n.courseHandicapsByCourseId?.nodes[0]?.id}
