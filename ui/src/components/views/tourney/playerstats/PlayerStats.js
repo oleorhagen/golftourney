@@ -4,7 +4,7 @@ import { Button, TextField, Typography, Paper } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
 import graphql from "babel-plugin-relay/macro";
-import { useMutation } from "react-relay";
+import { useFragment, useMutation } from "react-relay";
 
 const PlayerStatsSetHandicapMutation = graphql`
   mutation PlayerStatsSetHandicapMutation(
@@ -55,12 +55,31 @@ const PlayerStatsUpdateHandicapMutation = graphql`
   }
 `;
 
+const HandicapFragment = graphql`
+  fragment PlayerStatsHandicapFragment on CourseHandicap {
+    courseId
+    createdAt
+    handicap
+    id
+    nodeId
+    playerId
+  }
+`;
+
 export default function PlayerStats(props) {
   const [hcp, setHcp] = useState("");
   const [error, setError] = useState(false);
 
+  console.log(`player stats props: ${JSON.stringify(props)}`);
   console.log(`player stats id ${props.id}`);
   console.log(props);
+
+  console.log(
+    `got playerStatsHandicapFragment ${JSON.stringify(props.handicap_fragment)}`
+  );
+
+  const data = useFragment(HandicapFragment, props.handicap_fragment);
+  console.log(`got fragment data: ${JSON.stringify(data)}`);
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
     props.id
