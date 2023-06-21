@@ -165,7 +165,7 @@ function TourneyView(props) {
 
   return (
     <>
-      <h1>Tourney</h1>
+      <Typography variant="h2">Schedule</Typography>
       <TourneyApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
     </>
   );
