@@ -127,7 +127,7 @@ export default function PlayerStats(props) {
                 handicap: hcp,
                 playerId: props.playerId,
                 courseId: props.course_id,
-                id: props.id,
+                id: data?.id,
               },
               onError: (e) => {
                 console.log(
