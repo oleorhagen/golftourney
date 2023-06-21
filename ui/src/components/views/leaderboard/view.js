@@ -9,23 +9,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-const Player = (props) => {
-  return (
-    <>
-      <Typography variant="h3" color="text.secondary" align="center">
-        {" "}
-        {props.name}
-      </Typography>
-      {/* For variant="text", adjust the height via font-size */}
-      <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-      {/* For other variants, adjust the size with `width` and `height` */}
-      <Skeleton variant="circular" width={40} height={40} />
-      <Skeleton variant="rectangular" width={210} height={60} />
-      <Skeleton variant="rounded" width={210} height={60} />{" "}
-    </>
-  );
-};
-
 const rows = ["foo", "bar", "baz", "bat"];
 
 // TODO - Get the players info from the DB
