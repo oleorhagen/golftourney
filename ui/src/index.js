@@ -25,10 +25,6 @@ const router = createBrowserRouter([
         element: <MainView />,
       },
       {
-        path: "/tourney",
-        element: <TourneyView />,
-      },
-      {
         path: "/champions",
         element: <ChampionsView />,
       },
@@ -49,7 +45,7 @@ const router = createBrowserRouter([
       {
         // TODO - Create this
         path: "/schedule",
-        element: <TourneyGraph />,
+        element: <TourneyView />,
       },
     ],
   },

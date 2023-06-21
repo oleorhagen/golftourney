@@ -35,12 +35,11 @@ function App() {
   // const [currentView, setView] = useState(MainView);
   const navBarItems = [
     { name: "Home", link: "/" },
-    { name: "Tourney", link: "/tourney" },
+    { name: "Schedule", link: "/schedule" },
     { name: "Competitions", link: "/competition" },
+    { name: "Players", link: "/players" },
     { name: "Champions", link: "/champions" },
     { name: "LeaderBoard", link: "/leaderboard" },
-    { name: "Players", link: "/players" },
-    { name: "Schedule", link: "/schedule" },
   ];
 
   return (
