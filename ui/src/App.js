@@ -3,6 +3,10 @@ import "./App.css";
 
 import { Outlet } from "react-router-dom";
 
+import { RelayEnvironmentProvider } from "react-relay/hooks";
+
+import RelayEnvironment from "./RelayEnvironment";
+
 // AWS user authentication
 import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
@@ -10,16 +14,13 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { Auth } from "aws-amplify";
 
-import React, { useState } from "react";
+import React from "react";
 
 import { Container } from "@mui/material";
 
 import Drawer from "./components/Drawer";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
-
-// Utils
-import user2ID from "./user-to-id";
 
 // Configure Amplify in index file or root file
 Amplify.configure({
@@ -37,6 +38,7 @@ function App() {
     { name: "Tourney", link: "/tourney" },
     { name: "Competitions", link: "/competition" },
     { name: "Champions", link: "/champions" },
+    { name: "Standings", link: "/standings" },
   ];
 
   return (
@@ -53,12 +55,15 @@ function App() {
               >
                 <div>
                   <p>Welcome {user.username}</p>
-                  <p>With user id: {user2ID(user.username)}</p>
                   <p>Welcome {user.attributes.sub}</p>
                   <button onClick={signOut}>Sign out</button>
                 </div>
                 <main>
-                  <Outlet />
+                  <RelayEnvironmentProvider environment={RelayEnvironment}>
+                    <React.Suspense fallback={"Loading..."}>
+                      <Outlet />
+                    </React.Suspense>
+                  </RelayEnvironmentProvider>
                 </main>
               </Container>
               <Footer />
