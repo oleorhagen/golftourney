@@ -4,14 +4,10 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
-import TourneyGraph from "./scoregraph/scoreGraph";
-
-import RelayEnvironment from "../../../RelayEnvironment";
 
 import graphql from "babel-plugin-relay/macro";
 
 import {
-  RelayEnvironmentProvider,
   loadQuery,
   usePreloadedQuery,
   useLazyLoadQuery,
@@ -150,7 +146,6 @@ function TourneyApp(props) {
               </CustomTabPanel>
             );
           })}
-          {/* <TourneyGraph /> */}
         </div>
       </div>
     );
@@ -171,11 +166,7 @@ function TourneyView(props) {
   return (
     <>
       <h1>Tourney</h1>
-      <RelayEnvironmentProvider environment={RelayEnvironment}>
-        <React.Suspense fallback={"Loading..."}>
-          <TourneyApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
-        </React.Suspense>
-      </RelayEnvironmentProvider>
+      <TourneyApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
     </>
   );
 }

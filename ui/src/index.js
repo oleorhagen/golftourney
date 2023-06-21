@@ -12,6 +12,7 @@ import MainView from "./components/views/main/view";
 import TourneyView from "./components/views/tourney/view";
 import ChampionsView from "./components/views/champions/champions";
 import CompetitionView from "./components/views/competitions/view";
+import TourneyGraph from "./components/views/scoregraph/scoreGraph";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/competition",
         element: <CompetitionView />,
+      },
+      {
+        path: "/standings",
+        element: <TourneyGraph />,
       },
     ],
   },
