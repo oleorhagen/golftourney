@@ -1,6 +1,13 @@
 import React from "react";
 
-import { Grid, Stack, Typography, Skeleton } from "@mui/material";
+import { Grid, Stack, Typography, Skeleton, Paper } from "@mui/material";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 const Player = (props) => {
   return (
@@ -19,25 +26,37 @@ const Player = (props) => {
   );
 };
 
+const rows = ["foo", "bar", "baz", "bat"];
+
 // TODO - Get the players info from the DB
 const LeaderBoardView = () => {
   return (
     <>
-      <Typography variant="h1" color="text.primary" align="center">
-        {" "}
-        Players
-      </Typography>
-      <Stack
-        direction="column"
-        alignItems="center"
-        marginTop={4}
-        marginBottom={8}
-        spacing={4}
-      >
-        {["Ole Petter", "Ole Martin", "Julius", "Marius"].map((n, i) => (
-          <Player key={i} name={n} />
-        ))}
-      </Stack>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 350 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              {["Player", "Score", "Position"].map((n, i) => (
+                <TableCell align="center">{n}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="center" component="th" scope="row">
+                  {row}
+                </TableCell>
+                <TableCell align="center">Bar</TableCell>
+                <TableCell align="center">Baz</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };
