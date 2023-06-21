@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<46534ad4394e5ec5220b7614ab446dc6>>
+ * @generated SignedSource<<74ad79bd0a8efe51439aa9a7243e06a1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -194,6 +194,11 @@ return {
                         "args": null,
                         "kind": "FragmentSpread",
                         "name": "PlayerStatsHandicapFragment"
+                      },
+                      {
+                        "args": null,
+                        "kind": "FragmentSpread",
+                        "name": "ScoreCardTableHandicapFragment"
                       }
                     ],
                     "storageKey": null
@@ -292,16 +297,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "349f8d566fb951c7f81981dad0c8a723",
+    "cacheID": "c45c6a5c1d04d839d821bb928c3f58d9",
     "id": null,
     "metadata": {},
     "name": "viewAllCoursesAndHolesQuery",
     "operationKind": "query",
-    "text": "query viewAllCoursesAndHolesQuery(\n  $playerId: UUID!\n) {\n  allCourses {\n    nodes {\n      id\n      name\n      holesByCourseId {\n        nodes {\n          courseId\n          id\n          index\n          nr\n          par\n          nodeId\n          scoresByHoleId(condition: {playerId: $playerId}) {\n            nodes {\n              points\n              strokes\n              id\n              holeId\n              nodeId\n              courseId\n            }\n          }\n        }\n      }\n      courseHandicapsByCourseId {\n        nodes {\n          ...PlayerStatsHandicapFragment\n          nodeId\n        }\n      }\n      nodeId\n    }\n  }\n}\n\nfragment PlayerStatsHandicapFragment on CourseHandicap {\n  courseId\n  createdAt\n  handicap\n  id\n  nodeId\n  playerId\n}\n"
+    "text": "query viewAllCoursesAndHolesQuery(\n  $playerId: UUID!\n) {\n  allCourses {\n    nodes {\n      id\n      name\n      holesByCourseId {\n        nodes {\n          courseId\n          id\n          index\n          nr\n          par\n          nodeId\n          scoresByHoleId(condition: {playerId: $playerId}) {\n            nodes {\n              points\n              strokes\n              id\n              holeId\n              nodeId\n              courseId\n            }\n          }\n        }\n      }\n      courseHandicapsByCourseId {\n        nodes {\n          ...PlayerStatsHandicapFragment\n          ...ScoreCardTableHandicapFragment\n          nodeId\n        }\n      }\n      nodeId\n    }\n  }\n}\n\nfragment PlayerStatsHandicapFragment on CourseHandicap {\n  courseId\n  createdAt\n  handicap\n  id\n  nodeId\n  playerId\n}\n\nfragment ScoreCardTableHandicapFragment on CourseHandicap {\n  courseId\n  createdAt\n  handicap\n  id\n  nodeId\n  playerId\n}\n"
   }
 };
 })();
 
-node.hash = "97619e9ef5107238e443612550e47354";
+node.hash = "a4028bbba8e5f067a9d02fced3b61e05";
 
 module.exports = node;
