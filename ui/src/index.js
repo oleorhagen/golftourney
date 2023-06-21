@@ -13,7 +13,7 @@ import TourneyView from "./components/views/tourney/view";
 import ChampionsView from "./components/views/champions/champions";
 import CompetitionView from "./components/views/competitions/view";
 import PlayersView from "./components/views/players/view";
-import TourneyGraph from "./components/views/scoregraph/scoreGraph";
+import LeaderBoardView from "./components/views/leaderboard/view";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
       {
         // TODO - Should ideally be leaderboard
         path: "/leaderboard",
-        element: <TourneyGraph />,
+        element: <LeaderBoardView />,
       },
       {
         // TODO - Create this
