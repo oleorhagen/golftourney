@@ -71,8 +71,6 @@ export default function PlayerStats(props) {
   const [error, setError] = useState(false);
 
   console.log(`player stats props: ${JSON.stringify(props)}`);
-  console.log(`player stats id ${props.id}`);
-  console.log(props);
 
   console.log(
     `got playerStatsHandicapFragment ${JSON.stringify(props.handicap_fragment)}`
@@ -82,14 +80,13 @@ export default function PlayerStats(props) {
   console.log(`got fragment data: ${JSON.stringify(data)}`);
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
-    props.id
+    props.handicap_fragment
       ? PlayerStatsUpdateHandicapMutation
       : PlayerStatsSetHandicapMutation
   );
 
   if (props.id) {
     console.log(`Got nodeID`);
-    console.log(commitMutation);
   }
 
   if (props.id) {
@@ -100,7 +97,7 @@ export default function PlayerStats(props) {
     <div className="player-state">
       <Paper sx={{ marginBottom: 10 }}>
         <Typography>Player ID: {props.playerId} </Typography>
-        <Typography>Player HCP: {props?.handicap} </Typography>
+        <Typography>Player HCP: {data?.handicap} </Typography>
         <TextField
           id="outlined-controlled-hcp-select"
           error={error}
@@ -136,6 +133,7 @@ export default function PlayerStats(props) {
                 console.log(
                   `oh nooo, error creating mutation player handicap ${e}`
                 );
+                setHcp("");
               },
               onCompleted: (data) => {
                 console.log(
