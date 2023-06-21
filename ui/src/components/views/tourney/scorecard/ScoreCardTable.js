@@ -2,6 +2,9 @@ import React from "react";
 
 import { Paper } from "@mui/material";
 
+import graphql from "babel-plugin-relay/macro";
+import { useFragment } from "react-relay";
+
 import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
 import RomanNumeralScore from "./RomanNumeralScore";
 import PointScore from "./PointScore";
@@ -46,13 +49,34 @@ function createData(courseId, hole, par, hcp, hcpExtraStrokes, nodes) {
   return { courseId, hole, par, hcp, hcpe, nodeId, strokes, points };
 }
 
+const HandicapFragment = graphql`
+  fragment ScoreCardTableHandicapFragment on CourseHandicap {
+    courseId
+    createdAt
+    handicap
+    id
+    nodeId
+    playerId
+  }
+`;
+
 // TODO - Now 1 extra stroke is hard-coded
 const ScoreCardTable = (props) => {
   console.log(`ScoreCardTable props:`);
   console.log(props);
+
+  const data = useFragment(HandicapFragment, props.handicap_fragment);
+  console.log(
+    `[ScoreCardTable]: got fragment data: ${JSON.stringify(
+      props.handicap_fragment,
+      4
+    )}`
+  );
+  console.log(`[ScoreCardTable]: data: ${JSON.stringify(data, 4)}`);
+
   const rows = props.data.map(
     ({ courseId, nr, par, index, extra, scoresByHoleId: { nodes } }) =>
-      createData(courseId, nr, par, index, props.extraStrokes, nodes)
+      createData(courseId, nr, par, index, data?.handicap, nodes)
   );
 
   console.log(`scoreCardTable rows:`);

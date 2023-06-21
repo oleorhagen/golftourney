@@ -62,6 +62,7 @@ const coursesQuery = graphql`
         courseHandicapsByCourseId {
           nodes {
             ...PlayerStatsHandicapFragment
+            ...ScoreCardTableHandicapFragment
           }
         }
       }
@@ -140,6 +141,7 @@ function TourneyApp(props) {
                     }}
                   />
                   <ScoreCard
+                    handicap_fragment={n.courseHandicapsByCourseId.nodes[0]}
                     playerId={props.playerId}
                     courseData={n}
                     extraStrokes={hcp}
