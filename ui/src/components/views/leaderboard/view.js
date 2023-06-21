@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Stack, Typography, Skeleton } from "@mui/material";
+import { Grid, Stack, Typography, Skeleton } from "@mui/material";
 
 const Player = (props) => {
   return (
@@ -20,7 +20,7 @@ const Player = (props) => {
 };
 
 // TODO - Get the players info from the DB
-const PlayersView = () => {
+const LeaderBoardView = () => {
   return (
     <>
       <Typography variant="h1" color="text.primary" align="center">
@@ -42,4 +42,4 @@ const PlayersView = () => {
   );
 };
 
-export default PlayersView;
+export default LeaderBoardView;
