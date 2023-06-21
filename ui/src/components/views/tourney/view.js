@@ -78,9 +78,13 @@ const coursesQuery = graphql`
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function TourneyApp(props) {
-  const course_data = useLazyLoadQuery(coursesQuery, {
-    playerId: props.playerId,
-  });
+  const course_data = useLazyLoadQuery(
+    coursesQuery,
+    {
+      playerId: props.playerId,
+    },
+    { fetchPolicy: "network-only" }
+  );
   console.log(`Tourney app course data: ${JSON.stringify(course_data)}`);
 
   var course_nodes = [];
@@ -119,7 +123,11 @@ function TourneyApp(props) {
             </Tabs>
           </Box>
           {course_nodes.map((n, i) => {
-            console.log(`map got: ${JSON.stringify(n)}`);
+            console.log(
+              `map got: ${n.name} ${JSON.stringify(
+                n.courseHandicapsByCourseId
+              )}`
+            );
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>
@@ -127,8 +135,6 @@ function TourneyApp(props) {
                     handicap_fragment={n.courseHandicapsByCourseId.nodes[0]}
                     course_id={n.id}
                     playerId={props.playerId}
-                    id={n.courseHandicapsByCourseId?.nodes[0]?.id}
-                    handicap={n.courseHandicapsByCourseId?.nodes[0]?.handicap}
                     onChange={(extraStrokes) => {
                       setHcp(extraStrokes);
                     }}
