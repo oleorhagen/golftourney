@@ -62,7 +62,7 @@ function App() {
                 <main>
                   <RelayEnvironmentProvider environment={RelayEnvironment}>
                     <React.Suspense fallback={"Loading..."}>
-                      <Outlet />
+                      <Outlet context={[user.attributes.sub]} />
                     </React.Suspense>
                   </RelayEnvironmentProvider>
                 </main>
