@@ -114,11 +114,21 @@ export default function SelectScoreAutoWidth({
         courseId: courseId,
         nodeId: nodeId,
       },
+      onError: (e) => {
+        // Revert the score
+        console.error(e);
+        setScore(score);
+      },
+      onCompleted: (data) => {
+        console.log(
+          `completed the select score mutation: ${JSON.stringify(data, 2)}`
+        );
+        setScore(Number(data.updateScore.score.strokes));
+        onChange(Number(data.updateScore.score.strokes));
+      },
     });
-    console.log("created score!");
-    console.log(createdData);
-    setScore(event.target.value);
-    onChange(event.target.value);
+    // setScore(event.target.value);
+    // onChange(event.target.value);
   };
 
   return (
