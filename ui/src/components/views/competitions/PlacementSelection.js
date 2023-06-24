@@ -42,7 +42,7 @@ const competitionsScoreUpdateMutation = graphql`
   }
 `;
 
-const acceptablePlacements = [1, 2];
+const acceptablePoints = [1, 2];
 
 export default function PlacementSelection(props) {
   console.log(`placement got props: ${props}`);
@@ -71,9 +71,15 @@ export default function PlacementSelection(props) {
       onError: (e) => {
         console.log(`oh nooo, error creating mutation ${e}`);
       },
+      onCompleted: (data) => {
+        console.log(
+          `PlacementSelection: Successful update, got data ${JSON.stringify(
+            data,
+            2
+          )}`
+        );
+      },
     });
-    console.log("created points!");
-    console.log(createdData);
   };
 
   return (
@@ -82,15 +88,15 @@ export default function PlacementSelection(props) {
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="placement-simple-select-autowidth"
-          value={props.placement || ""}
+          value={props.points || ""}
           onChange={handleChange}
           label="Placement"
           variant="standard"
           IconComponent={() => ""}
         >
-          {acceptablePlacements.map((acceptablePlacement) => (
-            <MenuItem key={acceptablePlacement} value={acceptablePlacement}>
-              {acceptablePlacement}
+          {acceptablePoints.map((acceptablePoints) => (
+            <MenuItem key={acceptablePoints} value={acceptablePoints}>
+              {acceptablePoints}
             </MenuItem>
           ))}
         </Select>
