@@ -42,7 +42,7 @@ const competitionsScoreUpdateMutation = graphql`
   }
 `;
 
-const acceptablePlacements = [1, 2, 3, 4];
+const acceptablePlacements = [1, 2];
 
 export default function PlacementSelection(props) {
   console.log(`placement got props: ${props}`);

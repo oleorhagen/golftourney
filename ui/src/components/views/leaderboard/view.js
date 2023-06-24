@@ -68,7 +68,9 @@ function PlayerLeaderBoardTableEntry(props) {
 }
 
 const LeaderBoardView = () => {
-  const data = useLazyLoadQuery(LeaderBoardScoreQuery);
+  const data = useLazyLoadQuery(LeaderBoardScoreQuery, {
+    fetchPolicy: "network-only",
+  });
   console.log(`Current leaderboard data: ${JSON.stringify(data)}`);
 
   if (data) {
