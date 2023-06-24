@@ -8,7 +8,6 @@ import graphql from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
 
 import {
-  RelayEnvironmentProvider,
   loadQuery,
   usePreloadedQuery,
   useLazyLoadQuery,

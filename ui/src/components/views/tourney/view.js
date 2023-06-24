@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 
+import { useOutletContext } from "react-router-dom";
+
 import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
 
@@ -12,22 +14,6 @@ import {
   usePreloadedQuery,
   useLazyLoadQuery,
 } from "react-relay/hooks";
-
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
 
 const coursesQuery = graphql`
   query viewAllCoursesAndHolesQuery($playerId: UUID!) {
@@ -66,15 +52,7 @@ const coursesQuery = graphql`
   }
 `;
 
-// Inner component that reads the preloaded query results via `usePreloadedQuery()`.
-// This works as follows:
-// - If the query has completed, it returns the results of the query.
-// - If the query is still pending, it "suspends" (indicates to React that the
-//   component isn't ready to render yet). This will show the nearest <Suspense>
-//   fallback.
-// - If the query failed, it throws the failure error. For simplicity we aren't
-//   handling the failure case here.
-function TourneyApp(props) {
+function ScheduleScoreCard(props) {
   const course_data = useLazyLoadQuery(
     coursesQuery,
     {
@@ -159,14 +137,51 @@ function TourneyApp(props) {
   );
 }
 
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+// Inner component that reads the preloaded query results via `usePreloadedQuery()`.
+// This works as follows:
+// - If the query has completed, it returns the results of the query.
+// - If the query is still pending, it "suspends" (indicates to React that the
+//   component isn't ready to render yet). This will show the nearest <Suspense>
+//   fallback.
+// - If the query failed, it throws the failure error. For simplicity we aren't
+//   handling the failure case here.
+function TourneyApp(props) {
+  if (!props.playerId) {
+    return (
+      <Typography variant="h2">
+        No player Id given. This is a programming error
+      </Typography>
+    );
+  }
+  return <ScheduleScoreCard {...props} />;
+}
+
 function TourneyView(props) {
   console.log("tourney View");
   console.log(props);
 
+  const [playerId] = useOutletContext();
+
   return (
     <>
       <Typography variant="h2">Schedule</Typography>
-      <TourneyApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
+      <TourneyApp playerId={playerId} />
     </>
   );
 }
