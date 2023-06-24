@@ -34,17 +34,14 @@ const router = createBrowserRouter([
         element: <CompetitionView />,
       },
       {
-        // TODO - Should ideally be leaderboard
         path: "/leaderboard",
         element: <LeaderBoardView />,
       },
       {
-        // TODO - Create this
         path: "/players",
         element: <PlayersView />,
       },
       {
-        // TODO - Create this
         path: "/schedule",
         element: <TourneyView />,
       },
