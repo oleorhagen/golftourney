@@ -2,20 +2,51 @@ import React from "react";
 
 import { Avatar, Paper, Stack, Typography, Skeleton } from "@mui/material";
 
+const players = [
+  {
+    name: "Ole Petter Orhagen",
+    hcp: 20,
+    sex: "male",
+    bio: "Ole Petter is the host of the Skjeberg Invitational (formerly Skjeberg Open), and an avid recreational golfer.",
+  },
+  {
+    name: "Ole Martin Hellerud",
+    hcp: 29,
+    sex: "male",
+    bio: "Ole Martin was the first winner of the Skjeberg open, and..",
+  },
+
+  {
+    name: "Marius Sollie",
+    hcp: 20.1,
+    sex: "male",
+    bio: "Marius is the reigning and defending champion at this years Skjeberg Invitational",
+  },
+
+  {
+    name: "Juliane S. Karling",
+    hcp: 20.1,
+    sex: "female",
+    bio: "Juliane is the challenger, and runner up from last years Skjeberg invitational",
+  },
+];
+
 const Player = (props) => {
   return props.name ? (
     <Paper>
       <Avatar alt={props.name} src="/static/images/avatar/logo512.png" />
       <Typography variant="h4" color="text.primary" align="left">
-          Name: {props.name}
+        Name: {props.name}
       </Typography>
       <Typography variant="h4" color="text.primary" align="center">
-          Hcp: {props.hcp}
+        Hcp: {props.hcp}
       </Typography>
       <Typography variant="h4" color="text.primary" align="right">
-          sex: {props.sex}
+        sex: {props.sex}
       </Typography>
-      <Skeleton variant="rounded" width={210} height={60} />{" "}
+      <Typography variant="p" color="text.tertiary">
+        bio: {props.bio}
+      </Typography>
     </Paper>
   ) : (
     <>
@@ -48,12 +79,7 @@ const PlayersView = () => {
         marginBottom={8}
         spacing={4}
       >
-        {[
-          { name: "Ole Petter", hcp: 20, sex: "male" },
-          { name: "Ole Martin", hcp: 25, sex: "male" },
-          { name: "Julius", hcp: 21, sex: "female" },
-          { name: "Marius", hcp: 37, sex: "male" },
-        ].map((n, i) => (
+        {players.map((n, i) => (
           <Player key={i} {...n} />
         ))}
       </Stack>
