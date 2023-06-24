@@ -138,11 +138,7 @@ function CompetitionView(props) {
   return (
     <>
       <h1>Competition</h1>
-      <RelayEnvironmentProvider environment={RelayEnvironment}>
-        <React.Suspense fallback={"Loading..."}>
-          <CompetitionApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
-        </React.Suspense>
-      </RelayEnvironmentProvider>
+      <CompetitionApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
     </>
   );
 }
