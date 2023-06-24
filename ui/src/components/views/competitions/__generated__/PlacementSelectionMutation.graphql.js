@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1eea778a3ab38d947d72d6e32306f7fd>>
+ * @generated SignedSource<<4e7ec55e9ffca33d8635d6f9acc691d8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,12 +17,12 @@ var v0 = {
 v1 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "placement"
+  "name": "playerId"
 },
 v2 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "playerId"
+  "name": "points"
 },
 v3 = [
   {
@@ -39,13 +39,13 @@ v3 = [
               },
               {
                 "kind": "Variable",
-                "name": "placement",
-                "variableName": "placement"
+                "name": "playerId",
+                "variableName": "playerId"
               },
               {
                 "kind": "Variable",
-                "name": "playerId",
-                "variableName": "playerId"
+                "name": "points",
+                "variableName": "points"
               }
             ],
             "kind": "ObjectValue",
@@ -89,25 +89,25 @@ return {
   "kind": "Request",
   "operation": {
     "argumentDefinitions": [
-      (v1/*: any*/),
+      (v2/*: any*/),
       (v0/*: any*/),
-      (v2/*: any*/)
+      (v1/*: any*/)
     ],
     "kind": "Operation",
     "name": "PlacementSelectionMutation",
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "17469746348bb4ea9d34b5e2c002bec1",
+    "cacheID": "734354732c0b1857c77e92639cea22a6",
     "id": null,
     "metadata": {},
     "name": "PlacementSelectionMutation",
     "operationKind": "mutation",
-    "text": "mutation PlacementSelectionMutation(\n  $placement: BigInt!\n  $competitionId: UUID!\n  $playerId: UUID!\n) {\n  createCompetitionScore(input: {competitionScore: {placement: $placement, competitionId: $competitionId, playerId: $playerId}}) {\n    clientMutationId\n  }\n}\n"
+    "text": "mutation PlacementSelectionMutation(\n  $points: BigInt!\n  $competitionId: UUID!\n  $playerId: UUID!\n) {\n  createCompetitionScore(input: {competitionScore: {points: $points, competitionId: $competitionId, playerId: $playerId}}) {\n    clientMutationId\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "e667081611d2c3bccf6d2e0e4e89b3d7";
+node.hash = "ad733c525649d63d424114016321077d";
 
 module.exports = node;

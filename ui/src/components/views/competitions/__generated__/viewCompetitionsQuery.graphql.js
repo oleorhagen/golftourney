@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f1c1159629f4677923e76dd895d2af02>>
+ * @generated SignedSource<<549d095dfbc944bad48c7773694ada8c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -97,7 +97,7 @@ v3 = [
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "placement",
+                    "name": "points",
                     "storageKey": null
                   },
                   {
@@ -138,16 +138,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "22f96b64fda179453df404e0f38f883f",
+    "cacheID": "85dcb36a1e8cc0c68ada3fe6d3d429a4",
     "id": null,
     "metadata": {},
     "name": "viewCompetitionsQuery",
     "operationKind": "query",
-    "text": "query viewCompetitionsQuery(\n  $playerId: UUID!\n) {\n  allCompetitions {\n    nodes {\n      competitionType\n      id\n      nodeId\n      competitionScoresByCompetitionId(condition: {playerId: $playerId}) {\n        nodes {\n          competitionId\n          id\n          nodeId\n          placement\n          playerId\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query viewCompetitionsQuery(\n  $playerId: UUID!\n) {\n  allCompetitions {\n    nodes {\n      competitionType\n      id\n      nodeId\n      competitionScoresByCompetitionId(condition: {playerId: $playerId}) {\n        nodes {\n          competitionId\n          id\n          nodeId\n          points\n          playerId\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "ca08f4ee98b6057b559033bc945919de";
+node.hash = "38ae7a0e2f1c975bf9e8f43486ce66f3";
 
 module.exports = node;

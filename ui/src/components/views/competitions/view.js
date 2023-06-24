@@ -44,7 +44,7 @@ const competitionsQuery = graphql`
             competitionId
             id
             nodeId
-            placement
+            points
             playerId
           }
         }
@@ -113,9 +113,7 @@ function CompetitionApp(props) {
                   playerId={props.playerId}
                   competitionId={n.id}
                   nodeId={n.competitionScoresByCompetitionId.nodes[0]?.id}
-                  placement={
-                    n.competitionScoresByCompetitionId.nodes[0]?.placement
-                  }
+                  points={n.competitionScoresByCompetitionId.nodes[0]?.points}
                 />
               </CustomTabPanel>
             );

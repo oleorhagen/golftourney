@@ -98,7 +98,7 @@ type CompetitionScore implements Node {
   """
   nodeId: ID!
   id: UUID!
-  placement: BigInt!
+  points: BigInt!
   competitionId: UUID!
   playerId: UUID!
 
@@ -119,8 +119,8 @@ input CompetitionScoreCondition {
   """Checks for equality with the object’s `id` field."""
   id: UUID
 
-  """Checks for equality with the object’s `placement` field."""
-  placement: BigInt
+  """Checks for equality with the object’s `points` field."""
+  points: BigInt
 
   """Checks for equality with the object’s `competitionId` field."""
   competitionId: UUID
@@ -132,7 +132,7 @@ input CompetitionScoreCondition {
 """An input for mutations affecting `CompetitionScore`"""
 input CompetitionScoreInput {
   id: UUID
-  placement: BigInt!
+  points: BigInt!
   competitionId: UUID!
   playerId: UUID!
 }
@@ -142,7 +142,7 @@ Represents an update to a `CompetitionScore`. Fields that are set will be update
 """
 input CompetitionScorePatch {
   id: UUID
-  placement: BigInt
+  points: BigInt
   competitionId: UUID
   playerId: UUID
 }
@@ -180,8 +180,8 @@ enum CompetitionScoresOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  PLACEMENT_ASC
-  PLACEMENT_DESC
+  POINTS_ASC
+  POINTS_DESC
   COMPETITION_ID_ASC
   COMPETITION_ID_DESC
   PLAYER_ID_ASC
@@ -1689,6 +1689,37 @@ type PlayersConnection {
   totalCount: Int!
 }
 
+"""A connection to a list of `PlayerScoreFunctionRecord` values."""
+type PlayerScoreFunctionConnection {
+  """A list of `PlayerScoreFunctionRecord` objects."""
+  nodes: [PlayerScoreFunctionRecord]!
+
+  """
+  A list of edges which contains the `PlayerScoreFunctionRecord` and cursor to aid in pagination.
+  """
+  edges: [PlayerScoreFunctionEdge!]!
+
+  """
+  The count of *all* `PlayerScoreFunctionRecord` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""A `PlayerScoreFunctionRecord` edge in the connection."""
+type PlayerScoreFunctionEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `PlayerScoreFunctionRecord` at the end of the edge."""
+  node: PlayerScoreFunctionRecord
+}
+
+"""The return type of our `playerScoreFunction` query."""
+type PlayerScoreFunctionRecord {
+  id: UUID
+  score: Int
+}
+
 """A `Player` edge in the connection."""
 type PlayersEdge {
   """A cursor for use in pagination."""
@@ -1938,6 +1969,25 @@ type Query implements Node {
   playerById(id: UUID!): Player
   scoreById(id: UUID!): Score
   myFunction: Int
+  playerScoreFunction(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+  ): PlayerScoreFunctionConnection
 
   """Reads a single `Competition` using its globally unique `ID`."""
   competition(

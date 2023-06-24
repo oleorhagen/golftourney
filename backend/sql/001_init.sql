@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS competition (
 
 CREATE TABLE IF NOT EXISTS competition_score (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  placement INT8 NOT NULL CHECK ( placement BETWEEN 1 AND 4),
+  points INT8 NOT NULL CHECK ( points BETWEEN 0 AND 2),
   competition_id uuid NOT NULL,
     FOREIGN KEY (competition_id) REFERENCES competition (id),
   player_id uuid NOT NULL,

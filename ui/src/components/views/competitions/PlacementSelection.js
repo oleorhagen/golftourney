@@ -9,14 +9,14 @@ import { useMutation } from "react-relay";
 
 const competitionsScoreMutation = graphql`
   mutation PlacementSelectionMutation(
-    $placement: BigInt!
+    $points: BigInt!
     $competitionId: UUID!
     $playerId: UUID!
   ) {
     createCompetitionScore(
       input: {
         competitionScore: {
-          placement: $placement
+          points: $points
           competitionId: $competitionId
           playerId: $playerId
         }
@@ -28,16 +28,13 @@ const competitionsScoreMutation = graphql`
 `;
 
 const competitionsScoreUpdateMutation = graphql`
-  mutation PlacementSelectionUpdateMutation(
-    $placement: BigInt!
-    $nodeId: UUID!
-  ) {
+  mutation PlacementSelectionUpdateMutation($points: BigInt!, $nodeId: UUID!) {
     updateCompetitionScoreById(
-      input: { competitionScorePatch: { placement: $placement }, id: $nodeId }
+      input: { competitionScorePatch: { points: $points }, id: $nodeId }
     ) {
       clientMutationId
       competitionScore {
-        placement
+        points
         nodeId
         id
       }
@@ -66,7 +63,7 @@ export default function PlacementSelection(props) {
     console.log("handle placment change");
     commitMutation({
       variables: {
-        placement: event.target.value,
+        points: event.target.value,
         playerId: props.playerId,
         competitionId: props.competitionId,
         nodeId: props.nodeId,
@@ -75,7 +72,7 @@ export default function PlacementSelection(props) {
         console.log(`oh nooo, error creating mutation ${e}`);
       },
     });
-    console.log("created placement!");
+    console.log("created points!");
     console.log(createdData);
   };
 

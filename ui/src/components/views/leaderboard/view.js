@@ -27,7 +27,7 @@ const LeaderBoardScoreQuery = graphql`
       nodes {
         id
         nodeId
-        placement
+        points
         playerId
       }
     }
@@ -48,7 +48,7 @@ function computeTotalScore(scoreData, playerId) {
     .reduce((acc, node) => acc + Number(node.points), 0);
   let competitionPoints = scoreData.allCompetitionScores.nodes
     .filter((node) => node.playerId === playerId)
-    .reduce((acc, node) => acc + Number(node.placement), 0);
+    .reduce((acc, node) => acc + Number(node.points), 0);
   return onCoursePoints + competitionPoints;
 }
 
