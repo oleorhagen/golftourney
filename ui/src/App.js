@@ -19,7 +19,6 @@ import React from "react";
 import { Container } from "@mui/material";
 
 import Drawer from "./components/Drawer";
-import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 // Configure Amplify in index file or root file

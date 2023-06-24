@@ -127,8 +127,6 @@ export default function SelectScoreAutoWidth({
         onChange(Number(data.updateScore.score.strokes));
       },
     });
-    // setScore(event.target.value);
-    // onChange(event.target.value);
   };
 
   return (

@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
+import { SwipeableDrawer } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
@@ -42,6 +43,7 @@ export default function ResponsiveDrawer(props) {
             component={Link}
             to={item.link}
             sx={{ textAlign: "center" }}
+            onClick={handleDrawerToggle}
           >
             <ListItemText primary={item.name} />
           </ListItemButton>
@@ -84,14 +86,13 @@ export default function ResponsiveDrawer(props) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
+        <SwipeableDrawer
           container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true, // Component is always present in the DOM
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -102,7 +103,7 @@ export default function ResponsiveDrawer(props) {
           }}
         >
           {drawer}
-        </Drawer>
+        </SwipeableDrawer>
         <Drawer
           variant="permanent"
           sx={{
@@ -116,16 +117,6 @@ export default function ResponsiveDrawer(props) {
         >
           {drawer}
         </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Toolbar />
       </Box>
     </Box>
   );
