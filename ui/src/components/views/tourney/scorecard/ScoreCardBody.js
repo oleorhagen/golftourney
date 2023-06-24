@@ -11,14 +11,7 @@ export default function ScoreCardBody(props) {
   // const hcpExtraStrokes = props.hcpExtraStrokes;
   return (
     <>
-      <Grid container direction="row" spacing={2}>
-        <ScoreCardTable
-          {...props}
-          front
-          data={data}
-          onChange={props.onChange}
-        />
-      </Grid>
+      <ScoreCardTable {...props} front data={data} onChange={props.onChange} />
     </>
   );
 }
