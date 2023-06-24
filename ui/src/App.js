@@ -55,8 +55,6 @@ function App() {
               >
                 <div>
                   <p>Welcome {user.username}</p>
-                  <p>Welcome {user.attributes.sub}</p>
-                  <button onClick={signOut}>Sign out</button>
                 </div>
                 <main>
                   <RelayEnvironmentProvider environment={RelayEnvironment}>
