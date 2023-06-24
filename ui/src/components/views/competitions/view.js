@@ -61,14 +61,9 @@ const competitionsQuery = graphql`
 // - If the query failed, it throws the failure error. For simplicity we aren't
 //   handling the failure case here.
 function CompetitionApp(props) {
-  // const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
-  //   viewSetHandicapForCourseMutation
-  // );
   const competition_data = useLazyLoadQuery(competitionsQuery, {
     playerId: props.playerId,
   });
-  console.log("competition data:");
-  console.log(competition_data);
 
   var competition_nodes = [];
 
@@ -79,14 +74,9 @@ function CompetitionApp(props) {
     competition_nodes = nodes;
   }
 
-  console.log("competition nodes:");
-  console.log(competition_nodes);
-
   const [value, setValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
-    console.log("Handle tab change");
-    console.log(event);
     setValue(newValue);
   };
 
@@ -102,9 +92,6 @@ function CompetitionApp(props) {
             </Tabs>
           </Box>
           {competition_nodes.map((n, i) => {
-            console.log(`n node: ${n}`);
-            console.log(n.nodeId);
-            console.log(n.id);
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>{n.competitionType}</div>
