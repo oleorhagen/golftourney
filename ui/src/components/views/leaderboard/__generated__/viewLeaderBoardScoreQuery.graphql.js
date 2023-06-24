@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6e1a13d45d35dfee26040d50398c4409>>
+ * @generated SignedSource<<ba234fca509f6d6d26b66eee30d883b1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -69,13 +69,7 @@ v6 = {
       "selections": [
         (v4/*: any*/),
         (v5/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "placement",
-          "storageKey": null
-        },
+        (v1/*: any*/),
         (v2/*: any*/)
       ],
       "storageKey": null
@@ -189,16 +183,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "46edc34e8be358c8e583bbe4866dc137",
+    "cacheID": "d8654dd7473a3c6ffde1966439fbb955",
     "id": null,
     "metadata": {},
     "name": "viewLeaderBoardScoreQuery",
     "operationKind": "query",
-    "text": "query viewLeaderBoardScoreQuery {\n  allScores(orderBy: HOLE_ID_DESC) {\n    nodes {\n      points\n      playerId\n      holeId\n      nodeId\n    }\n  }\n  allCompetitionScores {\n    nodes {\n      id\n      nodeId\n      placement\n      playerId\n    }\n  }\n  allPlayers {\n    nodes {\n      id\n      name\n      nodeId\n    }\n  }\n}\n"
+    "text": "query viewLeaderBoardScoreQuery {\n  allScores(orderBy: HOLE_ID_DESC) {\n    nodes {\n      points\n      playerId\n      holeId\n      nodeId\n    }\n  }\n  allCompetitionScores {\n    nodes {\n      id\n      nodeId\n      points\n      playerId\n    }\n  }\n  allPlayers {\n    nodes {\n      id\n      name\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "5e913ece0e188a7560e2672c36c703f0";
+node.hash = "0a6a6017e144b43390db1eb0abf4c141";
 
 module.exports = node;

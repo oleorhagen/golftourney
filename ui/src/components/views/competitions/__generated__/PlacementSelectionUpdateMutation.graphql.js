@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<06a4afba58fbbe6a15e33333953a171d>>
+ * @generated SignedSource<<47e0cf27809563f4ce33b0294d40ec75>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ var v0 = {
 v1 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "placement"
+  "name": "points"
 },
 v2 = [
   {
@@ -29,8 +29,8 @@ v2 = [
             "fields": [
               {
                 "kind": "Variable",
-                "name": "placement",
-                "variableName": "placement"
+                "name": "points",
+                "variableName": "points"
               }
             ],
             "kind": "ObjectValue",
@@ -70,7 +70,7 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "placement",
+            "name": "points",
             "storageKey": null
           },
           {
@@ -118,16 +118,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "07e4a8e01c64fc97cd333f0e28fa2c30",
+    "cacheID": "3bfb304b8d75af39605c034655819847",
     "id": null,
     "metadata": {},
     "name": "PlacementSelectionUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation PlacementSelectionUpdateMutation(\n  $placement: BigInt!\n  $nodeId: UUID!\n) {\n  updateCompetitionScoreById(input: {competitionScorePatch: {placement: $placement}, id: $nodeId}) {\n    clientMutationId\n    competitionScore {\n      placement\n      nodeId\n      id\n    }\n  }\n}\n"
+    "text": "mutation PlacementSelectionUpdateMutation(\n  $points: BigInt!\n  $nodeId: UUID!\n) {\n  updateCompetitionScoreById(input: {competitionScorePatch: {points: $points}, id: $nodeId}) {\n    clientMutationId\n    competitionScore {\n      points\n      nodeId\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "b380dbac8dc8f3ce4ee2e59cb99d4120";
+node.hash = "538d051ef91c3e960fb4fb72e675e43c";
 
 module.exports = node;
