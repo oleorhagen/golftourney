@@ -120,7 +120,6 @@ function CompetitionApp(props) {
               </CustomTabPanel>
             );
           })}
-          {/* <CompetitionGraph /> */}
         </div>
       </div>
     );

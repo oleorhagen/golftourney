@@ -1,10 +1,11 @@
 import React from "react";
 
-import { Paper, Stack, Typography, Skeleton } from "@mui/material";
+import { Avatar, Paper, Stack, Typography, Skeleton } from "@mui/material";
 
 const Player = (props) => {
   return props.name ? (
     <Paper>
+      <Avatar alt={props.name} src="/static/images/avatar/logo512.png" />
       <Typography variant="h4" color="text.primary" align="left">
           Name: {props.name}
       </Typography>
