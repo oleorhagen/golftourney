@@ -40,7 +40,7 @@ const RulesView = () => {
           <List>
             {onCourseRulesText.map((rule, i) => (
               <ListItem key={i}>
-                <ListItemText inset={true} primary={rule} secondary="foobar" />
+                <ListItemText inset={true} primary={rule} />
               </ListItem>
             ))}
           </List>
