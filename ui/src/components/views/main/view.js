@@ -1,6 +1,13 @@
 import React from "react";
 
-import { Box, Container, Typography, Paper } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Container,
+  Typography,
+  Paper,
+} from "@mui/material";
 
 import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
 import "@leenguyen/react-flip-clock-countdown/dist/index.css";
@@ -8,6 +15,12 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 const MainView = () => {
   return (
     <>
+      <Alert severity="success">
+        <AlertTitle>Welcome!</AlertTitle>
+        This is the initial site for the Skjeberg Invitational. Feel free to
+        click around, and have fun. All functionality will be unlocked at the
+        start of the tournament. See you then— <strong>check it out!</strong>
+      </Alert>
       <Container>
         <Box
           display="flex"
