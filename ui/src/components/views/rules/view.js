@@ -13,13 +13,13 @@ const onCourseRulesText = [
   "One mulligan available for each day of individual play",
   "The mulligan can be carried over to the next day",
   "The tournament host has the final say in disputes regarding the rules",
+  "You are allowed 15 clubs",
 ];
 
 const inCabinRulesText = [
   "On sunday we all wear red",
   "The master bedroom is at the reigning champion's disposal",
-  "The Champions dinner is on saturday, where the Champion decides the menu, and only champions are welcom",
-  "You are allowed 15 clubs",
+  "The Champions dinner is on saturday, where the Champion decides the menu, and only champions are welcome",
 ];
 
 const RulesView = () => {
