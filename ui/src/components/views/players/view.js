@@ -44,7 +44,7 @@ const Player = (props) => {
       <Typography variant="h4" color="text.primary" align="right">
         sex: {props.sex}
       </Typography>
-      <Typography variant="p" color="text.tertiary">
+      <Typography variant="body1" color="text.tertiary">
         bio: {props.bio}
       </Typography>
     </Paper>
