@@ -9,12 +9,12 @@ import champImg21 from "./champs/champ21.jpg";
 export const Champions = () => {
   const previousChamps = [
     {
-      name: "Maarjus",
+      name: "Marius Sollie",
       img: champImg22,
       text: "The winner of the 2022 Skjeberg Invitational",
     },
     {
-      name: "Ole M.",
+      name: "Ole M. Hellerud",
       img: champImg21,
       text: "The winner of the 2021 Skjeberg Open",
     },
