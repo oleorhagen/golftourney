@@ -50,15 +50,13 @@ const RulesView = () => {
           <Typography variant="h5" align="left" color="text.secondary">
             Cabin Rules:
           </Typography>
-          <Typography variant="body1" align="left">
-            <List>
-              {inCabinRulesText.map((rule, i) => (
-                <ListItem>
-                  <ListItemText inset={true} primary={rule} />
-                </ListItem>
-              ))}
-            </List>
-          </Typography>
+          <List>
+            {inCabinRulesText.map((rule, i) => (
+              <ListItem key={i}>
+                <ListItemText inset={true} primary={rule} />
+              </ListItem>
+            ))}
+          </List>
         </Paper>
       </Container>
     </>
