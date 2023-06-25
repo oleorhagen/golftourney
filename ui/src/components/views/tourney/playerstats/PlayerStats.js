@@ -136,11 +136,11 @@ const HandicapFragment = graphql`
 // }
 
 export default function PlayerStats(props) {
-  const [hcp, setHcp] = useState("");
+  const data = useFragment(HandicapFragment, props.handicap_fragment);
+
+  const [hcp, setHcp] = useState(data?.handicap || "");
   const [error, setError] = useState(false);
   const [helpText, setHelpText] = useState("");
-
-  const data = useFragment(HandicapFragment, props.handicap_fragment);
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
     props.handicap_fragment
@@ -157,7 +157,7 @@ export default function PlayerStats(props) {
             error={error}
             helperText={helpText}
             label="Extra Strokes on the Course"
-            value={data?.handicap}
+            value={hcp}
             onChange={(event) => {
               if (isNaN(Number(event.target.value))) {
                 setError(true);
