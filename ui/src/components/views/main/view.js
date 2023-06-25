@@ -19,7 +19,10 @@ const MainView = () => {
         <AlertTitle>Welcome!</AlertTitle>
         This is the initial site for the Skjeberg Invitational. Feel free to
         click around, and have fun. All functionality will be unlocked at the
-        start of the tournament. See you then— <strong>check it out!</strong>
+        start of the tournament. See you then— check it out!.
+        <strong>
+          Also note that more updates will come as the week progresses!
+        </strong>
       </Alert>
       <Container>
         <Box
