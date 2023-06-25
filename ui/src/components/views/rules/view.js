@@ -18,7 +18,8 @@ const onCourseRulesText = [
 
 const inCabinRulesText = [
   "On sunday we all wear red",
-  "The master bedroom is at the reigning champion's disposal",
+  "Bring your team-jerseys from last year",
+  "The master bedroom is at the reigning champ's disposal",
   "The Champions dinner is on saturday, where the Champion decides the menu, and only champions are welcome",
 ];
 
