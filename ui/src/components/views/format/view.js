@@ -1,6 +1,13 @@
 import React from "react";
 
-import { Container, Typography, Paper } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 
 const formatText = `Skjeberg Invitational is a four day tournament, consisting of four contestants, and two days of individual play, as well as two days of team play. The tournament will be held over the following courses: `;
 
@@ -12,7 +19,7 @@ const courses = [
   {
     day: 1,
     course: "Gamle Fredrikstad",
-    type: "match",
+    type: "teams",
     teams: "Ole M. And Juliane. Marius and Ole P.",
     competition: "irons",
   },
@@ -25,7 +32,7 @@ const courses = [
   {
     day: 3,
     course: "Skjeberg",
-    type: "match",
+    type: "teams",
     teams: "1st place and 3rd place. 2nd place and 4th place.",
     competition: "chipping",
   },
@@ -42,33 +49,39 @@ const FormatView = () => {
     <>
       <Container maxWidth="sm">
         <Paper>
-          <Typography variant="h4">Format:</Typography>
-          <Typography variant="p" align="left">
-            {formatText}
-            <ul>
-              {courses.map((n, i) => (
-                <li key={i}>
-                  {n.type === "match" && (
-                    <span style={{ fontWeight: "bold" }}>Teams: </span>
-                  )}
-                  {n.course} on day {n.day}.{" "}
-                  {n.type === "match" && "(" + n.teams + ")"}
-                  <ul>
-                    <li>
-                      The days competition:{" "}
-                      <span style={{ fontWeight: "bold" }}>
-                        {n.competition}
-                      </span>
-                    </li>
-                  </ul>
-                </li>
-              ))}
-            </ul>
+          <Typography variant="h4" align="left" color="text.primary">
+            Format:
           </Typography>
-          <Typography variant="p" align="left">
+          <Typography
+            variant="body1"
+            align="left"
+            mt={2}
+            color="text.secondary"
+          >
+            {formatText}
+          </Typography>
+          <List>
+            {courses.map((c, i) => {
+              return (
+                <ListItem key={i}>
+                  <ListItemText
+                    inset={true}
+                    secondary={c.type}
+                    primary={
+                      <Typography color="text.tertiary">
+                        Day {c.day}: {c.course}
+                        {c.type === "match" && "(" + c.teams + ")"}
+                      </Typography>
+                    }
+                  ></ListItemText>
+                </ListItem>
+              );
+            })}
+          </List>
+          <Typography variant="body1" align="left" color="text.secondary">
             {matchPlayText}
           </Typography>
-          <Typography variant="p" align="left">
+          <Typography variant="body1" align="left" color="text.secondary">
             {individualFormatText}
           </Typography>
         </Paper>
