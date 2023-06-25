@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -23,6 +23,11 @@ const competitionsScoreMutation = graphql`
       }
     ) {
       clientMutationId
+      competitionScore {
+        points
+        nodeId
+        id
+      }
     }
   }
 `;
@@ -45,22 +50,13 @@ const competitionsScoreUpdateMutation = graphql`
 const acceptablePoints = [1, 2];
 
 export default function PlacementSelection(props) {
-  console.log(`placement got props: ${props}`);
-  console.log(props);
-  const nodeId = props.nodeId;
-  const playerId = props.playerId;
-  const competitionId = props.competitionId;
-
-  if (!playerId || !competitionId) {
-    console.log(`misssing data in placement`);
-  }
+  const [points, setPoints] = useState(props.points || "");
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
     props.nodeId ? competitionsScoreUpdateMutation : competitionsScoreMutation
   );
 
   const handleChange = (event) => {
-    console.log("handle placment change");
     commitMutation({
       variables: {
         points: event.target.value,
@@ -72,11 +68,9 @@ export default function PlacementSelection(props) {
         console.log(`oh nooo, error creating mutation ${e}`);
       },
       onCompleted: (data) => {
-        console.log(
-          `PlacementSelection: Successful update, got data ${JSON.stringify(
-            data,
-            2
-          )}`
+        setPoints(
+          data?.updateCompetitionScoreById.competitionScore.points ||
+            data.competitionScore.points
         );
       },
     });
@@ -88,7 +82,7 @@ export default function PlacementSelection(props) {
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="placement-simple-select-autowidth"
-          value={props.points || ""}
+          value={points}
           onChange={handleChange}
           label="Placement"
           variant="standard"

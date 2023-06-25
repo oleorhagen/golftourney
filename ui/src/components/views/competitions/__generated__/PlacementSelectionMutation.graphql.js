@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4e7ec55e9ffca33d8635d6f9acc691d8>>
+ * @generated SignedSource<<adcbbecb5d8a7862f6243ecfd838fca7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -67,6 +67,38 @@ v3 = [
         "kind": "ScalarField",
         "name": "clientMutationId",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "CompetitionScore",
+        "kind": "LinkedField",
+        "name": "competitionScore",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "points",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "nodeId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -98,16 +130,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "734354732c0b1857c77e92639cea22a6",
+    "cacheID": "cb7c373483e7650f5cee473aaf87b55a",
     "id": null,
     "metadata": {},
     "name": "PlacementSelectionMutation",
     "operationKind": "mutation",
-    "text": "mutation PlacementSelectionMutation(\n  $points: BigInt!\n  $competitionId: UUID!\n  $playerId: UUID!\n) {\n  createCompetitionScore(input: {competitionScore: {points: $points, competitionId: $competitionId, playerId: $playerId}}) {\n    clientMutationId\n  }\n}\n"
+    "text": "mutation PlacementSelectionMutation(\n  $points: BigInt!\n  $competitionId: UUID!\n  $playerId: UUID!\n) {\n  createCompetitionScore(input: {competitionScore: {points: $points, competitionId: $competitionId, playerId: $playerId}}) {\n    clientMutationId\n    competitionScore {\n      points\n      nodeId\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "ad733c525649d63d424114016321077d";
+node.hash = "631fcba4395013831ef411b28e67010e";
 
 module.exports = node;
