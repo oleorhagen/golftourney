@@ -14,11 +14,7 @@ spec:
     spec:
       containers:
       - name: skjeberg-inv
-        image: registry.gitlab.com/oleorhagen/skjeberg-inv/skjeberg-inv
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+        image: registry.gitlab.com/oleorhagen/golftourney/skjeberg-inv
         ports:
         - containerPort: 80
       imagePullSecrets:
