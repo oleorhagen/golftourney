@@ -27,7 +27,7 @@ const RulesView = () => {
   return (
     <>
       <Container maxWidth="sm">
-        <Paper>
+        <Paper elevation={2}>
           <Typography variant="h4" color="text.primary" align="left">
             Rules:
           </Typography>
@@ -45,6 +45,8 @@ const RulesView = () => {
               </ListItem>
             ))}
           </List>
+        </Paper>
+        <Paper elevation={2}>
           <Typography variant="h5" align="left" color="text.secondary">
             Cabin Rules:
           </Typography>
