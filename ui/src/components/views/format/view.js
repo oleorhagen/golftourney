@@ -11,7 +11,7 @@ import {
 
 const formatText = `Skjeberg Invitational is a four day tournament, consisting of four contestants, and two days of individual play, as well as two days of team play. The tournament will be held over the following courses: `;
 
-const matchPlayText = `The matchplay will be done with the following quirks. The average of the team members handicaps subtracted 20%.`;
+const matchPlayText = `The matchplay will be done with the following quirks. The average of the team members handicaps subtracted 20%. No one player can have three or more tee-strokes in a row, and hence the team will have to use their tee-shots carefully. One hole will have to be played with the worst ball.`;
 
 const individualFormatText = `The individual games will have each member have the opportunity for one mulligan a day. It is also possible to save the mulligan for the next day of individual play`;
 
@@ -20,7 +20,6 @@ const courses = [
     day: 1,
     course: "Gamle Fredrikstad",
     type: "teams",
-    teams: "Ole M. And Juliane. Marius and Ole P.",
     competition: "irons",
   },
   {
@@ -70,7 +69,7 @@ const FormatView = () => {
                     primary={
                       <Typography color="text.tertiary">
                         Day {c.day}: {c.course}
-                        {c.type === "match" && "(" + c.teams + ")"}
+                        {c.type === "teams" && c.teams && "(" + c.teams + ")"}
                       </Typography>
                     }
                   ></ListItemText>
