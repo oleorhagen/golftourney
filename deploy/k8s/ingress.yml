@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: skjeberg-inv-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+spec:
+  tls:
+    - hosts:
+      - skjeberg-invitational.com
+      secretName: tls-ingress-http
+  rules:
+    - host: skjeberg-invitational.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  skjeberg-inv
+                port:
+                  number: 80

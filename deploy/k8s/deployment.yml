@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skjeberg-inv
+spec:
+  selector:
+    matchLabels:
+      app: skjeberg-inv
+  template:
+    metadata:
+      labels:
+        app: skjeberg-inv
+    spec:
+      containers:
+      - name: skjeberg-inv
+        image: registry.gitlab.com/oleorhagen/skjeberg-inv/skjeberg-inv
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: gitlab-container-registry-login-secret
