@@ -14,22 +14,26 @@ const courses = [
     course: "Gamle Fredrikstad",
     type: "match",
     teams: "Ole M. And Juliane. Marius and Ole P.",
+    competition: "irons",
   },
   {
     day: 2,
     course: "Borregaard",
     type: "single",
+    competition: "putting",
   },
   {
     day: 3,
     course: "Skjeberg",
     type: "match",
     teams: "1st place and 3rd place. 2nd place and 4th place.",
+    competition: "chipping",
   },
   {
     day: 4,
     course: "Onsoy",
     type: "single",
+    competition: "driving",
   },
 ];
 
@@ -44,8 +48,19 @@ const FormatView = () => {
             <ul>
               {courses.map((n, i) => (
                 <li key={i}>
+                  {n.type === "match" && (
+                    <span style={{ fontWeight: "bold" }}>Teams: </span>
+                  )}
                   {n.course} on day {n.day}.{" "}
                   {n.type === "match" && "(" + n.teams + ")"}
+                  <ul>
+                    <li>
+                      The days competition:{" "}
+                      <span style={{ fontWeight: "bold" }}>
+                        {n.competition}
+                      </span>
+                    </li>
+                  </ul>
                 </li>
               ))}
             </ul>
