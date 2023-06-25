@@ -1,3 +1,8 @@
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -14,11 +19,24 @@ import ChampionsView from "./components/views/champions/champions";
 import CompetitionView from "./components/views/competitions/view";
 import PlayersView from "./components/views/players/view";
 import LeaderBoardView from "./components/views/leaderboard/view";
+import RulesView from "./components/views/rules/view";
+import FormatView from "./components/views/format/view";
+
+const navbarItems = [
+  { name: "Home", link: "/" },
+  { name: "Schedule", link: "/schedule" },
+  { name: "Competitions", link: "/competition" },
+  { name: "Players", link: "/players" },
+  { name: "Champions", link: "/champions" },
+  { name: "LeaderBoard", link: "/leaderboard" },
+  { name: "Rules", link: "/rules" },
+  { name: "Format", link: "/format" },
+];
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App navbarItems={navbarItems} />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -44,6 +62,14 @@ const router = createBrowserRouter([
       {
         path: "/schedule",
         element: <TourneyView />,
+      },
+      {
+        path: "/rules",
+        element: <RulesView />,
+      },
+      {
+        path: "/format",
+        element: <FormatView />,
       },
     ],
   },

@@ -26,7 +26,7 @@ const Link = React.forwardRef(function Link(itemProps, ref) {
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
-  const { window, navBarItems } = props;
+  const { window, navbarItems } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -37,7 +37,7 @@ export default function ResponsiveDrawer(props) {
     <div>
       <Toolbar />
       <Divider />
-      {navBarItems.map((item) => (
+      {navbarItems.map((item) => (
         <ListItem key={item.name} disablePadding>
           <ListItemButton
             component={Link}
@@ -90,6 +90,7 @@ export default function ResponsiveDrawer(props) {
           container={container}
           variant="temporary"
           open={mobileOpen}
+          onOpen={() => {}}
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true, // Component is always present in the DOM

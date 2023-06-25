@@ -30,24 +30,13 @@ Amplify.configure({
   },
 });
 
-function App() {
-  // const [currentView, setView] = useState(MainView);
-  const navBarItems = [
-    { name: "Home", link: "/" },
-    { name: "Schedule", link: "/schedule" },
-    { name: "Competitions", link: "/competition" },
-    { name: "Players", link: "/players" },
-    { name: "Champions", link: "/champions" },
-    { name: "LeaderBoard", link: "/leaderboard" },
-  ];
-
+function App(props) {
   return (
     <Authenticator hideSignUp={true}>
       {({ signOut, user }) => {
-        console.log(user);
         return (
           <div className="App">
-            <Drawer navBarItems={navBarItems} />
+            <Drawer navbarItems={props.navbarItems} />
             <>
               <Container
                 maxWidth="xl"
