@@ -1,32 +1,10 @@
 import React from "react";
 
-import { Typography, Paper, List, ListItem, ListItemText } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 
 import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
 import "@leenguyen/react-flip-clock-countdown/dist/index.css";
-
-const courses = [
-  {
-    day: 1,
-    course: "Borregaard",
-    type: "single",
-  },
-  {
-    day: 2,
-    course: "Gamle Fredrikstad",
-    type: "single",
-  },
-  {
-    day: 3,
-    course: "Skjeberg",
-    type: "single",
-  },
-  {
-    day: 4,
-    course: "Onsoy",
-    type: "single",
-  },
-];
+// import "./style.css";
 
 const MainView = () => {
   return (
@@ -35,34 +13,40 @@ const MainView = () => {
         {" "}
         Welcome to Skjeberg Invitational {new Date().getFullYear()}
       </Typography>
-      <FlipClockCountdown to={new Date("2023-06-29T10:00:00")} />
-      <Paper>
-        <Typography variant="h4">Format:</Typography>
-        <Typography variant="p">
-          Skjeberg Invitational is a four day tournament hosted at the given
-          courses:
-        </Typography>
-        <ul>
-          {courses.map((n, i) => (
-            <li>
-              {n.course} on day {n.day}
-            </li>
-          ))}
-        </ul>
-      </Paper>
-      <Paper>
-        <Typography variant="h4">Rules:</Typography>
-        <Typography variant="p">
-          Regular rules of Golf, with the following additions
-        </Typography>
-        <ul>
-          {courses.map((n, i) => (
-            <li>
-              {n.course} on day {n.day}
-            </li>
-          ))}
-        </ul>
-      </Paper>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignContent="center"
+        alignItems="center"
+        sx={{ margin: 20 }}
+      >
+        <Paper elevation={2}>
+          <Typography
+            sx={{ margin: 5 }}
+            variant="h4"
+            color="text.secondary"
+            align="center"
+          >
+            {" "}
+            Time left
+          </Typography>
+          <FlipClockCountdown
+            to={"2023-06-29T10:00:00"}
+            labels={["DAYS", "HOURS", "MINUTES", "SECONDS"]}
+            labelStyle={{
+              fontSize: 10,
+              fontWeight: 500,
+              color: "text.secondary",
+            }}
+            digitBlockStyle={{ width: 40, height: 60, fontSize: 30 }}
+            dividerStyle={{ color: "gray", height: 1 }}
+            separatorStyle={{ color: "red", size: "6px" }}
+            duration={0.4}
+          >
+            Finished
+          </FlipClockCountdown>{" "}
+        </Paper>
+      </Box>
     </>
   );
 };
