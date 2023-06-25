@@ -22,9 +22,9 @@ export const Champions = () => {
 
   return (
     <>
-      <h1>Champions</h1>
-      <div id="champ-root">
-        <Container maxWidth="sm">
+      <Container maxWidth="sm">
+        <h1>Champions</h1>
+        <div id="champ-root">
           <Grid container spacing={2}>
             {previousChamps.map((champ) => (
               <Grid key={champ.name} item>
@@ -36,8 +36,8 @@ export const Champions = () => {
               </Grid>
             ))}
           </Grid>
-        </Container>
-      </div>
+        </div>
+      </Container>
     </>
   );
 };
