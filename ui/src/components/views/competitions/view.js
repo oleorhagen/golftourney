@@ -117,14 +117,11 @@ function CompetitionApp(props) {
 }
 
 function CompetitionView(props) {
-  console.log("tourney View");
-  console.log(props);
-
   const [playerId] = useOutletContext();
 
   return (
     <>
-      <Container>
+      <Container maxWidth="sm">
         <Typography variant="h2" type="secondary">
           Competitions
         </Typography>
