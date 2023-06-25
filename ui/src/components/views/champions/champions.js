@@ -28,7 +28,7 @@ export const Champions = () => {
       date: "July 02, 2021",
       short: "McLane?",
       story:
-        "Being chased down the final day at the final boss (Skjeberg), Ole M., keept his opponents at bay, and became the first (original) winner of the Skjeberg (then Open).",
+        "Being chased down the final day at the final boss (Skjeberg), Ole M., kept his opponents at bay, and became the first (original) winner of the Skjeberg (then Open).",
     },
   ];
 
