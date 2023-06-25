@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { useOutletContext } from "react-router-dom";
 
-import RelayEnvironment from "../../../RelayEnvironment";
+import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
 
 import graphql from "babel-plugin-relay/macro";
-import { useMutation } from "react-relay";
 
 import {
   loadQuery,
@@ -121,10 +120,16 @@ function CompetitionView(props) {
   console.log("tourney View");
   console.log(props);
 
+  const [playerId] = useOutletContext();
+
   return (
     <>
-      <h1>Competition</h1>
-      <CompetitionApp playerId={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"} />
+      <Container>
+        <Typography variant="h2" type="secondary">
+          Competitions
+        </Typography>
+        <CompetitionApp playerId={playerId} />
+      </Container>
     </>
   );
 }
