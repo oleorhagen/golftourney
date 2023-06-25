@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import {
   Button,
-  Chip,
+  CircularProgress,
   Container,
   TextField,
   Typography,
@@ -141,6 +141,9 @@ export default function PlayerStats(props) {
   const [hcp, setHcp] = useState(data?.handicap || "");
   const [error, setError] = useState(false);
   const [helpText, setHelpText] = useState("");
+  const [textFieldType, setTextFieldType] = useState(
+    data?.handicap ? "outlined" : "filled"
+  );
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
     props.handicap_fragment
@@ -152,26 +155,31 @@ export default function PlayerStats(props) {
     <Container maxWidth="sm">
       <div className="player-state">
         <Paper elevation={2} sx={{ marginBottom: 10 }}>
-          <TextField
-            id="outlined-controlled-hcp-select"
-            error={error}
-            helperText={helpText}
-            label="Extra Strokes on the Course"
-            value={hcp}
-            onChange={(event) => {
-              if (isNaN(Number(event.target.value))) {
-                setError(true);
-                return;
-              }
-              const inputHcp = Number(event.target.value);
-              if (!(inputHcp >= 0 && inputHcp <= 54)) {
-                setError(true);
-                return;
-              }
-              setError(false);
-              setHcp(event.target.value);
-            }}
-          />
+          {(isMutationInFlight && <CircularProgress />) || (
+            <TextField
+              variant={textFieldType}
+              id="outlined-controlled-hcp-select"
+              inputProps={{ inputMode: "numeric" }}
+              error={error}
+              helperText={helpText}
+              label="Extra Strokes on the Course"
+              value={hcp}
+              onChange={(event) => {
+                setTextFieldType("filled");
+                if (isNaN(Number(event.target.value))) {
+                  setError(true);
+                  return;
+                }
+                const inputHcp = Number(event.target.value);
+                if (!(inputHcp >= 0 && inputHcp <= 54)) {
+                  setError(true);
+                  return;
+                }
+                setError(false);
+                setHcp(event.target.value);
+              }}
+            />
+          )}
           <Button
             variant="outlined"
             onClick={() => {
@@ -197,6 +205,7 @@ export default function PlayerStats(props) {
                   setHcp(hcp);
                   props.onChange(hcp);
                   setHelpText("");
+                  setTextFieldType("outlined");
                 },
               });
             }}
