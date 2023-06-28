@@ -3,12 +3,15 @@
 #
 
 from collections import namedtuple
+import os
 
 from python_graphql_client import GraphqlClient
 
 
 # Instantiate the client with an endpoint.
-client = GraphqlClient(endpoint="http://localhost:5433/graphql")
+host=os.getenv("PG_HOST", default="localhost")
+port=os.getenv("PG_PORT", default="5432")
+client = GraphqlClient(endpoint=f"http://{host}:{port}/graphql")
 
 # Asynchronous request
 import asyncio
@@ -36,10 +39,10 @@ class Hole:
 
 
 PLAYERS = (
-    # Person(name="Juliane", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
-    # Person(name="Marius", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
+    Person(name="Juliane", id="a892ead4-9d58-4e0f-8111-ce17b2f364e4"),
+    Person(name="Marius", id="9a771ff0-a6f6-462d-b66a-0e2f66ffb21b"),
     Person(name="Ole P", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
-    # Person(name="Ole M", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
+    Person(name="Ole M", id="47e28a8a-8aab-4f5d-a4b4-3c2151514ba6"),
 )
 
 COURSES = (
@@ -54,7 +57,7 @@ COMPETITIONS = ("driver", "iron", "chipping", "putting")
 def populate_players(players):
     for player in players:
         query = """
-mutation PlayerCreation($playa: String!, $id: UUID) {
+mutation PlayerCreation($playa: String!, $id: UUID!) {
   createPlayer(input: { player: { name: $playa, id: $id } }) {
     player {
       id
@@ -66,7 +69,6 @@ mutation PlayerCreation($playa: String!, $id: UUID) {
         variables = {"playa": player.name, "id": player.id}
         data = client.execute(query=query, variables=variables)
         print(f"Created player: {data}")
-        # {'data': {'createPlayer': {'player': {'id': '1', 'name': 'Juliane'}}}}
         player.id = data["data"]["createPlayer"]["player"]["id"]
         print(player)
 
