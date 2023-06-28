@@ -1,5 +1,5 @@
 {
-    "proxy": "http://localhost:5433",
+    "proxy": "http://localhost:5432",
     "name": "ui",
     "version": "0.1.0",
     "private": true,
