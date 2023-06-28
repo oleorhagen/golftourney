@@ -24,11 +24,11 @@ import FormatView from "./components/views/format/view";
 
 const navbarItems = [
   { name: "Home", link: "/" },
-  // { name: "Schedule", link: "/schedule" },
-  // { name: "Competitions", link: "/competition" },
-  // { name: "Players", link: "/players" },
+  { name: "Schedule", link: "/schedule" },
+  { name: "Competitions", link: "/competition" },
+  { name: "Players", link: "/players" },
   { name: "Champions", link: "/champions" },
-  // { name: "LeaderBoard", link: "/leaderboard" },
+  { name: "LeaderBoard", link: "/leaderboard" },
   { name: "Rules", link: "/rules" },
   { name: "Format", link: "/format" },
 ];
