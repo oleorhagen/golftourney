@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: skjeberg-inv-postgraphile
+spec:
+  type: ClusterIP
+  selector:
+    app: skjeberg-inv-postgraphile
+  ports:
+  - name: incoming-postgraphile-query
+    protocol: TCP
+    port: 5432
+    targetPort: 5432

@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skjeberg-inv-postgraphile
+spec:
+  selector:
+    matchLabels:
+      app: skjeberg-inv-postgraphile
+  template:
+    metadata:
+      labels:
+        app: skjeberg-inv-postgraphile
+    spec:
+      containers:
+      - name: skjeberg-inv-postgraphile
+        image: graphile/postgraphile
+        ports:
+          - containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            value: golf-db
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_PASSWORD
+            value: "password"
+          - name: MPG_HOSTNAME
+            value: 34.248.182.19
+          - name: MPG_PORT
+            value: "54332"
+        args:
+          ["--connection",
+          "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(MPG_HOSTNAME):$(MPG_PORT)/golf-db",
+          "--port",
+          "5432",
+          "--schema",
+          "public",
+          "--enhance-graphiql",
+          "--subscriptions",
+          "--watch",
+          "--dynamic-json",
+          "--no-setof-functions-contain-nulls",
+          "--no-ignore-rbac",
+          "--show-error-stack=json",
+          "--extended-errors", "hint,detail,errcode",
+          "--export-schema-graphql", "schema.graphql",
+          "--enhance-graphiql",
+          "--allow-explain",
+          "--enable-query-batching",
+          "--legacy-relations", "omit",
+          ]
+
+
