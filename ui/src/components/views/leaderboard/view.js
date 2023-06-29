@@ -62,7 +62,7 @@ function PlayerLeaderBoardTableEntry(props) {
         {props.name}
       </TableCell>
       <TableCell align="center">{props?.score || "No Score"}</TableCell>
-      <TableCell align="center">Baz</TableCell>
+      <TableCell align="center">{props?.position}</TableCell>
     </TableRow>
   );
 }
@@ -79,7 +79,7 @@ const LeaderBoardView = () => {
       .map((row) => {
         return { ...row, score: computeTotalScore(data, row.id) };
       })
-      .sort((a, b) => a.score > b.score);
+      .sort((a, b) => a.score < b.score);
     console.log(`created generated map: ${JSON.stringify(playerMap)}`);
     return (
       <>
@@ -93,12 +93,13 @@ const LeaderBoardView = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {playerMap.map((player) => {
+              {playerMap.map((player, i) => {
                 return (
                   <PlayerLeaderBoardTableEntry
                     name={player.name}
                     playerId={player.id}
                     score={player.score}
+                    position={i + 1}
                   />
                 );
               })}
