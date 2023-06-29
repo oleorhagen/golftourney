@@ -173,9 +173,6 @@ function TourneyApp(props) {
 }
 
 function TourneyView(props) {
-  console.log("tourney View");
-  console.log(props);
-
   const [playerId] = useOutletContext();
 
   return (
