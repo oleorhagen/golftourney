@@ -79,7 +79,7 @@ function compareFunction(a, b) {
   return Number(a.holeId) > Number(b.holeId);
 }
 
-function TourneyGraph(props) {
+function ScoreGraph(props) {
   // TODO - Get the scores from the server - Should this be a subscription (?)
 
   const data = useLazyLoadQuery(getScoresQuery);
@@ -97,7 +97,7 @@ function TourneyGraph(props) {
 
   var player_points_array = [0].concat(scores.map((e) => Number(e.points)));
 
-  console.log("player poitns array:");
+  console.log("player points array:");
   console.log(player_points_array);
 
   let sum = 0;
@@ -159,4 +159,4 @@ function TourneyGraph(props) {
   );
 }
 
-export default TourneyGraph;
+export default ScoreGraph;
