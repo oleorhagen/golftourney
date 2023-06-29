@@ -17,12 +17,8 @@ const MainView = () => {
     <>
       <Alert severity="success">
         <AlertTitle>Welcome!</AlertTitle>
-        This is the initial site for the Skjeberg Invitational. Feel free to
-        click around, and have fun. All functionality will be unlocked at the
-        start of the tournament. See you then— check it out!.
-        <strong>
-          Also note that more updates will come as the week progresses!
-        </strong>
+        Skjeberg Invitational is now in progress!
+        <strong>May the odds be ever in your favour.</strong>
       </Alert>
       <Container>
         <Box
@@ -38,39 +34,16 @@ const MainView = () => {
           </Typography>
         </Box>
         <Box
-          display="flex"
-          justifyContent="center"
-          alignContent="center"
-          alignItems="center"
-          sx={{ margin: 20 }}
-        >
-          <Paper elevation={2}>
-            <Typography
-              sx={{ margin: 5 }}
-              variant="h4"
-              color="text.secondary"
-              align="center"
-            >
-              {" "}
-              Time left
-            </Typography>
-            <FlipClockCountdown
-              to={"2023-06-29T10:00:00"}
-              labels={["DAYS", "HOURS", "MINUTES", "SECONDS"]}
-              labelStyle={{
-                fontSize: 10,
-                fontWeight: 500,
-                color: "text.secondary",
-              }}
-              digitBlockStyle={{ width: 40, height: 60, fontSize: 30 }}
-              dividerStyle={{ color: "gray", height: 1 }}
-              separatorStyle={{ color: "red", size: "6px" }}
-              duration={0.4}
-            >
-              Finished
-            </FlipClockCountdown>{" "}
-          </Paper>
-        </Box>
+          component="img"
+          sx={{
+            height: 233,
+            width: 350,
+            /* maxHeight: { xs: 233, md: 167 }, */
+            /* maxWidth: { xs: 350, md: 250 }, */
+          }}
+          alt="Skjeberg Invitational Logo"
+          src="skjeberg-logo-color.png"
+        />
       </Container>
     </>
   );
