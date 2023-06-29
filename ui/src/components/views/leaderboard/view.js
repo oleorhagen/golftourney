@@ -49,7 +49,6 @@ const LeaderBoardScoreQuery = graphql`
 `;
 
 function computeTotalScore(scoreData, playerId) {
-  console.log(`computeTotalScore got scoreData: ${JSON.stringify(scoreData)}`);
   let onCoursePoints = scoreData.allScores.nodes
     .filter((node) => node.playerId === playerId)
     .reduce((acc, node) => acc + Number(node.points), 0);
@@ -81,7 +80,6 @@ const LeaderBoardView = () => {
   const data = useLazyLoadQuery(LeaderBoardScoreQuery, {
     fetchPolicy: "network-only",
   });
-  console.log(`Current leaderboard data: ${JSON.stringify(data)}`);
 
   if (data) {
     // Create the players sorted  by score
@@ -90,7 +88,6 @@ const LeaderBoardView = () => {
         return { ...row, score: computeTotalScore(data, row.id) };
       })
       .sort((a, b) => a.score < b.score);
-    console.log(`created generated map: ${JSON.stringify(playerMap)}`);
     return (
       <>
         <TableContainer component={Paper}>
