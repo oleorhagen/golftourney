@@ -1,6 +1,13 @@
 import React from "react";
 
-import { Grid, Stack, Typography, Skeleton, Paper } from "@mui/material";
+import {
+  Avatar,
+  Grid,
+  Stack,
+  Typography,
+  Skeleton,
+  Paper,
+} from "@mui/material";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -59,7 +66,10 @@ function PlayerLeaderBoardTableEntry(props) {
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
     >
       <TableCell align="center" component="th" scope="row">
-        {props.name}
+        <Avatar
+          alt={props.name}
+          src={"/static/images/avatar/" + props.playerId + ".jpg"}
+        />
       </TableCell>
       <TableCell align="center">{props?.score || "No Score"}</TableCell>
       <TableCell align="center">{props?.position}</TableCell>
