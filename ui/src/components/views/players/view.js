@@ -2,7 +2,7 @@ import React from "react";
 
 import { useOutletContext } from "react-router-dom";
 
-import { Avatar, Paper, Stack, Typography, Skeleton } from "@mui/material";
+import { Avatar, Box, Paper, Stack, Typography, Skeleton } from "@mui/material";
 
 const players = [
   {
@@ -22,7 +22,7 @@ const players = [
 
   {
     name: "Marius Sollie",
-    hcp: 20.1,
+    hcp: 38,
     sex: "male",
     bio: "Marius is the reigning and defending champion at this years Skjeberg Invitational",
     avatarImg: "/static/images/avatar/9a771ff0-a6f6-462d-b66a-0e2f66ffb21b.jpg",
@@ -30,7 +30,7 @@ const players = [
 
   {
     name: "Juliane S. Karling",
-    hcp: 20.1,
+    hcp: 21.4,
     sex: "female",
     bio: "Kjempe smellvakker prinsesse beauty queen <3",
     avatarImg: "/static/images/avatar/a892ead4-9d58-4e0f-8111-ce17b2f364e4.jpg",
@@ -39,21 +39,29 @@ const players = [
 
 const Player = (props) => {
   return props.name ? (
-    <Paper>
-      <Avatar alt={props.name} src={props.avatarImg} />
-      <Typography variant="h4" color="text.primary" align="left">
-        Name: {props.name}
-      </Typography>
-      <Typography variant="h4" color="text.primary" align="center">
-        Hcp: {props.hcp}
-      </Typography>
-      <Typography variant="h4" color="text.primary" align="right">
-        sex: {props.sex}
-      </Typography>
-      <Typography variant="body1" color="text.tertiary">
-        bio: {props.bio}
-      </Typography>
-    </Paper>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignContent="center"
+      alignItems="center"
+      sx={{ padding: 5, margin: 20, height: 233, width: 450 }}
+    >
+      <Paper>
+        <Avatar alt={props.name} src={props.avatarImg} />
+        <Typography variant="h4" color="text.primary" align="left">
+          Name: {props.name}
+        </Typography>
+        <Typography variant="h4" color="text.primary" align="left">
+          Hcp: {props.hcp}
+        </Typography>
+        <Typography variant="h4" color="text.primary" align="left">
+          sex: {props.sex}
+        </Typography>
+        <Typography sx={{ pt: 3 }} variant="body1" color="text.tertiary">
+          <strong>Bio:</strong> {props.bio}
+        </Typography>
+      </Paper>
+    </Box>
   ) : (
     <>
       <Typography variant="h3" color="text.secondary" align="center">
