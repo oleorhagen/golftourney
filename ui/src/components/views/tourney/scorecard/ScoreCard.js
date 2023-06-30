@@ -26,8 +26,6 @@ export const ScoreCard = (props) => {
 
   const holes = nodes; // alias it to holes
 
-  console.log("scorecard course data:");
-  console.log(holes);
 
   if (holes.length == 0) {
     return "Noo data";
