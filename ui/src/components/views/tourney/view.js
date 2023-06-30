@@ -41,7 +41,7 @@ const coursesQuery = graphql`
             }
           }
         }
-        courseHandicapsByCourseId {
+        courseHandicapsByCourseId(condition: { playerId: $playerId }) {
           nodes {
             ...PlayerStatsHandicapFragment
             ...ScoreCardTableHandicapFragment
