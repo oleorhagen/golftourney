@@ -70,7 +70,7 @@ export default function PlacementSelection(props) {
       onCompleted: (data) => {
         setPoints(
           data?.updateCompetitionScoreById.competitionScore.points ||
-            data.competitionScore.points
+            data?.competitionScore.points
         );
       },
     });
