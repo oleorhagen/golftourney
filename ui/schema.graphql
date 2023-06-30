@@ -78,7 +78,7 @@ input CompetitionPatch {
 """A connection to a list of `Competition` values."""
 type CompetitionsConnection {
   """A list of `Competition` objects."""
-  nodes: [Competition]!
+  nodes: [Competition!]!
 
   """
   A list of edges which contains the `Competition` and cursor to aid in pagination.
@@ -150,7 +150,7 @@ input CompetitionScorePatch {
 """A connection to a list of `CompetitionScore` values."""
 type CompetitionScoresConnection {
   """A list of `CompetitionScore` objects."""
-  nodes: [CompetitionScore]!
+  nodes: [CompetitionScore!]!
 
   """
   A list of edges which contains the `CompetitionScore` and cursor to aid in pagination.
@@ -172,7 +172,7 @@ type CompetitionScoresEdge {
   cursor: Cursor
 
   """The `CompetitionScore` at the end of the edge."""
-  node: CompetitionScore
+  node: CompetitionScore!
 }
 
 """Methods to use when ordering `CompetitionScore`."""
@@ -196,7 +196,7 @@ type CompetitionsEdge {
   cursor: Cursor
 
   """The `Competition` at the end of the edge."""
-  node: Competition
+  node: Competition!
 }
 
 """Methods to use when ordering `Competition`."""
@@ -379,7 +379,7 @@ input CourseHandicapPatch {
 """A connection to a list of `CourseHandicap` values."""
 type CourseHandicapsConnection {
   """A list of `CourseHandicap` objects."""
-  nodes: [CourseHandicap]!
+  nodes: [CourseHandicap!]!
 
   """
   A list of edges which contains the `CourseHandicap` and cursor to aid in pagination.
@@ -399,7 +399,7 @@ type CourseHandicapsEdge {
   cursor: Cursor
 
   """The `CourseHandicap` at the end of the edge."""
-  node: CourseHandicap
+  node: CourseHandicap!
 }
 
 """Methods to use when ordering `CourseHandicap`."""
@@ -436,7 +436,7 @@ input CoursePatch {
 """A connection to a list of `Course` values."""
 type CoursesConnection {
   """A list of `Course` objects."""
-  nodes: [Course]!
+  nodes: [Course!]!
 
   """
   A list of edges which contains the `Course` and cursor to aid in pagination.
@@ -456,7 +456,7 @@ type CoursesEdge {
   cursor: Cursor
 
   """The `Course` at the end of the edge."""
-  node: Course
+  node: Course!
 }
 
 """Methods to use when ordering `Course`."""
@@ -1197,7 +1197,7 @@ input HolePatch {
 """A connection to a list of `Hole` values."""
 type HolesConnection {
   """A list of `Hole` objects."""
-  nodes: [Hole]!
+  nodes: [Hole!]!
 
   """
   A list of edges which contains the `Hole` and cursor to aid in pagination.
@@ -1217,7 +1217,7 @@ type HolesEdge {
   cursor: Cursor
 
   """The `Hole` at the end of the edge."""
-  node: Hole
+  node: Hole!
 }
 
 """Methods to use when ordering `Hole`."""
@@ -1660,7 +1660,7 @@ input PlayerCondition {
 
 """An input for mutations affecting `Player`"""
 input PlayerInput {
-  id: UUID
+  id: UUID!
   name: String!
 }
 
@@ -1675,7 +1675,7 @@ input PlayerPatch {
 """A connection to a list of `Player` values."""
 type PlayersConnection {
   """A list of `Player` objects."""
-  nodes: [Player]!
+  nodes: [Player!]!
 
   """
   A list of edges which contains the `Player` and cursor to aid in pagination.
@@ -1689,44 +1689,13 @@ type PlayersConnection {
   totalCount: Int!
 }
 
-"""A connection to a list of `PlayerScoreFunctionRecord` values."""
-type PlayerScoreFunctionConnection {
-  """A list of `PlayerScoreFunctionRecord` objects."""
-  nodes: [PlayerScoreFunctionRecord]!
-
-  """
-  A list of edges which contains the `PlayerScoreFunctionRecord` and cursor to aid in pagination.
-  """
-  edges: [PlayerScoreFunctionEdge!]!
-
-  """
-  The count of *all* `PlayerScoreFunctionRecord` you could get from the connection.
-  """
-  totalCount: Int!
-}
-
-"""A `PlayerScoreFunctionRecord` edge in the connection."""
-type PlayerScoreFunctionEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `PlayerScoreFunctionRecord` at the end of the edge."""
-  node: PlayerScoreFunctionRecord
-}
-
-"""The return type of our `playerScoreFunction` query."""
-type PlayerScoreFunctionRecord {
-  id: UUID
-  score: Int
-}
-
 """A `Player` edge in the connection."""
 type PlayersEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
   """The `Player` at the end of the edge."""
-  node: Player
+  node: Player!
 }
 
 """Methods to use when ordering `Player`."""
@@ -1969,25 +1938,10 @@ type Query implements Node {
   playerById(id: UUID!): Player
   scoreById(id: UUID!): Score
   myFunction: Int
-  playerScoreFunction(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-  ): PlayerScoreFunctionConnection
+  playerPointsTotal(id_: UUID): Int
+  playerPointsTotalOnCompetitions(id_: UUID): Int
+  playerPointsTotalOnCourse(id_: UUID): Int
+  playerPointsTotalOnCourseSpecific(id_: UUID, courseId_: UUID): Int
 
   """Reads a single `Competition` using its globally unique `ID`."""
   competition(
@@ -2108,7 +2062,7 @@ input ScorePatch {
 """A connection to a list of `Score` values."""
 type ScoresConnection {
   """A list of `Score` objects."""
-  nodes: [Score]!
+  nodes: [Score!]!
 
   """
   A list of edges which contains the `Score` and cursor to aid in pagination.
@@ -2128,7 +2082,7 @@ type ScoresEdge {
   cursor: Cursor
 
   """The `Score` at the end of the edge."""
-  node: Score
+  node: Score!
 }
 
 """Methods to use when ordering `Score`."""
