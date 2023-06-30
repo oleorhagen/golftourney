@@ -44,7 +44,7 @@ import graphql from "babel-plugin-relay/macro";
 import { useLazyLoadQuery } from "react-relay/hooks";
 
 const getScoresQuery = graphql`
-  query scoreGraphQuery {
+  query ScoreGraphQuery {
     allScores(orderBy: HOLE_ID_DESC) {
       nodes {
         points
