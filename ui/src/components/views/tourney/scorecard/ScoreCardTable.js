@@ -28,24 +28,17 @@ function GetExtraStroke(hole, NumberOfExtraStrokes) {
   if (holeN <= NumberOfExtraStrokesN % 18) {
     extraStrokes = extraStrokes + 1;
   }
-  console.log(`giving ${extraStrokes} strokes`);
   return extraStrokes;
 }
 
 function createData(courseId, hole, par, hcp, hcpExtraStrokes, nodes) {
   if (!nodes || nodes.length === 0) {
-    console.log(`scoreCardTable: no nodes set...`);
-    // TODO panic -> This should never happen
     return { courseId, hole, par, hcp, hcpExtraStrokes };
   }
-  console.log(`scoreCardTable: node is set: `);
-  console.log(hole, par, hcp, hcpExtraStrokes, nodes);
-  console.log(nodes);
   const nodeId = nodes[0].nodeId;
   const strokes = nodes[0].strokes;
   const points = nodes[0].points;
   const hcpe = GetExtraStroke(hcp, hcpExtraStrokes);
-  console.log(hcpe);
   return { courseId, hole, par, hcp, hcpe, nodeId, strokes, points };
 }
 
@@ -60,27 +53,13 @@ const HandicapFragment = graphql`
   }
 `;
 
-// TODO - Now 1 extra stroke is hard-coded
 const ScoreCardTable = (props) => {
-  console.log(`ScoreCardTable props:`);
-  console.log(props);
-
-  const data = useFragment(HandicapFragment, props.handicap_fragment);
-  console.log(
-    `[ScoreCardTable]: got fragment data: ${JSON.stringify(
-      props.handicap_fragment,
-      4
-    )}`
   );
-  console.log(`[ScoreCardTable]: data: ${JSON.stringify(data, 4)}`);
 
   const rows = props.data.map(
     ({ courseId, nr, par, index, extra, scoresByHoleId: { nodes } }) =>
       createData(courseId, nr, par, index, data?.handicap, nodes)
   );
-
-  console.log(`scoreCardTable rows:`);
-  console.log(rows);
 
   rows.sort((a, b) => Number(a.hole) > Number(b.hole));
 
