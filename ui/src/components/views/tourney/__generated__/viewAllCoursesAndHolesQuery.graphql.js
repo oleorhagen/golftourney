@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<74ad79bd0a8efe51439aa9a7243e06a1>>
+ * @generated SignedSource<<52e4e5dc4dd1972944cf51b95be97f66>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -44,7 +44,20 @@ v4 = {
   "name": "nodeId",
   "storageKey": null
 },
-v5 = {
+v5 = [
+  {
+    "fields": [
+      {
+        "kind": "Variable",
+        "name": "playerId",
+        "variableName": "playerId"
+      }
+    ],
+    "kind": "ObjectValue",
+    "name": "condition"
+  }
+],
+v6 = {
   "alias": null,
   "args": null,
   "concreteType": "HolesConnection",
@@ -86,19 +99,7 @@ v5 = {
         (v4/*: any*/),
         {
           "alias": null,
-          "args": [
-            {
-              "fields": [
-                {
-                  "kind": "Variable",
-                  "name": "playerId",
-                  "variableName": "playerId"
-                }
-              ],
-              "kind": "ObjectValue",
-              "name": "condition"
-            }
-          ],
+          "args": (v5/*: any*/),
           "concreteType": "ScoresConnection",
           "kind": "LinkedField",
           "name": "scoresByHoleId",
@@ -173,10 +174,10 @@ return {
             "selections": [
               (v1/*: any*/),
               (v2/*: any*/),
-              (v5/*: any*/),
+              (v6/*: any*/),
               {
                 "alias": null,
-                "args": null,
+                "args": (v5/*: any*/),
                 "concreteType": "CourseHandicapsConnection",
                 "kind": "LinkedField",
                 "name": "courseHandicapsByCourseId",
@@ -240,10 +241,10 @@ return {
             "selections": [
               (v1/*: any*/),
               (v2/*: any*/),
-              (v5/*: any*/),
+              (v6/*: any*/),
               {
                 "alias": null,
-                "args": null,
+                "args": (v5/*: any*/),
                 "concreteType": "CourseHandicapsConnection",
                 "kind": "LinkedField",
                 "name": "courseHandicapsByCourseId",
@@ -297,16 +298,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c45c6a5c1d04d839d821bb928c3f58d9",
+    "cacheID": "5365d8efd3619fe675b33081fb3b159d",
     "id": null,
     "metadata": {},
     "name": "viewAllCoursesAndHolesQuery",
     "operationKind": "query",
-    "text": "query viewAllCoursesAndHolesQuery(\n  $playerId: UUID!\n) {\n  allCourses {\n    nodes {\n      id\n      name\n      holesByCourseId {\n        nodes {\n          courseId\n          id\n          index\n          nr\n          par\n          nodeId\n          scoresByHoleId(condition: {playerId: $playerId}) {\n            nodes {\n              points\n              strokes\n              id\n              holeId\n              nodeId\n              courseId\n            }\n          }\n        }\n      }\n      courseHandicapsByCourseId {\n        nodes {\n          ...PlayerStatsHandicapFragment\n          ...ScoreCardTableHandicapFragment\n          nodeId\n        }\n      }\n      nodeId\n    }\n  }\n}\n\nfragment PlayerStatsHandicapFragment on CourseHandicap {\n  courseId\n  createdAt\n  handicap\n  id\n  nodeId\n  playerId\n}\n\nfragment ScoreCardTableHandicapFragment on CourseHandicap {\n  courseId\n  createdAt\n  handicap\n  id\n  nodeId\n  playerId\n}\n"
+    "text": "query viewAllCoursesAndHolesQuery(\n  $playerId: UUID!\n) {\n  allCourses {\n    nodes {\n      id\n      name\n      holesByCourseId {\n        nodes {\n          courseId\n          id\n          index\n          nr\n          par\n          nodeId\n          scoresByHoleId(condition: {playerId: $playerId}) {\n            nodes {\n              points\n              strokes\n              id\n              holeId\n              nodeId\n              courseId\n            }\n          }\n        }\n      }\n      courseHandicapsByCourseId(condition: {playerId: $playerId}) {\n        nodes {\n          ...PlayerStatsHandicapFragment\n          ...ScoreCardTableHandicapFragment\n          nodeId\n        }\n      }\n      nodeId\n    }\n  }\n}\n\nfragment PlayerStatsHandicapFragment on CourseHandicap {\n  courseId\n  createdAt\n  handicap\n  id\n  nodeId\n  playerId\n}\n\nfragment ScoreCardTableHandicapFragment on CourseHandicap {\n  courseId\n  createdAt\n  handicap\n  id\n  nodeId\n  playerId\n}\n"
   }
 };
 })();
 
-node.hash = "a4028bbba8e5f067a9d02fced3b61e05";
+node.hash = "011942bb748640dd4aa1d091d1a9baa6";
 
 module.exports = node;
