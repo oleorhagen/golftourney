@@ -60,7 +60,6 @@ function ScheduleScoreCard(props) {
     },
     { fetchPolicy: "network-only" }
   );
-  console.log(`Tourney app course data: ${JSON.stringify(course_data)}`);
 
   var course_nodes = [];
 
@@ -69,15 +68,10 @@ function ScheduleScoreCard(props) {
   } = course_data;
   course_nodes = nodes;
 
-  console.log("course nodes:");
-  console.log(course_nodes);
-
   const [value, setValue] = useState(0);
   const [hcp, setHcp] = useState(0);
 
   const handleTabChange = (event, newValue) => {
-    console.log("Handle tab change");
-    console.log(event);
     setValue(newValue);
   };
 
