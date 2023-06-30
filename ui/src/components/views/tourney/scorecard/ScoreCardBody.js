@@ -6,7 +6,6 @@ import { Paper, Typography, TextField, MenuItem } from "@mui/material";
 import ScoreCardTable from "./ScoreCardTable";
 
 export default function ScoreCardBody(props) {
-  const scoreCard = props.scorecard;
   const data = props.data;
   // const hcpExtraStrokes = props.hcpExtraStrokes;
   return (
