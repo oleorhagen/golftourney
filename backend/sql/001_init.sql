@@ -79,3 +79,19 @@ CREATE TABLE IF NOT EXISTS competition_score (
 CREATE FUNCTION my_function() RETURNS int AS $$
 select count (*) from player
 $$ LANGUAGE sql IMMUTABLE;
+
+CREATE FUNCTION player_points_total_on_course(id_ uuid) RETURNS int AS $$
+  select SUM(points) from score where player_id = id_ group by player_id;
+$$ LANGUAGE sql IMMUTABLE;
+
+CREATE FUNCTION player_points_total_on_competitions(id_ uuid) RETURNS int AS $$
+  select SUM(points) from competition_score where player_id = id_ group by player_id;
+$$ LANGUAGE sql IMMUTABLE;
+
+CREATE FUNCTION player_points_total(id_ uuid) RETURNS int AS $$
+  select player_points_total_on_course(id_) + player_points_total_on_competitions(id_);
+$$ LANGUAGE sql IMMUTABLE;
+
+CREATE FUNCTION player_points_total_on_course_specific(id_ uuid, course_id_ uuid) RETURNS int AS $$
+  select SUM(points) from score where player_id = id_ and course_id = course_id_ group by player_id;
+$$ LANGUAGE sql IMMUTABLE;
