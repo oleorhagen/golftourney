@@ -19,7 +19,6 @@ import TableRow from "@mui/material/TableRow";
 // Get the extra stroke
 function GetExtraStroke(hole, NumberOfExtraStrokes) {
   if (!NumberOfExtraStrokes) {
-    console.log("No Extra Strokes set!");
     return 0;
   }
   const holeN = Number(hole);
@@ -54,7 +53,7 @@ const HandicapFragment = graphql`
 `;
 
 const ScoreCardTable = (props) => {
-  );
+  const data = useFragment(HandicapFragment, props.handicap_fragment);
 
   const rows = props.data.map(
     ({ courseId, nr, par, index, extra, scoresByHoleId: { nodes } }) =>
