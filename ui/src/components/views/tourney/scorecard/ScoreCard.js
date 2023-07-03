@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import ScoreCardHeader from "./ScoreCardHeader";
 import ScoreCardTable from "./ScoreCardTable";
 import ScoreCardFooter from "./ScoreCardFooter";
 
