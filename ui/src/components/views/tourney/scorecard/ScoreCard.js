@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import ScoreCardHeader from "./ScoreCardHeader";
-import ScoreCardBody from "./ScoreCardBody";
+import ScoreCardTable from "./ScoreCardTable";
 import ScoreCardFooter from "./ScoreCardFooter";
 
 export const ScoreCard = (props) => {
@@ -26,14 +26,13 @@ export const ScoreCard = (props) => {
 
   const holes = nodes; // alias it to holes
 
-
   if (holes.length == 0) {
     return "Noo data";
   }
 
   return (
     <>
-      <ScoreCardBody
+      <ScoreCardTable
         scorecard={props.scorecard}
         onChange={onChangeAll}
         data={holes}
