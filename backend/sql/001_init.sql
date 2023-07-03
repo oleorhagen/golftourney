@@ -95,3 +95,7 @@ $$ LANGUAGE sql IMMUTABLE;
 CREATE FUNCTION player_points_total_on_course_specific(id_ uuid, course_id_ uuid) RETURNS int AS $$
   select SUM(points) from score where player_id = id_ and course_id = course_id_ group by player_id;
 $$ LANGUAGE sql IMMUTABLE;
+
+CREATE FUNCTION player_points_total_on_course_specific(id_ uuid, course_id_ uuid) RETURNS int AS $$
+  SELECT player_id, course.name, AVG(points) FROM score JOIN course ON score.course_id = course.id GROUP BY player_id, course.name ORDER BY name;
+$$ LANGUAGE sql IMMUTABLE;
