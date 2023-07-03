@@ -3,11 +3,23 @@ import React from "react";
 import { Container, Grid } from "@mui/material";
 import PreviousChampion from "./champs";
 
+import champImg23 from "./champs/champ23.jpg";
 import champImg22 from "./champs/champ22.jpg";
 import champImg21 from "./champs/champ21.jpg";
 
 export const Champions = () => {
   const previousChamps = [
+    {
+      name: "Marius Sollie",
+      img: champImg23,
+      text: "The winner of the 2023 Skjeberg Invitational",
+      avatarName: "MS",
+      bgColor: "red",
+      date: "July 02, 2023",
+      short: "Comeback kid?",
+      story:
+        "After having an inital lead of a single point going out on the final day, and after missing quite a few putts, and having quite a bad break. In fact, with three holes remaining, three competitiors. Ole P., Ole M., and Marius himself were pretty much equal. Marius was able to pull away on the final three holes, and won by a comfortable 10 points in the end. Congratulations.",
+    },
     {
       name: "Marius Sollie",
       img: champImg22,
