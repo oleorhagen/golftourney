@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { useOutletContext, Outlet } from "react-router-dom";
+import Link from "../../router/Link";
 
-import { useOutletContext } from "react-router-dom";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
@@ -52,6 +53,28 @@ const coursesQuery = graphql`
   }
 `;
 
+export function RouterScoreCard() {
+  const [props] = useOutletContext();
+  return (
+    <>
+      <PlayerStats
+        handicap_fragment={props.handicapFragment}
+        course_id={props.id}
+        playerId={props.playerId}
+        onChange={(extraStrokes) => {
+          props.setHcp(extraStrokes);
+        }}
+      />
+      <ScoreCard
+        handicap_fragment={props.handicapFragment}
+        playerId={props.playerId}
+        courseData={props.courseData}
+        extraStrokes={props.extraStrokesGiven}
+      />
+    </>
+  );
+}
+
 function ScheduleScoreCard(props) {
   const course_data = useLazyLoadQuery(
     coursesQuery,
@@ -87,32 +110,31 @@ function ScheduleScoreCard(props) {
               orientation="vertical"
             >
               {course_nodes.map((n, i) => (
-                <Tab label={n.name} key={i} />
+                <Tab
+                  component={Link}
+                  to={"/schedule/" + n.name.replace(/\W+/g, "-")}
+                  label={n.name}
+                  key={i}
+                />
               ))}
             </Tabs>
           </Box>
-          {course_nodes.map((n, i) => {
-            console.log(
-              `map got: ${n.name} ${JSON.stringify(
-                n.courseHandicapsByCourseId
-              )}`
-            );
+          {course_nodes.map((courseNode, i) => {
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>
-                  <PlayerStats
-                    handicap_fragment={n.courseHandicapsByCourseId.nodes[0]}
-                    course_id={n.id}
-                    playerId={props.playerId}
-                    onChange={(extraStrokes) => {
-                      setHcp(extraStrokes);
-                    }}
-                  />
-                  <ScoreCard
-                    handicap_fragment={n.courseHandicapsByCourseId.nodes[0]}
-                    playerId={props.playerId}
-                    courseData={n}
-                    extraStrokes={hcp}
+                  <Outlet
+                    context={[
+                      {
+                        handicapFragment:
+                          courseNode.courseHandicapsByCourseId.nodes[0],
+                        course_id: props.id,
+                        playerId: props.playerId,
+                        setHcp: setHcp,
+                        courseData: courseNode,
+                        extraStrokes: hcp,
+                      },
+                    ]}
                   />
                 </div>
               </CustomTabPanel>

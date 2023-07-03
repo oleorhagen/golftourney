@@ -17,11 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import { Link as RouterLink } from "react-router-dom";
-
-const Link = React.forwardRef(function Link(itemProps, ref) {
-  return <RouterLink ref={ref} {...itemProps} role={undefined} />;
-});
+import Link from "./router/Link";
 
 const drawerWidth = 240;
 

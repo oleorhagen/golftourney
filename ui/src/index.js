@@ -15,6 +15,7 @@ import ErrorPage from "./routes/error-page";
 // Views
 import MainView from "./components/views/main/view";
 import TourneyView from "./components/views/tourney/view";
+import { RouterScoreCard } from "./components/views/tourney/view";
 import ChampionsView from "./components/views/champions/champions";
 import CompetitionView from "./components/views/competitions/view";
 import PlayersView from "./components/views/players/view";
@@ -64,6 +65,24 @@ const router = createBrowserRouter([
       {
         path: "/schedule",
         element: <TourneyView />,
+        children: [
+          {
+            path: "gamle-fredrikstad",
+            element: <RouterScoreCard />,
+          },
+          {
+            path: "onsoy",
+            element: <RouterScoreCard />,
+          },
+          {
+            path: "borregaard",
+            element: <RouterScoreCard />,
+          },
+          {
+            path: "skjeberg",
+            element: <RouterScoreCard />,
+          },
+        ],
       },
       {
         path: "/rules",
