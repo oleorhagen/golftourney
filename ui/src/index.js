@@ -21,6 +21,7 @@ import PlayersView from "./components/views/players/view";
 import LeaderBoardView from "./components/views/leaderboard/view";
 import RulesView from "./components/views/rules/view";
 import FormatView from "./components/views/format/view";
+import StatsView from "./components/views/stats/view";
 
 const navbarItems = [
   { name: "Home", link: "/" },
@@ -31,6 +32,7 @@ const navbarItems = [
   { name: "LeaderBoard", link: "/leaderboard" },
   { name: "Rules", link: "/rules" },
   { name: "Format", link: "/format" },
+  { name: "Stats", link: "/stats" },
 ];
 
 const router = createBrowserRouter([
@@ -70,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/format",
         element: <FormatView />,
+      },
+      {
+        path: "/stats",
+        element: <StatsView />,
       },
     ],
   },
