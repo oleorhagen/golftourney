@@ -1,40 +1,30 @@
 import React from "react";
 
-import {
-  Container,
-  Typography,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
-
-const onCourseRulesText = [
-  "One mulligan available for each day of individual play",
-  "The mulligan can be carried over to the next day",
-  "The tournament host has the final say in disputes regarding the rules",
-  "You are allowed 15 clubs",
-];
+import { Container, Paper } from "@mui/material";
 
 const StatsView = () => {
   return (
     <>
       <Container maxWidth="sm">
-        <Paper elevation={2}>
-          <Typography variant="h4" color="text.primary" align="left">
-          Stats:
-          </Typography>
-          <Typography variant="h5" align="left" color="text.secondary" mt={2}>
-          Singles:
-          </Typography>
-          <List>
-            {onCourseRulesText.map((rule, i) => (
-              <ListItem key={i}>
-                <ListItemText inset={true} primary={rule} />
-              </ListItem>
-            ))}
-          </List>
-        </Paper>
+        <div className="Stats">
+          <iframe
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              border: "none",
+              height: "100%",
+              width: "100%",
+              margin: 0,
+              padding: 0,
+              overflow: "hidden",
+            }}
+            src="stats.html"
+            title="description"
+          ></iframe>
+        </div>
       </Container>
     </>
   );
