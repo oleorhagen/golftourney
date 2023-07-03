@@ -1,13 +1,12 @@
 import React from "react";
 
-import { Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 
 import graphql from "babel-plugin-relay/macro";
 import { useFragment } from "react-relay";
 
 import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
 import RomanNumeralScore from "./RomanNumeralScore";
-import PointScore from "./PointScore";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -51,6 +50,14 @@ const HandicapFragment = graphql`
     playerId
   }
 `;
+
+function PointScore({ par, hcp, score }) {
+  return (
+    <div>
+      <Typography variant="subtitle1">{score}</Typography>
+    </div>
+  );
+}
 
 const ScoreCardTable = (props) => {
   const data = useFragment(HandicapFragment, props.handicap_fragment);
