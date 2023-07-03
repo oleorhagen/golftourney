@@ -16,9 +16,9 @@ const MainView = () => {
   return (
     <>
       <Alert severity="success">
-        <AlertTitle>Welcome!</AlertTitle>
-        Skjeberg Invitational is now in progress!
-        <strong>May the odds be ever in your favour.</strong>
+        <AlertTitle>Skjeberg Invitational 2023 is now over!</AlertTitle>
+        Congratulations to the winnder
+        <strong>Marius Sollie</strong>
       </Alert>
       <Container>
         <Box
