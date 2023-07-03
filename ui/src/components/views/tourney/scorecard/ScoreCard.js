@@ -4,8 +4,6 @@ import ScoreCardTable from "./ScoreCardTable";
 import ScoreCardFooter from "./ScoreCardFooter";
 
 export const ScoreCard = (props) => {
-  console.log(`Received the course data: ${props.courseData}`);
-
   const [scoresAll, setScoresAll] = useState(
     Array(props.courseData.Length).fill(null)
   );
@@ -15,7 +13,6 @@ export const ScoreCard = (props) => {
       let newScores = [...scoresAll];
       newScores[index] = val;
       setScoresAll(newScores);
-      console.log(`Changing score for the front.. ${index} : ${val}`);
     };
   };
 
