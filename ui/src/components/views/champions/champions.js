@@ -3,9 +3,11 @@ import React from "react";
 import { Container, Grid } from "@mui/material";
 import PreviousChampion from "./champs";
 
-import champImg23 from "./champs/champ23.jpg";
-import champImg22 from "./champs/champ22.jpg";
-import champImg21 from "./champs/champ21.jpg";
+import Typography from "@mui/material/Typography";
+
+import champImg23 from "./champs/champ23-small.jpg";
+import champImg22 from "./champs/champ22-small.jpg";
+import champImg21 from "./champs/champ21-small.jpg";
 
 export const Champions = () => {
   const previousChamps = [
@@ -47,7 +49,9 @@ export const Champions = () => {
   return (
     <>
       <Container maxWidth="sm">
-        <h1>Champions</h1>
+        <Typography variant="h1">
+          Champions
+        </Typography >
         <div id="champ-root">
           <Grid container spacing={2}>
             {previousChamps.map((champ) => (
