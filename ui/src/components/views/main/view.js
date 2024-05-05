@@ -15,7 +15,7 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 const MainView = () => {
   return (
     <>
-      <Alert severity="success">
+      <Alert severity="success" sx={{ marginTop: (theme) => theme.spacing(4) }}>
         <AlertTitle>Skjeberg Invitational 2023 is now over!</AlertTitle>
         Congratulations to the winner:
         <strong> Marius Sollie</strong>
@@ -26,11 +26,22 @@ const MainView = () => {
           justifyContent="center"
           alignContent="center"
           alignItems="center"
-          sx={{ margin: 20 }}
+          sx={{ margin: 5 }}
         >
           <Typography variant="h3" color="text.primary" align="center">
             {" "}
             Welcome to Skjeberg Invitational {new Date().getFullYear()}
+          </Typography>
+        </Box>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignContent="center"
+          alignItems="center"
+          sx={{ margin: 5 }}
+        >
+          <Typography variant="h3" color="text.primary" align="center">
+            {"Ole Petter"}
           </Typography>
         </Box>
         <Box

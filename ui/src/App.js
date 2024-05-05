@@ -41,24 +41,23 @@ function App(props) {
             <Box sx={{ display: "flex" }}>
               <Drawer navbarItems={props.navbarItems} />
               <>
-                <Container
-                  maxWidth="xl"
-                  sx={{ marginTop: (theme) => theme.spacing(4) }}
-                >
-                  <div>
-                    <p>Welcome {"Ole Petter"}</p>
-                  </div>
-                  <main>
-                    <RelayEnvironmentProvider environment={RelayEnvironment}>
-                      <React.Suspense fallback={"Loading..."}>
-                        <Outlet
-                          context={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"}
-                        />
-                      </React.Suspense>
-                    </RelayEnvironmentProvider>
-                  </main>
-                </Container>
-                <Footer />
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                  <Container
+                    maxWidth="xl"
+                    sx={{ marginTop: (theme) => theme.spacing(10) }}
+                  >
+                    <main>
+                      <RelayEnvironmentProvider environment={RelayEnvironment}>
+                        <React.Suspense fallback={"Loading..."}>
+                          <Outlet
+                            context={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"}
+                          />
+                        </React.Suspense>
+                      </RelayEnvironmentProvider>
+                    </main>
+                  </Container>
+                  <Footer />
+                </Box>
               </>
             </Box>
           </div>
