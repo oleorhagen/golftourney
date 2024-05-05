@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 
+import Box from "@mui/material/Box";
+
 import { Outlet } from "react-router-dom";
 
 import { RelayEnvironmentProvider } from "react-relay/hooks";
@@ -36,25 +38,29 @@ function App(props) {
       {({ signOut, user }) => {
         return (
           <div className="App">
-            <Drawer navbarItems={props.navbarItems} />
-            <>
-              <Container
-                maxWidth="xl"
-                sx={{ marginTop: (theme) => theme.spacing(4) }}
-              >
-                <div>
-                  <p>Welcome {user.username}</p>
-                </div>
-                <main>
-                  <RelayEnvironmentProvider environment={RelayEnvironment}>
-                    <React.Suspense fallback={"Loading..."}>
-                      <Outlet context={[user.attributes.sub]} />
-                    </React.Suspense>
-                  </RelayEnvironmentProvider>
-                </main>
-              </Container>
-              <Footer />
-            </>
+            <Box sx={{ display: "flex" }}>
+              <Drawer navbarItems={props.navbarItems} />
+              <>
+                <Container
+                  maxWidth="xl"
+                  sx={{ marginTop: (theme) => theme.spacing(4) }}
+                >
+                  <div>
+                    <p>Welcome {"Ole Petter"}</p>
+                  </div>
+                  <main>
+                    <RelayEnvironmentProvider environment={RelayEnvironment}>
+                      <React.Suspense fallback={"Loading..."}>
+                        <Outlet
+                          context={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"}
+                        />
+                      </React.Suspense>
+                    </RelayEnvironmentProvider>
+                  </main>
+                </Container>
+                <Footer />
+              </>
+            </Box>
           </div>
         );
       }}
