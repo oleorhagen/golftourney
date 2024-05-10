@@ -54,6 +54,7 @@ COURSES = (
 
 COMPETITIONS = ("driver", "iron", "chipping", "putting")
 
+
 def populate_players(players):
     for player in players:
         query = """
