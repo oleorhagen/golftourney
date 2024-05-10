@@ -1,101 +1,95 @@
--- CREATE TABLE IF NOT EXISTS tournament (
---     id SERIAL8 PRIMARY KEY, tournament_name STRING NOT NULL
--- );
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE ROLE postgraphile WITH LOGIN PASSWORD "foobarbaz";
 
+-- CREATE SCHEMA IF NOT EXISTS physical AUTHORIZATION postgres;
 
-CREATE TABLE IF NOT EXISTS player (
-  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  name
-    VARCHAR(50) NOT NULL
+-- CREATE SCHEMA IF NOT EXISTS postgraphile AUTHORIZATION postgraphile;
+
+CREATE TABLE physical.scorer (
+    id
+        UUID DEFAULT uuid_generate_v4(),
+    name
+        VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
 );
 
-
-CREATE TABLE IF NOT EXISTS course (
-  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  name
-    VARCHAR(50) NOT NULL
+CREATE TABLE physical.player (
+    id UUID,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id)
+        REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE IF NOT EXISTS hole (
-  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  course_id uuid NOT NULL,
-  nr
-      INT8 NOT NULL CHECK (nr BETWEEN 1 AND 18),
-  index
-      INT8 NOT NULL CHECK (index BETWEEN 1 AND 18),
-  par
-      INT8 NOT NULL CHECK (par BETWEEN 1 AND 5),
-  CONSTRAINT course_id
-      FOREIGN KEY (course_id) REFERENCES course (id)
+CREATE TABLE physical.team (
+    id UUID,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id)
+        REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE IF NOT EXISTS score (
-  strokes INT8 NOT NULL CHECK (strokes BETWEEN 0 AND 9),
-  points INT8 NOT NULL CHECK (points BETWEEN 0 AND 9),
-  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  player_id uuid NOT NULL,
-  course_id uuid NOT NULL,
-  hole_id uuid NOT NULL,
-  CONSTRAINT player_id
-    FOREIGN KEY (player_id) REFERENCES player (id),
-  CONSTRAINT course_id
-    FOREIGN KEY (course_id) REFERENCES course (id),
-  CONSTRAINT hole_id
-    FOREIGN KEY (hole_id) REFERENCES hole (id)
+CREATE TABLE physical.team_member (
+    player_id UUID, team_id UUID,
+    PRIMARY KEY (player_id, team_id),
+    FOREIGN KEY (player_id)
+        REFERENCES physical.player (id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES physical.team (id)
 );
 
-CREATE TABLE IF NOT EXISTS course_handicap (
-  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  handicap INT8 NOT NULL CHECK ( handicap BETWEEN 0 AND 54),
-  player_id uuid NOT NULL,
-  course_id uuid NOT NULL,
-  created_at
-    TIMESTAMP DEFAULT now(),
-  CONSTRAINT player_id
-    FOREIGN KEY (player_id) REFERENCES player (id),
-  CONSTRAINT course_id
-    FOREIGN KEY (course_id) REFERENCES course (id)
+-- TODO - How to incorporate this (?)
+-- CREATE TABLE tournament (
+--   YEAR TIME,
+--   name string,
+--   PRIMARY KEY (name)
+--   );
+
+CREATE TABLE physical.course (
+    name VARCHAR(50), slope INT8,
+    PRIMARY KEY (name)
 );
 
-CREATE TABLE IF NOT EXISTS competition (
-  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  competition_type VARCHAR(50) NOT NULL
+CREATE TABLE physical.course_hole (
+    hole_nr
+        INT8 CHECK (hole_nr BETWEEN 1 AND 18),
+    course_name
+        VARCHAR(50),
+    hole_index
+        INT8 NOT NULL CHECK (hole_index BETWEEN 1 AND 18),
+    par
+        INT8 NOT NULL CHECK (par BETWEEN 1 AND 5),
+    PRIMARY KEY (hole_nr, course_name),
+    FOREIGN KEY (course_name)
+        REFERENCES physical.course (name) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS competition_score (
-  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  points INT8 NOT NULL CHECK ( points BETWEEN 0 AND 2),
-  competition_id uuid NOT NULL,
-    FOREIGN KEY (competition_id) REFERENCES competition (id),
-  player_id uuid NOT NULL,
-  CONSTRAINT player_id
-    FOREIGN KEY (player_id) REFERENCES player (id)
+CREATE TABLE physical.hole_score (
+    strokes
+        INT8,
+    scorer_id
+        UUID,
+    team_id
+        UUID,
+    hole_nr
+        INT8,
+    course_name
+        VARCHAR(50),
+    PRIMARY KEY (scorer_id, hole_nr, course_name),
+    FOREIGN KEY (hole_nr, course_name)
+        REFERENCES physical.course_hole (
+            hole_nr,
+            course_name
+        ),
+    FOREIGN KEY (scorer_id)
+        REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
 
-CREATE FUNCTION my_function() RETURNS int AS $$
-select count (*) from player
-$$ LANGUAGE sql IMMUTABLE;
+-- TODO - Create views for the players, so that we have live updated scores for instance...
 
-CREATE FUNCTION player_points_total_on_course(id_ uuid) RETURNS int AS $$
-  select SUM(points) from score where player_id = id_ group by player_id;
-$$ LANGUAGE sql IMMUTABLE;
+-- This is to create the external view of the schema
 
-CREATE FUNCTION player_points_total_on_competitions(id_ uuid) RETURNS int AS $$
-  select SUM(points) from competition_score where player_id = id_ group by player_id;
-$$ LANGUAGE sql IMMUTABLE;
-
-CREATE FUNCTION player_points_total(id_ uuid) RETURNS int AS $$
-  select player_points_total_on_course(id_) + player_points_total_on_competitions(id_);
-$$ LANGUAGE sql IMMUTABLE;
-
-CREATE FUNCTION player_points_total_on_course_specific(id_ uuid, course_id_ uuid) RETURNS int AS $$
-  select SUM(points) from score where player_id = id_ and course_id = course_id_ group by player_id;
-$$ LANGUAGE sql IMMUTABLE;
-
-CREATE FUNCTION player_points_total_on_course_specific(id_ uuid, course_id_ uuid) RETURNS int AS $$
-  SELECT player_id, course.name, AVG(points) FROM score JOIN course ON score.course_id = course.id GROUP BY player_id, course.name ORDER BY name;
-$$ LANGUAGE sql IMMUTABLE;
+-- CREATE VIEW postgraphile.players (
+--     id,
+--     name,
+--     score
+--   ) AS SELECT p.id, p.name, SUM() <-- Get the total score (points)
+-- SUM() <-- Get the total number of strokes
