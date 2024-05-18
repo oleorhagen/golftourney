@@ -44,11 +44,11 @@ services:
     command:
       [
         '--connection',
-        'postgres://postgres:password@db:5432/golf-db',
+        'postgres://postgraphile:foobarbaz@db:5432/golf_db',
         '--port',
         '5433',
         '--schema',
-        'public',
+        'postgraphile',
         '--enhance-graphiql',
       ]
   # ui:
