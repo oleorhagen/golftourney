@@ -15,14 +15,32 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 const MainView = () => {
   return (
     <>
-      <Alert
-        severity="success"
-        sx={{ marginTop: (theme) => theme.spacing(4), justifyContent: "center" }}
+      <Box
+        component="clock"
+        /* height={200} */
+        /* width={200} */
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        padding={4}
+        sx={{ border: "1px solid grey" }}
       >
-        <AlertTitle>Skjeberg Invitational 2023 is now over!</AlertTitle>
-        Congratulations to the winner:
-        <strong> Marius Sollie</strong>
-      </Alert>
+        <FlipClockCountdown
+          sx={{  justifyContent: 'center', alignItems: 'center' }}
+          to={new Date("2024-06-28T10:00:00")}
+        />
+      </Box>
+      {/* <Alert */}
+      {/*   severity="success" */}
+      {/*   sx={{ */}
+      {/*     marginTop: (theme) => theme.spacing(4), */}
+      {/*     justifyContent: "center", */}
+      {/*   }} */}
+      {/* > */}
+      {/*   <AlertTitle>Skjeberg Invitational 2023 is now over!</AlertTitle> */}
+      {/*   Congratulations to the winner: */}
+      {/*   <strong> Marius Sollie</strong> */}
+      {/* </Alert> */}
       <Container>
         <Box
           display="flex"
