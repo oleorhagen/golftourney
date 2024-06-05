@@ -15,7 +15,10 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 const MainView = () => {
   return (
     <>
-      <Alert severity="success" sx={{ marginTop: (theme) => theme.spacing(4) }}>
+      <Alert
+        severity="success"
+        sx={{ marginTop: (theme) => theme.spacing(4), justifyContent: "center" }}
+      >
         <AlertTitle>Skjeberg Invitational 2023 is now over!</AlertTitle>
         Congratulations to the winner:
         <strong> Marius Sollie</strong>
