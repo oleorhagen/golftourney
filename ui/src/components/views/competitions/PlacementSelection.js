@@ -53,7 +53,7 @@ export default function PlacementSelection(props) {
   const [points, setPoints] = useState(props.points || "");
 
   const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
-    props.nodeId ? competitionsScoreUpdateMutation : competitionsScoreMutation
+    props.nodeId ? competitionsScoreUpdateMutation : competitionsScoreMutation,
   );
 
   const handleChange = (event) => {
@@ -69,8 +69,8 @@ export default function PlacementSelection(props) {
       },
       onCompleted: (data) => {
         setPoints(
-          data?.updateCompetitionScoreById.competitionScore.points ||
-            data?.competitionScore.points
+          data?.createCompetitionScore.competitionScore.points ||
+            data?.updateCompetitionScoreById.competitionScore.points,
         );
       },
     });
