@@ -10,7 +10,7 @@ from python_graphql_client import GraphqlClient
 
 # Instantiate the client with an endpoint.
 host=os.getenv("PG_HOST", default="localhost")
-port=os.getenv("PG_PORT", default="5432")
+port=os.getenv("PG_PORT", default="5433")
 client = GraphqlClient(endpoint=f"http://{host}:{port}/graphql")
 
 # Asynchronous request
