@@ -17,7 +17,7 @@ services:
     image: bitnami/postgresql:latest
     container_name: golf-db
     ports:
-      - "5432"
+      - ":5432:5432"
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: golf-db
