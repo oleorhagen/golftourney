@@ -24,6 +24,21 @@ FOREIGN KEY (id)
 REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
 
+CREATE TABLE physical.team (
+id UUID,
+PRIMARY KEY (id),
+FOREIGN KEY (id)
+REFERENCES physical.scorer (id) ON DELETE CASCADE
+);
+
+CREATE TABLE physical.team_member (
+player_id UUID, team_id UUID,
+PRIMARY KEY (player_id, team_id),
+FOREIGN KEY (player_id)
+REFERENCES physical.player (id) ON DELETE CASCADE,
+FOREIGN KEY (team_id) REFERENCES physical.team (id)
+);
+
 CREATE TABLE physical.competition_score (
 tournament_id
 UUID,
@@ -37,21 +52,6 @@ REFERENCES physical.tournament (id)
 ON DELETE CASCADE,
 FOREIGN KEY (player_id)
 REFERENCES physical.player (id) ON DELETE CASCADE
-);
-
-CREATE TABLE physical.team (
-	id UUID,
-	PRIMARY KEY (id),
-	FOREIGN KEY (id)
-		REFERENCES physical.scorer (id) ON DELETE CASCADE
-);
-
-CREATE TABLE physical.team_member (
-	player_id UUID, team_id UUID,
-	PRIMARY KEY (player_id, team_id),
-	FOREIGN KEY (player_id)
-		REFERENCES physical.player (id) ON DELETE CASCADE,
-	FOREIGN KEY (team_id) REFERENCES physical.team (id)
 );
 
 CREATE TABLE physical.course (
@@ -93,3 +93,4 @@ CREATE TABLE physical.hole_score (
 	FOREIGN KEY (scorer_id)
 		REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
+

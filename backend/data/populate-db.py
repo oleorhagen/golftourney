@@ -17,6 +17,52 @@ client = GraphqlClient(endpoint=f"http://{host}:{port}/graphql")
 import asyncio
 
 
+my_queries = """
+mutation CreatePlayerScorer {
+  createScorer(
+    input: {scorer: {id: "626fa9fd-95ed-40e8-90f3-139ec79e79b9", name: "Ole P"}}
+  ) {
+    clientMutationId
+  }
+}
+
+mutation CreateTeam {
+  createScorer(
+    input: {scorer: {id: "a892ead4-9d58-4e0f-8111-ce17b2f364e4", name: "KAU"}}
+  ) {
+    clientMutationId
+  }
+}
+
+mutation CreatePlayer {
+  createPlayer(input: {player: {id: "626fa9fd-95ed-40e8-90f3-139ec79e79b9"}}) {
+    clientMutationId
+  }
+}
+
+query GetAllTeams {
+  allTeams {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+
+query GetAllPlayers {
+  allPlayers {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+
+"""
+
+
 class Person:
     def __init__(self, name, id):
         self.name = name
@@ -204,7 +250,7 @@ mutation CreateCompetitionMutation($type: String!) {
 
 
 populate_players(players=PLAYERS)
-populate_courses(courses=COURSES)
-populate_competitions(types=COMPETITIONS)
-HOLES = populate_holes(courses=COURSES, players=PLAYERS)
-print(HOLES)
+# populate_courses(courses=COURSES)
+# populate_competitions(types=COMPETITIONS)
+# HOLES = populate_holes(courses=COURSES, players=PLAYERS)
+# print(HOLES)
