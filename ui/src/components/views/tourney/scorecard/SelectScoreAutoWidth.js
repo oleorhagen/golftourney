@@ -59,7 +59,7 @@ const SelectScoreAutoWidthMutation = graphql`
 //   }
 // `;
 
-const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 // TODO - Make this create the correct score on the server
 function PointsFromScore(par, extraHcpStrokes, score) {
