@@ -2,7 +2,10 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE ROLE postgraphile WITH LOGIN PASSWORD 'foobarbaz';
 CREATE SCHEMA IF NOT EXISTS postgraphile AUTHORIZATION postgraphile;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA postgraphile TO postgraphile;
+grant all privileges
+on all tables in schema postgraphile
+to postgraphile
+;
 
 
 -- TODO - Create views for the players, so that we have live updated scores for
@@ -38,4 +41,3 @@ SELECT * FROM physical.course_hole
 CREATE view postgraphile.hole_score AS (
 SELECT * FROM physical.hole_score
 );
-

@@ -36,7 +36,7 @@ player_id UUID, team_id UUID,
 PRIMARY KEY (player_id, team_id),
 FOREIGN KEY (player_id)
 REFERENCES physical.player (id) ON DELETE CASCADE,
-FOREIGN KEY (team_id) REFERENCES physical.team (id)
+FOREIGN KEY (team_id) REFERENCES physical.team (id) ON DELETE CASCADE
 );
 
 CREATE TABLE physical.competition_score (
@@ -55,7 +55,10 @@ REFERENCES physical.player (id) ON DELETE CASCADE
 );
 
 CREATE TABLE physical.course (
-	name VARCHAR(50), slope INT8,
+	name VARCHAR(50),
+  slope float, -- Indicates how difficult the course is expected to be for a bogey golfer
+  course_rating float, -- The number of strokes a scratch is expected to use
+  nr_holes INT8,
 	PRIMARY KEY (name)
 );
 
