@@ -1,4 +1,9 @@
--- Schema for golf DB
+--
+-- - Schema for golf DB
+--
+
+-- TODO - Format this with some postgresql formatter which handles tables
+
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE SCHEMA IF NOT EXISTS physical AUTHORIZATION postgres;
 
@@ -19,6 +24,7 @@ PRIMARY KEY (id)
 
 CREATE TABLE physical.player (
 id UUID,
+-- handicap int8, -- TODO enable this
 PRIMARY KEY (id),
 FOREIGN KEY (id)
 REFERENCES physical.scorer (id) ON DELETE CASCADE
@@ -32,26 +38,29 @@ REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
 
 CREATE TABLE physical.team_member (
-player_id UUID, team_id UUID,
-PRIMARY KEY (player_id, team_id),
-FOREIGN KEY (player_id)
-REFERENCES physical.player (id) ON DELETE CASCADE,
-FOREIGN KEY (team_id) REFERENCES physical.team (id) ON DELETE CASCADE
+  player_id
+    UUID,
+  team_id
+    UUID,
+  PRIMARY KEY (player_id, team_id),
+  FOREIGN KEY (player_id)
+  REFERENCES physical.player (id) ON DELETE CASCADE,
+  FOREIGN KEY (team_id) REFERENCES physical.team (id) ON DELETE CASCADE
 );
 
 CREATE TABLE physical.competition_score (
-tournament_id
-UUID,
-player_id
-UUID,
-points
-INT8 NOT NULL,
-PRIMARY KEY (tournament_id, player_id),
-FOREIGN KEY (tournament_id)
-REFERENCES physical.tournament (id)
-ON DELETE CASCADE,
-FOREIGN KEY (player_id)
-REFERENCES physical.player (id) ON DELETE CASCADE
+  tournament_id
+    UUID,
+  player_id
+    UUID,
+  points
+    INT8 NOT NULL,
+  PRIMARY KEY (tournament_id, player_id),
+  FOREIGN KEY (tournament_id)
+  REFERENCES physical.tournament (id)
+  ON DELETE CASCADE,
+  FOREIGN KEY (player_id)
+  REFERENCES physical.player (id) ON DELETE CASCADE
 );
 
 CREATE TABLE physical.course (
@@ -68,9 +77,9 @@ CREATE TABLE physical.course_hole (
 	course_name
 		VARCHAR(50),
 	hole_index
-		INT8 NOT NULL CHECK (hole_index BETWEEN 1 AND 18),
+		INT8 NOT NULL CHECK (hole_index BETWEEN 1 AND 18) NOT NULL,
 	par
-		INT8 NOT NULL CHECK (par BETWEEN 1 AND 5),
+		INT8 NOT NULL CHECK (par BETWEEN 1 AND 5) NOT NULL,
 	PRIMARY KEY (hole_nr, course_name),
 	FOREIGN KEY (course_name)
 		REFERENCES physical.course (name) ON DELETE CASCADE
@@ -78,13 +87,13 @@ CREATE TABLE physical.course_hole (
 
 CREATE TABLE physical.hole_score (
 	strokes
-		INT8,
+		INT8 NOT NULL,
 	scorer_id
-		UUID,
-	team_id
-		UUID,
+		UUID NOT NULL,
+   stamp
+    TIMESTAMP NOT NULL,
 	hole_nr
-		INT8,
+		INT8 NOT NULL,
 	course_name
 		VARCHAR(50),
 	PRIMARY KEY (scorer_id, hole_nr, course_name),
