@@ -237,6 +237,13 @@ group by id
 select id, name, handicap * 130 / 113 as extra_strokes
 from physical.scorer
 natural join physical.player
+where name like 'Ole P%'
+;
+
+
+select *, p.handicap * c.slope / 113 as extra_strokes_tot
+from physical.scorer as s
+natural join physical.player as p, physical.course as c
 ;
 
 -- Add it to the course view (?)
@@ -246,10 +253,11 @@ natural join physical.player
 -- Hardcode the nr_extra_strokes for now
 --
 select
+    scorer_id,
     hole_nr,
-    hole_index,
-    par,
-    p.extra_strokes_tot,
+    course_name,
+    strokes,
+    stamp,
     (p.extra_strokes_tot / 18)
     + (17 + p.extra_strokes_tot % 18 / (ch.hole_index)) / 18 as extra_strokes  -- Normalize to (0,1)
 from physical.course_hole as ch
@@ -259,6 +267,25 @@ natural join
         from physical.scorer
         natural join physical.player as p
     ) as p
+limit 1
+;
+
+select
+    scorer_id,
+    hole_nr,
+    course_name,
+    strokes,
+    stamp,
+    (p.extra_strokes_tot / 18)
+    + (17 + p.extra_strokes_tot % 18 / (ch.hole_index)) / 18 as extra_strokes  -- Normalize to (0,1)
+from physical.course_hole as ch
+natural join
+    (
+        select id, name, handicap * 130 / 113 as extra_strokes_tot
+        from physical.scorer
+        natural join physical.player as p
+    ) as p
+natural join physical.hole_score
 ;
 
 -- - Calculate the points per whole for a given number of strokes
