@@ -4,6 +4,10 @@
 insert into physical.tournament (name, year)
 values ('Skjeberg Invitational', '2024-06-28');
 
+select *
+from physical.tournament
+;
+
 --
 -- - Create the players (Scorers) and the teams, and set up the memberships
 --
@@ -199,5 +203,66 @@ values
   ('Borregaard' , 17 , 4 , 10) ,
   ('Borregaard' , 18 , 4 , 8)
 ;
+
+-- TODO - Delete
+-- - Insert a few dummy scores for me
+insert into physical.hole_score (course_name, scorer_id, hole_nr, strokes)
+values
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole P%'), 1, 3),
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole P%'), 2, 4),
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole P%'), 3, 5),
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole P%'), 4, 5)
+;
+
+insert into physical.hole_score (course_name, scorer_id, hole_nr, strokes)
+values
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 1, 3),
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 2, 4),
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 3, 5),
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 4, 5),
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 5, 7)
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 6, 10)
+;
+
+-- - Calculate the total score for each player
+select id, name, sum(strokes)
+from physical.scorer as s
+natural join physical.player
+natural join physical.hole_score as hs
+where s.id = hs.scorer_id
+group by id
+;
+
+-- Calculate the number of extra handicap strokes per player
+select id, name, handicap * 130 / 113
+from physical.scorer
+natural join physical.player
+;
+
+--
+-- - Distribute the extra strokes over the holes
+-- Let's just do one course first
+-- Hardcode the nr_extra_strokes for now
+--
+select *, 27 / 18 + (ch.hole_index / (27 % 18)) as extra_strokes
+from physical.course_hole as ch
+where course_name = 'Borregaard'
+;
+
+-- - Calculate the points per whole for a given number of strokes
+select *, greatest(0, par + extra_strokes - strokes + 2) as points
+from physical.hole_score
+natural join
+    (
+        select *, 27 / 18 + (ch.hole_index / (27 % 18)) as extra_strokes
+        from physical.course_hole as ch
+        where course_name = 'Borregaard'
+    )
+;
+
+-- - Calculate the total points for each player
+-- TODO - How on earth do I do this (?)
+-- Need some formula for the points attainable at each hole...
+-- - Query for the player view, with score accounted for
 
 

@@ -77,10 +77,10 @@ CREATE TABLE physical.course_hole (
 	course_name
 		VARCHAR(50),
 	hole_index
-		INT8 NOT NULL CHECK (hole_index BETWEEN 1 AND 18) NOT NULL,
+		INT8 NOT NULL CHECK (hole_index BETWEEN 1 AND 18), -- TODO make sure this IC has unique hole_index
 	par
 		INT8 NOT NULL CHECK (par BETWEEN 1 AND 5) NOT NULL,
-	PRIMARY KEY (hole_nr, course_name, hole_index),
+	PRIMARY KEY (hole_nr, course_name),
 	FOREIGN KEY (course_name)
 		REFERENCES physical.course (name) ON DELETE CASCADE
 );
@@ -93,7 +93,7 @@ CREATE TABLE physical.hole_score (
   course_name
     VARCHAR(50),
   strokes
-    INT8 NOT NULL,
+    INT8 NOT NULL CHECK (strokes > 0),
   stamp
     TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (scorer_id, hole_nr, course_name),
