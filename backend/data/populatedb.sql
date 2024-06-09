@@ -234,19 +234,31 @@ group by id
 ;
 
 -- Calculate the number of extra handicap strokes per player
-select id, name, handicap * 130 / 113
+select id, name, handicap * 130 / 113 as extra_strokes
 from physical.scorer
 natural join physical.player
 ;
 
+-- Add it to the course view (?)
 --
 -- - Distribute the extra strokes over the holes
 -- Let's just do one course first
 -- Hardcode the nr_extra_strokes for now
 --
-select *, 27 / 18 + (ch.hole_index / (27 % 18)) as extra_strokes
+select
+    hole_nr,
+    hole_index,
+    par,
+    p.extra_strokes_tot,
+    (p.extra_strokes_tot / 18)
+    + (17 + p.extra_strokes_tot % 18 / (ch.hole_index)) / 18 as extra_strokes  -- Normalize to (0,1)
 from physical.course_hole as ch
-where course_name = 'Borregaard'
+natural join
+    (
+        select id, name, handicap * 130 / 113 as extra_strokes_tot
+        from physical.scorer
+        natural join physical.player as p
+    ) as p
 ;
 
 -- - Calculate the points per whole for a given number of strokes
