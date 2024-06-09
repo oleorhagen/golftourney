@@ -1,9 +1,7 @@
 --
 -- - Schema for golf DB
 --
-
 -- TODO - Format this with some postgresql formatter which handles tables
-
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE SCHEMA IF NOT EXISTS physical AUTHORIZATION postgres;
 
@@ -24,12 +22,14 @@ PRIMARY KEY (id)
 
 CREATE TABLE physical.player (
 id UUID,
--- handicap int8, -- TODO enable this
+handicap int8 NOT NULL CHECK (handicap BETWEEN -54 AND 54),
 PRIMARY KEY (id),
 FOREIGN KEY (id)
 REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
 
+-- TODO - Create a team view which calculates the handicap as the average of the
+-- teams members handicap
 CREATE TABLE physical.team (
 id UUID,
 PRIMARY KEY (id),
@@ -65,9 +65,9 @@ CREATE TABLE physical.competition_score (
 
 CREATE TABLE physical.course (
 	name VARCHAR(50),
-  slope float, -- Indicates how difficult the course is expected to be for a bogey golfer
-  course_rating float, -- The number of strokes a scratch is expected to use
-  nr_holes INT8,
+  slope float NOT NULL, -- Indicates how difficult the course is expected to be for a bogey golfer
+  course_rating float NOT NULL, -- The number of strokes a scratch is expected to use
+  nr_holes INT8 NOT NULL,
 	PRIMARY KEY (name)
 );
 
@@ -80,22 +80,22 @@ CREATE TABLE physical.course_hole (
 		INT8 NOT NULL CHECK (hole_index BETWEEN 1 AND 18) NOT NULL,
 	par
 		INT8 NOT NULL CHECK (par BETWEEN 1 AND 5) NOT NULL,
-	PRIMARY KEY (hole_nr, course_name),
+	PRIMARY KEY (hole_nr, course_name, hole_index),
 	FOREIGN KEY (course_name)
 		REFERENCES physical.course (name) ON DELETE CASCADE
 );
 
 CREATE TABLE physical.hole_score (
-	strokes
-		INT8 NOT NULL,
-	scorer_id
-		UUID NOT NULL,
-   stamp
-    TIMESTAMP NOT NULL,
-	hole_nr
-		INT8 NOT NULL,
-	course_name
-		VARCHAR(50),
+  scorer_id
+    UUID,
+  hole_nr
+    INT8,
+  course_name
+    VARCHAR(50),
+  strokes
+    INT8 NOT NULL,
+  stamp
+    TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (scorer_id, hole_nr, course_name),
 	FOREIGN KEY (hole_nr, course_name)
 		REFERENCES physical.course_hole (
