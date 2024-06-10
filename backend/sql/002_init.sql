@@ -24,23 +24,23 @@ CREATE view postgraphile.player AS (
 );
 
 CREATE view postgraphile.team AS (
-SELECT * FROM physical.team
+  SELECT * FROM physical.team
 );
 
 CREATE view postgraphile.team_member AS (
-SELECT * FROM physical.team_member
+  SELECT * FROM physical.team_member
 );
 
 CREATE view postgraphile.course AS (
-SELECT * FROM physical.course
+  SELECT * FROM physical.course
 );
 
 CREATE view postgraphile.course_hole AS (
-SELECT * FROM physical.course_hole
+  SELECT * FROM physical.course_hole
 );
 
 CREATE view postgraphile.hole_score AS (
-SELECT * FROM physical.hole_score
+  SELECT * FROM physical.hole_score
 );
 
 grant select

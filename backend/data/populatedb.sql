@@ -241,7 +241,7 @@ where name like 'Ole P%'
 ;
 
 
-select *, p.handicap * c.slope / 113 as extra_strokes_tot
+select *, round(p.handicap * c.slope / 113) as extra_strokes_tot
 from physical.scorer as s
 natural join physical.player as p, physical.course as c
 ;
@@ -270,6 +270,9 @@ natural join
 limit 1
 ;
 
+--
+--- The number of extra strokes per hole, per player
+--
 select
     scorer_id,
     hole_nr,
@@ -281,21 +284,21 @@ select
 from physical.course_hole as ch
 natural join
     (
-        select id, name, handicap * 130 / 113 as extra_strokes_tot
-        from physical.scorer
-        natural join physical.player as p
+        select *, int8(round(p.handicap * c.slope / 113)) as extra_strokes_tot
+        from physical.scorer as s
+        natural join physical.player as p, physical.course as c
     ) as p
 natural join physical.hole_score
 ;
 
 -- - Calculate the points per whole for a given number of strokes
+-- TODO - Dynamic extra strokes
 select *, greatest(0, par + extra_strokes - strokes + 2) as points
 from physical.hole_score
 natural join
     (
         select *, 27 / 18 + (ch.hole_index / (27 % 18)) as extra_strokes
         from physical.course_hole as ch
-        where course_name = 'Borregaard'
     )
 ;
 
