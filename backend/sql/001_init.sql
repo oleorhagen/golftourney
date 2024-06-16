@@ -93,9 +93,13 @@ CREATE TABLE physical.course_hole (
 	course_name
 		VARCHAR(50),
 	hole_index
-		INT8 NOT NULL CHECK (hole_index BETWEEN 1 AND 18),
+		INT8
+      NOT NULL
+      CHECK (hole_index BETWEEN 1 AND 18),
 	par
-		INT8 NOT NULL CHECK (par BETWEEN 1 AND 5) NOT NULL,
+		INT8
+      NOT NULL
+      CHECK (par BETWEEN 1 AND 5),
 	PRIMARY KEY (hole_nr, course_name),
 	FOREIGN KEY (course_name)
 		REFERENCES physical.course (name) ON DELETE CASCADE,
