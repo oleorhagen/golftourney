@@ -220,7 +220,7 @@ values
 ('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 2, 4),
 ('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 3, 5),
 ('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 4, 5),
-('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 5, 7)
+('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 5, 7),
 ('Borregaard', (select id from physical.scorer natural join physical.player where name like 'Ole M%'), 6, 10)
 ;
 
