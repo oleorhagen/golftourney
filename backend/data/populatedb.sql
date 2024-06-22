@@ -274,13 +274,10 @@ limit 1
 -- - The number of extra strokes per hole, per player
 --
 select
-    scorer_id,
-    hole_nr,
-    course_name,
-    strokes,
-    stamp,
-    (p.extra_strokes_tot / 18)
-    + (17 + p.extra_strokes_tot % 18 / (ch.hole_index)) / 18 as extra_strokes  -- Normalize to (0,1)
+    *,
+    (p.extra_strokes_tot / c.nr_holes)
+    + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index))
+    / c.nr_holes as extra_strokes  -- Normalize to (0,1)
 from physical.course_hole as ch
 natural join
     (
@@ -288,7 +285,7 @@ natural join
         from physical.scorer as s
         natural join physical.player as p, physical.course as c
     ) as p
-natural join physical.hole_score
+inner join physical.course as c on ch.course_name = c.name
 ;
 
 --
