@@ -274,7 +274,11 @@ limit 1
 -- - The number of extra strokes per hole, per player
 --
 select
-    *,
+    ch.hole_nr,
+    ch.course_name,
+    ch.hole_index,
+    ch.par,
+    p.id,
     (p.extra_strokes_tot / c.nr_holes)
     + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index))
     / c.nr_holes as extra_strokes  -- Normalize to (0,1)
@@ -302,6 +306,7 @@ natural join
 ;
 
 -- - Dynamic
+-- TODO - This is not right, the handicap should be extra_nr_strokes
 select *, greatest(0, par + extra_strokes - strokes + 2) as points
 from physical.hole_score
 natural join
@@ -323,6 +328,6 @@ natural join
 -- TODO - How on earth do I do this (?)
 -- Need some formula for the points attainable at each hole...
 -- - Query for the player view, with score accounted for
--- - Calculate the handicap for each team
+-- - Calculate the handicap for each team (DONE - ish) for the team view
 
 
