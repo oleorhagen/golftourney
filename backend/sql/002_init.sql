@@ -24,7 +24,12 @@ CREATE view postgraphile.player AS (
 );
 
 CREATE view postgraphile.team AS (
-  SELECT * FROM physical.team
+  select tm.team_id, avg(handicap) as handicap
+  from physical.team as t
+  natural join physical.scorer as s
+  inner join physical.team_member as tm on s.id = tm.team_id
+  inner join physical.player as p on p.id = player_id
+  group by tm.team_id
 );
 
 CREATE view postgraphile.team_member AS (
