@@ -273,23 +273,29 @@ limit 1
 --
 -- - The number of extra strokes per hole, per player
 --
+create view extra_strokes_per_hole as (
 select
     ch.hole_nr,
     ch.course_name,
     ch.hole_index,
     ch.par,
-    p.id,
+    p.player_id,
     (p.extra_strokes_tot / c.nr_holes)
     + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index))
-    / c.nr_holes as extra_strokes  -- Normalize to (0,1)
+    / c.nr_holes as extra_strokes  -- (+17) Normalize to (0,1)
 from physical.course_hole as ch
-natural join
+inner join
     (
-        select *, int8(round(p.handicap * c.slope / 113)) as extra_strokes_tot
+        select
+            s.id as player_id,
+            c.name as course_name,
+            int8(round(p.handicap * c.slope / 113)) as extra_strokes_tot
         from physical.scorer as s
-        natural join physical.player as p, physical.course as c
+        inner join physical.player as p on s.id = p.id, physical.course as c
     ) as p
+    on ch.course_name = p.course_name
 inner join physical.course as c on ch.course_name = c.name
+)
 ;
 
 --
@@ -321,6 +327,24 @@ natural join
         inner join physical.scorer as s on hs.scorer_id = s.id
         inner join physical.player as p on p.id = s.id
     )
+;
+
+
+create view player_points_per_hole as (
+select
+    hs.scorer_id,
+    hs.course_name,
+    hs.hole_nr,
+    hs.strokes,
+    extra_strokes,
+    greatest(0, par + extra_strokes - strokes + 2) as points
+from physical.hole_score as hs
+inner join
+    extra_strokes_per_hole as es
+    on hs.hole_nr = es.hole_nr
+    and hs.course_name = es.course_name
+    and hs.scorer_id = es.player_id
+)
 ;
 
 
