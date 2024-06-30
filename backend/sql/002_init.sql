@@ -30,23 +30,231 @@ CREATE view postgraphile.team AS (
   inner join physical.team_member as tm on s.id = tm.team_id
   inner join physical.player as p on p.id = player_id
   group by tm.team_id
-);
+  );
 
 CREATE view postgraphile.team_member AS (
-  SELECT * FROM physical.team_member
+SELECT * FROM physical.team_member
 );
 
 CREATE view postgraphile.course AS (
-  SELECT * FROM physical.course
+SELECT * FROM physical.course
 );
 
 CREATE view postgraphile.course_hole AS (
-  SELECT * FROM physical.course_hole
+SELECT * FROM physical.course_hole
 );
 
 CREATE view postgraphile.hole_score AS (
-  SELECT * FROM physical.hole_score
+SELECT * FROM physical.hole_score
 );
+
+--
+-- - Distribute the extra strokes over the holes
+--
+-- - The number of extra strokes per hole, per player, or team
+--
+create view extra_strokes_per_hole as (
+select
+    ch.hole_nr,
+    ch.course_name,
+    ch.hole_index,
+    ch.par,
+    p.player_id,
+    (p.extra_strokes_tot / c.nr_holes)
+    + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index))
+    / c.nr_holes as extra_strokes  -- (+17) Normalize to (0,1)
+from physical.course_hole as ch
+inner join
+    (
+        select
+            s.id as player_id,
+            c.name as course_name,
+            int8(round(p.handicap * c.slope / 113)) as extra_strokes_tot
+        from physical.scorer as s
+        inner join physical.player as p on s.id = p.id, physical.course as c
+    ) as p
+    on ch.course_name = p.course_name
+inner join physical.course as c on ch.course_name = c.name
+union
+select
+    ch.hole_nr,
+    ch.course_name,
+    ch.hole_index,
+    ch.par,
+    p.team_id as player_id,
+    (p.extra_strokes_tot / c.nr_holes)
+    + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index))
+    / c.nr_holes as extra_strokes  -- (+17) Normalize to (0,1)
+from physical.course_hole as ch
+inner join
+    (
+        select
+            t.team_id as team_id,
+            c.name as course_name,
+            int8(round(t.handicap * c.slope / 113)) as extra_strokes_tot
+        from postgraphile.team as t, physical.course as c
+    ) as p
+    on ch.course_name = p.course_name
+inner join physical.course as c on ch.course_name = c.name
+)
+;
+
+--
+-- - Calculate the points per whole for a given number of strokes
+--
+create view player_points_per_hole as (
+select
+hs.scorer_id,
+hs.course_name,
+hs.hole_nr,
+hs.strokes,
+extra_strokes,
+greatest(0, par + extra_strokes - strokes + 2) as points
+from physical.hole_score as hs
+inner join
+extra_strokes_per_hole as es
+on hs.hole_nr = es.hole_nr
+and hs.course_name = es.course_name
+and hs.scorer_id = es.player_id
+)
+;
+
+select *
+from player_points_per_hole
+;
+
+
+-- - Calculate the total points for each player
+-- TODO - How on earth do I do this (?)
+-- Need some formula for the points attainable at each hole...
+-- - Query for the player view, with score accounted for
+-- - Calculate the handicap for each team (DONE - ish) for the team view
+create view scorer_total_points as (
+select scorer_id, sum(points) as total_points
+from player_points_per_hole
+group by scorer_id
+)
+;
+
+select *
+from physical.scorer
+inner join scorer_total_points as tp on scorer.id = tp.scorer_id
+;
+
+select *
+from scorer_total_points
+;
+
+-- TODO - Create views, taking into account that players are also part of a
+-- team.
+-- Get the points f
+select *
+from player_points_per_hole as pph
+;
+
+select *
+from player_points_per_hole as pph, player_points_per_hole as pph2
+;
+
+select *
+from physical.team_member
+;
+
+select scorer_id, sum(points) as total_points
+from player_points_per_hole
+group by scorer_id
+
+-- Nearly works! But does not add the score for the players not having individual
+-- scores! (xD)
+select *
+from
+    (
+        select scorer_id, sum(points) as total_points
+        from player_points_per_hole
+        group by scorer_id
+    ) as t1
+cross join
+    (
+        select scorer_id, sum(points) as total_points
+        from player_points_per_hole
+        group by scorer_id
+    ) as t2
+inner join
+    physical.team_member as tm
+    on t1.scorer_id = tm.player_id
+    and t2.scorer_id = tm.team_id
+inner join physical.scorer as s on t1.scorer_id = s.id
+;
+
+
+create view player_points as (
+select scorer_id, sum(points) as total_points
+        from player_points_per_hole
+        group by scorer_id
+        )
+;
+
+select *
+from player_points
+;
+
+-- Get the players scores from their teams
+select *
+from player_points as p1
+;
+
+select *
+from physical.team
+;
+select *
+from physical.team_member
+;
+
+-- Get each players team points
+select p.id, total_points
+from physical.player as p
+inner join physical.team_member as tm on p.id = tm.player_id
+inner join player_points pp on tm.team_id = pp.scorer_id
+;
+
+-- Now we should be able to join and sum them
+select *
+from player_points as pp
+left outer join
+    (
+        select p.id, total_points
+        from physical.player as p
+        inner join physical.team_member as tm on p.id = tm.player_id
+        inner join player_points pp on tm.team_id = pp.scorer_id
+    ) as ptp
+    on pp.scorer_id = ptp.id
+;
+
+select *
+from player_points
+;
+
+
+select *
+from physical.scorer
+;
+
+-- Functioning score board for all scorers (!)
+-- TODO - Do the same for strokes
+select
+    s.id,
+    coalesce(pp.total_points, 0) + coalesce(team_points.total_points, 0) as total_points
+from physical.scorer as s
+left outer join player_points as pp on s.id = pp.scorer_id
+left outer join
+    (
+        select p.id, total_points
+        from physical.player as p
+        inner join physical.team_member as tm on p.id = tm.player_id
+        inner join player_points pp on tm.team_id = pp.scorer_id
+    ) as team_points
+    on s.id = team_points.id
+;
 
 grant select
 on all tables in schema postgraphile
