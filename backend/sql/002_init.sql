@@ -256,6 +256,12 @@ left outer join
     on s.id = team_points.id
 ;
 
+-- - Calculate the cumulative sum of points for the graph
+--- TODO - Need the created at time for this (!)
+select scorer_id, sum(points) over (partition by scorer_id order by course_name, hole_nr)
+from player_points_per_hole
+order by scorer_id
+;
 grant select
 on all tables in schema postgraphile
 to postgraphile
