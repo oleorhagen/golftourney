@@ -50,7 +50,10 @@ services:
         '--schema',
         'postgraphile',
         '--enhance-graphiql',
+        '--export-schema-graphql',
+        '/tmp/schema.graphql',
       ]
+
   # ui:
   #   image: oleorhagen/golf-ui:master
   #   build:
