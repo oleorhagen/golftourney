@@ -37,8 +37,6 @@ CREATE TABLE physical.player (
     REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
 
--- TODO - Create a team view which calculates the handicap as the average of the
--- teams members handicap
 CREATE TABLE physical.team (
   id
     UUID,
