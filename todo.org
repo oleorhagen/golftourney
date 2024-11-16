@@ -1,0 +1,10 @@
+
+* TODO
+
+** TODO Map the golf courses:
+
+https://wiki.openstreetmap.org/wiki/Tag:leisure%3Dgolf_course
+
+according to openstreetmap
+
+** TODO Migrate to the new DB-schema
