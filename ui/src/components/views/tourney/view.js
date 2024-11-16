@@ -10,11 +10,7 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import graphql from "babel-plugin-relay/macro";
 
-import {
-  loadQuery,
-  usePreloadedQuery,
-  useLazyLoadQuery,
-} from "react-relay/hooks";
+import { loadQuery, usePreloadedQuery } from "react-relay/hooks";
 
 const coursesQuery = graphql`
   query viewListAllCoursesQuery {
@@ -30,25 +26,8 @@ const coursesQuery = graphql`
 `;
 
 export function RouterScoreCard() {
-  const [props] = useOutletContext();
-  return (
-    <>
-      {/* <PlayerStats */}
-      {/*   handicap_fragment={props.handicapFragment} */}
-      {/*   course_id={props.id} */}
-      {/*   playerId={props.playerId} */}
-      {/*   onChange={(extraStrokes) => { */}
-      {/*     props.setHcp(extraStrokes); */}
-      {/*   }} */}
-      {/* /> */}
-      {/* <ScoreCard */}
-      {/*   handicap_fragment={props.handicapFragment} */}
-      {/*   playerId={props.playerId} */}
-      {/*   courseData={props.courseData} */}
-      {/*   extraStrokes={props.extraStrokesGiven} */}
-      {/* /> */}
-    </>
-  );
+  // const [props] = useOutletContext();
+  return <>Player Scorecard</>;
 }
 
 function ScheduleScoreCard(props) {
@@ -57,7 +36,7 @@ function ScheduleScoreCard(props) {
 
   var course_nodes = [];
 
-  const course_data = useLazyLoadQuery(
+  const course_data = usePreloadedQuery(
     coursesQuery,
     {
       playerId: props.playerId,
@@ -97,7 +76,7 @@ function ScheduleScoreCard(props) {
             {course_nodes.map((n, i) => (
               <Tab
                 component={Link}
-                to={"/scorecards/" + n.name.replace(/\W+/g, "-")}
+                to={"/scorecards/" + n.name.replace(/\W+/g, "-").toLowerCase()}
                 label={n.name}
                 key={i}
               />
@@ -108,19 +87,7 @@ function ScheduleScoreCard(props) {
           return (
             <CustomTabPanel value={value} index={i} key={i}>
               <div>
-                {/* <Outlet */}
-                {/*   context={[ */}
-                {/*     { */}
-                {/*       handicapFragment: */}
-                {/*         courseNode.courseHandicapsByCourseId.nodes[0], */}
-                {/*       course_id: props.id, */}
-                {/*       playerId: props.playerId, */}
-                {/*       setHcp: setHcp, */}
-                {/*       courseData: courseNode, */}
-                {/*       extraStrokes: hcp, */}
-                {/*     }, */}
-                {/*   ]} */}
-                {/* /> */}
+                <Outlet />
               </div>
             </CustomTabPanel>
           );
