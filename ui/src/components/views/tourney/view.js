@@ -97,7 +97,7 @@ function ScheduleScoreCard(props) {
             {course_nodes.map((n, i) => (
               <Tab
                 component={Link}
-                to={"/scorecard/" + n.name.replace(/\W+/g, "-")}
+                to={"/scorecards/" + n.name.replace(/\W+/g, "-")}
                 label={n.name}
                 key={i}
               />
