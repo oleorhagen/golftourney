@@ -170,7 +170,7 @@ function TourneyView(props) {
 
   return (
     <>
-      <Typography variant="h2">Schedule</Typography>
+      <Typography variant="h2">Scorecards</Typography>
       <TourneyApp playerId={playerId} />
     </>
   );
