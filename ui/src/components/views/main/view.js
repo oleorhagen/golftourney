@@ -17,17 +17,13 @@ const MainView = () => {
     <>
       <Box
         component="clock"
-        /* height={200} */
-        /* width={200} */
         display="flex"
         alignItems="center"
         justifyContent="center"
-        padding={4}
-        sx={{ border: "1px solid grey" }}
       >
         <FlipClockCountdown
-          sx={{  justifyContent: 'center', alignItems: 'center' }}
           to={new Date("2025-06-28T10:00:00")}
+          hideOnComplete={false}
         />
       </Box>
       {/* <Alert */}
