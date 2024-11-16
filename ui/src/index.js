@@ -26,7 +26,7 @@ import StatsView from "./components/views/stats/view";
 
 const navbarItems = [
   { name: "Home", link: "/" },
-  { name: "Schedule", link: "/schedule" },
+  { name: "Scorecards", link: "/scorecards" },
   { name: "Competitions", link: "/competition" },
   { name: "Players", link: "/players" },
   { name: "Champions", link: "/champions" },
@@ -63,25 +63,25 @@ const router = createBrowserRouter([
         element: <PlayersView />,
       },
       {
-        path: "/schedule",
+        path: "/scorecards",
         element: <TourneyView />,
         children: [
           {
             path: "gamle-fredrikstad",
             element: <RouterScoreCard />,
           },
-          {
-            path: "onsoy",
-            element: <RouterScoreCard />,
-          },
-          {
-            path: "borregaard",
-            element: <RouterScoreCard />,
-          },
-          {
-            path: "skjeberg",
-            element: <RouterScoreCard />,
-          },
+          // {
+          //   path: "onsoy",
+          //   element: <RouterScoreCard />,
+          // },
+          // {
+          //   path: "borregaard",
+          //   element: <RouterScoreCard />,
+          // },
+          // {
+          //   path: "skjeberg",
+          //   element: <RouterScoreCard />,
+          // },
         ],
       },
       {

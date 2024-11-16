@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8871ec422f9666fc7ff547cff537f3a4>>
+ * @generated SignedSource<<7aee5391e2c3fbe0de8992b1b3bae87b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,87 +9,65 @@
 'use strict';
 
 var node = (function(){
-var v0 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "CoursesConnection",
-  "kind": "LinkedField",
-  "name": "allCourses",
-  "plural": false,
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "CoursesEdge",
-      "kind": "LinkedField",
-      "name": "edges",
-      "plural": true,
-      "selections": [
-        {
-          "alias": null,
-          "args": null,
-          "concreteType": "Course",
-          "kind": "LinkedField",
-          "name": "node",
-          "plural": false,
-          "selections": [
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "name",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "slope",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "courseRating",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "nrHoles",
-              "storageKey": null
-            }
-          ],
-          "storageKey": null
-        }
-      ],
-      "storageKey": null
-    }
-  ],
-  "storageKey": null
-};
+var v0 = [
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "CoursesConnection",
+    "kind": "LinkedField",
+    "name": "allCourses",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Course",
+        "kind": "LinkedField",
+        "name": "nodes",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "slope",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "courseRating",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "nrHoles",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "viewListAllCoursesQuery",
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Query",
-        "kind": "LinkedField",
-        "name": "query",
-        "plural": false,
-        "selections": [
-          (v0/*: any*/)
-        ],
-        "storageKey": null
-      }
-    ],
+    "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -98,39 +76,19 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "viewListAllCoursesQuery",
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Query",
-        "kind": "LinkedField",
-        "name": "query",
-        "plural": false,
-        "selections": [
-          (v0/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "nodeId",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "be7dd720c968f9809a7a3db1ce4b4d55",
+    "cacheID": "239e6c407a5d4f484678e0de321b9880",
     "id": null,
     "metadata": {},
     "name": "viewListAllCoursesQuery",
     "operationKind": "query",
-    "text": "query viewListAllCoursesQuery {\n  query {\n    allCourses {\n      edges {\n        node {\n          name\n          slope\n          courseRating\n          nrHoles\n        }\n      }\n    }\n    nodeId\n  }\n}\n"
+    "text": "query viewListAllCoursesQuery {\n  allCourses {\n    nodes {\n      name\n      slope\n      courseRating\n      nrHoles\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "80bb347578275afa7cf8c09908851e49";
+node.hash = "44df6b65a9132b8c1f3b746897b12625";
 
 module.exports = node;

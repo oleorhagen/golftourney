@@ -17,20 +17,16 @@ import {
 } from "react-relay/hooks";
 
 const coursesQuery = graphql`
-query viewListAllCoursesQuery {
-  query {
+  query viewListAllCoursesQuery {
     allCourses {
-      edges {
-        node {
-          name
-          slope
-          courseRating
-          nrHoles
-        }
+      nodes {
+        name
+        slope
+        courseRating
+        nrHoles
       }
     }
   }
-}
 `;
 
 export function RouterScoreCard() {
@@ -56,79 +52,80 @@ export function RouterScoreCard() {
 }
 
 function ScheduleScoreCard(props) {
+  const [value, setValue] = useState(0);
+  const [hcp, setHcp] = useState(0);
+
+  var course_nodes = [];
+
   const course_data = useLazyLoadQuery(
     coursesQuery,
     {
       playerId: props.playerId,
     },
-    { fetchPolicy: "network-only" }
+    { fetchPolicy: "network-only" },
   );
-
-  var course_nodes = [];
 
   const {
     allCourses: { nodes },
   } = course_data;
   course_nodes = nodes;
 
-  const [value, setValue] = useState(0);
-  const [hcp, setHcp] = useState(0);
-
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  if (course_nodes.length > 0) {
+  if (!nodes) {
     return (
       <div className="TourneyApp">
-        <div className="TourneyApp-header">
-          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-            <Tabs
-              value={value}
-              onChange={handleTabChange}
-              variant="fullWidth"
-              orientation="vertical"
-            >
-              {course_nodes.map((n, i) => (
-                <Tab
-                  component={Link}
-                  to={"/schedule/" + n.name.replace(/\W+/g, "-")}
-                  label={n.name}
-                  key={i}
-                />
-              ))}
-            </Tabs>
-          </Box>
-          {course_nodes.map((courseNode, i) => {
-            return (
-              <CustomTabPanel value={value} index={i} key={i}>
-                <div>
-                  <Outlet
-                    context={[
-                      {
-                        handicapFragment:
-                          courseNode.courseHandicapsByCourseId.nodes[0],
-                        course_id: props.id,
-                        playerId: props.playerId,
-                        setHcp: setHcp,
-                        courseData: courseNode,
-                        extraStrokes: hcp,
-                      },
-                    ]}
-                  />
-                </div>
-              </CustomTabPanel>
-            );
-          })}
-        </div>
+        <header className="TourneyApp-header">
+          <p>No data present...</p>
+        </header>
       </div>
     );
   }
+
   return (
     <div className="TourneyApp">
-      <header className="TourneyApp-header">
-        <p>No data present...</p>
-      </header>
+      <div className="TourneyApp-header">
+        <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+          <Tabs
+            value={value}
+            onChange={handleTabChange}
+            variant="fullWidth"
+            orientation="vertical"
+          >
+            {course_nodes.map((n, i) => (
+              <Tab
+                component={Link}
+                to={"/scorecard/" + n.name.replace(/\W+/g, "-")}
+                label={n.name}
+                key={i}
+              />
+            ))}
+          </Tabs>
+        </Box>
+        {course_nodes.map((courseNode, i) => {
+          return (
+            <CustomTabPanel value={value} index={i} key={i}>
+              <div>
+                {/* <Outlet */}
+                {/*   context={[ */}
+                {/*     { */}
+                {/*       handicapFragment: */}
+                {/*         courseNode.courseHandicapsByCourseId.nodes[0], */}
+                {/*       course_id: props.id, */}
+                {/*       playerId: props.playerId, */}
+                {/*       setHcp: setHcp, */}
+                {/*       courseData: courseNode, */}
+                {/*       extraStrokes: hcp, */}
+                {/*     }, */}
+                {/*   ]} */}
+                {/* /> */}
+              </div>
+            </CustomTabPanel>
+          );
+        })}
+      </div>
     </div>
   );
 }
