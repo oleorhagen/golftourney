@@ -16,7 +16,7 @@ const MainView = () => {
   return (
     <>
       <Box
-        component="clock"
+        component="Clock"
         display="flex"
         alignItems="center"
         justifyContent="center"
