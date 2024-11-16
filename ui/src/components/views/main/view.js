@@ -27,7 +27,7 @@ const MainView = () => {
       >
         <FlipClockCountdown
           sx={{  justifyContent: 'center', alignItems: 'center' }}
-          to={new Date("2024-06-28T10:00:00")}
+          to={new Date("2025-06-28T10:00:00")}
         />
       </Box>
       {/* <Alert */}
