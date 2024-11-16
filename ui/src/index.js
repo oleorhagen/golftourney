@@ -70,18 +70,18 @@ const router = createBrowserRouter([
             path: "gamle-fredrikstad",
             element: <RouterScoreCard />,
           },
-          // {
-          //   path: "onsoy",
-          //   element: <RouterScoreCard />,
-          // },
-          // {
-          //   path: "borregaard",
-          //   element: <RouterScoreCard />,
-          // },
-          // {
-          //   path: "skjeberg",
-          //   element: <RouterScoreCard />,
-          // },
+          {
+            path: "onsoy",
+            element: <RouterScoreCard />,
+          },
+          {
+            path: "borregaard",
+            element: <RouterScoreCard />,
+          },
+          {
+            path: "skjeberg",
+            element: <RouterScoreCard />,
+          },
         ],
       },
       {
