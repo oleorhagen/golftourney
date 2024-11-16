@@ -9,28 +9,7 @@ import { useMutation } from "react-relay";
 
 import "./SelectScoreAutoWidth.css";
 
-const SelectScoreAutoWidthMutation = graphql`
-  mutation SelectScoreAutoWidthMutation(
-    $nodeId: ID!
-    $strokes: BigInt!
-    $points: BigInt!
-  ) {
-    updateScore(
-      input: {
-        nodeId: $nodeId
-        scorePatch: { strokes: $strokes, points: $points }
-      }
-    ) {
-      clientMutationId
-      score {
-        id
-        nodeId
-        strokes
-        points
-      }
-    }
-  }
-`;
+const SelectScoreAutoWidthMutation = graphql``;
 
 // Create the score if it does not exist
 // const SelectCreateEmptyScore = graphql`

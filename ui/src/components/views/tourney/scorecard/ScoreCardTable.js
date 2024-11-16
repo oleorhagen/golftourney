@@ -40,16 +40,7 @@ function createData(courseId, hole, par, hcp, hcpExtraStrokes, nodes) {
   return { courseId, hole, par, hcp, hcpe, nodeId, strokes, points };
 }
 
-const HandicapFragment = graphql`
-  fragment ScoreCardTableHandicapFragment on CourseHandicap {
-    courseId
-    createdAt
-    handicap
-    id
-    nodeId
-    playerId
-  }
-`;
+const HandicapFragment = graphql``;
 
 function PointScore({ par, hcp, score }) {
   return (

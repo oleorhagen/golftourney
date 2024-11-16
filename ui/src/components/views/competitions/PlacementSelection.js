@@ -7,45 +7,9 @@ import Select from "@mui/material/Select";
 import { graphql } from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
 
-const competitionsScoreMutation = graphql`
-  mutation PlacementSelectionMutation(
-    $points: BigInt!
-    $competitionId: UUID!
-    $playerId: UUID!
-  ) {
-    createCompetitionScore(
-      input: {
-        competitionScore: {
-          points: $points
-          competitionId: $competitionId
-          playerId: $playerId
-        }
-      }
-    ) {
-      clientMutationId
-      competitionScore {
-        points
-        nodeId
-        id
-      }
-    }
-  }
-`;
+const competitionsScoreMutation = graphql``;
 
-const competitionsScoreUpdateMutation = graphql`
-  mutation PlacementSelectionUpdateMutation($points: BigInt!, $nodeId: UUID!) {
-    updateCompetitionScoreById(
-      input: { competitionScorePatch: { points: $points }, id: $nodeId }
-    ) {
-      clientMutationId
-      competitionScore {
-        points
-        nodeId
-        id
-      }
-    }
-  }
-`;
+const competitionsScoreUpdateMutation = graphql``;
 
 const acceptablePoints = [1, 2];
 

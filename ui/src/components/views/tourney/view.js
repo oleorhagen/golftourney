@@ -5,8 +5,8 @@ import Link from "../../router/Link";
 
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 
-import PlayerStats from "./playerstats/PlayerStats";
-import ScoreCard from "./scorecard/ScoreCard";
+// import PlayerStats from "./playerstats/PlayerStats";
+// import ScoreCard from "./scorecard/ScoreCard";
 
 import graphql from "babel-plugin-relay/macro";
 
@@ -17,60 +17,40 @@ import {
 } from "react-relay/hooks";
 
 const coursesQuery = graphql`
-  query viewAllCoursesAndHolesQuery($playerId: UUID!) {
+query viewListAllCoursesQuery {
+  query {
     allCourses {
-      nodes {
-        id
-        name
-        holesByCourseId {
-          nodes {
-            courseId
-            id
-            index
-            nr
-            par
-            nodeId
-            scoresByHoleId(condition: { playerId: $playerId }) {
-              nodes {
-                points
-                strokes
-                id
-                holeId
-                nodeId
-                courseId
-              }
-            }
-          }
-        }
-        courseHandicapsByCourseId(condition: { playerId: $playerId }) {
-          nodes {
-            ...PlayerStatsHandicapFragment
-            ...ScoreCardTableHandicapFragment
-          }
+      edges {
+        node {
+          name
+          slope
+          courseRating
+          nrHoles
         }
       }
     }
   }
+}
 `;
 
 export function RouterScoreCard() {
   const [props] = useOutletContext();
   return (
     <>
-      <PlayerStats
-        handicap_fragment={props.handicapFragment}
-        course_id={props.id}
-        playerId={props.playerId}
-        onChange={(extraStrokes) => {
-          props.setHcp(extraStrokes);
-        }}
-      />
-      <ScoreCard
-        handicap_fragment={props.handicapFragment}
-        playerId={props.playerId}
-        courseData={props.courseData}
-        extraStrokes={props.extraStrokesGiven}
-      />
+      {/* <PlayerStats */}
+      {/*   handicap_fragment={props.handicapFragment} */}
+      {/*   course_id={props.id} */}
+      {/*   playerId={props.playerId} */}
+      {/*   onChange={(extraStrokes) => { */}
+      {/*     props.setHcp(extraStrokes); */}
+      {/*   }} */}
+      {/* /> */}
+      {/* <ScoreCard */}
+      {/*   handicap_fragment={props.handicapFragment} */}
+      {/*   playerId={props.playerId} */}
+      {/*   courseData={props.courseData} */}
+      {/*   extraStrokes={props.extraStrokesGiven} */}
+      {/* /> */}
     </>
   );
 }

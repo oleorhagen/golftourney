@@ -13,65 +13,17 @@ import SendIcon from "@mui/icons-material/Send";
 import graphql from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
 
-const PlayerStatsSetHandicapMutation = graphql`
-  mutation PlayerStatsSetHandicapMutation(
-    $handicap: BigInt!
-    $playerId: UUID!
-    $courseId: UUID!
-  ) {
-    createCourseHandicap(
-      input: {
-        courseHandicap: {
-          handicap: $handicap
-          playerId: $playerId
-          courseId: $courseId
-        }
-      }
-    ) {
-      clientMutationId
-      courseHandicap {
-        handicap
-        id
-        nodeId
-        courseId
-        createdAt
-        playerId
-      }
-    }
-  }
-`;
+const PlayerStatsSetHandicapMutation = graphql`mutation tempMut1($id: ID!) {
+  id
+}`;
 
-const PlayerStatsUpdateHandicapMutation = graphql`
-  mutation PlayerStatsUpdateCourseHandicapMutation(
-    $id: UUID!
-    $handicap: BigInt!
-  ) {
-    updateCourseHandicapById(
-      input: { courseHandicapPatch: { handicap: $handicap }, id: $id }
-    ) {
-      clientMutationId
-      courseHandicap {
-        handicap
-        id
-        nodeId
-        courseId
-        createdAt
-        playerId
-      }
-    }
-  }
-`;
+const PlayerStatsUpdateHandicapMutation = graphql`mutation tempMut2($id: ID!) {
+  id
+}`;
 
-const HandicapFragment = graphql`
-  fragment PlayerStatsHandicapFragment on CourseHandicap {
-    courseId
-    createdAt
-    handicap
-    id
-    nodeId
-    playerId
-  }
-`;
+const HandicapFragment = graphql`mutation tempMut3($id: ID!) {
+  id
+}`;
 
 // function PlayerHandicapExisting(props) {
 //   return (

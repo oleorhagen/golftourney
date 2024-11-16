@@ -43,17 +43,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import { useLazyLoadQuery } from "react-relay/hooks";
 
-const getScoresQuery = graphql`
-  query ScoreGraphQuery {
-    allScores(orderBy: HOLE_ID_DESC) {
-      nodes {
-        points
-        playerId
-        holeId
-      }
-    }
-  }
-`;
+const getScoresQuery = graphql``;
 
 // colors
 export const primaryColor = "#8921e0";

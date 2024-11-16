@@ -12,7 +12,7 @@ import {
   useLazyLoadQuery,
 } from "react-relay/hooks";
 
-import PlacementSelection from "./PlacementSelection";
+// import PlacementSelection from "./PlacementSelection";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -31,24 +31,19 @@ function CustomTabPanel(props) {
 }
 
 const competitionsQuery = graphql`
-  query viewCompetitionsQuery($playerId: UUID!) {
-    allCompetitions {
-      nodes {
-        competitionType
-        id
-        nodeId
-        competitionScoresByCompetitionId(condition: { playerId: $playerId }) {
-          nodes {
-            competitionId
-            id
-            nodeId
-            points
-            playerId
-          }
+query viewListAllTournamentsQuery {
+  query {
+    allTournaments {
+      edges {
+        node {
+          id
+          name
+          year
         }
       }
     }
   }
+}
 `;
 
 // Inner component that reads the preloaded query results via `usePreloadedQuery()`.
@@ -94,12 +89,12 @@ function CompetitionApp(props) {
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>{n.competitionType}</div>
-                <PlacementSelection
-                  playerId={props.playerId}
-                  competitionId={n.id}
-                  nodeId={n.competitionScoresByCompetitionId.nodes[0]?.id}
-                  points={n.competitionScoresByCompetitionId.nodes[0]?.points}
-                />
+                {/* <PlacementSelection */}
+                {/*   playerId={props.playerId} */}
+                {/*   competitionId={n.id} */}
+                {/*   nodeId={n.competitionScoresByCompetitionId.nodes[0]?.id} */}
+                {/*   points={n.competitionScoresByCompetitionId.nodes[0]?.points} */}
+                {/* /> */}
               </CustomTabPanel>
             );
           })}

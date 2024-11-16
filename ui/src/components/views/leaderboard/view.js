@@ -22,30 +22,16 @@ import { useLazyLoadQuery } from "react-relay/hooks";
 const rows = ["foo", "bar", "baz", "bat"];
 
 const LeaderBoardScoreQuery = graphql`
-  query viewLeaderBoardScoreQuery {
-    allScores(orderBy: HOLE_ID_DESC) {
-      nodes {
-        points
-        playerId
-        holeId
-      }
-    }
-    allCompetitionScores {
-      nodes {
-        id
-        nodeId
-        points
-        playerId
-      }
-    }
-    allPlayers {
-      nodes {
-        id
-        name
-        nodeId
-      }
+query viewListAllCoursesPlaceholderForLeaderBoardQuery {
+  allCourses {
+    nodes {
+      courseRating
+      name
+      nrHoles
+      slope
     }
   }
+}
 `;
 
 function computeTotalScore(scoreData, playerId) {
