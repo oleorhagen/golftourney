@@ -12,17 +12,18 @@ import graphql from "babel-plugin-relay/macro";
 
 import { loadQuery, usePreloadedQuery } from "react-relay/hooks";
 
-const coursesQuery = graphql`
-  query viewListAllCoursesQuery {
-    allCourses {
+const ListAllCoursesQuery = graphql`
+query viewCoursesByTournamentIdQuery {
+  tournamentById(id: ID!) {
+    tournamentCoursesByTournamentId {
       nodes {
-        name
-        slope
-        courseRating
-        nrHoles
+        courseName
+        nodeId
+        tournamentId
       }
     }
   }
+}
 `;
 
 export function RouterScoreCard() {
@@ -37,9 +38,9 @@ function ScheduleScoreCard(props) {
   var course_nodes = [];
 
   const course_data = usePreloadedQuery(
-    coursesQuery,
+    ListAllCoursesQuery,
     {
-      playerId: props.playerId,
+      playerId: props.tournamentId,
     },
     { fetchPolicy: "network-only" },
   );
