@@ -69,7 +69,7 @@ CREATE TABLE physical.team_member (
     REFERENCES physical.team (id) ON DELETE CASCADE
 );
 
-CREATE TABLE physical.competition_score (
+CREATE TABLE physical.player_tournament_score (
   tournament_id
     UUID,
   player_id
