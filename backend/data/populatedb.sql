@@ -122,6 +122,15 @@ select *
 from physical.course
 ;
 
+
+--
+-- Add the courses we are playing to the tournament
+--
+insert into physical.tournament_course (tournament_id, course_name)
+values ((select id from physical.tournament where name like 'Skjeberg%'), 'Skjeberg')
+;
+
+
 -- insert into physical.course_hole (course_name, hole_nr, hole_index, par)
 -- values
 -- ('Gamle Fredrikstad', (copy physical.course_hole (hole_nr, hole_index, par ) from
