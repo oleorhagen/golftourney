@@ -18,6 +18,13 @@ values ('Ole Petter Orhagen'),
 ('Marius Sollie')
 ;
 
+-- Create the teams
+insert into physical.scorer (name)
+values ('H&M'),
+('J&O')
+;
+
+
 --
 -- Add the players to the tournament
 --
@@ -49,12 +56,6 @@ FROM physical.scorer;
 select *
 from physical.player
 natural join physical.scorer
-;
-
--- Create the teams
-insert into physical.scorer (name)
-values ('H&M'),
-('J&O')
 ;
 
 insert into physical.team
