@@ -40,8 +40,8 @@ CREATE TABLE physical.tournament_scorer (
   tournament_scorer_id UUID,
   PRIMARY KEY (tournament_id, tournament_scorer_id),
   FOREIGN KEY (tournament_id)
-  REFERENCES physical.tournament (id)
-  ON DELETE CASCADE,
+    REFERENCES physical.tournament (id)
+      ON DELETE CASCADE,
   FOREIGN KEY (tournament_scorer_id)
     REFERENCES physical.scorer (id)
       ON DELETE CASCADE
