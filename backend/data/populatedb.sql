@@ -1,8 +1,8 @@
 --
 -- - Create the 2024 competition
 --
-insert into physical.tournament (name, year)
-values ('Skjeberg Invitational', '2024-06-28');
+insert into physical.tournament (id, name, year)
+values ('942b428e-2c9b-4f7a-9077-ea3cde99e184', 'Skjeberg Invitational', '2024-06-28');
 
 select *
 from physical.tournament
@@ -11,11 +11,11 @@ from physical.tournament
 --
 -- - Create the players (Scorers) and the teams, and set up the memberships
 --
-insert into physical.scorer (name)
-values ('Ole Petter Orhagen'),
-('Juliane Skuland Karling'),
-('Ole Martin Hellerud'),
-('Marius Sollie')
+insert into physical.scorer (id, name)
+values ('626fa9fd-95ed-40e8-90f3-139ec79e79b9', 'Ole Petter Orhagen'),
+('b885afc9-4f16-423a-b7cf-b880c99fa3f8', 'Juliane Skuland Karling'),
+('fcca86fa-fdf3-4814-8c7e-ce9ea320dd08', 'Ole Martin Hellerud'),
+('e66ac21a-36ff-441f-9102-755f3515416a', 'Marius Sollie')
 ;
 
 -- Create the teams
