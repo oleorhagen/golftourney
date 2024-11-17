@@ -13,8 +13,8 @@ import graphql from "babel-plugin-relay/macro";
 import { loadQuery, usePreloadedQuery } from "react-relay/hooks";
 
 const ListAllCoursesQuery = graphql`
-query viewCoursesByTournamentIdQuery {
-  tournamentById(id: ID!) {
+query viewCoursesByTournamentIdQuery($id: UUID!) {
+  tournamentById(id: $id) {
     tournamentCoursesByTournamentId {
       nodes {
         courseName
@@ -40,7 +40,7 @@ function ScheduleScoreCard(props) {
   const course_data = usePreloadedQuery(
     ListAllCoursesQuery,
     {
-      playerId: props.tournamentId,
+      id: props.tournamentId,
     },
     { fetchPolicy: "network-only" },
   );

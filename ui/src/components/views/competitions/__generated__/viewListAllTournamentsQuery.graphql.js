@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6e08d6d719245874413d0e37d9745217>>
+ * @generated SignedSource<<37276a2e580b20cd6f814388fc61d870>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,55 +12,29 @@ var node = (function(){
 var v0 = {
   "alias": null,
   "args": null,
-  "concreteType": "TournamentsConnection",
-  "kind": "LinkedField",
-  "name": "allTournaments",
-  "plural": false,
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "TournamentsEdge",
-      "kind": "LinkedField",
-      "name": "edges",
-      "plural": true,
-      "selections": [
-        {
-          "alias": null,
-          "args": null,
-          "concreteType": "Tournament",
-          "kind": "LinkedField",
-          "name": "node",
-          "plural": false,
-          "selections": [
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "id",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "name",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "year",
-              "storageKey": null
-            }
-          ],
-          "storageKey": null
-        }
-      ],
-      "storageKey": null
-    }
-  ],
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "year",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "nodeId",
   "storageKey": null
 };
 return {
@@ -78,7 +52,42 @@ return {
         "name": "query",
         "plural": false,
         "selections": [
-          (v0/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "TournamentsConnection",
+            "kind": "LinkedField",
+            "name": "allTournaments",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "TournamentsEdge",
+                "kind": "LinkedField",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Tournament",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      (v0/*: any*/),
+                      (v1/*: any*/),
+                      (v2/*: any*/)
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
@@ -100,26 +109,56 @@ return {
         "name": "query",
         "plural": false,
         "selections": [
-          (v0/*: any*/),
           {
             "alias": null,
             "args": null,
-            "kind": "ScalarField",
-            "name": "nodeId",
+            "concreteType": "TournamentsConnection",
+            "kind": "LinkedField",
+            "name": "allTournaments",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "TournamentsEdge",
+                "kind": "LinkedField",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Tournament",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      (v0/*: any*/),
+                      (v1/*: any*/),
+                      (v2/*: any*/),
+                      (v3/*: any*/)
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
             "storageKey": null
-          }
+          },
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "dc0bdf32b5d997cd8b5e31e087b6e6e3",
+    "cacheID": "143a1de6496a7d08a055615f100626f9",
     "id": null,
     "metadata": {},
     "name": "viewListAllTournamentsQuery",
     "operationKind": "query",
-    "text": "query viewListAllTournamentsQuery {\n  query {\n    allTournaments {\n      edges {\n        node {\n          id\n          name\n          year\n        }\n      }\n    }\n    nodeId\n  }\n}\n"
+    "text": "query viewListAllTournamentsQuery {\n  query {\n    allTournaments {\n      edges {\n        node {\n          id\n          name\n          year\n          nodeId\n        }\n      }\n    }\n    nodeId\n  }\n}\n"
   }
 };
 })();
