@@ -129,16 +129,23 @@ function TourneyApp(props) {
       </Typography>
     );
   }
+  if (!props.tournamentId) {
+    return (
+      <Typography variant="h2">
+        No tournament Id given. This is a programming error
+      </Typography>
+    );
+  }
   return <ScheduleScoreCard {...props} />;
 }
 
 function TourneyView(props) {
-  const [playerId] = useOutletContext();
+  const { playerId, tournamentId } = useOutletContext();
 
   return (
     <>
       <Typography variant="h2">Scorecards</Typography>
-      <TourneyApp playerId={playerId} />
+      <TourneyApp playerId={playerId} tournamentId={tournamentId} />
     </>
   );
 }

@@ -33,37 +33,40 @@ Amplify.configure({
 });
 
 function App(props) {
+  const userInfo = {
+    playerId: "626fa9fd-95ed-40e8-90f3-139ec79e79b9",
+    tournamentId: "942b428e-2c9b-4f7a-9077-ea3cde99e184",
+  };
+
   return (
-    <Authenticator hideSignUp={true}>
-      {({ signOut, user }) => {
-        return (
-          <div className="App">
-            <Box sx={{ display: "flex" }}>
-              <Drawer navbarItems={props.navbarItems} />
-              <>
-                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                  <Container
-                    maxWidth="xl"
-                    sx={{ marginTop: (theme) => theme.spacing(10) }}
-                  >
-                    <main>
-                      <RelayEnvironmentProvider environment={RelayEnvironment}>
-                        <React.Suspense fallback={"Loading..."}>
-                          <Outlet
-                            context={"626fa9fd-95ed-40e8-90f3-139ec79e79b9"}
-                          />
-                        </React.Suspense>
-                      </RelayEnvironmentProvider>
-                    </main>
-                  </Container>
-                  <Footer />
-                </Box>
-              </>
-            </Box>
-          </div>
-        );
-      }}
-    </Authenticator>
+    // <Authenticator hideSignUp={true}>
+    //   {({ signOut, user }) => {
+    //     return (
+    <div className="App">
+      <Box sx={{ display: "flex" }}>
+        <Drawer navbarItems={props.navbarItems} />
+        <>
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Container
+              maxWidth="xl"
+              sx={{ marginTop: (theme) => theme.spacing(10) }}
+            >
+              <main>
+                <RelayEnvironmentProvider environment={RelayEnvironment}>
+                  <React.Suspense fallback={"Loading..."}>
+                    <Outlet context={userInfo} />
+                  </React.Suspense>
+                </RelayEnvironmentProvider>
+              </main>
+            </Container>
+            <Footer />
+          </Box>
+        </>
+      </Box>
+    </div>
+    //     );
+    //   }}
+    // </Authenticator>
   );
 }
 
