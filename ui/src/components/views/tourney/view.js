@@ -10,7 +10,7 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import graphql from "babel-plugin-relay/macro";
 
-import { loadQuery, usePreloadedQuery } from "react-relay/hooks";
+import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
 const ListAllCoursesQuery = graphql`
 query viewCoursesByTournamentIdQuery($id: UUID!) {
@@ -35,34 +35,17 @@ function ScheduleScoreCard(props) {
   const [value, setValue] = useState(0);
   const [hcp, setHcp] = useState(0);
 
-  var course_nodes = [];
-
-  const course_data = usePreloadedQuery(
+  const data = useLazyLoadQuery(
     ListAllCoursesQuery,
-    {
-      id: props.tournamentId,
-    },
+      {id: props.tournamentId },
     { fetchPolicy: "network-only" },
   );
 
-  const {
-    allCourses: { nodes },
-  } = course_data;
-  course_nodes = nodes;
+  var courseNodes = data?.tournamentById?.tournamentCoursesByTournamentId?.nodes || [];
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  if (!nodes) {
-    return (
-      <div className="TourneyApp">
-        <header className="TourneyApp-header">
-          <p>No data present...</p>
-        </header>
-      </div>
-    );
-  }
 
   return (
     <div className="TourneyApp">
@@ -74,17 +57,17 @@ function ScheduleScoreCard(props) {
             variant="fullWidth"
             orientation="vertical"
           >
-            {course_nodes.map((n, i) => (
+            {courseNodes.map((n, i) => (
               <Tab
                 component={Link}
-                to={"/scorecards/" + n.name.replace(/\W+/g, "-").toLowerCase()}
-                label={n.name}
+                to={"/scorecards/" + n.courseName.replace(/\W+/g, "-").toLowerCase()}
+                label={n.courseName}
                 key={i}
               />
             ))}
           </Tabs>
         </Box>
-        {course_nodes.map((courseNode, i) => {
+        {courseNodes.map((courseNode, i) => {
           return (
             <CustomTabPanel value={value} index={i} key={i}>
               <div>
