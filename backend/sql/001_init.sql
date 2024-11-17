@@ -23,7 +23,7 @@ CREATE TABLE physical.tournament_course (
     REFERENCES physical.tournament (id)
       ON DELETE CASCADE,
   FOREIGN KEY (course_name)
-    REFERENCES physical.course (name)
+   REFERENCES physical.course (name)
       ON DELETE CASCADE
 );
 
@@ -33,6 +33,18 @@ CREATE TABLE physical.scorer (
   name
     VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
+);
+
+CREATE TABLE physical.tournament_scorer (
+  tournament_id UUID,
+  tournament_scorer_id UUID,
+  PRIMARY KEY (tournament_id, tournament_scorer_id),
+  FOREIGN KEY (tournament_id)
+  REFERENCES physical.tournament (id)
+  ON DELETE CASCADE,
+  FOREIGN KEY (tournament_scorer_id)
+    REFERENCES physical.scorer (id)
+      ON DELETE CASCADE
 );
 
 create domain valid_handicap as int8
@@ -136,4 +148,3 @@ CREATE TABLE physical.hole_score (
 	FOREIGN KEY (scorer_id)
 		REFERENCES physical.scorer (id) ON DELETE CASCADE
 );
-
