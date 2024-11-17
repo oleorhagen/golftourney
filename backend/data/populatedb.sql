@@ -18,6 +18,20 @@ values ('Ole Petter Orhagen'),
 ('Marius Sollie')
 ;
 
+--
+-- Add the players to the tournament
+--
+insert into physical.tournament_scorer (tournament_id, tournament_scorer_id)
+values
+((select id from physical.tournament where name like 'Skjeberg%'), ( select id from physical.scorer where name like 'Ole P%' )),
+((select id from physical.tournament where name like 'Skjeberg%'), ( select id from physical.scorer where name like 'Juliane%' )),
+((select id from physical.tournament where name like 'Skjeberg%'), ( select id from physical.scorer where name like 'Marius%' )),
+((select id from physical.tournament where name like 'Skjeberg%'), ( select id from physical.scorer where name like 'Ole M%' ))
+;
+
+--
+-- Create the players, with their handicaps
+--
 insert into physical.player (id, handicap)
 values
 (( select id from physical.scorer where name like 'Ole P%' ), 24),
