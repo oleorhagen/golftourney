@@ -12,6 +12,14 @@ CREATE VIEW postgraphile.tournament  AS (
 SELECT * FROM physical.tournament
 );
 
+CREATE VIEW postgraphile.tournament_course  AS (
+SELECT * FROM physical.tournament_course
+);
+
+CREATE VIEW postgraphile.tournament_scorer  AS (
+SELECT * FROM physical.tournament_scorer
+);
+
 CREATE view postgraphile.player AS (
   select id, name, sum(strokes)
   from physical.scorer as s
@@ -196,4 +204,3 @@ grant select
 on all tables in schema postgraphile
 to postgraphile
 ;
-
