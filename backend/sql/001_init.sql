@@ -15,6 +15,18 @@ CREATE TABLE physical.tournament (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE physical.tournament_course (
+  tournament_id UUID,
+  course_name VARCHAR(50),
+  PRIMARY KEY (tournament_id, course_name),
+  FOREIGN KEY(tournament_id)
+    REFERENCES physical.tournament (id)
+      ON DELETE CASCADE,
+  FOREIGN KEY (course_name)
+    REFERENCES physical.course (name)
+      ON DELETE CASCADE
+);
+
 CREATE TABLE physical.scorer (
   id
     UUID DEFAULT uuid_generate_v4(),
