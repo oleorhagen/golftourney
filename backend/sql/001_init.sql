@@ -37,12 +37,12 @@ CREATE TABLE physical.scorer (
 
 CREATE TABLE physical.tournament_scorer (
   tournament_id UUID,
-  tournament_scorer_id UUID,
-  PRIMARY KEY (tournament_id, tournament_scorer_id),
+  scorer_id UUID,
+  PRIMARY KEY (tournament_id, scorer_id),
   FOREIGN KEY (tournament_id)
     REFERENCES physical.tournament (id)
       ON DELETE CASCADE,
-  FOREIGN KEY (tournament_scorer_id)
+  FOREIGN KEY (scorer_id)
     REFERENCES physical.scorer (id)
       ON DELETE CASCADE
 );
