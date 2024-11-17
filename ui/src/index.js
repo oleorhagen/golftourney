@@ -67,19 +67,7 @@ const router = createBrowserRouter([
         element: <TourneyView />,
         children: [
           {
-            path: "gamle-fredrikstad",
-            element: <RouterScoreCard />,
-          },
-          {
-            path: "onsoy",
-            element: <RouterScoreCard />,
-          },
-          {
-            path: "borregaard",
-            element: <RouterScoreCard />,
-          },
-          {
-            path: "skjeberg",
+            path: ":name",
             element: <RouterScoreCard />,
           },
         ],
