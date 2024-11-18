@@ -12,6 +12,14 @@ create table physical.tournament (
   , primary key (id)
 );
 
+create table physical.course (
+  name varchar(50)
+  , slope float not null , -- Indicates how difficult the course is expected to be for a bogey golfer
+  course_rating float not null , -- The number of strokes a scratch is expected to use
+  nr_holes int8 not null
+  , primary key (name)
+);
+
 create table physical.tournament_course (
   tournament_id uuid
   , course_name varchar(50)
@@ -55,14 +63,6 @@ create table physical.team_member (
   , primary key (player_id , team_id)
   , foreign key (player_id) references physical.player (id) on delete cascade
   , foreign key (team_id) references physical.team (id) on delete cascade
-);
-
-create table physical.course (
-  name varchar(50)
-  , slope float not null , -- Indicates how difficult the course is expected to be for a bogey golfer
-  course_rating float not null , -- The number of strokes a scratch is expected to use
-  nr_holes int8 not null
-  , primary key (name)
 );
 
 create table physical.course_hole (
