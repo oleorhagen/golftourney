@@ -128,23 +128,40 @@ CREATE TABLE physical.course_hole (
   UNIQUE (hole_nr, course_name, hole_index)
 );
 
-CREATE TABLE physical.hole_score (
-  scorer_id
-    UUID,
-  hole_nr
-    INT8,
-  course_name
-    VARCHAR(50),
-  strokes
-    INT8 NOT NULL CHECK (strokes > 0),
-  stamp
-    TIMESTAMP DEFAULT NOW(),
-	PRIMARY KEY (scorer_id, hole_nr, course_name),
-	FOREIGN KEY (hole_nr, course_name)
-		REFERENCES physical.course_hole (
-			hole_nr,
-			course_name
-		),
-	FOREIGN KEY (scorer_id)
-		REFERENCES physical.scorer (id) ON DELETE CASCADE
+CREATE TABLE physical.scorecard (
+tournament_id
+UUID,
+course_name
+VARCHAR (50),
+PRIMARY KEY (tournament_id, course_name),
+FOREIGN KEY (tournament_id)
+REFERENCES physical.tournament (id),
+FOREIGN KEY (course_name)
+REFERENCES physical.course (id)
 );
+
+CREATE TABLE physical.hole_score (
+scorer_id
+UUID,
+hole_nr
+INT8,
+course_name
+VARCHAR(50),
+strokes
+INT8 NOT NULL CHECK (strokes > 0),
+stamp
+TIMESTAMP DEFAULT NOW(),
+tournament_id
+UUID,
+PRIMARY KEY (scorer_id, hole_nr, course_name),
+FOREIGN KEY (hole_nr, course_name)
+REFERENCES physical.course_hole (
+hole_nr,
+course_name
+),
+FOREIGN KEY (scorer_id)
+REFERENCES physical.scorer (id) ON DELETE CASCADE,
+FOREIGN KEY (tournament_id, course_name)
+REFERENCES physical.scorecard (tournament_id, course_name)
+);
+

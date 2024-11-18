@@ -24,7 +24,6 @@ values ('H&M'),
 ('J&O')
 ;
 
-
 --
 -- Add the players to the tournament
 --
