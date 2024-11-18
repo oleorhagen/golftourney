@@ -1,167 +1,107 @@
 --
 -- - Schema for golf DB
 --
--- TODO - Format this with some postgresql formatter which handles tables
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE SCHEMA IF NOT EXISTS physical AUTHORIZATION postgres;
+create extension if not exists "uuid-ossp";
 
-CREATE TABLE physical.tournament (
-	id
-    UUID DEFAULT uuid_generate_v4(),
-  name
-    VARCHAR(50) NOT NULL,
-  year
-    DATE NOT NULL,
-	PRIMARY KEY (id)
+create schema if not exists physical authorization postgres;
+
+create table physical.tournament (
+  id uuid default uuid_generate_v4 ()
+  , name varchar(50) not null
+  , year date not null
+  , primary key (id)
 );
 
-CREATE TABLE physical.tournament_course (
-  tournament_id UUID,
-  course_name VARCHAR(50),
-  PRIMARY KEY (tournament_id, course_name),
-  FOREIGN KEY(tournament_id)
-    REFERENCES physical.tournament (id)
-      ON DELETE CASCADE,
-  FOREIGN KEY (course_name)
-   REFERENCES physical.course (name)
-      ON DELETE CASCADE
+create table physical.tournament_course (
+  tournament_id uuid
+  , course_name varchar(50)
+  , primary key (tournament_id , course_name)
+  , foreign key (tournament_id) references physical.tournament (id) on delete cascade
+  , foreign key (course_name) references physical.course (name) on delete cascade
 );
 
-CREATE TABLE physical.scorer (
-  id
-    UUID DEFAULT uuid_generate_v4(),
-  name
-    VARCHAR(50) NOT NULL,
-  PRIMARY KEY (id)
+create table physical.scorer (
+  id uuid default uuid_generate_v4 ()
+  , name varchar(50) not null
+  , primary key (id)
 );
 
-CREATE TABLE physical.tournament_scorer (
-  tournament_id UUID,
-  scorer_id UUID,
-  PRIMARY KEY (tournament_id, scorer_id),
-  FOREIGN KEY (tournament_id)
-    REFERENCES physical.tournament (id)
-      ON DELETE CASCADE,
-  FOREIGN KEY (scorer_id)
-    REFERENCES physical.scorer (id)
-      ON DELETE CASCADE
+create table physical.tournament_scorer (
+  tournament_id uuid
+  , scorer_id uuid
+  , primary key (tournament_id , scorer_id)
+  , foreign key (tournament_id) references physical.tournament (id) on delete cascade
+  , foreign key (scorer_id) references physical.scorer (id) on delete cascade
 );
 
-create domain valid_handicap as int8
-CHECK
-  (VALUE BETWEEN -54 AND 54);
+create domain valid_handicap as int8 check (VALUE between -54 and 54);
 
-CREATE TABLE physical.player (
-  id
-    UUID,
-  handicap
-    valid_handicap NOT NULL ,
-  PRIMARY KEY (id),
-  FOREIGN KEY (id)
-    REFERENCES physical.scorer (id) ON DELETE CASCADE
+create table physical.player (
+  id uuid
+  , handicap valid_handicap not null
+  , primary key (id)
+  , foreign key (id) references physical.scorer (id) on delete cascade
 );
 
-CREATE TABLE physical.team (
-  id
-    UUID,
-  PRIMARY KEY (id),
-  FOREIGN KEY (id)
-    REFERENCES physical.scorer (id) ON DELETE CASCADE
+create table physical.team (
+  id uuid
+  , primary key (id)
+  , foreign key (id) references physical.scorer (id) on delete cascade
 );
 
-CREATE TABLE physical.team_member (
-  player_id
-    UUID,
-  team_id
-    UUID,
-  PRIMARY KEY (player_id, team_id),
-  FOREIGN KEY (player_id)
-    REFERENCES physical.player (id) ON DELETE CASCADE,
-  FOREIGN KEY (team_id)
-    REFERENCES physical.team (id) ON DELETE CASCADE
+create table physical.team_member (
+  player_id uuid
+  , team_id uuid
+  , primary key (player_id , team_id)
+  , foreign key (player_id) references physical.player (id) on delete cascade
+  , foreign key (team_id) references physical.team (id) on delete cascade
 );
 
-CREATE TABLE physical.player_tournament_score (
-  tournament_id
-    UUID,
-  player_id
-    UUID,
-  points
-    INT8 NOT NULL,
-  PRIMARY KEY (tournament_id, player_id),
-  FOREIGN KEY (tournament_id)
-    REFERENCES physical.tournament (id)
-      ON DELETE CASCADE,
-  FOREIGN KEY (player_id)
-    REFERENCES physical.player (id)
-      ON DELETE CASCADE
+create table physical.player_tournament_score (
+  tournament_id uuid
+  , player_id uuid
+  , points int8 not null
+  , primary key (tournament_id , player_id)
+  , foreign key (tournament_id) references physical.tournament (id) on delete cascade
+  , foreign key (player_id) references physical.player (id) on delete cascade
 );
 
-CREATE TABLE physical.course (
-	name
-    VARCHAR(50),
-  slope
-    float NOT NULL, -- Indicates how difficult the course is expected to be for a bogey golfer
-  course_rating
-    float NOT NULL, -- The number of strokes a scratch is expected to use
-  nr_holes
-    INT8 NOT NULL,
-	PRIMARY KEY (name)
+create table physical.course (
+  name varchar(50)
+  , slope float not null , -- Indicates how difficult the course is expected to be for a bogey golfer
+  course_rating float not null , -- The number of strokes a scratch is expected to use
+  nr_holes int8 not null
+  , primary key (name)
 );
 
-CREATE TABLE physical.course_hole (
-	hole_nr
-		INT8 CHECK (hole_nr BETWEEN 1 AND 18),
-	course_name
-		VARCHAR(50),
-	hole_index
-		INT8
-      NOT NULL
-      CHECK (hole_index BETWEEN 1 AND 18),
-	par
-		INT8
-      NOT NULL
-      CHECK (par BETWEEN 1 AND 5),
-	PRIMARY KEY (hole_nr, course_name),
-	FOREIGN KEY (course_name)
-		REFERENCES physical.course (name) ON DELETE CASCADE,
-  UNIQUE (hole_nr, course_name, hole_index)
+create table physical.course_hole (
+  hole_nr int8 check (hole_nr between 1 and 18)
+  , course_name varchar(50)
+  , hole_index int8 not null check (hole_index between 1 and 18)
+  , par int8 not null check (par between 1 and 5)
+  , primary key (hole_nr , course_name)
+  , foreign key (course_name) references physical.course (name) on delete cascade
+  , unique (hole_nr , course_name , hole_index)
 );
 
-CREATE TABLE physical.scorecard (
-tournament_id
-UUID,
-course_name
-VARCHAR (50),
-PRIMARY KEY (tournament_id, course_name),
-FOREIGN KEY (tournament_id)
-REFERENCES physical.tournament (id),
-FOREIGN KEY (course_name)
-REFERENCES physical.course (id)
+create table physical.scorecard (
+  tournament_id uuid
+  , course_name varchar(50)
+  , primary key (tournament_id , course_name)
+  , foreign key (tournament_id) references physical.tournament (id)
+  , foreign key (course_name) references physical.course (name)
 );
 
-CREATE TABLE physical.hole_score (
-scorer_id
-UUID,
-hole_nr
-INT8,
-course_name
-VARCHAR(50),
-strokes
-INT8 NOT NULL CHECK (strokes > 0),
-stamp
-TIMESTAMP DEFAULT NOW(),
-tournament_id
-UUID,
-PRIMARY KEY (scorer_id, hole_nr, course_name),
-FOREIGN KEY (hole_nr, course_name)
-REFERENCES physical.course_hole (
-hole_nr,
-course_name
-),
-FOREIGN KEY (scorer_id)
-REFERENCES physical.scorer (id) ON DELETE CASCADE,
-FOREIGN KEY (tournament_id, course_name)
-REFERENCES physical.scorecard (tournament_id, course_name)
+create table physical.hole_score (
+  scorer_id uuid
+  , hole_nr int8
+  , course_name varchar(50)
+  , strokes int8 not null check (strokes > 0)
+  , stamp timestamp default now()
+  , tournament_id uuid
+  , primary key (scorer_id , hole_nr , course_name)
+  , foreign key (hole_nr , course_name) references physical.course_hole (hole_nr , course_name)
+  , foreign key (scorer_id) references physical.scorer (id) on delete cascade
+  , foreign key (tournament_id , course_name) references physical.scorecard (tournament_id , course_name)
 );
 
