@@ -7,6 +7,13 @@ import Select from "@mui/material/Select";
 import { graphql } from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
 
+// mutation MyMutation {
+//     createHoleScore(
+//         input: {holeScore: {scorerId: "626fa9fd-95ed-40e8-90f3-139ec79e79b9", holeNr: "1", courseName: "Skjeberg", strokes: "3", tournamentId: "942b428e-2c9b-4f7a-9077-ea3cde99e184"}}
+//     )
+// }
+
+
 const competitionsScoreMutation = graphql``;
 
 const competitionsScoreUpdateMutation = graphql``;

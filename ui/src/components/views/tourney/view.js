@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import graphql from "babel-plugin-relay/macro";
 
 import { useOutletContext, Outlet } from "react-router-dom";
 import Link from "../../router/Link";
@@ -6,29 +7,27 @@ import Link from "../../router/Link";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 // import PlayerStats from "./playerstats/PlayerStats";
-// import ScoreCard from "./scorecard/ScoreCard";
-
-import graphql from "babel-plugin-relay/macro";
+import ScoreCard from "./scorecard/ScoreCard";
 
 import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
 const ListAllCoursesQuery = graphql`
-query viewCoursesByTournamentIdQuery($id: UUID!) {
-  tournamentById(id: $id) {
-    tournamentCoursesByTournamentId {
-      nodes {
-        courseName
-        nodeId
-        tournamentId
+  query viewCoursesByTournamentIdQuery($id: UUID!) {
+    tournamentById(id: $id) {
+      tournamentCoursesByTournamentId {
+        nodes {
+          courseName
+          nodeId
+          tournamentId
+        }
       }
     }
   }
-}
 `;
 
 export function RouterScoreCard() {
-  // const [props] = useOutletContext();
-  return <>Player Scorecard</>;
+  const props = useOutletContext();
+  return <ScoreCard {...props} />;
 }
 
 function ScheduleScoreCard(props) {
@@ -75,7 +74,9 @@ function ScheduleScoreCard(props) {
           return (
             <CustomTabPanel value={value} index={i} key={i}>
               <div>
-                <Outlet />
+                <Outlet
+                  context={{ courseName: courseNode.courseName, ...props }}
+                />
               </div>
             </CustomTabPanel>
           );
