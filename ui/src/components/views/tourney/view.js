@@ -37,11 +37,12 @@ function ScheduleScoreCard(props) {
 
   const data = useLazyLoadQuery(
     ListAllCoursesQuery,
-      {id: props.tournamentId },
+    { id: props.tournamentId },
     { fetchPolicy: "network-only" },
   );
 
-  var courseNodes = data?.tournamentById?.tournamentCoursesByTournamentId?.nodes || [];
+  var courseNodes =
+    data?.tournamentById?.tournamentCoursesByTournamentId?.nodes || [];
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -60,7 +61,10 @@ function ScheduleScoreCard(props) {
             {courseNodes.map((n, i) => (
               <Tab
                 component={Link}
-                to={"/scorecards/" + n.courseName.replace(/\W+/g, "-").toLowerCase()}
+                to={
+                  "/scorecards/" +
+                  n.courseName.replace(/\W+/g, "-").toLowerCase()
+                }
                 label={n.courseName}
                 key={i}
               />
