@@ -50,6 +50,7 @@ services:
         '--schema',
         'physical',
         '--enhance-graphiql',
+        '--watch',
         '--export-schema-graphql',
         '/tmp/schema.graphql',
       ]
