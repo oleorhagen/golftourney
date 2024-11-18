@@ -57,15 +57,6 @@ create table physical.team_member (
   , foreign key (team_id) references physical.team (id) on delete cascade
 );
 
-create table physical.player_tournament_score (
-  tournament_id uuid
-  , player_id uuid
-  , points int8 not null
-  , primary key (tournament_id , player_id)
-  , foreign key (tournament_id) references physical.tournament (id) on delete cascade
-  , foreign key (player_id) references physical.player (id) on delete cascade
-);
-
 create table physical.course (
   name varchar(50)
   , slope float not null , -- Indicates how difficult the course is expected to be for a bogey golfer
