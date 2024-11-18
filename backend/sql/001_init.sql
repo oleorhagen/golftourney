@@ -75,14 +75,6 @@ create table physical.course_hole (
   , unique (hole_nr , course_name , hole_index)
 );
 
-create table physical.scorecard (
-  tournament_id uuid
-  , course_name varchar(50)
-  , primary key (tournament_id , course_name)
-  , foreign key (tournament_id) references physical.tournament (id)
-  , foreign key (course_name) references physical.course (name)
-);
-
 create table physical.hole_score (
   scorer_id uuid
   , hole_nr int8
@@ -93,6 +85,6 @@ create table physical.hole_score (
   , primary key (scorer_id , hole_nr , course_name)
   , foreign key (hole_nr , course_name) references physical.course_hole (hole_nr , course_name)
   , foreign key (scorer_id) references physical.scorer (id) on delete cascade
-  , foreign key (tournament_id , course_name) references physical.scorecard (tournament_id , course_name)
+  , foreign key (tournament_id) references physical.tournament (id)
 );
 
