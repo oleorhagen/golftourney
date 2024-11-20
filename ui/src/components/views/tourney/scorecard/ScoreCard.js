@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import graphql from "babel-plugin-relay/macro";
 
-// import ScoreCardTable from "./ScoreCardTable";
-// import ScoreCardFooter from "./ScoreCardFooter";
+import ScoreCardTable from "./ScoreCardTable";
+import ScoreCardFooter from "./ScoreCardFooter";
 
 import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
@@ -49,15 +49,31 @@ export const ScoreCard = (props) => {
     { fetchPolicy: "network-only" },
   );
 
+    const courseHoles = data?.allCourses?.nodes[0].courseHolesByCourseName.nodes || [];
+
+    // Need to pass in:
+    // The holes
+    //
+    // This is the info I get from the nodes
+    //
+    // courseName: "Skjeberg"
+    // ​​​​​​​​
+    // holeIndex: "13"
+    // ​​​​​​​​
+    // holeNr: "2"
+    // ​​​​​​​​
+    // holeScoresByHoleNrAndCourseName: {…}
+    // ​​​​​​​​
+    // nodeId: "WyJjb3Vyc2VfaG9sZXMiLDIsIlNramViZXJnIl0="
+    // ​​​​​​​​
+    // par: "3"
+
   return (
     <>
-      {/* <ScoreCardTable */}
-      {/*   scorecard={props.scorecard} */}
-      {/*   onChange={onChangeAll} */}
-      {/*   data={holes} */}
-      {/*   {...props} */}
-      {/* /> */}
-      {/* <ScoreCardFooter /> */}
+      <ScoreCardTable
+        holes={courseHoles}
+      />
+      <ScoreCardFooter />
     </>
   );
 };

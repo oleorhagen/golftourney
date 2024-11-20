@@ -5,7 +5,7 @@ import { Paper, Typography } from "@mui/material";
 import graphql from "babel-plugin-relay/macro";
 import { useFragment } from "react-relay";
 
-import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
+// import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
 import RomanNumeralScore from "./RomanNumeralScore";
 
 import Table from "@mui/material/Table";
@@ -15,33 +15,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-// Get the extra stroke
-function GetExtraStroke(hole, NumberOfExtraStrokes) {
-  if (!NumberOfExtraStrokes) {
-    return 0;
-  }
-  const holeN = Number(hole);
-  const NumberOfExtraStrokesN = Number(NumberOfExtraStrokes);
-  var extraStrokes = Math.floor(NumberOfExtraStrokesN / 18);
-  if (holeN <= NumberOfExtraStrokesN % 18) {
-    extraStrokes = extraStrokes + 1;
-  }
-  return extraStrokes;
-}
-
-function createData(courseId, hole, par, hcp, hcpExtraStrokes, nodes) {
-  if (!nodes || nodes.length === 0) {
-    return { courseId, hole, par, hcp, hcpExtraStrokes };
-  }
-  const nodeId = nodes[0].nodeId;
-  const strokes = nodes[0].strokes;
-  const points = nodes[0].points;
-  const hcpe = GetExtraStroke(hcp, hcpExtraStrokes);
-  return { courseId, hole, par, hcp, hcpe, nodeId, strokes, points };
-}
-
-const HandicapFragment = graphql``;
-
 function PointScore({ par, hcp, score }) {
   return (
     <div>
@@ -50,18 +23,7 @@ function PointScore({ par, hcp, score }) {
   );
 }
 
-const ScoreCardTable = (props) => {
-  const data = useFragment(HandicapFragment, props.handicap_fragment);
-
-  const rows = props.data.map(
-    ({ courseId, nr, par, index, extra, scoresByHoleId: { nodes } }) =>
-      createData(courseId, nr, par, index, data?.handicap, nodes)
-  );
-
-  rows.sort((a, b) => Number(a.hole) > Number(b.hole));
-
-  const onChange = props.onChange;
-
+const ScoreCardTable = ({ holes }) => {
   return (
     <>
       <TableContainer component={Paper}>
@@ -72,38 +34,27 @@ const ScoreCardTable = (props) => {
               {["Par", "Hcp", "Hcp+", "Score", "Points"].map(
                 (cellText, idx) => (
                   <TableCell key={idx}>{cellText}</TableCell>
-                )
+                ),
               )}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {holes.map((row, index) => (
               <TableRow
-                key={row.hole}
+                key={row.holeNr}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.hole}
+                  {row.holeNr}
                 </TableCell>
                 <TableCell align="right">{row.par}</TableCell>
-                <TableCell align="right">{row.hcp}</TableCell>
+                <TableCell align="right">{row.holeIndex}</TableCell>
                 <TableCell align="right">
-                  <RomanNumeralScore number={row.hcpe} />
+                  <RomanNumeralScore number={2} />
                 </TableCell>
+                <TableCell align="right">Select</TableCell>
                 <TableCell align="right">
-                  <SelectScoreAutoWidth
-                    playerId={props.playerId}
-                    courseId={row.courseId}
-                    onChange={onChange(index)}
-                    holeNumber={row.hole}
-                    nodeId={row.nodeId}
-                    strokes={row.strokes}
-                    par={row.par}
-                    hcpe={row.hcpe}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <PointScore par={row.par} hcp={row.hcpe} score={row.points} />
+                  <PointScore par={row.par} hcp={row.holeIndex} score={2} />
                 </TableCell>
               </TableRow>
             ))}
