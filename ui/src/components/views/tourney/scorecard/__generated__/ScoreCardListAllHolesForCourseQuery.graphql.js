@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2e15e5e976bea899ba26339869241441>>
+ * @generated SignedSource<<d3e9cf4e07e54fb9332ed86da2a9ade9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -122,6 +122,19 @@ v3 = [
                     "args": [
                       {
                         "kind": "Literal",
+                        "name": "playerId",
+                        "value": "626fa9fd-95ed-40e8-90f3-139ec79e79b9"
+                      }
+                    ],
+                    "kind": "ScalarField",
+                    "name": "extraStrokes",
+                    "storageKey": "extraStrokes(playerId:\"626fa9fd-95ed-40e8-90f3-139ec79e79b9\")"
+                  },
+                  {
+                    "alias": null,
+                    "args": [
+                      {
+                        "kind": "Literal",
                         "name": "condition",
                         "value": {
                           "scorerId": "626fa9fd-95ed-40e8-90f3-139ec79e79b9"
@@ -202,16 +215,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "151a22f4a5d0e664515fcbcc83d29707",
+    "cacheID": "a82761886779b0ca1409ecf0440cc14d",
     "id": null,
     "metadata": {},
     "name": "ScoreCardListAllHolesForCourseQuery",
     "operationKind": "query",
-    "text": "query ScoreCardListAllHolesForCourseQuery {\n  allCourses(condition: {name: \"Skjeberg\"}) {\n    nodes {\n      courseRating\n      name\n      nodeId\n      nrHoles\n      slope\n      courseHolesByCourseName {\n        nodes {\n          courseName\n          holeIndex\n          holeNr\n          nodeId\n          par\n          holeScoresByHoleNrAndCourseName(condition: {scorerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\"}) {\n            nodes {\n              courseName\n              holeNr\n              nodeId\n              scorerId\n              stamp\n              strokes\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query ScoreCardListAllHolesForCourseQuery {\n  allCourses(condition: {name: \"Skjeberg\"}) {\n    nodes {\n      courseRating\n      name\n      nodeId\n      nrHoles\n      slope\n      courseHolesByCourseName {\n        nodes {\n          courseName\n          holeIndex\n          holeNr\n          nodeId\n          par\n          extraStrokes(playerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\")\n          holeScoresByHoleNrAndCourseName(condition: {scorerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\"}) {\n            nodes {\n              courseName\n              holeNr\n              nodeId\n              scorerId\n              stamp\n              strokes\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "aa5aa2c3df8251d9ca200ab58a811c99";
+node.hash = "a1cd1244460abd5a0fd2a1986d1e04e6";
 
 module.exports = node;

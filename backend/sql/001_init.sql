@@ -1,6 +1,7 @@
 --
 -- - Schema for golf DB
 --
+-- TODO - Should I add a scorecard, which then stores the handicap ?
 create extension if not exists "uuid-ossp";
 
 create schema if not exists physical authorization postgres;
@@ -74,6 +75,65 @@ create table physical.course_hole (
   , foreign key (course_name) references physical.course (name) on delete cascade
   , unique (hole_nr , course_name , hole_index)
 );
+
+create view physical.extra_strokes_per_hole as (
+  select
+    ch.hole_nr
+    , ch.course_name
+    , ch.hole_index
+    , ch.par
+    , p.player_id
+    , (p.extra_strokes_tot / c.nr_holes) + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index)) / c.nr_holes as extra_strokes -- (+17) Normalize to (0,1)
+  from
+    physical.course_hole as ch
+    inner join (
+      select
+        s.id as player_id
+        , c.name as course_name
+        , int8(round(p.handicap * c.slope / 113)) as extra_strokes_tot
+      from
+        physical.scorer as s
+        inner join physical.player as p on s.id = p.id
+        , physical.course as c) as p on ch.course_name = p.course_name
+      inner join physical.course as c on ch.course_name = c.name
+  union
+  select
+    ch.hole_nr
+    , ch.course_name
+    , ch.hole_index
+    , ch.par
+    , p.team_id as player_id
+    , (p.extra_strokes_tot / c.nr_holes) + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index)) / c.nr_holes as extra_strokes -- (+17) Normalize to (0,1)
+  from
+    physical.course_hole as ch
+    inner join (
+      select
+        t.team_id as team_id
+        , c.name as course_name
+        , int8(round(t.handicap * c.slope / 113)) as extra_strokes_tot
+      from
+        postgraphile.team as t
+        , physical.course as c) as p on ch.course_name = p.course_name
+      inner join physical.course as c on ch.course_name = c.name);
+
+-- Returns the extra strokes for a hole, given a hole and player_id
+create function physical.course_hole_extra_strokes (
+  hole physical.course_hole
+  , player_id uuid
+)
+  returns int8
+  as $$
+  select
+    extra_strokes
+  from
+    physical.extra_strokes_per_hole as e
+  where
+    e.hole_nr = hole.hole_nr
+    and e.course_name = hole.course_name
+    and e.player_id = player_id
+$$
+language sql
+stable strict;
 
 create table physical.hole_score (
   scorer_id uuid

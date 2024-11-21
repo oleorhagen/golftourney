@@ -23,6 +23,7 @@ const ListAllCoursesAndHolesQuery = graphql`
             holeNr
             nodeId
             par
+            extraStrokes(playerId: "626fa9fd-95ed-40e8-90f3-139ec79e79b9")
             holeScoresByHoleNrAndCourseName(
               condition: { scorerId: "626fa9fd-95ed-40e8-90f3-139ec79e79b9" }
             ) {
@@ -49,30 +50,31 @@ export const ScoreCard = (props) => {
     { fetchPolicy: "network-only" },
   );
 
-    const courseHoles = data?.allCourses?.nodes[0].courseHolesByCourseName.nodes || [];
+  const courseHoles =
+    data?.allCourses?.nodes[0].courseHolesByCourseName.nodes || [];
 
-    // Need to pass in:
-    // The holes
-    //
-    // This is the info I get from the nodes
-    //
-    // courseName: "Skjeberg"
-    // ​​​​​​​​
-    // holeIndex: "13"
-    // ​​​​​​​​
-    // holeNr: "2"
-    // ​​​​​​​​
-    // holeScoresByHoleNrAndCourseName: {…}
-    // ​​​​​​​​
-    // nodeId: "WyJjb3Vyc2VfaG9sZXMiLDIsIlNramViZXJnIl0="
-    // ​​​​​​​​
-    // par: "3"
+  // Need to pass in:
+  // The holes
+  //
+  // This is the info I get from the nodes
+  //
+  // courseName: "Skjeberg"
+  // ​​​​​​​​
+  // holeIndex: "13"
+  // ​​​​​​​​
+  // holeNr: "2"
+  // ​​​​​​​​
+  // holeScoresByHoleNrAndCourseName: {…}
+  // ​​​​​​​​
+  // nodeId: "WyJjb3Vyc2VfaG9sZXMiLDIsIlNramViZXJnIl0="
+  // ​​​​​​​​
+  // par: "3"
+
+  // TODO - Need extra strokes for this hole
 
   return (
     <>
-      <ScoreCardTable
-        holes={courseHoles}
-      />
+      <ScoreCardTable holes={courseHoles} />
       <ScoreCardFooter />
     </>
   );

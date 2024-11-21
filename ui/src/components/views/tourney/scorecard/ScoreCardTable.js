@@ -31,7 +31,7 @@ const ScoreCardTable = ({ holes }) => {
           <TableHead>
             <TableRow>
               <TableCell>Hole</TableCell>
-              {["Par", "Hcp", "Hcp+", "Score", "Points"].map(
+              {["Par", "Hcp", "Extra", "Score", "Points"].map(
                 (cellText, idx) => (
                   <TableCell key={idx}>{cellText}</TableCell>
                 ),
@@ -50,7 +50,7 @@ const ScoreCardTable = ({ holes }) => {
                 <TableCell align="right">{row.par}</TableCell>
                 <TableCell align="right">{row.holeIndex}</TableCell>
                 <TableCell align="right">
-                  <RomanNumeralScore number={2} />
+                  <RomanNumeralScore number={row.extraStrokes} />
                 </TableCell>
                 <TableCell align="right">Select</TableCell>
                 <TableCell align="right">
