@@ -51,7 +51,7 @@ values (
 --
 insert into physical.tournament_scorer (
   tournament_id
-  , tournament_scorer_id)
+  , scorer_id)
 values ((
     select
       id
