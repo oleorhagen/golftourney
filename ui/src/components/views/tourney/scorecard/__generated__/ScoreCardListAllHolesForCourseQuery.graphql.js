@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6a6345fa3cababc7498dd1633123de2a>>
+ * @generated SignedSource<<76075762921e955fad443e32e0b03eeb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,37 +9,53 @@
 'use strict';
 
 var node = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "courseName"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "scorerId"
+  }
+],
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "nodeId",
   "storageKey": null
 },
-v1 = {
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "courseName",
   "storageKey": null
 },
-v2 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "holeNr",
   "storageKey": null
 },
-v3 = [
+v4 = [
   {
     "alias": null,
     "args": [
       {
-        "kind": "Literal",
-        "name": "condition",
-        "value": {
-          "name": "Borregaard"
-        }
+        "fields": [
+          {
+            "kind": "Variable",
+            "name": "name",
+            "variableName": "courseName"
+          }
+        ],
+        "kind": "ObjectValue",
+        "name": "condition"
       }
     ],
     "concreteType": "CoursesConnection",
@@ -69,7 +85,7 @@ v3 = [
             "name": "name",
             "storageKey": null
           },
-          (v0/*: any*/),
+          (v1/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -100,7 +116,7 @@ v3 = [
                 "name": "nodes",
                 "plural": true,
                 "selections": [
-                  (v1/*: any*/),
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -108,8 +124,8 @@ v3 = [
                     "name": "holeIndex",
                     "storageKey": null
                   },
-                  (v2/*: any*/),
-                  (v0/*: any*/),
+                  (v3/*: any*/),
+                  (v1/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -121,24 +137,28 @@ v3 = [
                     "alias": null,
                     "args": [
                       {
-                        "kind": "Literal",
+                        "kind": "Variable",
                         "name": "playerId",
-                        "value": "626fa9fd-95ed-40e8-90f3-139ec79e79b9"
+                        "variableName": "scorerId"
                       }
                     ],
                     "kind": "ScalarField",
                     "name": "extraStrokes",
-                    "storageKey": "extraStrokes(playerId:\"626fa9fd-95ed-40e8-90f3-139ec79e79b9\")"
+                    "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": [
                       {
-                        "kind": "Literal",
-                        "name": "condition",
-                        "value": {
-                          "scorerId": "626fa9fd-95ed-40e8-90f3-139ec79e79b9"
-                        }
+                        "fields": [
+                          {
+                            "kind": "Variable",
+                            "name": "scorerId",
+                            "variableName": "scorerId"
+                          }
+                        ],
+                        "kind": "ObjectValue",
+                        "name": "condition"
                       }
                     ],
                     "concreteType": "HoleScoresConnection",
@@ -154,9 +174,9 @@ v3 = [
                         "name": "nodes",
                         "plural": true,
                         "selections": [
-                          (v1/*: any*/),
                           (v2/*: any*/),
-                          (v0/*: any*/),
+                          (v3/*: any*/),
+                          (v1/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -182,7 +202,7 @@ v3 = [
                         "storageKey": null
                       }
                     ],
-                    "storageKey": "holeScoresByHoleNrAndCourseName(condition:{\"scorerId\":\"626fa9fd-95ed-40e8-90f3-139ec79e79b9\"})"
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -194,37 +214,37 @@ v3 = [
         "storageKey": null
       }
     ],
-    "storageKey": "allCourses(condition:{\"name\":\"Borregaard\"})"
+    "storageKey": null
   }
 ];
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "ScoreCardListAllHolesForCourseQuery",
-    "selections": (v3/*: any*/),
+    "selections": (v4/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "ScoreCardListAllHolesForCourseQuery",
-    "selections": (v3/*: any*/)
+    "selections": (v4/*: any*/)
   },
   "params": {
-    "cacheID": "81dbe480a5a7aa52ae2fcc17d15cf4b2",
+    "cacheID": "1449b8a2347268007d9b7db8c7027930",
     "id": null,
     "metadata": {},
     "name": "ScoreCardListAllHolesForCourseQuery",
     "operationKind": "query",
-    "text": "query ScoreCardListAllHolesForCourseQuery {\n  allCourses(condition: {name: \"Borregaard\"}) {\n    nodes {\n      courseRating\n      name\n      nodeId\n      nrHoles\n      slope\n      courseHolesByCourseName {\n        nodes {\n          courseName\n          holeIndex\n          holeNr\n          nodeId\n          par\n          extraStrokes(playerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\")\n          holeScoresByHoleNrAndCourseName(condition: {scorerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\"}) {\n            nodes {\n              courseName\n              holeNr\n              nodeId\n              scorerId\n              stamp\n              strokes\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query ScoreCardListAllHolesForCourseQuery(\n  $courseName: String!\n  $scorerId: UUID!\n) {\n  allCourses(condition: {name: $courseName}) {\n    nodes {\n      courseRating\n      name\n      nodeId\n      nrHoles\n      slope\n      courseHolesByCourseName {\n        nodes {\n          courseName\n          holeIndex\n          holeNr\n          nodeId\n          par\n          extraStrokes(playerId: $scorerId)\n          holeScoresByHoleNrAndCourseName(condition: {scorerId: $scorerId}) {\n            nodes {\n              courseName\n              holeNr\n              nodeId\n              scorerId\n              stamp\n              strokes\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "93276578a5c800ea5e2f06eab106d4ee";
+node.hash = "04932ad19de2c6155061dee8d3ddc1ee";
 
 module.exports = node;

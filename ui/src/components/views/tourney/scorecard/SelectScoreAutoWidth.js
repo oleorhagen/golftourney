@@ -64,6 +64,7 @@ export default function SelectScoreAutoWidth({
           label="Score"
           variant="standard"
           IconComponent={() => ""}
+          disabled={isMutationInFlight}
         >
           {[...Array(maxAcceptableScore)].map((_, i) => (
             <MenuItem key={i} value={i}>
