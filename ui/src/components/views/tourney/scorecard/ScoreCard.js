@@ -74,7 +74,11 @@ export const ScoreCard = (props) => {
 
   return (
     <>
-      <ScoreCardTable holes={courseHoles} />
+      <ScoreCardTable
+        playerId={props.playerId}
+        courseName={props.courseName}
+        holes={courseHoles}
+      />
       <ScoreCardFooter />
     </>
   );

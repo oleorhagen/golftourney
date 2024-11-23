@@ -5,7 +5,7 @@ import { Paper, Typography } from "@mui/material";
 import graphql from "babel-plugin-relay/macro";
 import { useFragment } from "react-relay";
 
-// import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
+import SelectScoreAutoWidth from "./SelectScoreAutoWidth";
 import RomanNumeralScore from "./RomanNumeralScore";
 
 import Table from "@mui/material/Table";
@@ -23,48 +23,53 @@ function PointScore({ par, hcp, score }) {
   );
 }
 
-const ScoreCardTable = ({ holes }) => {
+const ScoreCardTable = ({ playerId, courseName, holes }) => {
   return (
-    <>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Hole</TableCell>
-              {["Par", "Hcp", "Extra", "Strokes", "Points"].map(
-                (cellText, idx) => (
-                  <TableCell key={idx}>{cellText}</TableCell>
-                ),
-              )}
+    <TableContainer component={Paper}>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Hole</TableCell>
+            {["Par", "Hcp", "Extra", "Strokes", "Points"].map(
+              (cellText, idx) => (
+                <TableCell key={idx}>{cellText}</TableCell>
+              ),
+            )}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {holes.map((row, index) => (
+            <TableRow
+              key={row.holeNr}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.holeNr}
+              </TableCell>
+              <TableCell align="right">{row.par}</TableCell>
+              <TableCell align="right">{row.holeIndex}</TableCell>
+              <TableCell align="right">
+                <RomanNumeralScore number={row.extraStrokes} />
+              </TableCell>
+              <TableCell align="right">
+                <SelectScoreAutoWidth
+                  playerId={playerId}
+                  courseName={courseName}
+                  holeNr={row.holeNr}
+                  strokes={
+                    row.holeScoresByHoleNrAndCourseName?.nodes?.[0]?.strokes
+                  }
+                  tournamentId={"942b428e-2c9b-4f7a-9077-ea3cde99e184"}
+                />
+              </TableCell>
+              <TableCell align="right">
+                <PointScore par={row.par} hcp={row.holeIndex} score={2} />
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {holes.map((row, index) => (
-              <TableRow
-                key={row.holeNr}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.holeNr}
-                </TableCell>
-                <TableCell align="right">{row.par}</TableCell>
-                <TableCell align="right">{row.holeIndex}</TableCell>
-                <TableCell align="right">
-                  <RomanNumeralScore number={row.extraStrokes} />
-                </TableCell>
-                <TableCell align="right">
-                  {row.holeScoresByHoleNrAndCourseName?.nodes?.[0]?.strokes ??
-                    ''}
-                </TableCell>
-                <TableCell align="right">
-                  <PointScore par={row.par} hcp={row.holeIndex} score={2} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
