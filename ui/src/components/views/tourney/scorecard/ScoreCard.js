@@ -9,7 +9,7 @@ import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
 const ListAllCoursesAndHolesQuery = graphql`
   query ScoreCardListAllHolesForCourseQuery {
-    allCourses(condition: { name: "Skjeberg" }) {
+    allCourses(condition: { name: "Borregaard" }) {
       nodes {
         courseRating
         name

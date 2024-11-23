@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d3e9cf4e07e54fb9332ed86da2a9ade9>>
+ * @generated SignedSource<<6a6345fa3cababc7498dd1633123de2a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -38,7 +38,7 @@ v3 = [
         "kind": "Literal",
         "name": "condition",
         "value": {
-          "name": "Skjeberg"
+          "name": "Borregaard"
         }
       }
     ],
@@ -194,7 +194,7 @@ v3 = [
         "storageKey": null
       }
     ],
-    "storageKey": "allCourses(condition:{\"name\":\"Skjeberg\"})"
+    "storageKey": "allCourses(condition:{\"name\":\"Borregaard\"})"
   }
 ];
 return {
@@ -215,16 +215,16 @@ return {
     "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "a82761886779b0ca1409ecf0440cc14d",
+    "cacheID": "81dbe480a5a7aa52ae2fcc17d15cf4b2",
     "id": null,
     "metadata": {},
     "name": "ScoreCardListAllHolesForCourseQuery",
     "operationKind": "query",
-    "text": "query ScoreCardListAllHolesForCourseQuery {\n  allCourses(condition: {name: \"Skjeberg\"}) {\n    nodes {\n      courseRating\n      name\n      nodeId\n      nrHoles\n      slope\n      courseHolesByCourseName {\n        nodes {\n          courseName\n          holeIndex\n          holeNr\n          nodeId\n          par\n          extraStrokes(playerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\")\n          holeScoresByHoleNrAndCourseName(condition: {scorerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\"}) {\n            nodes {\n              courseName\n              holeNr\n              nodeId\n              scorerId\n              stamp\n              strokes\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query ScoreCardListAllHolesForCourseQuery {\n  allCourses(condition: {name: \"Borregaard\"}) {\n    nodes {\n      courseRating\n      name\n      nodeId\n      nrHoles\n      slope\n      courseHolesByCourseName {\n        nodes {\n          courseName\n          holeIndex\n          holeNr\n          nodeId\n          par\n          extraStrokes(playerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\")\n          holeScoresByHoleNrAndCourseName(condition: {scorerId: \"626fa9fd-95ed-40e8-90f3-139ec79e79b9\"}) {\n            nodes {\n              courseName\n              holeNr\n              nodeId\n              scorerId\n              stamp\n              strokes\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "a1cd1244460abd5a0fd2a1986d1e04e6";
+node.hash = "93276578a5c800ea5e2f06eab106d4ee";
 
 module.exports = node;

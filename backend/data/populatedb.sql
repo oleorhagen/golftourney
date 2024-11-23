@@ -271,7 +271,13 @@ values ((
     from
       physical.tournament
     where
-      name like 'Skjeberg%') , 'Skjeberg');
+      name like 'Skjeberg%') , 'Skjeberg' , (
+      select
+        id
+      from
+        physical.tournament
+      where
+        name like 'Borregaard%') , 'Borregaard' ,);
 
 -- insert into physical.course_hole (course_name, hole_nr, hole_index, par)
 -- values
@@ -571,7 +577,6 @@ values (
   , 4
   , 8);
 
--- TODO - Delete
 -- - Insert a few dummy scores for me
 insert into physical.hole_score (
   course_name
