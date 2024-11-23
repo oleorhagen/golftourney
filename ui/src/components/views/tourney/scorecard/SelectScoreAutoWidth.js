@@ -40,7 +40,6 @@ export default function SelectScoreAutoWidth({
   );
 
   const handleChange = (event) => {
-    // setScore(event.target.value);
     commitMutation({
       variables: {
         holeScore: {

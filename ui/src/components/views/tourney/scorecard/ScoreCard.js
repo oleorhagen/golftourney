@@ -8,8 +8,11 @@ import ScoreCardFooter from "./ScoreCardFooter";
 import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
 const ListAllCoursesAndHolesQuery = graphql`
-  query ScoreCardListAllHolesForCourseQuery {
-    allCourses(condition: { name: "Borregaard" }) {
+  query ScoreCardListAllHolesForCourseQuery(
+    $courseName: String!
+    $scorerId: UUID!
+  ) {
+    allCourses(condition: { name: $courseName }) {
       nodes {
         courseRating
         name
@@ -23,9 +26,9 @@ const ListAllCoursesAndHolesQuery = graphql`
             holeNr
             nodeId
             par
-            extraStrokes(playerId: "626fa9fd-95ed-40e8-90f3-139ec79e79b9")
+            extraStrokes(playerId: $scorerId)
             holeScoresByHoleNrAndCourseName(
-              condition: { scorerId: "626fa9fd-95ed-40e8-90f3-139ec79e79b9" }
+              condition: { scorerId: $scorerId }
             ) {
               nodes {
                 courseName
@@ -46,31 +49,12 @@ const ListAllCoursesAndHolesQuery = graphql`
 export const ScoreCard = (props) => {
   const data = useLazyLoadQuery(
     ListAllCoursesAndHolesQuery,
-    { id: props.playerId, courseName: props.courseName },
+    { scorerId: props.playerId, courseName: props.courseName },
     { fetchPolicy: "network-only" },
   );
 
   const courseHoles =
     data?.allCourses?.nodes[0].courseHolesByCourseName.nodes || [];
-
-  // Need to pass in:
-  // The holes
-  //
-  // This is the info I get from the nodes
-  //
-  // courseName: "Skjeberg"
-  // ​​​​​​​​
-  // holeIndex: "13"
-  // ​​​​​​​​
-  // holeNr: "2"
-  // ​​​​​​​​
-  // holeScoresByHoleNrAndCourseName: {…}
-  // ​​​​​​​​
-  // nodeId: "WyJjb3Vyc2VfaG9sZXMiLDIsIlNramViZXJnIl0="
-  // ​​​​​​​​
-  // par: "3"
-
-  // TODO - Need extra strokes for this hole
 
   return (
     <>
