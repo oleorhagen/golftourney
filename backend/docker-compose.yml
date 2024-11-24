@@ -51,6 +51,13 @@ services:
         'physical',
         '--enhance-graphiql',
         '--watch',
+        '--subscriptions',
+        '--live',
+        '--dynamic-json',
+        '--show-error-stack=json',
+        '--extended-errors',
+        'hint,detail,errcode',
+        '--no-setof-functions-contain-nulls',
         '--export-schema-graphql',
         '/tmp/schema.graphql',
       ]
