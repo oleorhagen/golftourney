@@ -128,14 +128,6 @@ where
 where
   name like 'Ole M%') , 25);
 
--- insert into physical.player ();
-insert into physical.player (
-  id)
-select
-  id
-from
-  physical.scorer;
-
 -- Verify that it works
 select
   *
