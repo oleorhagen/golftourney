@@ -77,18 +77,19 @@ create table physical.course_hole (
 );
 
 create table physical.hole_score (
-scorer_id uuid
-, hole_nr int8
-, course_name varchar(50)
-, strokes int8 not null check (strokes > 0)
-, stamp timestamp default now()
-, tournament_id uuid
-, primary key (scorer_id , hole_nr , course_name)
-, foreign key (hole_nr , course_name) references physical.course_hole (hole_nr , course_name)
-, foreign key (scorer_id) references physical.scorer (id) on delete cascade
-, foreign key (tournament_id) references physical.tournament (id)
+  scorer_id uuid
+  , hole_nr int8
+  , course_name varchar(50)
+  , strokes int8 not null check (strokes > 0)
+  , stamp timestamp default now()
+  , tournament_id uuid
+  , primary key (scorer_id , hole_nr , course_name)
+  , foreign key (hole_nr , course_name) references physical.course_hole (hole_nr , course_name)
+  , foreign key (scorer_id) references physical.scorer (id) on delete cascade
+  , foreign key (tournament_id) references physical.tournament (id)
 );
 
+-- TODO - Does not show the team extra points atm
 create view physical.extra_strokes_per_hole as (
   select
     ch.hole_nr
@@ -107,25 +108,6 @@ create view physical.extra_strokes_per_hole as (
       from
         physical.scorer as s
         inner join physical.player as p on s.id = p.id
-        , physical.course as c) as p on ch.course_name = p.course_name
-      inner join physical.course as c on ch.course_name = c.name
-  union
-  select
-    ch.hole_nr
-    , ch.course_name
-    , ch.hole_index
-    , ch.par
-    , p.team_id as player_id
-    , (p.extra_strokes_tot / c.nr_holes) + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index)) / c.nr_holes as extra_strokes -- (+17) Normalize to (0,1)
-  from
-    physical.course_hole as ch
-    inner join (
-      select
-        t.team_id as team_id
-        , c.name as course_name
-        , int8(round(t.handicap * c.slope / 113)) as extra_strokes_tot
-      from
-        physical.team as t
         , physical.course as c) as p on ch.course_name = p.course_name
       inner join physical.course as c on ch.course_name = c.name);
 
@@ -147,3 +129,4 @@ create function physical.course_hole_extra_strokes (
 $$
 language sql
 stable strict;
+
