@@ -10,6 +10,9 @@ import { useMutation, useFragment } from "react-relay";
 
 import "./SelectScoreAutoWidth.css";
 
+// TODO - See https://github.com/stanlemon/example-relay-app/blob/master/src/People.jsx
+//         for a sane updater example (!)
+
 const SelectScoreAutoWidthFragment = graphql`
   fragment SelectScoreAutoWidthFragment on HoleScore {
     courseName
