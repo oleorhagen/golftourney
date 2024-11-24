@@ -10,7 +10,7 @@ import fetchGraphQL from "./fetchGraphQL";
 import { createClient } from "graphql-ws";
 
 const wsClient = createClient({
-  url: "ws://localhost:5433",
+  url: "ws://localhost:5433/graphql",
 });
 
 const subscribe = (operation, variables) => {
