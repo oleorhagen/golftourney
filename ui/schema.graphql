@@ -249,35 +249,6 @@ type Query implements Node {
     condition: TeamMemberCondition
   ): TeamMembersConnection
 
-  """Reads and enables pagination through a set of `Test`."""
-  allTests(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Test`."""
-    orderBy: [TestsOrderBy!] = [NATURAL]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: TestCondition
-  ): TestsConnection
-
   """Reads and enables pagination through a set of `Tournament`."""
   allTournaments(
     """Only read the first `n` values of the set."""
@@ -458,7 +429,7 @@ interface Node {
 """A connection to a list of `Course` values."""
 type CoursesConnection {
   """A list of `Course` objects."""
-  nodes: [Course]!
+  nodes: [Course!]!
 
   """
   A list of edges which contains the `Course` and cursor to aid in pagination.
@@ -551,7 +522,7 @@ scalar BigInt
 """A connection to a list of `TournamentCourse` values."""
 type TournamentCoursesConnection {
   """A list of `TournamentCourse` objects."""
-  nodes: [TournamentCourse]!
+  nodes: [TournamentCourse!]!
 
   """
   A list of edges which contains the `TournamentCourse` and cursor to aid in pagination.
@@ -718,7 +689,7 @@ input TournamentCourseCondition {
 """A connection to a list of `TournamentScorer` values."""
 type TournamentScorersConnection {
   """A list of `TournamentScorer` objects."""
-  nodes: [TournamentScorer]!
+  nodes: [TournamentScorer!]!
 
   """
   A list of edges which contains the `TournamentScorer` and cursor to aid in pagination.
@@ -951,7 +922,7 @@ scalar ValidHandicap
 """A connection to a list of `TeamMember` values."""
 type TeamMembersConnection {
   """A list of `TeamMember` objects."""
-  nodes: [TeamMember]!
+  nodes: [TeamMember!]!
 
   """
   A list of edges which contains the `TeamMember` and cursor to aid in pagination.
@@ -1049,7 +1020,7 @@ type TeamMembersEdge {
   cursor: Cursor
 
   """The `TeamMember` at the end of the edge."""
-  node: TeamMember
+  node: TeamMember!
 }
 
 """Information about pagination in a connection."""
@@ -1070,7 +1041,7 @@ type PageInfo {
 """A connection to a list of `Player` values."""
 type PlayersConnection {
   """A list of `Player` objects."""
-  nodes: [Player]!
+  nodes: [Player!]!
 
   """
   A list of edges which contains the `Player` and cursor to aid in pagination.
@@ -1090,7 +1061,7 @@ type PlayersEdge {
   cursor: Cursor
 
   """The `Player` at the end of the edge."""
-  node: Player
+  node: Player!
 }
 
 """Methods to use when ordering `Player`."""
@@ -1118,7 +1089,7 @@ input PlayerCondition {
 """A connection to a list of `Team` values."""
 type TeamsConnection {
   """A list of `Team` objects."""
-  nodes: [Team]!
+  nodes: [Team!]!
 
   """
   A list of edges which contains the `Team` and cursor to aid in pagination.
@@ -1138,7 +1109,7 @@ type TeamsEdge {
   cursor: Cursor
 
   """The `Team` at the end of the edge."""
-  node: Team
+  node: Team!
 }
 
 """Methods to use when ordering `Team`."""
@@ -1161,7 +1132,7 @@ input TeamCondition {
 """A connection to a list of `HoleScore` values."""
 type HoleScoresConnection {
   """A list of `HoleScore` objects."""
-  nodes: [HoleScore]!
+  nodes: [HoleScore!]!
 
   """
   A list of edges which contains the `HoleScore` and cursor to aid in pagination.
@@ -1245,8 +1216,6 @@ type CourseHole implements Node {
     condition: HoleScoreCondition
   ): HoleScoresConnection!
   extraStrokes(playerId: UUID!): BigInt
-  testCol: BigInt
-  testFunction: String
 }
 
 """Methods to use when ordering `HoleScore`."""
@@ -1298,7 +1267,7 @@ type HoleScoresEdge {
   cursor: Cursor
 
   """The `HoleScore` at the end of the edge."""
-  node: HoleScore
+  node: HoleScore!
 }
 
 """A `TournamentScorer` edge in the connection."""
@@ -1307,7 +1276,7 @@ type TournamentScorersEdge {
   cursor: Cursor
 
   """The `TournamentScorer` at the end of the edge."""
-  node: TournamentScorer
+  node: TournamentScorer!
 }
 
 """A `TournamentCourse` edge in the connection."""
@@ -1316,13 +1285,13 @@ type TournamentCoursesEdge {
   cursor: Cursor
 
   """The `TournamentCourse` at the end of the edge."""
-  node: TournamentCourse
+  node: TournamentCourse!
 }
 
 """A connection to a list of `CourseHole` values."""
 type CourseHolesConnection {
   """A list of `CourseHole` objects."""
-  nodes: [CourseHole]!
+  nodes: [CourseHole!]!
 
   """
   A list of edges which contains the `CourseHole` and cursor to aid in pagination.
@@ -1342,7 +1311,7 @@ type CourseHolesEdge {
   cursor: Cursor
 
   """The `CourseHole` at the end of the edge."""
-  node: CourseHole
+  node: CourseHole!
 }
 
 """Methods to use when ordering `CourseHole`."""
@@ -1384,7 +1353,7 @@ type CoursesEdge {
   cursor: Cursor
 
   """The `Course` at the end of the edge."""
-  node: Course
+  node: Course!
 }
 
 """Methods to use when ordering `Course`."""
@@ -1422,7 +1391,7 @@ input CourseCondition {
 """A connection to a list of `ExtraStrokesPerHole` values."""
 type ExtraStrokesPerHolesConnection {
   """A list of `ExtraStrokesPerHole` objects."""
-  nodes: [ExtraStrokesPerHole]!
+  nodes: [ExtraStrokesPerHole!]!
 
   """
   A list of edges which contains the `ExtraStrokesPerHole` and cursor to aid in pagination.
@@ -1453,7 +1422,7 @@ type ExtraStrokesPerHolesEdge {
   cursor: Cursor
 
   """The `ExtraStrokesPerHole` at the end of the edge."""
-  node: ExtraStrokesPerHole
+  node: ExtraStrokesPerHole!
 }
 
 """Methods to use when ordering `ExtraStrokesPerHole`."""
@@ -1500,7 +1469,7 @@ input ExtraStrokesPerHoleCondition {
 """A connection to a list of `Scorer` values."""
 type ScorersConnection {
   """A list of `Scorer` objects."""
-  nodes: [Scorer]!
+  nodes: [Scorer!]!
 
   """
   A list of edges which contains the `Scorer` and cursor to aid in pagination.
@@ -1520,7 +1489,7 @@ type ScorersEdge {
   cursor: Cursor
 
   """The `Scorer` at the end of the edge."""
-  node: Scorer
+  node: Scorer!
 }
 
 """Methods to use when ordering `Scorer`."""
@@ -1545,55 +1514,10 @@ input ScorerCondition {
   name: String
 }
 
-"""A connection to a list of `Test` values."""
-type TestsConnection {
-  """A list of `Test` objects."""
-  nodes: [Test]!
-
-  """
-  A list of edges which contains the `Test` and cursor to aid in pagination.
-  """
-  edges: [TestsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Test` you could get from the connection."""
-  totalCount: Int!
-}
-
-type Test {
-  var: BigInt
-}
-
-"""A `Test` edge in the connection."""
-type TestsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Test` at the end of the edge."""
-  node: Test
-}
-
-"""Methods to use when ordering `Test`."""
-enum TestsOrderBy {
-  NATURAL
-  VAR_ASC
-  VAR_DESC
-}
-
-"""
-A condition to be used against `Test` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input TestCondition {
-  """Checks for equality with the object’s `var` field."""
-  var: BigInt
-}
-
 """A connection to a list of `Tournament` values."""
 type TournamentsConnection {
   """A list of `Tournament` objects."""
-  nodes: [Tournament]!
+  nodes: [Tournament!]!
 
   """
   A list of edges which contains the `Tournament` and cursor to aid in pagination.
@@ -1613,7 +1537,7 @@ type TournamentsEdge {
   cursor: Cursor
 
   """The `Tournament` at the end of the edge."""
-  node: Tournament
+  node: Tournament!
 }
 
 """Methods to use when ordering `Tournament`."""
@@ -1703,14 +1627,6 @@ type Mutation {
     """
     input: CreateTeamMemberInput!
   ): CreateTeamMemberPayload
-
-  """Creates a single `Test`."""
-  createTest(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateTestInput!
-  ): CreateTestPayload
 
   """Creates a single `Tournament`."""
   createTournament(
@@ -2399,46 +2315,6 @@ input CreateTeamMemberInput {
 input TeamMemberInput {
   playerId: UUID!
   teamId: UUID!
-}
-
-"""The output of our create `Test` mutation."""
-type CreateTestPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Test` that was created by this mutation."""
-  test: Test
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Test`. May be used by Relay 1."""
-  testEdge(
-    """The method to use when ordering `Test`."""
-    orderBy: [TestsOrderBy!] = [NATURAL]
-  ): TestsEdge
-}
-
-"""All input for the create `Test` mutation."""
-input CreateTestInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Test` to be created by this mutation."""
-  test: TestInput!
-}
-
-"""An input for mutations affecting `Test`"""
-input TestInput {
-  var: BigInt
 }
 
 """The output of our create `Tournament` mutation."""
@@ -3852,4 +3728,477 @@ input DeleteTournamentScorerByTournamentIdAndScorerIdInput {
   clientMutationId: String
   tournamentId: UUID!
   scorerId: UUID!
+}
+
+"""
+The root subscription type: contains events and live queries you can subscribe to with the `subscription` operation.
+
+#### Live Queries
+
+Live query fields are differentiated by containing `(live)` at the end of their
+description, they are added for each field in the `Query` type. When you
+subscribe to a live query field, the selection set will be evaluated and sent to
+the client, and then most things\* that would cause the output of the selection
+set to change will trigger the selection set to be re-evaluated and the results
+to be re-sent to the client.
+
+_(\* Not everything: typically only changes to persisted data referenced by the query are detected, not computed fields.)_
+
+Live queries can be very expensive, so try and keep them small and focussed.
+
+#### Events
+
+Event fields will run their selection set when, and only when, the specified
+server-side event occurs. This makes them a lot more efficient than Live
+Queries, but it is still recommended that you keep payloads fairly small.
+"""
+type Subscription {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form. (live)
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. (live)
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`. (live)"""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `Course`. (live)"""
+  allCourses(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Course`."""
+    orderBy: [CoursesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CourseCondition
+  ): CoursesConnection
+
+  """Reads and enables pagination through a set of `CourseHole`. (live)"""
+  allCourseHoles(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CourseHole`."""
+    orderBy: [CourseHolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CourseHoleCondition
+  ): CourseHolesConnection
+
+  """
+  Reads and enables pagination through a set of `ExtraStrokesPerHole`. (live)
+  """
+  allExtraStrokesPerHoles(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ExtraStrokesPerHole`."""
+    orderBy: [ExtraStrokesPerHolesOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ExtraStrokesPerHoleCondition
+  ): ExtraStrokesPerHolesConnection
+
+  """Reads and enables pagination through a set of `HoleScore`. (live)"""
+  allHoleScores(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `HoleScore`."""
+    orderBy: [HoleScoresOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: HoleScoreCondition
+  ): HoleScoresConnection
+
+  """Reads and enables pagination through a set of `Player`. (live)"""
+  allPlayers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Player`."""
+    orderBy: [PlayersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerCondition
+  ): PlayersConnection
+
+  """Reads and enables pagination through a set of `Scorer`. (live)"""
+  allScorers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Scorer`."""
+    orderBy: [ScorersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScorerCondition
+  ): ScorersConnection
+
+  """Reads and enables pagination through a set of `Team`. (live)"""
+  allTeams(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Team`."""
+    orderBy: [TeamsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TeamCondition
+  ): TeamsConnection
+
+  """Reads and enables pagination through a set of `TeamMember`. (live)"""
+  allTeamMembers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `TeamMember`."""
+    orderBy: [TeamMembersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TeamMemberCondition
+  ): TeamMembersConnection
+
+  """Reads and enables pagination through a set of `Tournament`. (live)"""
+  allTournaments(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Tournament`."""
+    orderBy: [TournamentsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TournamentCondition
+  ): TournamentsConnection
+
+  """
+  Reads and enables pagination through a set of `TournamentCourse`. (live)
+  """
+  allTournamentCourses(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `TournamentCourse`."""
+    orderBy: [TournamentCoursesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TournamentCourseCondition
+  ): TournamentCoursesConnection
+
+  """
+  Reads and enables pagination through a set of `TournamentScorer`. (live)
+  """
+  allTournamentScorers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `TournamentScorer`."""
+    orderBy: [TournamentScorersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TournamentScorerCondition
+  ): TournamentScorersConnection
+
+  """ (live)"""
+  courseByName(name: String!): Course
+
+  """ (live)"""
+  courseHoleByHoleNrAndCourseName(holeNr: BigInt!, courseName: String!): CourseHole
+
+  """ (live)"""
+  courseHoleByHoleNrAndCourseNameAndHoleIndex(holeNr: BigInt!, courseName: String!, holeIndex: BigInt!): CourseHole
+
+  """ (live)"""
+  holeScoreByScorerIdAndHoleNrAndCourseName(scorerId: UUID!, holeNr: BigInt!, courseName: String!): HoleScore
+
+  """ (live)"""
+  playerById(id: UUID!): Player
+
+  """ (live)"""
+  scorerById(id: UUID!): Scorer
+
+  """ (live)"""
+  teamById(id: UUID!): Team
+
+  """ (live)"""
+  teamMemberByPlayerIdAndTeamId(playerId: UUID!, teamId: UUID!): TeamMember
+
+  """ (live)"""
+  tournamentById(id: UUID!): Tournament
+
+  """ (live)"""
+  tournamentCourseByTournamentIdAndCourseName(tournamentId: UUID!, courseName: String!): TournamentCourse
+
+  """ (live)"""
+  tournamentScorerByTournamentIdAndScorerId(tournamentId: UUID!, scorerId: UUID!): TournamentScorer
+
+  """Reads a single `Course` using its globally unique `ID`. (live)"""
+  course(
+    """The globally unique `ID` to be used in selecting a single `Course`."""
+    nodeId: ID!
+  ): Course
+
+  """Reads a single `CourseHole` using its globally unique `ID`. (live)"""
+  courseHole(
+    """
+    The globally unique `ID` to be used in selecting a single `CourseHole`.
+    """
+    nodeId: ID!
+  ): CourseHole
+
+  """Reads a single `HoleScore` using its globally unique `ID`. (live)"""
+  holeScore(
+    """The globally unique `ID` to be used in selecting a single `HoleScore`."""
+    nodeId: ID!
+  ): HoleScore
+
+  """Reads a single `Player` using its globally unique `ID`. (live)"""
+  player(
+    """The globally unique `ID` to be used in selecting a single `Player`."""
+    nodeId: ID!
+  ): Player
+
+  """Reads a single `Scorer` using its globally unique `ID`. (live)"""
+  scorer(
+    """The globally unique `ID` to be used in selecting a single `Scorer`."""
+    nodeId: ID!
+  ): Scorer
+
+  """Reads a single `Team` using its globally unique `ID`. (live)"""
+  team(
+    """The globally unique `ID` to be used in selecting a single `Team`."""
+    nodeId: ID!
+  ): Team
+
+  """Reads a single `TeamMember` using its globally unique `ID`. (live)"""
+  teamMember(
+    """
+    The globally unique `ID` to be used in selecting a single `TeamMember`.
+    """
+    nodeId: ID!
+  ): TeamMember
+
+  """Reads a single `Tournament` using its globally unique `ID`. (live)"""
+  tournament(
+    """
+    The globally unique `ID` to be used in selecting a single `Tournament`.
+    """
+    nodeId: ID!
+  ): Tournament
+
+  """
+  Reads a single `TournamentCourse` using its globally unique `ID`. (live)
+  """
+  tournamentCourse(
+    """
+    The globally unique `ID` to be used in selecting a single `TournamentCourse`.
+    """
+    nodeId: ID!
+  ): TournamentCourse
+
+  """
+  Reads a single `TournamentScorer` using its globally unique `ID`. (live)
+  """
+  tournamentScorer(
+    """
+    The globally unique `ID` to be used in selecting a single `TournamentScorer`.
+    """
+    nodeId: ID!
+  ): TournamentScorer
 }
