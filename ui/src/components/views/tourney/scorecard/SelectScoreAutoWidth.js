@@ -6,9 +6,21 @@ import Select from "@mui/material/Select";
 
 import { graphql } from "babel-plugin-relay/macro";
 
-import { useMutation } from "react-relay";
+import { useMutation, useFragment } from "react-relay";
 
 import "./SelectScoreAutoWidth.css";
+
+const SelectScoreAutoWidthFragment = graphql`
+  fragment SelectScoreAutoWidthFragment on HoleScore {
+    courseName
+    holeNr
+    nodeId
+    scorerId
+    stamp
+    strokes
+    tournamentId
+  }
+`;
 
 const SelectScoreAutoWidthMutation = graphql`
   mutation SelectScoreAutoWidthMutation($holeScore: HoleScoreInput!) {
@@ -21,6 +33,24 @@ const SelectScoreAutoWidthMutation = graphql`
         stamp
         strokes
         tournamentId
+        courseHoleByHoleNrAndCourseName {
+          courseName
+          holeIndex
+          holeNr
+          nodeId
+          par
+          holeScoresByHoleNrAndCourseName {
+            nodes {
+              courseName
+              holeNr
+              nodeId
+              scorerId
+              stamp
+              strokes
+              tournamentId
+            }
+          }
+        }
       }
     }
   }
@@ -30,11 +60,13 @@ const maxAcceptableScore = 12;
 
 export default function SelectScoreAutoWidth({
   playerId,
+  tournamentId,
   courseName,
   holeNr,
-  tournamentId,
-  strokes,
+  hole,
 }) {
+  const data = useFragment(SelectScoreAutoWidthFragment, hole);
+
   const [commitMutation, isMutationInFlight] = useMutation(
     SelectScoreAutoWidthMutation,
   );
@@ -46,9 +78,20 @@ export default function SelectScoreAutoWidth({
           scorerId: playerId,
           holeNr: holeNr,
           courseName: courseName,
-          strokes: event.target.value,
           tournamentId: tournamentId /* TODO - optional */,
+          strokes: event.target.value,
         },
+      },
+      onCompleted: (res) => {
+        console.log(res);
+      },
+      updater: (store, _data) => {
+        // const payload = store.getRootField("createEntry");
+        // const newEdge = payload.getLinkedRecord("entryEdge");
+        // sharedUpdater(store, diaryId, newEdge);
+        console.log(store);
+        console.log(_data);
+        store.invalidateStore();
       },
     });
   };
@@ -59,7 +102,7 @@ export default function SelectScoreAutoWidth({
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="score-simple-select-autowidth"
-          value={strokes || ""}
+          value={data?.strokes || ""}
           onChange={handleChange}
           label="Score"
           variant="standard"

@@ -56,10 +56,8 @@ const ScoreCardTable = ({ playerId, courseName, holes }) => {
                   playerId={playerId}
                   courseName={courseName}
                   holeNr={row.holeNr}
-                  strokes={
-                    row.holeScoresByHoleNrAndCourseName?.nodes?.[0]?.strokes
-                  }
                   tournamentId={"942b428e-2c9b-4f7a-9077-ea3cde99e184"}
+                  hole={row.holeScoresByHoleNrAndCourseName?.nodes?.[0]}
                 />
               </TableCell>
               <TableCell align="right">
