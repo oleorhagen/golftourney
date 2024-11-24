@@ -31,12 +31,7 @@ const ListAllCoursesAndHolesQuery = graphql`
               condition: { scorerId: $scorerId }
             ) {
               nodes {
-                courseName
-                holeNr
-                nodeId
-                scorerId
-                stamp
-                strokes
+                ...SelectScoreAutoWidthFragment
               }
             }
           }
