@@ -125,7 +125,7 @@ create view physical.extra_strokes_per_hole as (
         , c.name as course_name
         , int8(round(t.handicap * c.slope / 113)) as extra_strokes_tot
       from
-        postgraphile.team as t
+        physical.team as t
         , physical.course as c) as p on ch.course_name = p.course_name
       inner join physical.course as c on ch.course_name = c.name);
 
