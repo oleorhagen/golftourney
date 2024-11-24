@@ -17,8 +17,11 @@ services:
       retries: 10
 
   db:
-    image: bitnami/postgresql:latest
+    image: bitnami/postgresql:17
     container_name: golf-db
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
     ports:
       - "5432:5432"
     environment:
@@ -31,11 +34,19 @@ services:
       retries: 10
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
+    #   - ./postgresql.conf:/etc/postgresql/postgresql.conf
+    #   - ./postgres/postgraphile-live.conf:/etc/postgresql/conf.d/postgraphile-live.conf
+    # command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    command: postgres -c wal_level=logical
+
 
 
   postgraphile:
     image: graphile/postgraphile
     container_name: postgraphile
+    build:
+      context: .
+      dockerfile: Dockerfile.postgraphile
     depends_on:
       db:
         condition: service_healthy
@@ -43,6 +54,8 @@ services:
       - "5433:5433"
     command:
       [
+        '--append-plugins',
+        '@graphile/subscriptions-lds,postgraphile-plugin-connection-filter',
         '--connection',
         'postgres://postgres:password@db:5432/golf_db',
         '--port',
