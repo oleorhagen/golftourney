@@ -271,13 +271,12 @@ values ((
     from
       physical.tournament
     where
-      name like 'Skjeberg%') , 'Skjeberg' , (
-      select
-        id
-      from
-        physical.tournament
-      where
-        name like 'Borregaard%') , 'Borregaard' ,);
+      name like 'Skjeberg%') , 'Skjeberg') , ((
+  select
+    id
+  from physical.tournament
+  where
+    name like 'Skjeberg%') , 'Borregaard');
 
 -- insert into physical.course_hole (course_name, hole_nr, hole_index, par)
 -- values
