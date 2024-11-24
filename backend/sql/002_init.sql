@@ -133,7 +133,7 @@ create view postgraphile.player_points_per_hole as (
     , greatest (0 , par + extra_strokes - strokes + 2) as points
   from
     physical.hole_score as hs
-    inner join extra_strokes_per_hole as es on hs.hole_nr = es.hole_nr
+    inner join postgraphile.extra_strokes_per_hole as es on hs.hole_nr = es.hole_nr
       and hs.course_name = es.course_name
       and hs.scorer_id = es.player_id);
 
@@ -142,7 +142,7 @@ create view postgraphile.scorer_total_points as (
     scorer_id
     , sum(points) as total_points
   from
-    player_points_per_hole
+    postgraphile.player_points_per_hole
   group by
     scorer_id);
 
@@ -155,7 +155,7 @@ from (
     scorer_id
     , sum(points) as total_points
   from
-    player_points_per_hole
+    postgraphile.player_points_per_hole
   group by
     scorer_id) as t1
   cross join (
@@ -163,7 +163,7 @@ from (
       scorer_id
       , sum(points) as total_points
     from
-      player_points_per_hole
+      postgraphile.player_points_per_hole
     group by
       scorer_id) as t2
   inner join physical.team_member as tm on t1.scorer_id = tm.player_id
@@ -175,7 +175,7 @@ create view postgraphile.player_points as (
     scorer_id
     , sum(points) as total_points
   from
-    player_points_per_hole
+    postgraphile.player_points_per_hole
   group by
     scorer_id);
 
@@ -186,7 +186,7 @@ select
 from
   physical.player as p
   inner join physical.team_member as tm on p.id = tm.player_id
-  inner join player_points pp on tm.team_id = pp.scorer_id;
+  inner join postgraphile.player_points pp on tm.team_id = pp.scorer_id;
 
 -- Functioning score board for all scorers (!)
 -- TODO - Do the same for strokes
@@ -196,7 +196,7 @@ create view postgraphile.player_total_points as (
     , coalesce(pp.total_points , 0) + coalesce(team_points.total_points , 0) as total_points
   from
     physical.scorer as s
-  left outer join player_points as pp on s.id = pp.scorer_id
+  left outer join postgraphile.player_points as pp on s.id = pp.scorer_id
   left outer join (
     select
       p.id
@@ -204,7 +204,7 @@ create view postgraphile.player_total_points as (
     from
       physical.player as p
       inner join physical.team_member as tm on p.id = tm.player_id
-      inner join player_points pp on tm.team_id = pp.scorer_id) as team_points on s.id = team_points.id);
+      inner join postgraphile.player_points pp on tm.team_id = pp.scorer_id) as team_points on s.id = team_points.id);
 
 -- - Calculate the cumulative sum of points for the graph
 -- - TODO - Need the created at time for this (!)
@@ -212,7 +212,7 @@ create view postgraphile.players_cumulative_scores as (
   select
     scorer_id
     , sum(points) over (partition by scorer_id order by course_name , hole_nr)
-  from player_points_per_hole order by scorer_id);
+  from postgraphile.player_points_per_hole order by scorer_id);
 
 grant select on all tables in schema postgraphile to postgraphile;
 
