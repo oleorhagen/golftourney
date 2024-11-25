@@ -12,6 +12,8 @@ import "./SelectScoreAutoWidth.css";
 
 // TODO - See https://github.com/stanlemon/example-relay-app/blob/master/src/People.jsx
 //         for a sane updater example (!)
+// Also, my current setup is:
+// client:local:2:allCourses(condition:{"name":"Skjeberg"}):nodes:0' for the link from root
 
 const SelectScoreAutoWidthFragment = graphql`
   fragment SelectScoreAutoWidthFragment on HoleScore {
@@ -94,7 +96,7 @@ export default function SelectScoreAutoWidth({
         // sharedUpdater(store, diaryId, newEdge);
         console.log(store);
         console.log(_data);
-        store.invalidateStore();
+        // store.invalidateStore();
       },
     });
   };

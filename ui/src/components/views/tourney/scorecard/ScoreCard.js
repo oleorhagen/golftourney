@@ -1,14 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import graphql from "babel-plugin-relay/macro";
 
 import ScoreCardTable from "./ScoreCardTable";
 import ScoreCardFooter from "./ScoreCardFooter";
 
-import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
+import {
+  loadQuery,
+  useLazyLoadQuery,
+  useSubscription,
+  useFragment,
+} from "react-relay/hooks";
+
+const ListAllCoursesAndHolesSubscription = graphql`
+  subscription ScoreCardListAllHolesForCourseSubscription(
+    $courseName: String!
+    $scorerId: UUID!
+  ) {
+    allCourses(condition: { name: $courseName }) {
+      nodes {
+        ...ScoreCardListAllHolesForCourseFragment
+      }
+    }
+  }
+`;
+
+const ListAllCoursesAndHolesFragment = graphql`
+  fragment ScoreCardListAllHolesForCourseFragment on Course {
+    courseRating
+    name
+    nodeId
+    nrHoles
+    slope
+    courseHolesByCourseName {
+      nodes {
+        courseName
+        holeIndex
+        holeNr
+        nodeId
+        par
+        extraStrokes(playerId: $scorerId)
+        holeScoresByHoleNrAndCourseName(condition: { scorerId: $scorerId }) {
+          nodes {
+            ...SelectScoreAutoWidthFragment
+          }
+        }
+      }
+    }
+  }
+`;
 
 const ListAllCoursesAndHolesQuery = graphql`
-  query ScoreCardListAllHolesForCourseQuery(
+  query ScoreCardListAllHolesForCourse2Query(
     $courseName: String!
     $scorerId: UUID!
   ) {
@@ -42,14 +85,33 @@ const ListAllCoursesAndHolesQuery = graphql`
 `;
 
 export const ScoreCard = (props) => {
-  const data = useLazyLoadQuery(
-    ListAllCoursesAndHolesQuery,
-    { scorerId: props.playerId, courseName: props.courseName },
-    { fetchPolicy: "network-only" },
+  const [fragmentRef, setFragmentRef] = useState(null);
+
+  const config = useMemo(
+    () => ({
+      variables: { scorerId: props.playerId, courseName: props.courseName },
+
+      subscription: ListAllCoursesAndHolesSubscription,
+      onNext: (res) => {
+        console.log(`received res: ${JSON.stringify(res)}`);
+        setFragmentRef(res);
+      },
+      onCompleted: () => {
+        console.log("Completed!");
+      },
+      onError: (err) => {
+        console.log(`subscription onError: ${err}`);
+      },
+    }),
+    [props],
   );
 
+  useSubscription(config);
+
+  const data = useFragment(ListAllCoursesAndHolesFragment, fragmentRef?.allCourses?.nodes?.[0] || null);
+
   const courseHoles =
-    data?.allCourses?.nodes[0].courseHolesByCourseName.nodes || [];
+    data?.courseHolesByCourseName.nodes || [];
 
   return (
     <>
