@@ -19,3 +19,13 @@ It also means I have to figure out more how Relay actually works, and handles th
 * TODO Look into how refreshing queries would work
 
 https://relay.dev/docs/guided-tour/refetching/refreshing-queries/
+
+* TODO Add a scorecard to the database schema
+
+This is how we will track scores, and which courses are in a tournament.
+
+Requires a bit of tuning to the schema, but!
+
+* TODO - Decide if I should do upsert, or update mutations for existing scores
+
+https://github.com/einarjegorov/graphile-upsert-plugin/commit/94ea92e71e25a3c981feaa40cebcd0aad781f1af
