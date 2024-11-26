@@ -61,6 +61,42 @@ const SelectScoreAutoWidthMutation = graphql`
   }
 `;
 
+const SelectScoreAutoWidthUpdateMutation = graphql`
+  mutation SelectScoreAutoWidthUpdateMutation(
+    $holeScore: UpdateHoleScoreInput!
+  ) {
+    updateHoleScore(input: $holeScore) {
+      holeScore {
+        courseName
+        holeNr
+        nodeId
+        scorerId
+        stamp
+        strokes
+        tournamentId
+        courseHoleByHoleNrAndCourseName {
+          courseName
+          holeIndex
+          holeNr
+          nodeId
+          par
+          holeScoresByHoleNrAndCourseName {
+            nodes {
+              courseName
+              holeNr
+              nodeId
+              scorerId
+              stamp
+              strokes
+              tournamentId
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const maxAcceptableScore = 12;
 
 export default function SelectScoreAutoWidth({
