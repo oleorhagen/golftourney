@@ -41,7 +41,7 @@ function ScheduleScoreCard(props) {
   );
 
   var courseNodes =
-    data?.tournamentById?.tournamentCoursesByTournamentId?.nodes || [];
+    data?.tournament?.tournamentCourses?.nodes || [];
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);

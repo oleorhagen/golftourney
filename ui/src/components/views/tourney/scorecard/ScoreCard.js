@@ -110,10 +110,10 @@ export const ScoreCard = (props) => {
 
   const data = useFragment(
     ListAllCoursesAndHolesFragment,
-    fragmentRef?.allCourses?.nodes?.[0] || null,
+    fragmentRef?.courses?.nodes?.[0] || null,
   );
 
-  const courseHoles = data?.courseHolesByCourseName.nodes || [];
+    const courseHoles = data?.courseHolesByCourseName?.nodes  || [];
 
   return (
     <>
