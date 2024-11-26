@@ -1,5 +1,6 @@
 
-* TODO Add the simplify plugin for simpler API
+* DONE Add the simplify plugin for simpler API
+CLOSED: [2024-11-26 Tue 18:37]
 
 https://github.com/graphile/pg-simplify-inflector
 
