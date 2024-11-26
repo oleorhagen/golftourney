@@ -109,20 +109,38 @@ export default function SelectScoreAutoWidth({
   const data = useFragment(SelectScoreAutoWidthFragment, hole);
 
   const [commitMutation, isMutationInFlight] = useMutation(
-    SelectScoreAutoWidthMutation,
+    hole ? SelectScoreAutoWidthUpdateMutation : SelectScoreAutoWidthMutation,
   );
 
   const handleChange = (event) => {
-    commitMutation({
-      variables: {
-        holeScore: {
+    const updateVariables = {
+      holeScore: {
+        patch: {
           scorerId: playerId,
           holeNr: holeNr,
           courseName: courseName,
           tournamentId: tournamentId /* TODO - optional */,
           strokes: event.target.value,
         },
+
+        scorerId: playerId,
+        holeNr: holeNr,
+        courseName: courseName,
       },
+    };
+
+    commitMutation({
+      variables: hole
+        ? updateVariables
+        : {
+            holeScore: {
+              scorerId: playerId,
+              holeNr: holeNr,
+              courseName: courseName,
+              tournamentId: tournamentId /* TODO - optional */,
+              strokes: event.target.value,
+            },
+          },
       onCompleted: (res) => {
         console.log(res);
       },
