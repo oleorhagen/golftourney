@@ -52,10 +52,11 @@ services:
         condition: service_healthy
     ports:
       - "5433:5433"
+    # See https://www.graphile.org/postgraphile/usage-cli/
     command:
       [
         '--append-plugins',
-        '@graphile/subscriptions-lds,postgraphile-plugin-connection-filter',
+        '@graphile/subscriptions-lds,postgraphile-plugin-connection-filter,@graphile-contrib/pg-simplify-inflector',
         '--connection',
         'postgres://postgres:password@db:5432/golf_db',
         '--port',
@@ -73,6 +74,8 @@ services:
         '--no-setof-functions-contain-nulls',
         '--export-schema-graphql',
         '/tmp/schema.graphql',
+        '--allow-explain',
+        '--no-ignore-rbac',
       ]
 
   # ui:
