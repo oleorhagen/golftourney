@@ -23,7 +23,7 @@ const rows = ["foo", "bar", "baz", "bat"];
 
 const LeaderBoardScoreQuery = graphql`
 query viewListAllCoursesPlaceholderForLeaderBoardQuery {
-  allCourses {
+  courses {
     nodes {
       courseRating
       name

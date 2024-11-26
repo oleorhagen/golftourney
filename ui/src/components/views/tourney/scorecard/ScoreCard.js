@@ -17,7 +17,7 @@ const ListAllCoursesAndHolesSubscription = graphql`
     $courseName: String!
     $scorerId: UUID!
   ) {
-    allCourses(condition: { name: $courseName }) {
+    courses(condition: { name: $courseName }) {
       nodes {
         ...ScoreCardListAllHolesForCourseFragment
       }
@@ -55,7 +55,7 @@ const ListAllCoursesAndHolesQuery = graphql`
     $courseName: String!
     $scorerId: UUID!
   ) {
-    allCourses(condition: { name: $courseName }) {
+    courses(condition: { name: $courseName }) {
       nodes {
         courseRating
         name
@@ -108,10 +108,12 @@ export const ScoreCard = (props) => {
 
   useSubscription(config);
 
-  const data = useFragment(ListAllCoursesAndHolesFragment, fragmentRef?.allCourses?.nodes?.[0] || null);
+  const data = useFragment(
+    ListAllCoursesAndHolesFragment,
+    fragmentRef?.allCourses?.nodes?.[0] || null,
+  );
 
-  const courseHoles =
-    data?.courseHolesByCourseName.nodes || [];
+  const courseHoles = data?.courseHolesByCourseName.nodes || [];
 
   return (
     <>

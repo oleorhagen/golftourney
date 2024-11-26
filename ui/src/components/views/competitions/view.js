@@ -33,7 +33,7 @@ function CustomTabPanel(props) {
 const competitionsQuery = graphql`
 query viewListAllTournamentsQuery {
   query {
-    allTournaments {
+    tournaments {
       edges {
         node {
           id

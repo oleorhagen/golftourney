@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d901ed70bee592dd3d14018fad8add35>>
+ * @generated SignedSource<<e29ae906ab08bd960b846fbba708c434>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -49,7 +49,7 @@ return {
         "args": null,
         "concreteType": "CoursesConnection",
         "kind": "LinkedField",
-        "name": "allCourses",
+        "name": "courses",
         "plural": false,
         "selections": [
           {
@@ -85,7 +85,7 @@ return {
         "args": null,
         "concreteType": "CoursesConnection",
         "kind": "LinkedField",
-        "name": "allCourses",
+        "name": "courses",
         "plural": false,
         "selections": [
           {
@@ -116,16 +116,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4fe5708455f45b8165eadc48b4fa45db",
+    "cacheID": "4a6d5646db980cef75f4b4c96eb68ff1",
     "id": null,
     "metadata": {},
     "name": "viewListAllCoursesPlaceholderForLeaderBoardQuery",
     "operationKind": "query",
-    "text": "query viewListAllCoursesPlaceholderForLeaderBoardQuery {\n  allCourses {\n    nodes {\n      courseRating\n      name\n      nrHoles\n      slope\n      nodeId\n    }\n  }\n}\n"
+    "text": "query viewListAllCoursesPlaceholderForLeaderBoardQuery {\n  courses {\n    nodes {\n      courseRating\n      name\n      nrHoles\n      slope\n      nodeId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "c5f4d82824048ca2299571f0fc4a824b";
+node.hash = "bc7bf91de67030518d63b60972e9392e";
 
 module.exports = node;

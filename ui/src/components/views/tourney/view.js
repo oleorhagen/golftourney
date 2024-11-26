@@ -13,8 +13,8 @@ import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
 const ListAllCoursesQuery = graphql`
   query viewCoursesByTournamentIdQuery($id: UUID!) {
-    tournamentById(id: $id) {
-      tournamentCoursesByTournamentId {
+    tournament(id: $id) {
+      tournamentCourses {
         nodes {
           courseName
           nodeId

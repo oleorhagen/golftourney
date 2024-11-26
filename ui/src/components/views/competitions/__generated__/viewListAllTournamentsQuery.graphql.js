@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<37276a2e580b20cd6f814388fc61d870>>
+ * @generated SignedSource<<448f1df98c523d8c053f59fb1ef33982>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -57,7 +57,7 @@ return {
             "args": null,
             "concreteType": "TournamentsConnection",
             "kind": "LinkedField",
-            "name": "allTournaments",
+            "name": "tournaments",
             "plural": false,
             "selections": [
               {
@@ -114,7 +114,7 @@ return {
             "args": null,
             "concreteType": "TournamentsConnection",
             "kind": "LinkedField",
-            "name": "allTournaments",
+            "name": "tournaments",
             "plural": false,
             "selections": [
               {
@@ -153,16 +153,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "143a1de6496a7d08a055615f100626f9",
+    "cacheID": "3ed8eeda185b14935d3b20c7cd038c3f",
     "id": null,
     "metadata": {},
     "name": "viewListAllTournamentsQuery",
     "operationKind": "query",
-    "text": "query viewListAllTournamentsQuery {\n  query {\n    allTournaments {\n      edges {\n        node {\n          id\n          name\n          year\n          nodeId\n        }\n      }\n    }\n    nodeId\n  }\n}\n"
+    "text": "query viewListAllTournamentsQuery {\n  query {\n    tournaments {\n      edges {\n        node {\n          id\n          name\n          year\n          nodeId\n        }\n      }\n    }\n    nodeId\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "972a5656156908c781d706be464cb23a";
+node.hash = "f26233b617fcb69002c56dc97a6a28a8";
 
 module.exports = node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c80840637df6b6851afa387d55b0b499>>
+ * @generated SignedSource<<baecc6fd17e821a545befd6048694354>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -35,7 +35,7 @@ v3 = {
   "args": null,
   "concreteType": "TournamentCoursesConnection",
   "kind": "LinkedField",
-  "name": "tournamentCoursesByTournamentId",
+  "name": "tournamentCourses",
   "plural": false,
   "selections": [
     {
@@ -79,7 +79,7 @@ return {
         "args": (v1/*: any*/),
         "concreteType": "Tournament",
         "kind": "LinkedField",
-        "name": "tournamentById",
+        "name": "tournament",
         "plural": false,
         "selections": [
           (v3/*: any*/)
@@ -101,7 +101,7 @@ return {
         "args": (v1/*: any*/),
         "concreteType": "Tournament",
         "kind": "LinkedField",
-        "name": "tournamentById",
+        "name": "tournament",
         "plural": false,
         "selections": [
           (v3/*: any*/),
@@ -112,16 +112,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "610b094e05e9d2e7c3d662f5f775d5d6",
+    "cacheID": "e0e86eaff70ea0f581955a616216300c",
     "id": null,
     "metadata": {},
     "name": "viewCoursesByTournamentIdQuery",
     "operationKind": "query",
-    "text": "query viewCoursesByTournamentIdQuery(\n  $id: UUID!\n) {\n  tournamentById(id: $id) {\n    tournamentCoursesByTournamentId {\n      nodes {\n        courseName\n        nodeId\n        tournamentId\n      }\n    }\n    nodeId\n  }\n}\n"
+    "text": "query viewCoursesByTournamentIdQuery(\n  $id: UUID!\n) {\n  tournament(id: $id) {\n    tournamentCourses {\n      nodes {\n        courseName\n        nodeId\n        tournamentId\n      }\n    }\n    nodeId\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "10ac3b7df84b3304591d3a2c79c2e874";
+node.hash = "e70bfba14b8b16949e15f9fa6740630e";
 
 module.exports = node;

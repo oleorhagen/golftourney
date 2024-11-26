@@ -18,7 +18,7 @@ type Query implements Node {
   ): Node
 
   """Reads and enables pagination through a set of `Course`."""
-  allCourses(
+  courses(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -44,10 +44,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: CourseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CourseFilter
   ): CoursesConnection
 
   """Reads and enables pagination through a set of `CourseHole`."""
-  allCourseHoles(
+  courseHoles(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -73,10 +78,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: CourseHoleCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CourseHoleFilter
   ): CourseHolesConnection
 
   """Reads and enables pagination through a set of `ExtraStrokesPerHole`."""
-  allExtraStrokesPerHoles(
+  extraStrokesPerHoles(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -102,10 +112,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: ExtraStrokesPerHoleCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ExtraStrokesPerHoleFilter
   ): ExtraStrokesPerHolesConnection
 
   """Reads and enables pagination through a set of `HoleScore`."""
-  allHoleScores(
+  holeScores(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -131,10 +146,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: HoleScoreCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HoleScoreFilter
   ): HoleScoresConnection
 
   """Reads and enables pagination through a set of `Player`."""
-  allPlayers(
+  players(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -160,10 +180,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: PlayerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: PlayerFilter
   ): PlayersConnection
 
   """Reads and enables pagination through a set of `Scorer`."""
-  allScorers(
+  scorers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -189,10 +214,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: ScorerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ScorerFilter
   ): ScorersConnection
 
   """Reads and enables pagination through a set of `Team`."""
-  allTeams(
+  teams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -218,10 +248,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TeamCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TeamFilter
   ): TeamsConnection
 
   """Reads and enables pagination through a set of `TeamMember`."""
-  allTeamMembers(
+  teamMembers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -247,10 +282,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TeamMemberCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TeamMemberFilter
   ): TeamMembersConnection
 
   """Reads and enables pagination through a set of `Tournament`."""
-  allTournaments(
+  tournaments(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -276,10 +316,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentFilter
   ): TournamentsConnection
 
   """Reads and enables pagination through a set of `TournamentCourse`."""
-  allTournamentCourses(
+  tournamentCourses(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -305,10 +350,15 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentCourseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentCourseFilter
   ): TournamentCoursesConnection
 
   """Reads and enables pagination through a set of `TournamentScorer`."""
-  allTournamentScorers(
+  tournamentScorers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -334,27 +384,32 @@ type Query implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentScorerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentScorerFilter
   ): TournamentScorersConnection
-  courseByName(name: String!): Course
-  courseHoleByHoleNrAndCourseName(holeNr: BigInt!, courseName: String!): CourseHole
+  course(name: String!): Course
+  courseHole(holeNr: BigInt!, courseName: String!): CourseHole
   courseHoleByHoleNrAndCourseNameAndHoleIndex(holeNr: BigInt!, courseName: String!, holeIndex: BigInt!): CourseHole
-  holeScoreByScorerIdAndHoleNrAndCourseName(scorerId: UUID!, holeNr: BigInt!, courseName: String!): HoleScore
-  playerById(id: UUID!): Player
-  scorerById(id: UUID!): Scorer
-  teamById(id: UUID!): Team
-  teamMemberByPlayerIdAndTeamId(playerId: UUID!, teamId: UUID!): TeamMember
-  tournamentById(id: UUID!): Tournament
-  tournamentCourseByTournamentIdAndCourseName(tournamentId: UUID!, courseName: String!): TournamentCourse
-  tournamentScorerByTournamentIdAndScorerId(tournamentId: UUID!, scorerId: UUID!): TournamentScorer
+  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!): HoleScore
+  player(id: UUID!): Player
+  scorer(id: UUID!): Scorer
+  team(id: UUID!): Team
+  teamMember(playerId: UUID!, teamId: UUID!): TeamMember
+  tournament(id: UUID!): Tournament
+  tournamentCourse(tournamentId: UUID!, courseName: String!): TournamentCourse
+  tournamentScorer(tournamentId: UUID!, scorerId: UUID!): TournamentScorer
 
   """Reads a single `Course` using its globally unique `ID`."""
-  course(
+  courseByNodeId(
     """The globally unique `ID` to be used in selecting a single `Course`."""
     nodeId: ID!
   ): Course
 
   """Reads a single `CourseHole` using its globally unique `ID`."""
-  courseHole(
+  courseHoleByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `CourseHole`.
     """
@@ -362,31 +417,31 @@ type Query implements Node {
   ): CourseHole
 
   """Reads a single `HoleScore` using its globally unique `ID`."""
-  holeScore(
+  holeScoreByNodeId(
     """The globally unique `ID` to be used in selecting a single `HoleScore`."""
     nodeId: ID!
   ): HoleScore
 
   """Reads a single `Player` using its globally unique `ID`."""
-  player(
+  playerByNodeId(
     """The globally unique `ID` to be used in selecting a single `Player`."""
     nodeId: ID!
   ): Player
 
   """Reads a single `Scorer` using its globally unique `ID`."""
-  scorer(
+  scorerByNodeId(
     """The globally unique `ID` to be used in selecting a single `Scorer`."""
     nodeId: ID!
   ): Scorer
 
   """Reads a single `Team` using its globally unique `ID`."""
-  team(
+  teamByNodeId(
     """The globally unique `ID` to be used in selecting a single `Team`."""
     nodeId: ID!
   ): Team
 
   """Reads a single `TeamMember` using its globally unique `ID`."""
-  teamMember(
+  teamMemberByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `TeamMember`.
     """
@@ -394,7 +449,7 @@ type Query implements Node {
   ): TeamMember
 
   """Reads a single `Tournament` using its globally unique `ID`."""
-  tournament(
+  tournamentByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `Tournament`.
     """
@@ -402,7 +457,7 @@ type Query implements Node {
   ): Tournament
 
   """Reads a single `TournamentCourse` using its globally unique `ID`."""
-  tournamentCourse(
+  tournamentCourseByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `TournamentCourse`.
     """
@@ -410,7 +465,7 @@ type Query implements Node {
   ): TournamentCourse
 
   """Reads a single `TournamentScorer` using its globally unique `ID`."""
-  tournamentScorer(
+  tournamentScorerByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `TournamentScorer`.
     """
@@ -480,6 +535,11 @@ type Course implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentCourseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentCourseFilter
   ): TournamentCoursesConnection!
 
   """Reads and enables pagination through a set of `CourseHole`."""
@@ -509,6 +569,11 @@ type Course implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: CourseHoleCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CourseHoleFilter
   ): CourseHolesConnection!
 }
 
@@ -549,7 +614,7 @@ type TournamentCourse implements Node {
   """
   Reads a single `Tournament` that is related to this `TournamentCourse`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Course` that is related to this `TournamentCourse`."""
   courseByCourseName: Course
@@ -570,7 +635,7 @@ type Tournament implements Node {
   year: Date!
 
   """Reads and enables pagination through a set of `TournamentCourse`."""
-  tournamentCoursesByTournamentId(
+  tournamentCourses(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -596,10 +661,15 @@ type Tournament implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentCourseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentCourseFilter
   ): TournamentCoursesConnection!
 
   """Reads and enables pagination through a set of `TournamentScorer`."""
-  tournamentScorersByTournamentId(
+  tournamentScorers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -625,10 +695,15 @@ type Tournament implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentScorerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentScorerFilter
   ): TournamentScorersConnection!
 
   """Reads and enables pagination through a set of `HoleScore`."""
-  holeScoresByTournamentId(
+  holeScores(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -654,6 +729,11 @@ type Tournament implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: HoleScoreCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HoleScoreFilter
   ): HoleScoresConnection!
 }
 
@@ -686,6 +766,200 @@ input TournamentCourseCondition {
   courseName: String
 }
 
+"""
+A filter to be used against `TournamentCourse` object types. All fields are combined with a logical ‘and.’
+"""
+input TournamentCourseFilter {
+  """Filter by the object’s `tournamentId` field."""
+  tournamentId: UUIDFilter
+
+  """Filter by the object’s `courseName` field."""
+  courseName: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [TournamentCourseFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [TournamentCourseFilter!]
+
+  """Negates the expression."""
+  not: TournamentCourseFilter
+}
+
+"""
+A filter to be used against UUID fields. All fields are combined with a logical ‘and.’
+"""
+input UUIDFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: UUID
+
+  """Not equal to the specified value."""
+  notEqualTo: UUID
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: UUID
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: UUID
+
+  """Included in the specified list."""
+  in: [UUID!]
+
+  """Not included in the specified list."""
+  notIn: [UUID!]
+
+  """Less than the specified value."""
+  lessThan: UUID
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: UUID
+
+  """Greater than the specified value."""
+  greaterThan: UUID
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: UUID
+}
+
+"""
+A filter to be used against String fields. All fields are combined with a logical ‘and.’
+"""
+input StringFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: String
+
+  """Not equal to the specified value."""
+  notEqualTo: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: String
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: String
+
+  """Included in the specified list."""
+  in: [String!]
+
+  """Not included in the specified list."""
+  notIn: [String!]
+
+  """Less than the specified value."""
+  lessThan: String
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: String
+
+  """Greater than the specified value."""
+  greaterThan: String
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: String
+
+  """Contains the specified string (case-sensitive)."""
+  includes: String
+
+  """Does not contain the specified string (case-sensitive)."""
+  notIncludes: String
+
+  """Contains the specified string (case-insensitive)."""
+  includesInsensitive: String
+
+  """Does not contain the specified string (case-insensitive)."""
+  notIncludesInsensitive: String
+
+  """Starts with the specified string (case-sensitive)."""
+  startsWith: String
+
+  """Does not start with the specified string (case-sensitive)."""
+  notStartsWith: String
+
+  """Starts with the specified string (case-insensitive)."""
+  startsWithInsensitive: String
+
+  """Does not start with the specified string (case-insensitive)."""
+  notStartsWithInsensitive: String
+
+  """Ends with the specified string (case-sensitive)."""
+  endsWith: String
+
+  """Does not end with the specified string (case-sensitive)."""
+  notEndsWith: String
+
+  """Ends with the specified string (case-insensitive)."""
+  endsWithInsensitive: String
+
+  """Does not end with the specified string (case-insensitive)."""
+  notEndsWithInsensitive: String
+
+  """
+  Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  like: String
+
+  """
+  Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLike: String
+
+  """
+  Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  likeInsensitive: String
+
+  """
+  Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLikeInsensitive: String
+
+  """Equal to the specified value (case-insensitive)."""
+  equalToInsensitive: String
+
+  """Not equal to the specified value (case-insensitive)."""
+  notEqualToInsensitive: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  distinctFromInsensitive: String
+
+  """
+  Equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  notDistinctFromInsensitive: String
+
+  """Included in the specified list (case-insensitive)."""
+  inInsensitive: [String!]
+
+  """Not included in the specified list (case-insensitive)."""
+  notInInsensitive: [String!]
+
+  """Less than the specified value (case-insensitive)."""
+  lessThanInsensitive: String
+
+  """Less than or equal to the specified value (case-insensitive)."""
+  lessThanOrEqualToInsensitive: String
+
+  """Greater than the specified value (case-insensitive)."""
+  greaterThanInsensitive: String
+
+  """Greater than or equal to the specified value (case-insensitive)."""
+  greaterThanOrEqualToInsensitive: String
+}
+
 """A connection to a list of `TournamentScorer` values."""
 type TournamentScorersConnection {
   """A list of `TournamentScorer` objects."""
@@ -716,10 +990,10 @@ type TournamentScorer implements Node {
   """
   Reads a single `Tournament` that is related to this `TournamentScorer`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Scorer` that is related to this `TournamentScorer`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 }
 
 type Scorer implements Node {
@@ -731,7 +1005,7 @@ type Scorer implements Node {
   name: String!
 
   """Reads and enables pagination through a set of `TournamentScorer`."""
-  tournamentScorersByScorerId(
+  tournamentScorers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -757,6 +1031,11 @@ type Scorer implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentScorerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentScorerFilter
   ): TournamentScorersConnection!
 
   """Reads a single `Player` that is related to this `Scorer`."""
@@ -789,6 +1068,11 @@ type Scorer implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: PlayerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: PlayerFilter
   ): PlayersConnection! @deprecated(reason: "Please use playerById instead")
 
   """Reads a single `Team` that is related to this `Scorer`."""
@@ -821,10 +1105,15 @@ type Scorer implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TeamCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TeamFilter
   ): TeamsConnection! @deprecated(reason: "Please use teamById instead")
 
   """Reads and enables pagination through a set of `HoleScore`."""
-  holeScoresByScorerId(
+  holeScores(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -850,6 +1139,11 @@ type Scorer implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: HoleScoreCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HoleScoreFilter
   ): HoleScoresConnection!
 }
 
@@ -876,6 +1170,26 @@ input TournamentScorerCondition {
   scorerId: UUID
 }
 
+"""
+A filter to be used against `TournamentScorer` object types. All fields are combined with a logical ‘and.’
+"""
+input TournamentScorerFilter {
+  """Filter by the object’s `tournamentId` field."""
+  tournamentId: UUIDFilter
+
+  """Filter by the object’s `scorerId` field."""
+  scorerId: UUIDFilter
+
+  """Checks for all expressions in this list."""
+  and: [TournamentScorerFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [TournamentScorerFilter!]
+
+  """Negates the expression."""
+  not: TournamentScorerFilter
+}
+
 type Player implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -888,7 +1202,7 @@ type Player implements Node {
   scorerById: Scorer
 
   """Reads and enables pagination through a set of `TeamMember`."""
-  teamMembersByPlayerId(
+  teamMembers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -914,6 +1228,11 @@ type Player implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TeamMemberCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TeamMemberFilter
   ): TeamMembersConnection!
 }
 
@@ -945,10 +1264,10 @@ type TeamMember implements Node {
   teamId: UUID!
 
   """Reads a single `Player` that is related to this `TeamMember`."""
-  playerByPlayerId: Player
+  player: Player
 
   """Reads a single `Team` that is related to this `TeamMember`."""
-  teamByTeamId: Team
+  team: Team
 }
 
 type Team implements Node {
@@ -962,7 +1281,7 @@ type Team implements Node {
   scorerById: Scorer
 
   """Reads and enables pagination through a set of `TeamMember`."""
-  teamMembersByTeamId(
+  teamMembers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -988,6 +1307,11 @@ type Team implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TeamMemberCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TeamMemberFilter
   ): TeamMembersConnection!
 }
 
@@ -1012,6 +1336,26 @@ input TeamMemberCondition {
 
   """Checks for equality with the object’s `teamId` field."""
   teamId: UUID
+}
+
+"""
+A filter to be used against `TeamMember` object types. All fields are combined with a logical ‘and.’
+"""
+input TeamMemberFilter {
+  """Filter by the object’s `playerId` field."""
+  playerId: UUIDFilter
+
+  """Filter by the object’s `teamId` field."""
+  teamId: UUIDFilter
+
+  """Checks for all expressions in this list."""
+  and: [TeamMemberFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [TeamMemberFilter!]
+
+  """Negates the expression."""
+  not: TeamMemberFilter
 }
 
 """A `TeamMember` edge in the connection."""
@@ -1086,6 +1430,68 @@ input PlayerCondition {
   handicap: ValidHandicap
 }
 
+"""
+A filter to be used against `Player` object types. All fields are combined with a logical ‘and.’
+"""
+input PlayerFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `handicap` field."""
+  handicap: ValidHandicapFilter
+
+  """Checks for all expressions in this list."""
+  and: [PlayerFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [PlayerFilter!]
+
+  """Negates the expression."""
+  not: PlayerFilter
+}
+
+"""
+A filter to be used against ValidHandicap fields. All fields are combined with a logical ‘and.’
+"""
+input ValidHandicapFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: ValidHandicap
+
+  """Not equal to the specified value."""
+  notEqualTo: ValidHandicap
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: ValidHandicap
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: ValidHandicap
+
+  """Included in the specified list."""
+  in: [ValidHandicap!]
+
+  """Not included in the specified list."""
+  notIn: [ValidHandicap!]
+
+  """Less than the specified value."""
+  lessThan: ValidHandicap
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: ValidHandicap
+
+  """Greater than the specified value."""
+  greaterThan: ValidHandicap
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: ValidHandicap
+}
+
 """A connection to a list of `Team` values."""
 type TeamsConnection {
   """A list of `Team` objects."""
@@ -1129,6 +1535,23 @@ input TeamCondition {
   id: UUID
 }
 
+"""
+A filter to be used against `Team` object types. All fields are combined with a logical ‘and.’
+"""
+input TeamFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Checks for all expressions in this list."""
+  and: [TeamFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [TeamFilter!]
+
+  """Negates the expression."""
+  not: TeamFilter
+}
+
 """A connection to a list of `HoleScore` values."""
 type HoleScoresConnection {
   """A list of `HoleScore` objects."""
@@ -1159,13 +1582,13 @@ type HoleScore implements Node {
   tournamentId: UUID
 
   """Reads a single `Scorer` that is related to this `HoleScore`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 
   """Reads a single `CourseHole` that is related to this `HoleScore`."""
   courseHoleByHoleNrAndCourseName: CourseHole
 
   """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 }
 
 """
@@ -1214,6 +1637,11 @@ type CourseHole implements Node {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: HoleScoreCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HoleScoreFilter
   ): HoleScoresConnection!
   extraStrokes(playerId: UUID!): BigInt
 }
@@ -1259,6 +1687,122 @@ input HoleScoreCondition {
 
   """Checks for equality with the object’s `tournamentId` field."""
   tournamentId: UUID
+}
+
+"""
+A filter to be used against `HoleScore` object types. All fields are combined with a logical ‘and.’
+"""
+input HoleScoreFilter {
+  """Filter by the object’s `scorerId` field."""
+  scorerId: UUIDFilter
+
+  """Filter by the object’s `holeNr` field."""
+  holeNr: BigIntFilter
+
+  """Filter by the object’s `courseName` field."""
+  courseName: StringFilter
+
+  """Filter by the object’s `strokes` field."""
+  strokes: BigIntFilter
+
+  """Filter by the object’s `stamp` field."""
+  stamp: DatetimeFilter
+
+  """Filter by the object’s `tournamentId` field."""
+  tournamentId: UUIDFilter
+
+  """Checks for all expressions in this list."""
+  and: [HoleScoreFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [HoleScoreFilter!]
+
+  """Negates the expression."""
+  not: HoleScoreFilter
+}
+
+"""
+A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’
+"""
+input BigIntFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: BigInt
+
+  """Not equal to the specified value."""
+  notEqualTo: BigInt
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: BigInt
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: BigInt
+
+  """Included in the specified list."""
+  in: [BigInt!]
+
+  """Not included in the specified list."""
+  notIn: [BigInt!]
+
+  """Less than the specified value."""
+  lessThan: BigInt
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: BigInt
+
+  """Greater than the specified value."""
+  greaterThan: BigInt
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: BigInt
+}
+
+"""
+A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
+"""
+input DatetimeFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Datetime
+
+  """Not equal to the specified value."""
+  notEqualTo: Datetime
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Datetime
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Datetime
+
+  """Included in the specified list."""
+  in: [Datetime!]
+
+  """Not included in the specified list."""
+  notIn: [Datetime!]
+
+  """Less than the specified value."""
+  lessThan: Datetime
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Datetime
+
+  """Greater than the specified value."""
+  greaterThan: Datetime
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Datetime
 }
 
 """A `HoleScore` edge in the connection."""
@@ -1347,6 +1891,32 @@ input CourseHoleCondition {
   par: BigInt
 }
 
+"""
+A filter to be used against `CourseHole` object types. All fields are combined with a logical ‘and.’
+"""
+input CourseHoleFilter {
+  """Filter by the object’s `holeNr` field."""
+  holeNr: BigIntFilter
+
+  """Filter by the object’s `courseName` field."""
+  courseName: StringFilter
+
+  """Filter by the object’s `holeIndex` field."""
+  holeIndex: BigIntFilter
+
+  """Filter by the object’s `par` field."""
+  par: BigIntFilter
+
+  """Checks for all expressions in this list."""
+  and: [CourseHoleFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CourseHoleFilter!]
+
+  """Negates the expression."""
+  not: CourseHoleFilter
+}
+
 """A `Course` edge in the connection."""
 type CoursesEdge {
   """A cursor for use in pagination."""
@@ -1386,6 +1956,74 @@ input CourseCondition {
 
   """Checks for equality with the object’s `nrHoles` field."""
   nrHoles: BigInt
+}
+
+"""
+A filter to be used against `Course` object types. All fields are combined with a logical ‘and.’
+"""
+input CourseFilter {
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `slope` field."""
+  slope: FloatFilter
+
+  """Filter by the object’s `courseRating` field."""
+  courseRating: FloatFilter
+
+  """Filter by the object’s `nrHoles` field."""
+  nrHoles: BigIntFilter
+
+  """Checks for all expressions in this list."""
+  and: [CourseFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CourseFilter!]
+
+  """Negates the expression."""
+  not: CourseFilter
+}
+
+"""
+A filter to be used against Float fields. All fields are combined with a logical ‘and.’
+"""
+input FloatFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Float
+
+  """Not equal to the specified value."""
+  notEqualTo: Float
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Float
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Float
+
+  """Included in the specified list."""
+  in: [Float!]
+
+  """Not included in the specified list."""
+  notIn: [Float!]
+
+  """Less than the specified value."""
+  lessThan: Float
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Float
+
+  """Greater than the specified value."""
+  greaterThan: Float
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Float
 }
 
 """A connection to a list of `ExtraStrokesPerHole` values."""
@@ -1466,6 +2104,38 @@ input ExtraStrokesPerHoleCondition {
   extraStrokes: BigInt
 }
 
+"""
+A filter to be used against `ExtraStrokesPerHole` object types. All fields are combined with a logical ‘and.’
+"""
+input ExtraStrokesPerHoleFilter {
+  """Filter by the object’s `holeNr` field."""
+  holeNr: BigIntFilter
+
+  """Filter by the object’s `courseName` field."""
+  courseName: StringFilter
+
+  """Filter by the object’s `holeIndex` field."""
+  holeIndex: BigIntFilter
+
+  """Filter by the object’s `par` field."""
+  par: BigIntFilter
+
+  """Filter by the object’s `playerId` field."""
+  playerId: UUIDFilter
+
+  """Filter by the object’s `extraStrokes` field."""
+  extraStrokes: BigIntFilter
+
+  """Checks for all expressions in this list."""
+  and: [ExtraStrokesPerHoleFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ExtraStrokesPerHoleFilter!]
+
+  """Negates the expression."""
+  not: ExtraStrokesPerHoleFilter
+}
+
 """A connection to a list of `Scorer` values."""
 type ScorersConnection {
   """A list of `Scorer` objects."""
@@ -1512,6 +2182,26 @@ input ScorerCondition {
 
   """Checks for equality with the object’s `name` field."""
   name: String
+}
+
+"""
+A filter to be used against `Scorer` object types. All fields are combined with a logical ‘and.’
+"""
+input ScorerFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [ScorerFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ScorerFilter!]
+
+  """Negates the expression."""
+  not: ScorerFilter
 }
 
 """A connection to a list of `Tournament` values."""
@@ -1566,6 +2256,71 @@ input TournamentCondition {
 
   """Checks for equality with the object’s `year` field."""
   year: Date
+}
+
+"""
+A filter to be used against `Tournament` object types. All fields are combined with a logical ‘and.’
+"""
+input TournamentFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `year` field."""
+  year: DateFilter
+
+  """Checks for all expressions in this list."""
+  and: [TournamentFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [TournamentFilter!]
+
+  """Negates the expression."""
+  not: TournamentFilter
+}
+
+"""
+A filter to be used against Date fields. All fields are combined with a logical ‘and.’
+"""
+input DateFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Date
+
+  """Not equal to the specified value."""
+  notEqualTo: Date
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Date
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Date
+
+  """Included in the specified list."""
+  in: [Date!]
+
+  """Not included in the specified list."""
+  notIn: [Date!]
+
+  """Less than the specified value."""
+  lessThan: Date
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Date
+
+  """Greater than the specified value."""
+  greaterThan: Date
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Date
 }
 
 """
@@ -1653,6 +2408,14 @@ type Mutation {
   ): CreateTournamentScorerPayload
 
   """Updates a single `Course` using its globally unique id and a patch."""
+  updateCourseByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCourseByNodeIdInput!
+  ): UpdateCoursePayload
+
+  """Updates a single `Course` using a unique key and a patch."""
   updateCourse(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1660,30 +2423,22 @@ type Mutation {
     input: UpdateCourseInput!
   ): UpdateCoursePayload
 
-  """Updates a single `Course` using a unique key and a patch."""
-  updateCourseByName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCourseByNameInput!
-  ): UpdateCoursePayload
-
   """
   Updates a single `CourseHole` using its globally unique id and a patch.
   """
+  updateCourseHoleByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCourseHoleByNodeIdInput!
+  ): UpdateCourseHolePayload
+
+  """Updates a single `CourseHole` using a unique key and a patch."""
   updateCourseHole(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: UpdateCourseHoleInput!
-  ): UpdateCourseHolePayload
-
-  """Updates a single `CourseHole` using a unique key and a patch."""
-  updateCourseHoleByHoleNrAndCourseName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCourseHoleByHoleNrAndCourseNameInput!
   ): UpdateCourseHolePayload
 
   """Updates a single `CourseHole` using a unique key and a patch."""
@@ -1695,6 +2450,14 @@ type Mutation {
   ): UpdateCourseHolePayload
 
   """Updates a single `HoleScore` using its globally unique id and a patch."""
+  updateHoleScoreByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateHoleScoreByNodeIdInput!
+  ): UpdateHoleScorePayload
+
+  """Updates a single `HoleScore` using a unique key and a patch."""
   updateHoleScore(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1702,15 +2465,15 @@ type Mutation {
     input: UpdateHoleScoreInput!
   ): UpdateHoleScorePayload
 
-  """Updates a single `HoleScore` using a unique key and a patch."""
-  updateHoleScoreByScorerIdAndHoleNrAndCourseName(
+  """Updates a single `Player` using its globally unique id and a patch."""
+  updatePlayerByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateHoleScoreByScorerIdAndHoleNrAndCourseNameInput!
-  ): UpdateHoleScorePayload
+    input: UpdatePlayerByNodeIdInput!
+  ): UpdatePlayerPayload
 
-  """Updates a single `Player` using its globally unique id and a patch."""
+  """Updates a single `Player` using a unique key and a patch."""
   updatePlayer(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1718,15 +2481,15 @@ type Mutation {
     input: UpdatePlayerInput!
   ): UpdatePlayerPayload
 
-  """Updates a single `Player` using a unique key and a patch."""
-  updatePlayerById(
+  """Updates a single `Scorer` using its globally unique id and a patch."""
+  updateScorerByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdatePlayerByIdInput!
-  ): UpdatePlayerPayload
+    input: UpdateScorerByNodeIdInput!
+  ): UpdateScorerPayload
 
-  """Updates a single `Scorer` using its globally unique id and a patch."""
+  """Updates a single `Scorer` using a unique key and a patch."""
   updateScorer(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1734,15 +2497,15 @@ type Mutation {
     input: UpdateScorerInput!
   ): UpdateScorerPayload
 
-  """Updates a single `Scorer` using a unique key and a patch."""
-  updateScorerById(
+  """Updates a single `Team` using its globally unique id and a patch."""
+  updateTeamByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateScorerByIdInput!
-  ): UpdateScorerPayload
+    input: UpdateTeamByNodeIdInput!
+  ): UpdateTeamPayload
 
-  """Updates a single `Team` using its globally unique id and a patch."""
+  """Updates a single `Team` using a unique key and a patch."""
   updateTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1750,17 +2513,17 @@ type Mutation {
     input: UpdateTeamInput!
   ): UpdateTeamPayload
 
-  """Updates a single `Team` using a unique key and a patch."""
-  updateTeamById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateTeamByIdInput!
-  ): UpdateTeamPayload
-
   """
   Updates a single `TeamMember` using its globally unique id and a patch.
   """
+  updateTeamMemberByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateTeamMemberByNodeIdInput!
+  ): UpdateTeamMemberPayload
+
+  """Updates a single `TeamMember` using a unique key and a patch."""
   updateTeamMember(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1768,17 +2531,17 @@ type Mutation {
     input: UpdateTeamMemberInput!
   ): UpdateTeamMemberPayload
 
-  """Updates a single `TeamMember` using a unique key and a patch."""
-  updateTeamMemberByPlayerIdAndTeamId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateTeamMemberByPlayerIdAndTeamIdInput!
-  ): UpdateTeamMemberPayload
-
   """
   Updates a single `Tournament` using its globally unique id and a patch.
   """
+  updateTournamentByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateTournamentByNodeIdInput!
+  ): UpdateTournamentPayload
+
+  """Updates a single `Tournament` using a unique key and a patch."""
   updateTournament(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1786,17 +2549,17 @@ type Mutation {
     input: UpdateTournamentInput!
   ): UpdateTournamentPayload
 
-  """Updates a single `Tournament` using a unique key and a patch."""
-  updateTournamentById(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateTournamentByIdInput!
-  ): UpdateTournamentPayload
-
   """
   Updates a single `TournamentCourse` using its globally unique id and a patch.
   """
+  updateTournamentCourseByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateTournamentCourseByNodeIdInput!
+  ): UpdateTournamentCoursePayload
+
+  """Updates a single `TournamentCourse` using a unique key and a patch."""
   updateTournamentCourse(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1804,17 +2567,17 @@ type Mutation {
     input: UpdateTournamentCourseInput!
   ): UpdateTournamentCoursePayload
 
-  """Updates a single `TournamentCourse` using a unique key and a patch."""
-  updateTournamentCourseByTournamentIdAndCourseName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateTournamentCourseByTournamentIdAndCourseNameInput!
-  ): UpdateTournamentCoursePayload
-
   """
   Updates a single `TournamentScorer` using its globally unique id and a patch.
   """
+  updateTournamentScorerByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateTournamentScorerByNodeIdInput!
+  ): UpdateTournamentScorerPayload
+
+  """Updates a single `TournamentScorer` using a unique key and a patch."""
   updateTournamentScorer(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1822,15 +2585,15 @@ type Mutation {
     input: UpdateTournamentScorerInput!
   ): UpdateTournamentScorerPayload
 
-  """Updates a single `TournamentScorer` using a unique key and a patch."""
-  updateTournamentScorerByTournamentIdAndScorerId(
+  """Deletes a single `Course` using its globally unique id."""
+  deleteCourseByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateTournamentScorerByTournamentIdAndScorerIdInput!
-  ): UpdateTournamentScorerPayload
+    input: DeleteCourseByNodeIdInput!
+  ): DeleteCoursePayload
 
-  """Deletes a single `Course` using its globally unique id."""
+  """Deletes a single `Course` using a unique key."""
   deleteCourse(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1838,28 +2601,20 @@ type Mutation {
     input: DeleteCourseInput!
   ): DeleteCoursePayload
 
-  """Deletes a single `Course` using a unique key."""
-  deleteCourseByName(
+  """Deletes a single `CourseHole` using its globally unique id."""
+  deleteCourseHoleByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteCourseByNameInput!
-  ): DeleteCoursePayload
+    input: DeleteCourseHoleByNodeIdInput!
+  ): DeleteCourseHolePayload
 
-  """Deletes a single `CourseHole` using its globally unique id."""
+  """Deletes a single `CourseHole` using a unique key."""
   deleteCourseHole(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteCourseHoleInput!
-  ): DeleteCourseHolePayload
-
-  """Deletes a single `CourseHole` using a unique key."""
-  deleteCourseHoleByHoleNrAndCourseName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCourseHoleByHoleNrAndCourseNameInput!
   ): DeleteCourseHolePayload
 
   """Deletes a single `CourseHole` using a unique key."""
@@ -1871,6 +2626,14 @@ type Mutation {
   ): DeleteCourseHolePayload
 
   """Deletes a single `HoleScore` using its globally unique id."""
+  deleteHoleScoreByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteHoleScoreByNodeIdInput!
+  ): DeleteHoleScorePayload
+
+  """Deletes a single `HoleScore` using a unique key."""
   deleteHoleScore(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1878,15 +2641,15 @@ type Mutation {
     input: DeleteHoleScoreInput!
   ): DeleteHoleScorePayload
 
-  """Deletes a single `HoleScore` using a unique key."""
-  deleteHoleScoreByScorerIdAndHoleNrAndCourseName(
+  """Deletes a single `Player` using its globally unique id."""
+  deletePlayerByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteHoleScoreByScorerIdAndHoleNrAndCourseNameInput!
-  ): DeleteHoleScorePayload
+    input: DeletePlayerByNodeIdInput!
+  ): DeletePlayerPayload
 
-  """Deletes a single `Player` using its globally unique id."""
+  """Deletes a single `Player` using a unique key."""
   deletePlayer(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1894,15 +2657,15 @@ type Mutation {
     input: DeletePlayerInput!
   ): DeletePlayerPayload
 
-  """Deletes a single `Player` using a unique key."""
-  deletePlayerById(
+  """Deletes a single `Scorer` using its globally unique id."""
+  deleteScorerByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeletePlayerByIdInput!
-  ): DeletePlayerPayload
+    input: DeleteScorerByNodeIdInput!
+  ): DeleteScorerPayload
 
-  """Deletes a single `Scorer` using its globally unique id."""
+  """Deletes a single `Scorer` using a unique key."""
   deleteScorer(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1910,15 +2673,15 @@ type Mutation {
     input: DeleteScorerInput!
   ): DeleteScorerPayload
 
-  """Deletes a single `Scorer` using a unique key."""
-  deleteScorerById(
+  """Deletes a single `Team` using its globally unique id."""
+  deleteTeamByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteScorerByIdInput!
-  ): DeleteScorerPayload
+    input: DeleteTeamByNodeIdInput!
+  ): DeleteTeamPayload
 
-  """Deletes a single `Team` using its globally unique id."""
+  """Deletes a single `Team` using a unique key."""
   deleteTeam(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1926,15 +2689,15 @@ type Mutation {
     input: DeleteTeamInput!
   ): DeleteTeamPayload
 
-  """Deletes a single `Team` using a unique key."""
-  deleteTeamById(
+  """Deletes a single `TeamMember` using its globally unique id."""
+  deleteTeamMemberByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteTeamByIdInput!
-  ): DeleteTeamPayload
+    input: DeleteTeamMemberByNodeIdInput!
+  ): DeleteTeamMemberPayload
 
-  """Deletes a single `TeamMember` using its globally unique id."""
+  """Deletes a single `TeamMember` using a unique key."""
   deleteTeamMember(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1942,15 +2705,15 @@ type Mutation {
     input: DeleteTeamMemberInput!
   ): DeleteTeamMemberPayload
 
-  """Deletes a single `TeamMember` using a unique key."""
-  deleteTeamMemberByPlayerIdAndTeamId(
+  """Deletes a single `Tournament` using its globally unique id."""
+  deleteTournamentByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteTeamMemberByPlayerIdAndTeamIdInput!
-  ): DeleteTeamMemberPayload
+    input: DeleteTournamentByNodeIdInput!
+  ): DeleteTournamentPayload
 
-  """Deletes a single `Tournament` using its globally unique id."""
+  """Deletes a single `Tournament` using a unique key."""
   deleteTournament(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1958,15 +2721,15 @@ type Mutation {
     input: DeleteTournamentInput!
   ): DeleteTournamentPayload
 
-  """Deletes a single `Tournament` using a unique key."""
-  deleteTournamentById(
+  """Deletes a single `TournamentCourse` using its globally unique id."""
+  deleteTournamentCourseByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteTournamentByIdInput!
-  ): DeleteTournamentPayload
+    input: DeleteTournamentCourseByNodeIdInput!
+  ): DeleteTournamentCoursePayload
 
-  """Deletes a single `TournamentCourse` using its globally unique id."""
+  """Deletes a single `TournamentCourse` using a unique key."""
   deleteTournamentCourse(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -1974,28 +2737,20 @@ type Mutation {
     input: DeleteTournamentCourseInput!
   ): DeleteTournamentCoursePayload
 
-  """Deletes a single `TournamentCourse` using a unique key."""
-  deleteTournamentCourseByTournamentIdAndCourseName(
+  """Deletes a single `TournamentScorer` using its globally unique id."""
+  deleteTournamentScorerByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteTournamentCourseByTournamentIdAndCourseNameInput!
-  ): DeleteTournamentCoursePayload
+    input: DeleteTournamentScorerByNodeIdInput!
+  ): DeleteTournamentScorerPayload
 
-  """Deletes a single `TournamentScorer` using its globally unique id."""
+  """Deletes a single `TournamentScorer` using a unique key."""
   deleteTournamentScorer(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteTournamentScorerInput!
-  ): DeleteTournamentScorerPayload
-
-  """Deletes a single `TournamentScorer` using a unique key."""
-  deleteTournamentScorerByTournamentIdAndScorerId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteTournamentScorerByTournamentIdAndScorerIdInput!
   ): DeleteTournamentScorerPayload
 }
 
@@ -2105,13 +2860,13 @@ type CreateHoleScorePayload {
   query: Query
 
   """Reads a single `Scorer` that is related to this `HoleScore`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 
   """Reads a single `CourseHole` that is related to this `HoleScore`."""
   courseHoleByHoleNrAndCourseName: CourseHole
 
   """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -2287,10 +3042,10 @@ type CreateTeamMemberPayload {
   query: Query
 
   """Reads a single `Player` that is related to this `TeamMember`."""
-  playerByPlayerId: Player
+  player: Player
 
   """Reads a single `Team` that is related to this `TeamMember`."""
-  teamByTeamId: Team
+  team: Team
 
   """An edge for our `TeamMember`. May be used by Relay 1."""
   teamMemberEdge(
@@ -2378,7 +3133,7 @@ type CreateTournamentCoursePayload {
   """
   Reads a single `Tournament` that is related to this `TournamentCourse`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Course` that is related to this `TournamentCourse`."""
   courseByCourseName: Course
@@ -2427,10 +3182,10 @@ type CreateTournamentScorerPayload {
   """
   Reads a single `Tournament` that is related to this `TournamentScorer`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Scorer` that is related to this `TournamentScorer`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 
   """An edge for our `TournamentScorer`. May be used by Relay 1."""
   tournamentScorerEdge(
@@ -2480,8 +3235,8 @@ type UpdateCoursePayload {
   ): CoursesEdge
 }
 
-"""All input for the `updateCourse` mutation."""
-input UpdateCourseInput {
+"""All input for the `updateCourseByNodeId` mutation."""
+input UpdateCourseByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2496,7 +3251,7 @@ input UpdateCourseInput {
   """
   An object where the defined keys will be set on the `Course` being updated.
   """
-  coursePatch: CoursePatch!
+  patch: CoursePatch!
 }
 
 """
@@ -2509,8 +3264,8 @@ input CoursePatch {
   nrHoles: BigInt
 }
 
-"""All input for the `updateCourseByName` mutation."""
-input UpdateCourseByNameInput {
+"""All input for the `updateCourse` mutation."""
+input UpdateCourseInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2520,7 +3275,7 @@ input UpdateCourseByNameInput {
   """
   An object where the defined keys will be set on the `Course` being updated.
   """
-  coursePatch: CoursePatch!
+  patch: CoursePatch!
   name: String!
 }
 
@@ -2550,8 +3305,8 @@ type UpdateCourseHolePayload {
   ): CourseHolesEdge
 }
 
-"""All input for the `updateCourseHole` mutation."""
-input UpdateCourseHoleInput {
+"""All input for the `updateCourseHoleByNodeId` mutation."""
+input UpdateCourseHoleByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2566,7 +3321,7 @@ input UpdateCourseHoleInput {
   """
   An object where the defined keys will be set on the `CourseHole` being updated.
   """
-  courseHolePatch: CourseHolePatch!
+  patch: CourseHolePatch!
 }
 
 """
@@ -2579,8 +3334,8 @@ input CourseHolePatch {
   par: BigInt
 }
 
-"""All input for the `updateCourseHoleByHoleNrAndCourseName` mutation."""
-input UpdateCourseHoleByHoleNrAndCourseNameInput {
+"""All input for the `updateCourseHole` mutation."""
+input UpdateCourseHoleInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2590,7 +3345,7 @@ input UpdateCourseHoleByHoleNrAndCourseNameInput {
   """
   An object where the defined keys will be set on the `CourseHole` being updated.
   """
-  courseHolePatch: CourseHolePatch!
+  patch: CourseHolePatch!
   holeNr: BigInt!
   courseName: String!
 }
@@ -2608,7 +3363,7 @@ input UpdateCourseHoleByHoleNrAndCourseNameAndHoleIndexInput {
   """
   An object where the defined keys will be set on the `CourseHole` being updated.
   """
-  courseHolePatch: CourseHolePatch!
+  patch: CourseHolePatch!
   holeNr: BigInt!
   courseName: String!
   holeIndex: BigInt!
@@ -2631,13 +3386,13 @@ type UpdateHoleScorePayload {
   query: Query
 
   """Reads a single `Scorer` that is related to this `HoleScore`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 
   """Reads a single `CourseHole` that is related to this `HoleScore`."""
   courseHoleByHoleNrAndCourseName: CourseHole
 
   """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -2646,8 +3401,8 @@ type UpdateHoleScorePayload {
   ): HoleScoresEdge
 }
 
-"""All input for the `updateHoleScore` mutation."""
-input UpdateHoleScoreInput {
+"""All input for the `updateHoleScoreByNodeId` mutation."""
+input UpdateHoleScoreByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2662,7 +3417,7 @@ input UpdateHoleScoreInput {
   """
   An object where the defined keys will be set on the `HoleScore` being updated.
   """
-  holeScorePatch: HoleScorePatch!
+  patch: HoleScorePatch!
 }
 
 """
@@ -2677,10 +3432,8 @@ input HoleScorePatch {
   tournamentId: UUID
 }
 
-"""
-All input for the `updateHoleScoreByScorerIdAndHoleNrAndCourseName` mutation.
-"""
-input UpdateHoleScoreByScorerIdAndHoleNrAndCourseNameInput {
+"""All input for the `updateHoleScore` mutation."""
+input UpdateHoleScoreInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2690,7 +3443,7 @@ input UpdateHoleScoreByScorerIdAndHoleNrAndCourseNameInput {
   """
   An object where the defined keys will be set on the `HoleScore` being updated.
   """
-  holeScorePatch: HoleScorePatch!
+  patch: HoleScorePatch!
   scorerId: UUID!
   holeNr: BigInt!
   courseName: String!
@@ -2722,8 +3475,8 @@ type UpdatePlayerPayload {
   ): PlayersEdge
 }
 
-"""All input for the `updatePlayer` mutation."""
-input UpdatePlayerInput {
+"""All input for the `updatePlayerByNodeId` mutation."""
+input UpdatePlayerByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2738,7 +3491,7 @@ input UpdatePlayerInput {
   """
   An object where the defined keys will be set on the `Player` being updated.
   """
-  playerPatch: PlayerPatch!
+  patch: PlayerPatch!
 }
 
 """
@@ -2749,8 +3502,8 @@ input PlayerPatch {
   handicap: ValidHandicap
 }
 
-"""All input for the `updatePlayerById` mutation."""
-input UpdatePlayerByIdInput {
+"""All input for the `updatePlayer` mutation."""
+input UpdatePlayerInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2760,7 +3513,7 @@ input UpdatePlayerByIdInput {
   """
   An object where the defined keys will be set on the `Player` being updated.
   """
-  playerPatch: PlayerPatch!
+  patch: PlayerPatch!
   id: UUID!
 }
 
@@ -2787,8 +3540,8 @@ type UpdateScorerPayload {
   ): ScorersEdge
 }
 
-"""All input for the `updateScorer` mutation."""
-input UpdateScorerInput {
+"""All input for the `updateScorerByNodeId` mutation."""
+input UpdateScorerByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2803,7 +3556,7 @@ input UpdateScorerInput {
   """
   An object where the defined keys will be set on the `Scorer` being updated.
   """
-  scorerPatch: ScorerPatch!
+  patch: ScorerPatch!
 }
 
 """
@@ -2814,8 +3567,8 @@ input ScorerPatch {
   name: String
 }
 
-"""All input for the `updateScorerById` mutation."""
-input UpdateScorerByIdInput {
+"""All input for the `updateScorer` mutation."""
+input UpdateScorerInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2825,7 +3578,7 @@ input UpdateScorerByIdInput {
   """
   An object where the defined keys will be set on the `Scorer` being updated.
   """
-  scorerPatch: ScorerPatch!
+  patch: ScorerPatch!
   id: UUID!
 }
 
@@ -2855,8 +3608,8 @@ type UpdateTeamPayload {
   ): TeamsEdge
 }
 
-"""All input for the `updateTeam` mutation."""
-input UpdateTeamInput {
+"""All input for the `updateTeamByNodeId` mutation."""
+input UpdateTeamByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2871,7 +3624,7 @@ input UpdateTeamInput {
   """
   An object where the defined keys will be set on the `Team` being updated.
   """
-  teamPatch: TeamPatch!
+  patch: TeamPatch!
 }
 
 """Represents an update to a `Team`. Fields that are set will be updated."""
@@ -2879,8 +3632,8 @@ input TeamPatch {
   id: UUID
 }
 
-"""All input for the `updateTeamById` mutation."""
-input UpdateTeamByIdInput {
+"""All input for the `updateTeam` mutation."""
+input UpdateTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2890,7 +3643,7 @@ input UpdateTeamByIdInput {
   """
   An object where the defined keys will be set on the `Team` being updated.
   """
-  teamPatch: TeamPatch!
+  patch: TeamPatch!
   id: UUID!
 }
 
@@ -2911,10 +3664,10 @@ type UpdateTeamMemberPayload {
   query: Query
 
   """Reads a single `Player` that is related to this `TeamMember`."""
-  playerByPlayerId: Player
+  player: Player
 
   """Reads a single `Team` that is related to this `TeamMember`."""
-  teamByTeamId: Team
+  team: Team
 
   """An edge for our `TeamMember`. May be used by Relay 1."""
   teamMemberEdge(
@@ -2923,8 +3676,8 @@ type UpdateTeamMemberPayload {
   ): TeamMembersEdge
 }
 
-"""All input for the `updateTeamMember` mutation."""
-input UpdateTeamMemberInput {
+"""All input for the `updateTeamMemberByNodeId` mutation."""
+input UpdateTeamMemberByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2939,7 +3692,7 @@ input UpdateTeamMemberInput {
   """
   An object where the defined keys will be set on the `TeamMember` being updated.
   """
-  teamMemberPatch: TeamMemberPatch!
+  patch: TeamMemberPatch!
 }
 
 """
@@ -2950,8 +3703,8 @@ input TeamMemberPatch {
   teamId: UUID
 }
 
-"""All input for the `updateTeamMemberByPlayerIdAndTeamId` mutation."""
-input UpdateTeamMemberByPlayerIdAndTeamIdInput {
+"""All input for the `updateTeamMember` mutation."""
+input UpdateTeamMemberInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2961,7 +3714,7 @@ input UpdateTeamMemberByPlayerIdAndTeamIdInput {
   """
   An object where the defined keys will be set on the `TeamMember` being updated.
   """
-  teamMemberPatch: TeamMemberPatch!
+  patch: TeamMemberPatch!
   playerId: UUID!
   teamId: UUID!
 }
@@ -2989,8 +3742,8 @@ type UpdateTournamentPayload {
   ): TournamentsEdge
 }
 
-"""All input for the `updateTournament` mutation."""
-input UpdateTournamentInput {
+"""All input for the `updateTournamentByNodeId` mutation."""
+input UpdateTournamentByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3005,7 +3758,7 @@ input UpdateTournamentInput {
   """
   An object where the defined keys will be set on the `Tournament` being updated.
   """
-  tournamentPatch: TournamentPatch!
+  patch: TournamentPatch!
 }
 
 """
@@ -3017,8 +3770,8 @@ input TournamentPatch {
   year: Date
 }
 
-"""All input for the `updateTournamentById` mutation."""
-input UpdateTournamentByIdInput {
+"""All input for the `updateTournament` mutation."""
+input UpdateTournamentInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3028,7 +3781,7 @@ input UpdateTournamentByIdInput {
   """
   An object where the defined keys will be set on the `Tournament` being updated.
   """
-  tournamentPatch: TournamentPatch!
+  patch: TournamentPatch!
   id: UUID!
 }
 
@@ -3051,7 +3804,7 @@ type UpdateTournamentCoursePayload {
   """
   Reads a single `Tournament` that is related to this `TournamentCourse`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Course` that is related to this `TournamentCourse`."""
   courseByCourseName: Course
@@ -3063,8 +3816,8 @@ type UpdateTournamentCoursePayload {
   ): TournamentCoursesEdge
 }
 
-"""All input for the `updateTournamentCourse` mutation."""
-input UpdateTournamentCourseInput {
+"""All input for the `updateTournamentCourseByNodeId` mutation."""
+input UpdateTournamentCourseByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3079,7 +3832,7 @@ input UpdateTournamentCourseInput {
   """
   An object where the defined keys will be set on the `TournamentCourse` being updated.
   """
-  tournamentCoursePatch: TournamentCoursePatch!
+  patch: TournamentCoursePatch!
 }
 
 """
@@ -3090,10 +3843,8 @@ input TournamentCoursePatch {
   courseName: String
 }
 
-"""
-All input for the `updateTournamentCourseByTournamentIdAndCourseName` mutation.
-"""
-input UpdateTournamentCourseByTournamentIdAndCourseNameInput {
+"""All input for the `updateTournamentCourse` mutation."""
+input UpdateTournamentCourseInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3103,7 +3854,7 @@ input UpdateTournamentCourseByTournamentIdAndCourseNameInput {
   """
   An object where the defined keys will be set on the `TournamentCourse` being updated.
   """
-  tournamentCoursePatch: TournamentCoursePatch!
+  patch: TournamentCoursePatch!
   tournamentId: UUID!
   courseName: String!
 }
@@ -3127,10 +3878,10 @@ type UpdateTournamentScorerPayload {
   """
   Reads a single `Tournament` that is related to this `TournamentScorer`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Scorer` that is related to this `TournamentScorer`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 
   """An edge for our `TournamentScorer`. May be used by Relay 1."""
   tournamentScorerEdge(
@@ -3139,8 +3890,8 @@ type UpdateTournamentScorerPayload {
   ): TournamentScorersEdge
 }
 
-"""All input for the `updateTournamentScorer` mutation."""
-input UpdateTournamentScorerInput {
+"""All input for the `updateTournamentScorerByNodeId` mutation."""
+input UpdateTournamentScorerByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3155,7 +3906,7 @@ input UpdateTournamentScorerInput {
   """
   An object where the defined keys will be set on the `TournamentScorer` being updated.
   """
-  tournamentScorerPatch: TournamentScorerPatch!
+  patch: TournamentScorerPatch!
 }
 
 """
@@ -3166,10 +3917,8 @@ input TournamentScorerPatch {
   scorerId: UUID
 }
 
-"""
-All input for the `updateTournamentScorerByTournamentIdAndScorerId` mutation.
-"""
-input UpdateTournamentScorerByTournamentIdAndScorerIdInput {
+"""All input for the `updateTournamentScorer` mutation."""
+input UpdateTournamentScorerInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3179,7 +3928,7 @@ input UpdateTournamentScorerByTournamentIdAndScorerIdInput {
   """
   An object where the defined keys will be set on the `TournamentScorer` being updated.
   """
-  tournamentScorerPatch: TournamentScorerPatch!
+  patch: TournamentScorerPatch!
   tournamentId: UUID!
   scorerId: UUID!
 }
@@ -3194,7 +3943,7 @@ type DeleteCoursePayload {
 
   """The `Course` that was deleted by this mutation."""
   course: Course
-  deletedCourseId: ID
+  deletedCourseNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3208,8 +3957,8 @@ type DeleteCoursePayload {
   ): CoursesEdge
 }
 
-"""All input for the `deleteCourse` mutation."""
-input DeleteCourseInput {
+"""All input for the `deleteCourseByNodeId` mutation."""
+input DeleteCourseByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3222,8 +3971,8 @@ input DeleteCourseInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteCourseByName` mutation."""
-input DeleteCourseByNameInput {
+"""All input for the `deleteCourse` mutation."""
+input DeleteCourseInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3242,7 +3991,7 @@ type DeleteCourseHolePayload {
 
   """The `CourseHole` that was deleted by this mutation."""
   courseHole: CourseHole
-  deletedCourseHoleId: ID
+  deletedCourseHoleNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3259,8 +4008,8 @@ type DeleteCourseHolePayload {
   ): CourseHolesEdge
 }
 
-"""All input for the `deleteCourseHole` mutation."""
-input DeleteCourseHoleInput {
+"""All input for the `deleteCourseHoleByNodeId` mutation."""
+input DeleteCourseHoleByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3273,8 +4022,8 @@ input DeleteCourseHoleInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteCourseHoleByHoleNrAndCourseName` mutation."""
-input DeleteCourseHoleByHoleNrAndCourseNameInput {
+"""All input for the `deleteCourseHole` mutation."""
+input DeleteCourseHoleInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3308,7 +4057,7 @@ type DeleteHoleScorePayload {
 
   """The `HoleScore` that was deleted by this mutation."""
   holeScore: HoleScore
-  deletedHoleScoreId: ID
+  deletedHoleScoreNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3316,13 +4065,13 @@ type DeleteHoleScorePayload {
   query: Query
 
   """Reads a single `Scorer` that is related to this `HoleScore`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 
   """Reads a single `CourseHole` that is related to this `HoleScore`."""
   courseHoleByHoleNrAndCourseName: CourseHole
 
   """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -3331,8 +4080,8 @@ type DeleteHoleScorePayload {
   ): HoleScoresEdge
 }
 
-"""All input for the `deleteHoleScore` mutation."""
-input DeleteHoleScoreInput {
+"""All input for the `deleteHoleScoreByNodeId` mutation."""
+input DeleteHoleScoreByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3345,10 +4094,8 @@ input DeleteHoleScoreInput {
   nodeId: ID!
 }
 
-"""
-All input for the `deleteHoleScoreByScorerIdAndHoleNrAndCourseName` mutation.
-"""
-input DeleteHoleScoreByScorerIdAndHoleNrAndCourseNameInput {
+"""All input for the `deleteHoleScore` mutation."""
+input DeleteHoleScoreInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3369,7 +4116,7 @@ type DeletePlayerPayload {
 
   """The `Player` that was deleted by this mutation."""
   player: Player
-  deletedPlayerId: ID
+  deletedPlayerNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3386,8 +4133,8 @@ type DeletePlayerPayload {
   ): PlayersEdge
 }
 
-"""All input for the `deletePlayer` mutation."""
-input DeletePlayerInput {
+"""All input for the `deletePlayerByNodeId` mutation."""
+input DeletePlayerByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3400,8 +4147,8 @@ input DeletePlayerInput {
   nodeId: ID!
 }
 
-"""All input for the `deletePlayerById` mutation."""
-input DeletePlayerByIdInput {
+"""All input for the `deletePlayer` mutation."""
+input DeletePlayerInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3420,7 +4167,7 @@ type DeleteScorerPayload {
 
   """The `Scorer` that was deleted by this mutation."""
   scorer: Scorer
-  deletedScorerId: ID
+  deletedScorerNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3434,8 +4181,8 @@ type DeleteScorerPayload {
   ): ScorersEdge
 }
 
-"""All input for the `deleteScorer` mutation."""
-input DeleteScorerInput {
+"""All input for the `deleteScorerByNodeId` mutation."""
+input DeleteScorerByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3448,8 +4195,8 @@ input DeleteScorerInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteScorerById` mutation."""
-input DeleteScorerByIdInput {
+"""All input for the `deleteScorer` mutation."""
+input DeleteScorerInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3468,7 +4215,7 @@ type DeleteTeamPayload {
 
   """The `Team` that was deleted by this mutation."""
   team: Team
-  deletedTeamId: ID
+  deletedTeamNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3485,8 +4232,8 @@ type DeleteTeamPayload {
   ): TeamsEdge
 }
 
-"""All input for the `deleteTeam` mutation."""
-input DeleteTeamInput {
+"""All input for the `deleteTeamByNodeId` mutation."""
+input DeleteTeamByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3499,8 +4246,8 @@ input DeleteTeamInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteTeamById` mutation."""
-input DeleteTeamByIdInput {
+"""All input for the `deleteTeam` mutation."""
+input DeleteTeamInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3519,7 +4266,7 @@ type DeleteTeamMemberPayload {
 
   """The `TeamMember` that was deleted by this mutation."""
   teamMember: TeamMember
-  deletedTeamMemberId: ID
+  deletedTeamMemberNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3527,10 +4274,10 @@ type DeleteTeamMemberPayload {
   query: Query
 
   """Reads a single `Player` that is related to this `TeamMember`."""
-  playerByPlayerId: Player
+  player: Player
 
   """Reads a single `Team` that is related to this `TeamMember`."""
-  teamByTeamId: Team
+  team: Team
 
   """An edge for our `TeamMember`. May be used by Relay 1."""
   teamMemberEdge(
@@ -3539,8 +4286,8 @@ type DeleteTeamMemberPayload {
   ): TeamMembersEdge
 }
 
-"""All input for the `deleteTeamMember` mutation."""
-input DeleteTeamMemberInput {
+"""All input for the `deleteTeamMemberByNodeId` mutation."""
+input DeleteTeamMemberByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3553,8 +4300,8 @@ input DeleteTeamMemberInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteTeamMemberByPlayerIdAndTeamId` mutation."""
-input DeleteTeamMemberByPlayerIdAndTeamIdInput {
+"""All input for the `deleteTeamMember` mutation."""
+input DeleteTeamMemberInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3574,7 +4321,7 @@ type DeleteTournamentPayload {
 
   """The `Tournament` that was deleted by this mutation."""
   tournament: Tournament
-  deletedTournamentId: ID
+  deletedTournamentNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3588,8 +4335,8 @@ type DeleteTournamentPayload {
   ): TournamentsEdge
 }
 
-"""All input for the `deleteTournament` mutation."""
-input DeleteTournamentInput {
+"""All input for the `deleteTournamentByNodeId` mutation."""
+input DeleteTournamentByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3602,8 +4349,8 @@ input DeleteTournamentInput {
   nodeId: ID!
 }
 
-"""All input for the `deleteTournamentById` mutation."""
-input DeleteTournamentByIdInput {
+"""All input for the `deleteTournament` mutation."""
+input DeleteTournamentInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3622,7 +4369,7 @@ type DeleteTournamentCoursePayload {
 
   """The `TournamentCourse` that was deleted by this mutation."""
   tournamentCourse: TournamentCourse
-  deletedTournamentCourseId: ID
+  deletedTournamentCourseNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3632,7 +4379,7 @@ type DeleteTournamentCoursePayload {
   """
   Reads a single `Tournament` that is related to this `TournamentCourse`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Course` that is related to this `TournamentCourse`."""
   courseByCourseName: Course
@@ -3644,8 +4391,8 @@ type DeleteTournamentCoursePayload {
   ): TournamentCoursesEdge
 }
 
-"""All input for the `deleteTournamentCourse` mutation."""
-input DeleteTournamentCourseInput {
+"""All input for the `deleteTournamentCourseByNodeId` mutation."""
+input DeleteTournamentCourseByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3658,10 +4405,8 @@ input DeleteTournamentCourseInput {
   nodeId: ID!
 }
 
-"""
-All input for the `deleteTournamentCourseByTournamentIdAndCourseName` mutation.
-"""
-input DeleteTournamentCourseByTournamentIdAndCourseNameInput {
+"""All input for the `deleteTournamentCourse` mutation."""
+input DeleteTournamentCourseInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3681,7 +4426,7 @@ type DeleteTournamentScorerPayload {
 
   """The `TournamentScorer` that was deleted by this mutation."""
   tournamentScorer: TournamentScorer
-  deletedTournamentScorerId: ID
+  deletedTournamentScorerNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -3691,10 +4436,10 @@ type DeleteTournamentScorerPayload {
   """
   Reads a single `Tournament` that is related to this `TournamentScorer`.
   """
-  tournamentByTournamentId: Tournament
+  tournament: Tournament
 
   """Reads a single `Scorer` that is related to this `TournamentScorer`."""
-  scorerByScorerId: Scorer
+  scorer: Scorer
 
   """An edge for our `TournamentScorer`. May be used by Relay 1."""
   tournamentScorerEdge(
@@ -3703,8 +4448,8 @@ type DeleteTournamentScorerPayload {
   ): TournamentScorersEdge
 }
 
-"""All input for the `deleteTournamentScorer` mutation."""
-input DeleteTournamentScorerInput {
+"""All input for the `deleteTournamentScorerByNodeId` mutation."""
+input DeleteTournamentScorerByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3717,10 +4462,8 @@ input DeleteTournamentScorerInput {
   nodeId: ID!
 }
 
-"""
-All input for the `deleteTournamentScorerByTournamentIdAndScorerId` mutation.
-"""
-input DeleteTournamentScorerByTournamentIdAndScorerIdInput {
+"""All input for the `deleteTournamentScorer` mutation."""
+input DeleteTournamentScorerInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3771,7 +4514,7 @@ type Subscription {
   ): Node
 
   """Reads and enables pagination through a set of `Course`. (live)"""
-  allCourses(
+  courses(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3797,10 +4540,15 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: CourseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CourseFilter
   ): CoursesConnection
 
   """Reads and enables pagination through a set of `CourseHole`. (live)"""
-  allCourseHoles(
+  courseHoles(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3826,12 +4574,17 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: CourseHoleCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CourseHoleFilter
   ): CourseHolesConnection
 
   """
   Reads and enables pagination through a set of `ExtraStrokesPerHole`. (live)
   """
-  allExtraStrokesPerHoles(
+  extraStrokesPerHoles(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3857,10 +4610,15 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: ExtraStrokesPerHoleCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ExtraStrokesPerHoleFilter
   ): ExtraStrokesPerHolesConnection
 
   """Reads and enables pagination through a set of `HoleScore`. (live)"""
-  allHoleScores(
+  holeScores(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3886,10 +4644,15 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: HoleScoreCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HoleScoreFilter
   ): HoleScoresConnection
 
   """Reads and enables pagination through a set of `Player`. (live)"""
-  allPlayers(
+  players(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3915,10 +4678,15 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: PlayerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: PlayerFilter
   ): PlayersConnection
 
   """Reads and enables pagination through a set of `Scorer`. (live)"""
-  allScorers(
+  scorers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3944,10 +4712,15 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: ScorerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ScorerFilter
   ): ScorersConnection
 
   """Reads and enables pagination through a set of `Team`. (live)"""
-  allTeams(
+  teams(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3973,10 +4746,15 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TeamCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TeamFilter
   ): TeamsConnection
 
   """Reads and enables pagination through a set of `TeamMember`. (live)"""
-  allTeamMembers(
+  teamMembers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4002,10 +4780,15 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TeamMemberCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TeamMemberFilter
   ): TeamMembersConnection
 
   """Reads and enables pagination through a set of `Tournament`. (live)"""
-  allTournaments(
+  tournaments(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4031,12 +4814,17 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentFilter
   ): TournamentsConnection
 
   """
   Reads and enables pagination through a set of `TournamentCourse`. (live)
   """
-  allTournamentCourses(
+  tournamentCourses(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4062,12 +4850,17 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentCourseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentCourseFilter
   ): TournamentCoursesConnection
 
   """
   Reads and enables pagination through a set of `TournamentScorer`. (live)
   """
-  allTournamentScorers(
+  tournamentScorers(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4093,49 +4886,54 @@ type Subscription {
     A condition to be used in determining which values should be returned by the collection.
     """
     condition: TournamentScorerCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TournamentScorerFilter
   ): TournamentScorersConnection
 
   """ (live)"""
-  courseByName(name: String!): Course
+  course(name: String!): Course
 
   """ (live)"""
-  courseHoleByHoleNrAndCourseName(holeNr: BigInt!, courseName: String!): CourseHole
+  courseHole(holeNr: BigInt!, courseName: String!): CourseHole
 
   """ (live)"""
   courseHoleByHoleNrAndCourseNameAndHoleIndex(holeNr: BigInt!, courseName: String!, holeIndex: BigInt!): CourseHole
 
   """ (live)"""
-  holeScoreByScorerIdAndHoleNrAndCourseName(scorerId: UUID!, holeNr: BigInt!, courseName: String!): HoleScore
+  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!): HoleScore
 
   """ (live)"""
-  playerById(id: UUID!): Player
+  player(id: UUID!): Player
 
   """ (live)"""
-  scorerById(id: UUID!): Scorer
+  scorer(id: UUID!): Scorer
 
   """ (live)"""
-  teamById(id: UUID!): Team
+  team(id: UUID!): Team
 
   """ (live)"""
-  teamMemberByPlayerIdAndTeamId(playerId: UUID!, teamId: UUID!): TeamMember
+  teamMember(playerId: UUID!, teamId: UUID!): TeamMember
 
   """ (live)"""
-  tournamentById(id: UUID!): Tournament
+  tournament(id: UUID!): Tournament
 
   """ (live)"""
-  tournamentCourseByTournamentIdAndCourseName(tournamentId: UUID!, courseName: String!): TournamentCourse
+  tournamentCourse(tournamentId: UUID!, courseName: String!): TournamentCourse
 
   """ (live)"""
-  tournamentScorerByTournamentIdAndScorerId(tournamentId: UUID!, scorerId: UUID!): TournamentScorer
+  tournamentScorer(tournamentId: UUID!, scorerId: UUID!): TournamentScorer
 
   """Reads a single `Course` using its globally unique `ID`. (live)"""
-  course(
+  courseByNodeId(
     """The globally unique `ID` to be used in selecting a single `Course`."""
     nodeId: ID!
   ): Course
 
   """Reads a single `CourseHole` using its globally unique `ID`. (live)"""
-  courseHole(
+  courseHoleByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `CourseHole`.
     """
@@ -4143,31 +4941,31 @@ type Subscription {
   ): CourseHole
 
   """Reads a single `HoleScore` using its globally unique `ID`. (live)"""
-  holeScore(
+  holeScoreByNodeId(
     """The globally unique `ID` to be used in selecting a single `HoleScore`."""
     nodeId: ID!
   ): HoleScore
 
   """Reads a single `Player` using its globally unique `ID`. (live)"""
-  player(
+  playerByNodeId(
     """The globally unique `ID` to be used in selecting a single `Player`."""
     nodeId: ID!
   ): Player
 
   """Reads a single `Scorer` using its globally unique `ID`. (live)"""
-  scorer(
+  scorerByNodeId(
     """The globally unique `ID` to be used in selecting a single `Scorer`."""
     nodeId: ID!
   ): Scorer
 
   """Reads a single `Team` using its globally unique `ID`. (live)"""
-  team(
+  teamByNodeId(
     """The globally unique `ID` to be used in selecting a single `Team`."""
     nodeId: ID!
   ): Team
 
   """Reads a single `TeamMember` using its globally unique `ID`. (live)"""
-  teamMember(
+  teamMemberByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `TeamMember`.
     """
@@ -4175,7 +4973,7 @@ type Subscription {
   ): TeamMember
 
   """Reads a single `Tournament` using its globally unique `ID`. (live)"""
-  tournament(
+  tournamentByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `Tournament`.
     """
@@ -4185,7 +4983,7 @@ type Subscription {
   """
   Reads a single `TournamentCourse` using its globally unique `ID`. (live)
   """
-  tournamentCourse(
+  tournamentCourseByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `TournamentCourse`.
     """
@@ -4195,7 +4993,7 @@ type Subscription {
   """
   Reads a single `TournamentScorer` using its globally unique `ID`. (live)
   """
-  tournamentScorer(
+  tournamentScorerByNodeId(
     """
     The globally unique `ID` to be used in selecting a single `TournamentScorer`.
     """
