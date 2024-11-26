@@ -1,0 +1,21 @@
+
+* TODO Add the simplify plugin for simpler API
+
+https://github.com/graphile/pg-simplify-inflector
+
+* TODO Figure out why a Subscription, and a Query does not update eachother
+
+https://relay.dev/docs/guided-tour/updating-data/graphql-subscriptions/#refreshing-components-in-response-to-subscription-events
+
+Everything I've read from the documentation says this should work transparently!
+
+However, I have not been able to make it work, and that is annoying! The
+component is not getting re-rendered.
+
+Hence, give this another try at some point. Maybe this can be done in accordance with testing.
+
+It also means I have to figure out more how Relay actually works, and handles the internal data-representation.
+
+* TODO Look into how refreshing queries would work
+
+https://relay.dev/docs/guided-tour/refetching/refreshing-queries/
