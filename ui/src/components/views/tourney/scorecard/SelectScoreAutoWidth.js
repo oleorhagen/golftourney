@@ -90,6 +90,9 @@ export default function SelectScoreAutoWidth({
       onCompleted: (res) => {
         console.log(res);
       },
+      onError: (err) => {
+        console.log(`Error updating the holeScore: ${err}`);
+      },
       updater: (store, _data) => {
         // const payload = store.getRootField("createEntry");
         // const newEdge = payload.getLinkedRecord("entryEdge");
