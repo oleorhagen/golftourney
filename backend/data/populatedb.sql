@@ -270,11 +270,7 @@ values ((
   where
     name like 'Skjeberg%') , 'Borregaard');
 
--- insert into physical.course_hole (course_name, hole_nr, hole_index, par)
--- values
--- ('Gamle Fredrikstad', (copy physical.course_hole (hole_nr, hole_index, par ) from
--- 'gamle-fredrikstad.csv' delimiter ',' CSV HEADER))
--- ;
+-- Create Gamle Fredrikstad
 insert into physical.course_hole (
   course_name
   , hole_nr
@@ -472,6 +468,7 @@ values (
   , 4
   , 10);
 
+-- Create Borregaard
 insert into physical.course_hole (
   course_name
   , hole_nr
