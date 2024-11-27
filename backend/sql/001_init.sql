@@ -45,6 +45,23 @@ create table physical.tournament_scorer (
 
 create domain valid_handicap as int8 check (VALUE between -54 and 54);
 
+create table physical.scorecard (
+  id uuid default uuid_generate_v4 ()
+  , tournament_id uuid references physical.tournament (id) on delete cascade
+  , scorer_id uuid not null references physical.scorer (id) on delete cascade
+  , handicap valid_handicap not null
+  , course varchar(50) not null references physical.course (name) on delete cascade
+  , primary key (id)
+);
+
+create table physical.tournament_scorecard (
+  tournament_id uuid
+  , scorecard_id uuid
+  , primary key (tournament_id , scorecard_id)
+  , foreign key (tournament_id) references physical.tournament (id) on delete cascade
+  , foreign key (scorecard_id) references physical.scorecard (id) on delete cascade
+);
+
 create table physical.player (
   id uuid
   , handicap valid_handicap not null
@@ -85,11 +102,11 @@ create table physical.hole_score (
   , course_name varchar(50)
   , strokes int8 not null check (strokes > 0)
   , stamp timestamp default now()
-  , tournament_id uuid
-  , primary key (scorer_id , hole_nr , course_name)
+  , scorecard_id uuid
+  , primary key (scorer_id , hole_nr , course_name , scorecard_id)
   , foreign key (hole_nr , course_name) references physical.course_hole (hole_nr , course_name)
   , foreign key (scorer_id) references physical.scorer (id) on delete cascade
-  , foreign key (tournament_id) references physical.tournament (id)
+  , foreign key (scorecard_id) references physical.scorecard (id) on delete cascade
 );
 
 -- TODO - Does not show the team extra points atm
