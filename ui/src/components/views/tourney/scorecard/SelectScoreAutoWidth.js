@@ -23,7 +23,7 @@ const SelectScoreAutoWidthFragment = graphql`
     scorerId
     stamp
     strokes
-    tournamentId
+    scorecardId
   }
 `;
 
@@ -37,25 +37,7 @@ const SelectScoreAutoWidthMutation = graphql`
         scorerId
         stamp
         strokes
-        tournamentId
-        courseHoleByHoleNrAndCourseName {
-          courseName
-          holeIndex
-          holeNr
-          nodeId
-          par
-          holeScoresByHoleNrAndCourseName {
-            nodes {
-              courseName
-              holeNr
-              nodeId
-              scorerId
-              stamp
-              strokes
-              tournamentId
-            }
-          }
-        }
+        scorecardId
       }
     }
   }
@@ -73,25 +55,7 @@ const SelectScoreAutoWidthUpdateMutation = graphql`
         scorerId
         stamp
         strokes
-        tournamentId
-        courseHoleByHoleNrAndCourseName {
-          courseName
-          holeIndex
-          holeNr
-          nodeId
-          par
-          holeScoresByHoleNrAndCourseName {
-            nodes {
-              courseName
-              holeNr
-              nodeId
-              scorerId
-              stamp
-              strokes
-              tournamentId
-            }
-          }
-        }
+        scorecardId
       }
     }
   }
@@ -100,8 +64,8 @@ const SelectScoreAutoWidthUpdateMutation = graphql`
 const maxAcceptableScore = 12;
 
 export default function SelectScoreAutoWidth({
-  playerId,
-  tournamentId,
+  scorerId,
+  scorecardId,
   courseName,
   holeNr,
   hole,
@@ -116,16 +80,12 @@ export default function SelectScoreAutoWidth({
     const updateVariables = {
       holeScore: {
         patch: {
-          scorerId: playerId,
-          holeNr: holeNr,
-          courseName: courseName,
-          tournamentId: tournamentId /* TODO - optional */,
           strokes: event.target.value,
         },
-
-        scorerId: playerId,
+        scorerId: scorerId,
         holeNr: holeNr,
         courseName: courseName,
+        scorecardId: scorecardId,
       },
     };
 
@@ -134,15 +94,17 @@ export default function SelectScoreAutoWidth({
         ? updateVariables
         : {
             holeScore: {
-              scorerId: playerId,
+              scorerId: scorerId,
               holeNr: holeNr,
               courseName: courseName,
-              tournamentId: tournamentId /* TODO - optional */,
+              scorecardId: scorecardId,
               strokes: event.target.value,
             },
           },
       onCompleted: (res) => {
-        console.log(res);
+        console.log(
+          `successfully mutated the hole score: ${JSON.stringify(res)}`,
+        );
       },
       onError: (err) => {
         console.log(`Error updating the holeScore: ${err}`);

@@ -23,7 +23,7 @@ function PointScore({ par, hcp, score }) {
   );
 }
 
-const ScoreCardTable = ({ playerId, courseName, holes }) => {
+const ScoreCardTable = ({ scorerId, scorecardId, courseName, holes }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -53,10 +53,10 @@ const ScoreCardTable = ({ playerId, courseName, holes }) => {
               </TableCell>
               <TableCell align="right">
                 <SelectScoreAutoWidth
-                  playerId={playerId}
+                  scorerId={scorerId}
                   courseName={courseName}
                   holeNr={row.holeNr}
-                  tournamentId={"942b428e-2c9b-4f7a-9077-ea3cde99e184"}
+                  scorecardId={scorecardId}
                   hole={row.holeScoresByHoleNrAndCourseName?.nodes?.[0]}
                 />
               </TableCell>

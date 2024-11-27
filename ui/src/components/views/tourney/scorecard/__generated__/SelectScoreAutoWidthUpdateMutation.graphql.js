@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8924bc2d89bbbb60af39216f0a87f8c7>>
+ * @generated SignedSource<<a56a119ffa476ba8a6b43a911c3bdd08>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,56 +16,7 @@ var v0 = [
     "name": "holeScore"
   }
 ],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "courseName",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "holeNr",
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "nodeId",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "scorerId",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "stamp",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "strokes",
-  "storageKey": null
-},
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "tournamentId",
-  "storageKey": null
-},
-v8 = [
+v1 = [
   {
     "alias": null,
     "args": [
@@ -88,68 +39,53 @@ v8 = [
         "name": "holeScore",
         "plural": false,
         "selections": [
-          (v1/*: any*/),
-          (v2/*: any*/),
-          (v3/*: any*/),
-          (v4/*: any*/),
-          (v5/*: any*/),
-          (v6/*: any*/),
-          (v7/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "CourseHole",
-            "kind": "LinkedField",
-            "name": "courseHoleByHoleNrAndCourseName",
-            "plural": false,
-            "selections": [
-              (v1/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "holeIndex",
-                "storageKey": null
-              },
-              (v2/*: any*/),
-              (v3/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "par",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "HoleScoresConnection",
-                "kind": "LinkedField",
-                "name": "holeScoresByHoleNrAndCourseName",
-                "plural": false,
-                "selections": [
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "HoleScore",
-                    "kind": "LinkedField",
-                    "name": "nodes",
-                    "plural": true,
-                    "selections": [
-                      (v1/*: any*/),
-                      (v2/*: any*/),
-                      (v3/*: any*/),
-                      (v4/*: any*/),
-                      (v5/*: any*/),
-                      (v6/*: any*/),
-                      (v7/*: any*/)
-                    ],
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
+            "kind": "ScalarField",
+            "name": "courseName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "holeNr",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "nodeId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "scorerId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "stamp",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "strokes",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "scorecardId",
             "storageKey": null
           }
         ],
@@ -165,7 +101,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "SelectScoreAutoWidthUpdateMutation",
-    "selections": (v8/*: any*/),
+    "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -174,19 +110,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "SelectScoreAutoWidthUpdateMutation",
-    "selections": (v8/*: any*/)
+    "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "80043d21a50ca685cab41b4b7f1626b2",
+    "cacheID": "7b1112ac9acbc18a3ad7f17016605b9b",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthUpdateMutation(\n  $holeScore: UpdateHoleScoreInput!\n) {\n  updateHoleScore(input: $holeScore) {\n    holeScore {\n      courseName\n      holeNr\n      nodeId\n      scorerId\n      stamp\n      strokes\n      tournamentId\n      courseHoleByHoleNrAndCourseName {\n        courseName\n        holeIndex\n        holeNr\n        nodeId\n        par\n        holeScoresByHoleNrAndCourseName {\n          nodes {\n            courseName\n            holeNr\n            nodeId\n            scorerId\n            stamp\n            strokes\n            tournamentId\n          }\n        }\n      }\n    }\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthUpdateMutation(\n  $holeScore: UpdateHoleScoreInput!\n) {\n  updateHoleScore(input: $holeScore) {\n    holeScore {\n      courseName\n      holeNr\n      nodeId\n      scorerId\n      stamp\n      strokes\n      scorecardId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "2eef0b78659b11e3f9faf99be9895804";
+node.hash = "89d8b4a70db1e1cef77dab2ee43a9fc3";
 
 module.exports = node;

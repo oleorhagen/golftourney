@@ -270,6 +270,22 @@ values ((
   where
     name like 'Skjeberg%') , 'Borregaard');
 
+--
+--- Create the scorecards
+--
+insert into physical.scorecard (
+  tournament_id
+  , scorer_id
+  , handicap
+  , course_name)
+select
+  tournament_id
+  , scorer_id
+  , 20
+  , 'Skjeberg'
+from
+  physical.tournament_scorer;
+
 -- Create Gamle Fredrikstad
 insert into physical.course_hole (
   course_name
@@ -570,6 +586,7 @@ insert into physical.hole_score (
   course_name
   , scorer_id
   , hole_nr
+  , scorecard_id
   , strokes)
 values (
   'Borregaard'
@@ -580,115 +597,104 @@ values (
       physical.scorer
     natural join physical.player
   where
-    name like 'Ole P%') , 1 , 3) , ('Borregaard' , (
+    name like 'Ole P%') , 1 , (
     select
       id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole P%') , 2 , 4) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole P%') , 3 , 5) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole P%') , 4 , 5);
+    from physical.scorecard
+    where
+      scorer_id in (
+        select
+          id
+        from physical.scorer
+      natural join physical.player
+    where
+      name like 'Ole P%'))
+  , 3);
 
-insert into physical.hole_score (
-  course_name
-  , scorer_id
-  , hole_nr
-  , strokes)
-values (
-  'Borregaard'
-  , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole M%') , 1 , 3) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole M%') , 2 , 4) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole M%') , 3 , 5) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole M%') , 4 , 5) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole M%') , 5 , 7) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.player
-  where
-    name like 'Ole M%') , 6 , 10);
-
+-- insert into physical.hole_score (
+--   course_name
+--   , scorer_id
+--   , hole_nr
+--   , strokes)
+-- values (
+--   'Borregaard'
+--   , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.player
+--   where
+--     name like 'Ole M%') , 1 , 3) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.player
+--   where
+--     name like 'Ole M%') , 2 , 4) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.player
+--   where
+--     name like 'Ole M%') , 3 , 5) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.player
+--   where
+--     name like 'Ole M%') , 4 , 5) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.player
+--   where
+--     name like 'Ole M%') , 5 , 7) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.player
+--   where
+--     name like 'Ole M%') , 6 , 10);
 -- Team scores
-insert into physical.hole_score (
-  course_name
-  , scorer_id
-  , hole_nr
-  , strokes)
-values (
-  'Borregaard'
-  , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.team
-  where
-    name = 'H&M') , 1 , 5) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.team
-  where
-    name = 'H&M') , 2 , 5) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.team
-  where
-    name = 'J&O') , 1 , 5) , ('Borregaard' , (
-    select
-      id
-    from
-      physical.scorer
-    natural join physical.team
-  where
-    name = 'J&O') , 2 , 5);
-
+-- insert into physical.hole_score (
+--   course_name
+--   , scorer_id
+--   , hole_nr
+--   , strokes)
+-- values (
+--   'Borregaard'
+--   , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.team
+--   where
+--     name = 'H&M') , 1 , 5) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.team
+--   where
+--     name = 'H&M') , 2 , 5) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.team
+--   where
+--     name = 'J&O') , 1 , 5) , ('Borregaard' , (
+--     select
+--       id
+--     from
+--       physical.scorer
+--     natural join physical.team
+--   where
+--     name = 'J&O') , 2 , 5);

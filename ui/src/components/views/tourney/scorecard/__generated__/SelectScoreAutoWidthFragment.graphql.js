@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d83fb7592c5b55d814eb9564a10be28d>>
+ * @generated SignedSource<<5793884eb78c8967e73d65e6a3495346>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -60,7 +60,7 @@ var node = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "tournamentId",
+      "name": "scorecardId",
       "storageKey": null
     }
   ],
@@ -68,6 +68,6 @@ var node = {
   "abstractKey": null
 };
 
-node.hash = "0dae54fb9e6d154712a6f330f3345ad5";
+node.hash = "af324341f0718c811665338517c3706d";
 
 module.exports = node;

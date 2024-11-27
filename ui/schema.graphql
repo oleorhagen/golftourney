@@ -187,6 +187,40 @@ type Query implements Node {
     filter: PlayerFilter
   ): PlayersConnection
 
+  """Reads and enables pagination through a set of `Scorecard`."""
+  scorecards(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScorecardCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ScorecardFilter
+  ): ScorecardsConnection
+
   """Reads and enables pagination through a set of `Scorer`."""
   scorers(
     """Only read the first `n` values of the set."""
@@ -393,8 +427,9 @@ type Query implements Node {
   course(name: String!): Course
   courseHole(holeNr: BigInt!, courseName: String!): CourseHole
   courseHoleByHoleNrAndCourseNameAndHoleIndex(holeNr: BigInt!, courseName: String!, holeIndex: BigInt!): CourseHole
-  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!): HoleScore
+  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!, scorecardId: UUID!): HoleScore
   player(id: UUID!): Player
+  scorecard(id: UUID!): Scorecard
   scorer(id: UUID!): Scorer
   team(id: UUID!): Team
   teamMember(playerId: UUID!, teamId: UUID!): TeamMember
@@ -427,6 +462,12 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Player`."""
     nodeId: ID!
   ): Player
+
+  """Reads a single `Scorecard` using its globally unique `ID`."""
+  scorecardByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Scorecard`."""
+    nodeId: ID!
+  ): Scorecard
 
   """Reads a single `Scorer` using its globally unique `ID`."""
   scorerByNodeId(
@@ -541,6 +582,40 @@ type Course implements Node {
     """
     filter: TournamentCourseFilter
   ): TournamentCoursesConnection!
+
+  """Reads and enables pagination through a set of `Scorecard`."""
+  scorecardsByCourseName(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScorecardCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ScorecardFilter
+  ): ScorecardsConnection!
 
   """Reads and enables pagination through a set of `CourseHole`."""
   courseHolesByCourseName(
@@ -702,8 +777,8 @@ type Tournament implements Node {
     filter: TournamentScorerFilter
   ): TournamentScorersConnection!
 
-  """Reads and enables pagination through a set of `HoleScore`."""
-  holeScores(
+  """Reads and enables pagination through a set of `Scorecard`."""
+  scorecards(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -722,19 +797,19 @@ type Tournament implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `HoleScore`."""
-    orderBy: [HoleScoresOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: HoleScoreCondition
+    condition: ScorecardCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: HoleScoreFilter
-  ): HoleScoresConnection!
+    filter: ScorecardFilter
+  ): ScorecardsConnection!
 }
 
 """The day, does not include a time."""
@@ -1038,6 +1113,40 @@ type Scorer implements Node {
     filter: TournamentScorerFilter
   ): TournamentScorersConnection!
 
+  """Reads and enables pagination through a set of `Scorecard`."""
+  scorecards(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScorecardCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ScorecardFilter
+  ): ScorecardsConnection!
+
   """Reads a single `Player` that is related to this `Scorer`."""
   playerById: Player
 
@@ -1190,6 +1299,475 @@ input TournamentScorerFilter {
   not: TournamentScorerFilter
 }
 
+"""A connection to a list of `Scorecard` values."""
+type ScorecardsConnection {
+  """A list of `Scorecard` objects."""
+  nodes: [Scorecard!]!
+
+  """
+  A list of edges which contains the `Scorecard` and cursor to aid in pagination.
+  """
+  edges: [ScorecardsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Scorecard` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Scorecard implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  tournamentId: UUID
+  scorerId: UUID!
+  handicap: ValidHandicap!
+  courseName: String!
+
+  """Reads a single `Tournament` that is related to this `Scorecard`."""
+  tournament: Tournament
+
+  """Reads a single `Scorer` that is related to this `Scorecard`."""
+  scorer: Scorer
+
+  """Reads a single `Course` that is related to this `Scorecard`."""
+  courseByCourseName: Course
+
+  """Reads and enables pagination through a set of `HoleScore`."""
+  holeScores(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `HoleScore`."""
+    orderBy: [HoleScoresOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: HoleScoreCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HoleScoreFilter
+  ): HoleScoresConnection!
+}
+
+scalar ValidHandicap
+
+"""A connection to a list of `HoleScore` values."""
+type HoleScoresConnection {
+  """A list of `HoleScore` objects."""
+  nodes: [HoleScore!]!
+
+  """
+  A list of edges which contains the `HoleScore` and cursor to aid in pagination.
+  """
+  edges: [HoleScoresEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `HoleScore` you could get from the connection."""
+  totalCount: Int!
+}
+
+type HoleScore implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  scorerId: UUID!
+  holeNr: BigInt!
+  courseName: String!
+  strokes: BigInt!
+  stamp: Datetime
+  scorecardId: UUID!
+
+  """Reads a single `Scorer` that is related to this `HoleScore`."""
+  scorer: Scorer
+
+  """Reads a single `CourseHole` that is related to this `HoleScore`."""
+  courseHoleByHoleNrAndCourseName: CourseHole
+
+  """Reads a single `Scorecard` that is related to this `HoleScore`."""
+  scorecard: Scorecard
+}
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+type CourseHole implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  holeNr: BigInt!
+  courseName: String!
+  holeIndex: BigInt!
+  par: BigInt!
+
+  """Reads a single `Course` that is related to this `CourseHole`."""
+  courseByCourseName: Course
+
+  """Reads and enables pagination through a set of `HoleScore`."""
+  holeScoresByHoleNrAndCourseName(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `HoleScore`."""
+    orderBy: [HoleScoresOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: HoleScoreCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HoleScoreFilter
+  ): HoleScoresConnection!
+  extraStrokes(playerId: UUID!): BigInt
+}
+
+"""Methods to use when ordering `HoleScore`."""
+enum HoleScoresOrderBy {
+  NATURAL
+  SCORER_ID_ASC
+  SCORER_ID_DESC
+  HOLE_NR_ASC
+  HOLE_NR_DESC
+  COURSE_NAME_ASC
+  COURSE_NAME_DESC
+  STROKES_ASC
+  STROKES_DESC
+  STAMP_ASC
+  STAMP_DESC
+  SCORECARD_ID_ASC
+  SCORECARD_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `HoleScore` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input HoleScoreCondition {
+  """Checks for equality with the object’s `scorerId` field."""
+  scorerId: UUID
+
+  """Checks for equality with the object’s `holeNr` field."""
+  holeNr: BigInt
+
+  """Checks for equality with the object’s `courseName` field."""
+  courseName: String
+
+  """Checks for equality with the object’s `strokes` field."""
+  strokes: BigInt
+
+  """Checks for equality with the object’s `stamp` field."""
+  stamp: Datetime
+
+  """Checks for equality with the object’s `scorecardId` field."""
+  scorecardId: UUID
+}
+
+"""
+A filter to be used against `HoleScore` object types. All fields are combined with a logical ‘and.’
+"""
+input HoleScoreFilter {
+  """Filter by the object’s `scorerId` field."""
+  scorerId: UUIDFilter
+
+  """Filter by the object’s `holeNr` field."""
+  holeNr: BigIntFilter
+
+  """Filter by the object’s `courseName` field."""
+  courseName: StringFilter
+
+  """Filter by the object’s `strokes` field."""
+  strokes: BigIntFilter
+
+  """Filter by the object’s `stamp` field."""
+  stamp: DatetimeFilter
+
+  """Filter by the object’s `scorecardId` field."""
+  scorecardId: UUIDFilter
+
+  """Checks for all expressions in this list."""
+  and: [HoleScoreFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [HoleScoreFilter!]
+
+  """Negates the expression."""
+  not: HoleScoreFilter
+}
+
+"""
+A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’
+"""
+input BigIntFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: BigInt
+
+  """Not equal to the specified value."""
+  notEqualTo: BigInt
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: BigInt
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: BigInt
+
+  """Included in the specified list."""
+  in: [BigInt!]
+
+  """Not included in the specified list."""
+  notIn: [BigInt!]
+
+  """Less than the specified value."""
+  lessThan: BigInt
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: BigInt
+
+  """Greater than the specified value."""
+  greaterThan: BigInt
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: BigInt
+}
+
+"""
+A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
+"""
+input DatetimeFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Datetime
+
+  """Not equal to the specified value."""
+  notEqualTo: Datetime
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Datetime
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Datetime
+
+  """Included in the specified list."""
+  in: [Datetime!]
+
+  """Not included in the specified list."""
+  notIn: [Datetime!]
+
+  """Less than the specified value."""
+  lessThan: Datetime
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Datetime
+
+  """Greater than the specified value."""
+  greaterThan: Datetime
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Datetime
+}
+
+"""A `HoleScore` edge in the connection."""
+type HoleScoresEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `HoleScore` at the end of the edge."""
+  node: HoleScore!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""A `Scorecard` edge in the connection."""
+type ScorecardsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Scorecard` at the end of the edge."""
+  node: Scorecard!
+}
+
+"""Methods to use when ordering `Scorecard`."""
+enum ScorecardsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  TOURNAMENT_ID_ASC
+  TOURNAMENT_ID_DESC
+  SCORER_ID_ASC
+  SCORER_ID_DESC
+  HANDICAP_ASC
+  HANDICAP_DESC
+  COURSE_NAME_ASC
+  COURSE_NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Scorecard` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input ScorecardCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `tournamentId` field."""
+  tournamentId: UUID
+
+  """Checks for equality with the object’s `scorerId` field."""
+  scorerId: UUID
+
+  """Checks for equality with the object’s `handicap` field."""
+  handicap: ValidHandicap
+
+  """Checks for equality with the object’s `courseName` field."""
+  courseName: String
+}
+
+"""
+A filter to be used against `Scorecard` object types. All fields are combined with a logical ‘and.’
+"""
+input ScorecardFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `tournamentId` field."""
+  tournamentId: UUIDFilter
+
+  """Filter by the object’s `scorerId` field."""
+  scorerId: UUIDFilter
+
+  """Filter by the object’s `handicap` field."""
+  handicap: ValidHandicapFilter
+
+  """Filter by the object’s `courseName` field."""
+  courseName: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [ScorecardFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ScorecardFilter!]
+
+  """Negates the expression."""
+  not: ScorecardFilter
+}
+
+"""
+A filter to be used against ValidHandicap fields. All fields are combined with a logical ‘and.’
+"""
+input ValidHandicapFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: ValidHandicap
+
+  """Not equal to the specified value."""
+  notEqualTo: ValidHandicap
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: ValidHandicap
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: ValidHandicap
+
+  """Included in the specified list."""
+  in: [ValidHandicap!]
+
+  """Not included in the specified list."""
+  notIn: [ValidHandicap!]
+
+  """Less than the specified value."""
+  lessThan: ValidHandicap
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: ValidHandicap
+
+  """Greater than the specified value."""
+  greaterThan: ValidHandicap
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: ValidHandicap
+}
+
 type Player implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -1235,8 +1813,6 @@ type Player implements Node {
     filter: TeamMemberFilter
   ): TeamMembersConnection!
 }
-
-scalar ValidHandicap
 
 """A connection to a list of `TeamMember` values."""
 type TeamMembersConnection {
@@ -1367,21 +1943,6 @@ type TeamMembersEdge {
   node: TeamMember!
 }
 
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: Cursor
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: Cursor
-}
-
 """A connection to a list of `Player` values."""
 type PlayersConnection {
   """A list of `Player` objects."""
@@ -1450,48 +2011,6 @@ input PlayerFilter {
   not: PlayerFilter
 }
 
-"""
-A filter to be used against ValidHandicap fields. All fields are combined with a logical ‘and.’
-"""
-input ValidHandicapFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: ValidHandicap
-
-  """Not equal to the specified value."""
-  notEqualTo: ValidHandicap
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: ValidHandicap
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: ValidHandicap
-
-  """Included in the specified list."""
-  in: [ValidHandicap!]
-
-  """Not included in the specified list."""
-  notIn: [ValidHandicap!]
-
-  """Less than the specified value."""
-  lessThan: ValidHandicap
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: ValidHandicap
-
-  """Greater than the specified value."""
-  greaterThan: ValidHandicap
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: ValidHandicap
-}
-
 """A connection to a list of `Team` values."""
 type TeamsConnection {
   """A list of `Team` objects."""
@@ -1550,268 +2069,6 @@ input TeamFilter {
 
   """Negates the expression."""
   not: TeamFilter
-}
-
-"""A connection to a list of `HoleScore` values."""
-type HoleScoresConnection {
-  """A list of `HoleScore` objects."""
-  nodes: [HoleScore!]!
-
-  """
-  A list of edges which contains the `HoleScore` and cursor to aid in pagination.
-  """
-  edges: [HoleScoresEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `HoleScore` you could get from the connection."""
-  totalCount: Int!
-}
-
-type HoleScore implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  scorerId: UUID!
-  holeNr: BigInt!
-  courseName: String!
-  strokes: BigInt!
-  stamp: Datetime
-  tournamentId: UUID
-
-  """Reads a single `Scorer` that is related to this `HoleScore`."""
-  scorer: Scorer
-
-  """Reads a single `CourseHole` that is related to this `HoleScore`."""
-  courseHoleByHoleNrAndCourseName: CourseHole
-
-  """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournament: Tournament
-}
-
-"""
-A point in time as described by the [ISO
-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
-"""
-scalar Datetime
-
-type CourseHole implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  holeNr: BigInt!
-  courseName: String!
-  holeIndex: BigInt!
-  par: BigInt!
-
-  """Reads a single `Course` that is related to this `CourseHole`."""
-  courseByCourseName: Course
-
-  """Reads and enables pagination through a set of `HoleScore`."""
-  holeScoresByHoleNrAndCourseName(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `HoleScore`."""
-    orderBy: [HoleScoresOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: HoleScoreCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: HoleScoreFilter
-  ): HoleScoresConnection!
-  extraStrokes(playerId: UUID!): BigInt
-}
-
-"""Methods to use when ordering `HoleScore`."""
-enum HoleScoresOrderBy {
-  NATURAL
-  SCORER_ID_ASC
-  SCORER_ID_DESC
-  HOLE_NR_ASC
-  HOLE_NR_DESC
-  COURSE_NAME_ASC
-  COURSE_NAME_DESC
-  STROKES_ASC
-  STROKES_DESC
-  STAMP_ASC
-  STAMP_DESC
-  TOURNAMENT_ID_ASC
-  TOURNAMENT_ID_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `HoleScore` object types. All fields are tested
-for equality and combined with a logical ‘and.’
-"""
-input HoleScoreCondition {
-  """Checks for equality with the object’s `scorerId` field."""
-  scorerId: UUID
-
-  """Checks for equality with the object’s `holeNr` field."""
-  holeNr: BigInt
-
-  """Checks for equality with the object’s `courseName` field."""
-  courseName: String
-
-  """Checks for equality with the object’s `strokes` field."""
-  strokes: BigInt
-
-  """Checks for equality with the object’s `stamp` field."""
-  stamp: Datetime
-
-  """Checks for equality with the object’s `tournamentId` field."""
-  tournamentId: UUID
-}
-
-"""
-A filter to be used against `HoleScore` object types. All fields are combined with a logical ‘and.’
-"""
-input HoleScoreFilter {
-  """Filter by the object’s `scorerId` field."""
-  scorerId: UUIDFilter
-
-  """Filter by the object’s `holeNr` field."""
-  holeNr: BigIntFilter
-
-  """Filter by the object’s `courseName` field."""
-  courseName: StringFilter
-
-  """Filter by the object’s `strokes` field."""
-  strokes: BigIntFilter
-
-  """Filter by the object’s `stamp` field."""
-  stamp: DatetimeFilter
-
-  """Filter by the object’s `tournamentId` field."""
-  tournamentId: UUIDFilter
-
-  """Checks for all expressions in this list."""
-  and: [HoleScoreFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [HoleScoreFilter!]
-
-  """Negates the expression."""
-  not: HoleScoreFilter
-}
-
-"""
-A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’
-"""
-input BigIntFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: BigInt
-
-  """Not equal to the specified value."""
-  notEqualTo: BigInt
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: BigInt
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: BigInt
-
-  """Included in the specified list."""
-  in: [BigInt!]
-
-  """Not included in the specified list."""
-  notIn: [BigInt!]
-
-  """Less than the specified value."""
-  lessThan: BigInt
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: BigInt
-
-  """Greater than the specified value."""
-  greaterThan: BigInt
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: BigInt
-}
-
-"""
-A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
-"""
-input DatetimeFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: Datetime
-
-  """Not equal to the specified value."""
-  notEqualTo: Datetime
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: Datetime
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: Datetime
-
-  """Included in the specified list."""
-  in: [Datetime!]
-
-  """Not included in the specified list."""
-  notIn: [Datetime!]
-
-  """Less than the specified value."""
-  lessThan: Datetime
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: Datetime
-
-  """Greater than the specified value."""
-  greaterThan: Datetime
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: Datetime
-}
-
-"""A `HoleScore` edge in the connection."""
-type HoleScoresEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `HoleScore` at the end of the edge."""
-  node: HoleScore!
 }
 
 """A `TournamentScorer` edge in the connection."""
@@ -2359,6 +2616,14 @@ type Mutation {
     input: CreatePlayerInput!
   ): CreatePlayerPayload
 
+  """Creates a single `Scorecard`."""
+  createScorecard(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateScorecardInput!
+  ): CreateScorecardPayload
+
   """Creates a single `Scorer`."""
   createScorer(
     """
@@ -2480,6 +2745,22 @@ type Mutation {
     """
     input: UpdatePlayerInput!
   ): UpdatePlayerPayload
+
+  """Updates a single `Scorecard` using its globally unique id and a patch."""
+  updateScorecardByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScorecardByNodeIdInput!
+  ): UpdateScorecardPayload
+
+  """Updates a single `Scorecard` using a unique key and a patch."""
+  updateScorecard(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScorecardInput!
+  ): UpdateScorecardPayload
 
   """Updates a single `Scorer` using its globally unique id and a patch."""
   updateScorerByNodeId(
@@ -2656,6 +2937,22 @@ type Mutation {
     """
     input: DeletePlayerInput!
   ): DeletePlayerPayload
+
+  """Deletes a single `Scorecard` using its globally unique id."""
+  deleteScorecardByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScorecardByNodeIdInput!
+  ): DeleteScorecardPayload
+
+  """Deletes a single `Scorecard` using a unique key."""
+  deleteScorecard(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScorecardInput!
+  ): DeleteScorecardPayload
 
   """Deletes a single `Scorer` using its globally unique id."""
   deleteScorerByNodeId(
@@ -2865,8 +3162,8 @@ type CreateHoleScorePayload {
   """Reads a single `CourseHole` that is related to this `HoleScore`."""
   courseHoleByHoleNrAndCourseName: CourseHole
 
-  """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournament: Tournament
+  """Reads a single `Scorecard` that is related to this `HoleScore`."""
+  scorecard: Scorecard
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -2894,7 +3191,7 @@ input HoleScoreInput {
   courseName: String!
   strokes: BigInt!
   stamp: Datetime
-  tournamentId: UUID
+  scorecardId: UUID!
 }
 
 """The output of our create `Player` mutation."""
@@ -2939,6 +3236,59 @@ input CreatePlayerInput {
 input PlayerInput {
   id: UUID!
   handicap: ValidHandicap!
+}
+
+"""The output of our create `Scorecard` mutation."""
+type CreateScorecardPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Scorecard` that was created by this mutation."""
+  scorecard: Scorecard
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Tournament` that is related to this `Scorecard`."""
+  tournament: Tournament
+
+  """Reads a single `Scorer` that is related to this `Scorecard`."""
+  scorer: Scorer
+
+  """Reads a single `Course` that is related to this `Scorecard`."""
+  courseByCourseName: Course
+
+  """An edge for our `Scorecard`. May be used by Relay 1."""
+  scorecardEdge(
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScorecardsEdge
+}
+
+"""All input for the create `Scorecard` mutation."""
+input CreateScorecardInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Scorecard` to be created by this mutation."""
+  scorecard: ScorecardInput!
+}
+
+"""An input for mutations affecting `Scorecard`"""
+input ScorecardInput {
+  id: UUID
+  tournamentId: UUID
+  scorerId: UUID!
+  handicap: ValidHandicap!
+  courseName: String!
 }
 
 """The output of our create `Scorer` mutation."""
@@ -3391,8 +3741,8 @@ type UpdateHoleScorePayload {
   """Reads a single `CourseHole` that is related to this `HoleScore`."""
   courseHoleByHoleNrAndCourseName: CourseHole
 
-  """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournament: Tournament
+  """Reads a single `Scorecard` that is related to this `HoleScore`."""
+  scorecard: Scorecard
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -3429,7 +3779,7 @@ input HoleScorePatch {
   courseName: String
   strokes: BigInt
   stamp: Datetime
-  tournamentId: UUID
+  scorecardId: UUID
 }
 
 """All input for the `updateHoleScore` mutation."""
@@ -3447,6 +3797,7 @@ input UpdateHoleScoreInput {
   scorerId: UUID!
   holeNr: BigInt!
   courseName: String!
+  scorecardId: UUID!
 }
 
 """The output of our update `Player` mutation."""
@@ -3514,6 +3865,83 @@ input UpdatePlayerInput {
   An object where the defined keys will be set on the `Player` being updated.
   """
   patch: PlayerPatch!
+  id: UUID!
+}
+
+"""The output of our update `Scorecard` mutation."""
+type UpdateScorecardPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Scorecard` that was updated by this mutation."""
+  scorecard: Scorecard
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Tournament` that is related to this `Scorecard`."""
+  tournament: Tournament
+
+  """Reads a single `Scorer` that is related to this `Scorecard`."""
+  scorer: Scorer
+
+  """Reads a single `Course` that is related to this `Scorecard`."""
+  courseByCourseName: Course
+
+  """An edge for our `Scorecard`. May be used by Relay 1."""
+  scorecardEdge(
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScorecardsEdge
+}
+
+"""All input for the `updateScorecardByNodeId` mutation."""
+input UpdateScorecardByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Scorecard` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Scorecard` being updated.
+  """
+  patch: ScorecardPatch!
+}
+
+"""
+Represents an update to a `Scorecard`. Fields that are set will be updated.
+"""
+input ScorecardPatch {
+  id: UUID
+  tournamentId: UUID
+  scorerId: UUID
+  handicap: ValidHandicap
+  courseName: String
+}
+
+"""All input for the `updateScorecard` mutation."""
+input UpdateScorecardInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Scorecard` being updated.
+  """
+  patch: ScorecardPatch!
   id: UUID!
 }
 
@@ -4070,8 +4498,8 @@ type DeleteHoleScorePayload {
   """Reads a single `CourseHole` that is related to this `HoleScore`."""
   courseHoleByHoleNrAndCourseName: CourseHole
 
-  """Reads a single `Tournament` that is related to this `HoleScore`."""
-  tournament: Tournament
+  """Reads a single `Scorecard` that is related to this `HoleScore`."""
+  scorecard: Scorecard
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -4104,6 +4532,7 @@ input DeleteHoleScoreInput {
   scorerId: UUID!
   holeNr: BigInt!
   courseName: String!
+  scorecardId: UUID!
 }
 
 """The output of our delete `Player` mutation."""
@@ -4149,6 +4578,63 @@ input DeletePlayerByNodeIdInput {
 
 """All input for the `deletePlayer` mutation."""
 input DeletePlayerInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""The output of our delete `Scorecard` mutation."""
+type DeleteScorecardPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Scorecard` that was deleted by this mutation."""
+  scorecard: Scorecard
+  deletedScorecardNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Tournament` that is related to this `Scorecard`."""
+  tournament: Tournament
+
+  """Reads a single `Scorer` that is related to this `Scorecard`."""
+  scorer: Scorer
+
+  """Reads a single `Course` that is related to this `Scorecard`."""
+  courseByCourseName: Course
+
+  """An edge for our `Scorecard`. May be used by Relay 1."""
+  scorecardEdge(
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScorecardsEdge
+}
+
+"""All input for the `deleteScorecardByNodeId` mutation."""
+input DeleteScorecardByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Scorecard` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteScorecard` mutation."""
+input DeleteScorecardInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -4685,6 +5171,40 @@ type Subscription {
     filter: PlayerFilter
   ): PlayersConnection
 
+  """Reads and enables pagination through a set of `Scorecard`. (live)"""
+  scorecards(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Scorecard`."""
+    orderBy: [ScorecardsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScorecardCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ScorecardFilter
+  ): ScorecardsConnection
+
   """Reads and enables pagination through a set of `Scorer`. (live)"""
   scorers(
     """Only read the first `n` values of the set."""
@@ -4903,10 +5423,13 @@ type Subscription {
   courseHoleByHoleNrAndCourseNameAndHoleIndex(holeNr: BigInt!, courseName: String!, holeIndex: BigInt!): CourseHole
 
   """ (live)"""
-  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!): HoleScore
+  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!, scorecardId: UUID!): HoleScore
 
   """ (live)"""
   player(id: UUID!): Player
+
+  """ (live)"""
+  scorecard(id: UUID!): Scorecard
 
   """ (live)"""
   scorer(id: UUID!): Scorer
@@ -4951,6 +5474,12 @@ type Subscription {
     """The globally unique `ID` to be used in selecting a single `Player`."""
     nodeId: ID!
   ): Player
+
+  """Reads a single `Scorecard` using its globally unique `ID`. (live)"""
+  scorecardByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Scorecard`."""
+    nodeId: ID!
+  ): Scorecard
 
   """Reads a single `Scorer` using its globally unique `ID`. (live)"""
   scorerByNodeId(

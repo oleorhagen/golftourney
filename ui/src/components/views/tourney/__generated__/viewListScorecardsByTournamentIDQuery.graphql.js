@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9243939b0fa46018858be8a91588489d>>
+ * @generated SignedSource<<7942307424f4e89b208baf9382fbccd9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,14 +9,17 @@
 'use strict';
 
 var node = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "holeScore"
-  }
-],
-v1 = [
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "scorerId"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "tournamentId"
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -24,27 +27,39 @@ v1 = [
         "fields": [
           {
             "kind": "Variable",
-            "name": "holeScore",
-            "variableName": "holeScore"
+            "name": "scorerId",
+            "variableName": "scorerId"
+          },
+          {
+            "kind": "Variable",
+            "name": "tournamentId",
+            "variableName": "tournamentId"
           }
         ],
         "kind": "ObjectValue",
-        "name": "input"
+        "name": "condition"
       }
     ],
-    "concreteType": "CreateHoleScorePayload",
+    "concreteType": "ScorecardsConnection",
     "kind": "LinkedField",
-    "name": "createHoleScore",
+    "name": "scorecards",
     "plural": false,
     "selections": [
       {
         "alias": null,
         "args": null,
-        "concreteType": "HoleScore",
+        "concreteType": "Scorecard",
         "kind": "LinkedField",
-        "name": "holeScore",
-        "plural": false,
+        "name": "nodes",
+        "plural": true,
         "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -56,7 +71,7 @@ v1 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "holeNr",
+            "name": "handicap",
             "storageKey": null
           },
           {
@@ -77,21 +92,7 @@ v1 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "stamp",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "strokes",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "scorecardId",
+            "name": "tournamentId",
             "storageKey": null
           }
         ],
@@ -103,32 +104,38 @@ v1 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "SelectScoreAutoWidthMutation",
-    "selections": (v1/*: any*/),
-    "type": "Mutation",
+    "name": "viewListScorecardsByTournamentIDQuery",
+    "selections": (v2/*: any*/),
+    "type": "Query",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
     "kind": "Operation",
-    "name": "SelectScoreAutoWidthMutation",
-    "selections": (v1/*: any*/)
+    "name": "viewListScorecardsByTournamentIDQuery",
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "71d904d10ac48ae69bd085f00bf28598",
+    "cacheID": "feeb9a181c2cc65bca97effb7955e642",
     "id": null,
     "metadata": {},
-    "name": "SelectScoreAutoWidthMutation",
-    "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthMutation(\n  $holeScore: HoleScoreInput!\n) {\n  createHoleScore(input: {holeScore: $holeScore}) {\n    holeScore {\n      courseName\n      holeNr\n      nodeId\n      scorerId\n      stamp\n      strokes\n      scorecardId\n    }\n  }\n}\n"
+    "name": "viewListScorecardsByTournamentIDQuery",
+    "operationKind": "query",
+    "text": "query viewListScorecardsByTournamentIDQuery(\n  $tournamentId: UUID!\n  $scorerId: UUID!\n) {\n  scorecards(condition: {tournamentId: $tournamentId, scorerId: $scorerId}) {\n    nodes {\n      id\n      courseName\n      handicap\n      nodeId\n      scorerId\n      tournamentId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "51bcc6966bd86012562fc5d92c7c94c2";
+node.hash = "4f669806e977af8ec702e0ba53c23f82";
 
 module.exports = node;

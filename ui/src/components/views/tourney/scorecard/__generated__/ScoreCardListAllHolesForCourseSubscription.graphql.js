@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cd87e8e9590facfdf5265b2c3f00f8bd>>
+ * @generated SignedSource<<bb7969c98f91e8d90ae1fc4d1fc73830>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -246,7 +246,7 @@ return {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
-                                "name": "tournamentId",
+                                "name": "scorecardId",
                                 "storageKey": null
                               }
                             ],
@@ -270,12 +270,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "40602f29e20da744024fded01332f9fb",
+    "cacheID": "2d56d2bf7a9269b620b0d20450fe457e",
     "id": null,
     "metadata": {},
     "name": "ScoreCardListAllHolesForCourseSubscription",
     "operationKind": "subscription",
-    "text": "subscription ScoreCardListAllHolesForCourseSubscription(\n  $courseName: String!\n  $scorerId: UUID!\n) {\n  courses(condition: {name: $courseName}) {\n    nodes {\n      ...ScoreCardListAllHolesForCourseFragment\n      nodeId\n    }\n  }\n}\n\nfragment ScoreCardListAllHolesForCourseFragment on Course {\n  courseRating\n  name\n  nodeId\n  nrHoles\n  slope\n  courseHolesByCourseName {\n    nodes {\n      courseName\n      holeIndex\n      holeNr\n      nodeId\n      par\n      extraStrokes(playerId: $scorerId)\n      holeScoresByHoleNrAndCourseName(condition: {scorerId: $scorerId}) {\n        nodes {\n          ...SelectScoreAutoWidthFragment\n          nodeId\n        }\n      }\n    }\n  }\n}\n\nfragment SelectScoreAutoWidthFragment on HoleScore {\n  courseName\n  holeNr\n  nodeId\n  scorerId\n  stamp\n  strokes\n  tournamentId\n}\n"
+    "text": "subscription ScoreCardListAllHolesForCourseSubscription(\n  $courseName: String!\n  $scorerId: UUID!\n) {\n  courses(condition: {name: $courseName}) {\n    nodes {\n      ...ScoreCardListAllHolesForCourseFragment\n      nodeId\n    }\n  }\n}\n\nfragment ScoreCardListAllHolesForCourseFragment on Course {\n  courseRating\n  name\n  nodeId\n  nrHoles\n  slope\n  courseHolesByCourseName {\n    nodes {\n      courseName\n      holeIndex\n      holeNr\n      nodeId\n      par\n      extraStrokes(playerId: $scorerId)\n      holeScoresByHoleNrAndCourseName(condition: {scorerId: $scorerId}) {\n        nodes {\n          ...SelectScoreAutoWidthFragment\n          nodeId\n        }\n      }\n    }\n  }\n}\n\nfragment SelectScoreAutoWidthFragment on HoleScore {\n  courseName\n  holeNr\n  nodeId\n  scorerId\n  stamp\n  strokes\n  scorecardId\n}\n"
   }
 };
 })();

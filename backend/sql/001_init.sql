@@ -50,7 +50,7 @@ create table physical.scorecard (
   , tournament_id uuid references physical.tournament (id) on delete cascade
   , scorer_id uuid not null references physical.scorer (id) on delete cascade
   , handicap valid_handicap not null
-  , course varchar(50) not null references physical.course (name) on delete cascade
+  , course_name varchar(50) not null references physical.course (name) on delete cascade
   , primary key (id)
 );
 

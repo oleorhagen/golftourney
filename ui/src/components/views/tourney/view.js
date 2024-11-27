@@ -11,15 +11,21 @@ import ScoreCard from "./scorecard/ScoreCard";
 
 import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
-const ListAllCoursesQuery = graphql`
-  query viewCoursesByTournamentIdQuery($id: UUID!) {
-    tournament(id: $id) {
-      tournamentCourses {
-        nodes {
-          courseName
-          nodeId
-          tournamentId
-        }
+const ListAllScorecardsQuery = graphql`
+  query viewListScorecardsByTournamentIDQuery(
+    $tournamentId: UUID!
+    $scorerId: UUID!
+  ) {
+    scorecards(
+      condition: { tournamentId: $tournamentId, scorerId: $scorerId }
+    ) {
+      nodes {
+        id
+        courseName
+        handicap
+        nodeId
+        scorerId
+        tournamentId
       }
     }
   }
@@ -35,13 +41,12 @@ function ScheduleScoreCard(props) {
   const [hcp, setHcp] = useState(0);
 
   const data = useLazyLoadQuery(
-    ListAllCoursesQuery,
-    { id: props.tournamentId },
+    ListAllScorecardsQuery,
+    { tournamentId: props.tournamentId, scorerId: props.scorerId },
     { fetchPolicy: "network-only" },
   );
 
-  var courseNodes =
-    data?.tournament?.tournamentCourses?.nodes || [];
+  var courseNodes = data?.scorecards?.nodes || [];
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -75,7 +80,11 @@ function ScheduleScoreCard(props) {
             <CustomTabPanel value={value} index={i} key={i}>
               <div>
                 <Outlet
-                  context={{ courseName: courseNode.courseName, ...props }}
+                  context={{
+                    courseName: courseNode.courseName,
+                    scorecardId: courseNode.id,
+                    ...props,
+                  }}
                 />
               </div>
             </CustomTabPanel>
@@ -102,39 +111,13 @@ function CustomTabPanel(props) {
   );
 }
 
-// Inner component that reads the preloaded query results via `usePreloadedQuery()`.
-// This works as follows:
-// - If the query has completed, it returns the results of the query.
-// - If the query is still pending, it "suspends" (indicates to React that the
-//   component isn't ready to render yet). This will show the nearest <Suspense>
-//   fallback.
-// - If the query failed, it throws the failure error. For simplicity we aren't
-//   handling the failure case here.
-function TourneyApp(props) {
-  if (!props.playerId) {
-    return (
-      <Typography variant="h2">
-        No player Id given. This is a programming error
-      </Typography>
-    );
-  }
-  if (!props.tournamentId) {
-    return (
-      <Typography variant="h2">
-        No tournament Id given. This is a programming error
-      </Typography>
-    );
-  }
-  return <ScheduleScoreCard {...props} />;
-}
-
 function TourneyView(props) {
   const { playerId, tournamentId } = useOutletContext();
 
   return (
     <>
       <Typography variant="h2">Scorecards</Typography>
-      <TourneyApp playerId={playerId} tournamentId={tournamentId} />
+      <ScheduleScoreCard scorerId={playerId} tournamentId={tournamentId} />
     </>
   );
 }

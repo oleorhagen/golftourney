@@ -89,7 +89,11 @@ export const ScoreCard = (props) => {
 
   const config = useMemo(
     () => ({
-      variables: { scorerId: props.playerId, courseName: props.courseName },
+      variables: {
+        scorerId: props.scorerId,
+        courseName: props.courseName,
+        scorecardId: props.scorecardId,
+      },
 
       subscription: ListAllCoursesAndHolesSubscription,
       onNext: (res) => {
@@ -100,7 +104,7 @@ export const ScoreCard = (props) => {
         console.log("Completed!");
       },
       onError: (err) => {
-        console.log(`subscription onError: ${err}`);
+        console.log(`subscription onError: ${JSON.stringify(err)}`);
       },
     }),
     [props],
@@ -113,13 +117,14 @@ export const ScoreCard = (props) => {
     fragmentRef?.courses?.nodes?.[0] || null,
   );
 
-    const courseHoles = data?.courseHolesByCourseName?.nodes  || [];
+  const courseHoles = data?.courseHolesByCourseName?.nodes || [];
 
   return (
     <>
       <ScoreCardTable
-        playerId={props.playerId}
+        scorerId={props.scorerId}
         courseName={props.courseName}
+        scorecardId={props.scorecardId}
         holes={courseHoles}
       />
       <ScoreCardFooter />
