@@ -93,9 +93,6 @@ create table physical.course_hole (
   , unique (hole_nr , course_name , hole_index)
 );
 
---- TODO - Hole-score needs a scorecard, as a part of the primary key.
--- Otherwise I'm not able to add more scores to the same course, and not in another (optional tournament.).
--- Given that the primary key is what it is!
 create table physical.hole_score (
   scorer_id uuid
   , hole_nr int8
