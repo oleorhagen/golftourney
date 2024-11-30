@@ -114,6 +114,7 @@ create view postgraphile.extra_strokes_per_hole as (
       select
         t.team_id as team_id
         , c.name as course_name
+        -- The formula for extra strokes on the course
         , int8(round(t.handicap * c.slope / 113)) as extra_strokes_tot
       from
         postgraphile.team as t
