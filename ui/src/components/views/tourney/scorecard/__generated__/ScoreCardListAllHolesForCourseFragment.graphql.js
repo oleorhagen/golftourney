@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<051880d7357c801dd897c9583adb7d01>>
+ * @generated SignedSource<<eb738dcdb69f5e355284bc2df15f6c49>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,9 +15,18 @@ var v0 = {
   "kind": "ScalarField",
   "name": "nodeId",
   "storageKey": null
+},
+v1 = {
+  "kind": "Variable",
+  "name": "playerId",
+  "variableName": "scorerId"
 };
 return {
   "argumentDefinitions": [
+    {
+      "kind": "RootArgument",
+      "name": "scorecardId"
+    },
     {
       "kind": "RootArgument",
       "name": "scorerId"
@@ -104,14 +113,24 @@ return {
             {
               "alias": null,
               "args": [
-                {
-                  "kind": "Variable",
-                  "name": "playerId",
-                  "variableName": "scorerId"
-                }
+                (v1/*: any*/)
               ],
               "kind": "ScalarField",
               "name": "extraStrokes",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": [
+                (v1/*: any*/),
+                {
+                  "kind": "Variable",
+                  "name": "scorecardId",
+                  "variableName": "scorecardId"
+                }
+              ],
+              "kind": "ScalarField",
+              "name": "points",
               "storageKey": null
             },
             {
@@ -165,6 +184,6 @@ return {
 };
 })();
 
-node.hash = "8b8f9f00f2b71be8e84b58b72aead2d5";
+node.hash = "3d871987a02ccad43e80d0a56c5e91db";
 
 module.exports = node;

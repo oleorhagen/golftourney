@@ -239,7 +239,7 @@ stable strict;
 create or replace function physical.course_hole_points (
   hole physical.course_hole
   , player_id uuid
-  , scorcard_id uuid
+  , scorecard_id uuid
 )
   returns int8
   as $$

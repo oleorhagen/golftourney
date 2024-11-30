@@ -427,7 +427,7 @@ type Query implements Node {
   course(name: String!): Course
   courseHole(holeNr: BigInt!, courseName: String!): CourseHole
   courseHoleByHoleNrAndCourseNameAndHoleIndex(holeNr: BigInt!, courseName: String!, holeIndex: BigInt!): CourseHole
-  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!, scorecardId: UUID!): HoleScore
+  holeScore(scorerId: UUID!, scorecardId: UUID!, courseName: String!, holeNr: BigInt!): HoleScore
   player(id: UUID!): Player
   scorecard(id: UUID!): Scorecard
   scorer(id: UUID!): Scorer
@@ -1396,20 +1396,21 @@ type HoleScore implements Node {
   """
   nodeId: ID!
   scorerId: UUID!
-  holeNr: BigInt!
+  scorecardId: UUID!
   courseName: String!
+  holeNr: BigInt!
   strokes: BigInt!
   stamp: Datetime
-  scorecardId: UUID!
 
   """Reads a single `Scorer` that is related to this `HoleScore`."""
   scorer: Scorer
 
-  """Reads a single `CourseHole` that is related to this `HoleScore`."""
-  courseHoleByHoleNrAndCourseName: CourseHole
-
   """Reads a single `Scorecard` that is related to this `HoleScore`."""
   scorecard: Scorecard
+
+  """Reads a single `CourseHole` that is related to this `HoleScore`."""
+  courseHoleByHoleNrAndCourseName: CourseHole
+  points: BigInt
 }
 
 """
@@ -1465,6 +1466,7 @@ type CourseHole implements Node {
     filter: HoleScoreFilter
   ): HoleScoresConnection!
   extraStrokes(playerId: UUID!): BigInt
+  points(playerId: UUID!, scorecardId: UUID!): BigInt
 }
 
 """Methods to use when ordering `HoleScore`."""
@@ -1472,16 +1474,16 @@ enum HoleScoresOrderBy {
   NATURAL
   SCORER_ID_ASC
   SCORER_ID_DESC
-  HOLE_NR_ASC
-  HOLE_NR_DESC
+  SCORECARD_ID_ASC
+  SCORECARD_ID_DESC
   COURSE_NAME_ASC
   COURSE_NAME_DESC
+  HOLE_NR_ASC
+  HOLE_NR_DESC
   STROKES_ASC
   STROKES_DESC
   STAMP_ASC
   STAMP_DESC
-  SCORECARD_ID_ASC
-  SCORECARD_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1494,20 +1496,20 @@ input HoleScoreCondition {
   """Checks for equality with the object’s `scorerId` field."""
   scorerId: UUID
 
-  """Checks for equality with the object’s `holeNr` field."""
-  holeNr: BigInt
+  """Checks for equality with the object’s `scorecardId` field."""
+  scorecardId: UUID
 
   """Checks for equality with the object’s `courseName` field."""
   courseName: String
+
+  """Checks for equality with the object’s `holeNr` field."""
+  holeNr: BigInt
 
   """Checks for equality with the object’s `strokes` field."""
   strokes: BigInt
 
   """Checks for equality with the object’s `stamp` field."""
   stamp: Datetime
-
-  """Checks for equality with the object’s `scorecardId` field."""
-  scorecardId: UUID
 }
 
 """
@@ -1517,11 +1519,14 @@ input HoleScoreFilter {
   """Filter by the object’s `scorerId` field."""
   scorerId: UUIDFilter
 
-  """Filter by the object’s `holeNr` field."""
-  holeNr: BigIntFilter
+  """Filter by the object’s `scorecardId` field."""
+  scorecardId: UUIDFilter
 
   """Filter by the object’s `courseName` field."""
   courseName: StringFilter
+
+  """Filter by the object’s `holeNr` field."""
+  holeNr: BigIntFilter
 
   """Filter by the object’s `strokes` field."""
   strokes: BigIntFilter
@@ -1529,8 +1534,8 @@ input HoleScoreFilter {
   """Filter by the object’s `stamp` field."""
   stamp: DatetimeFilter
 
-  """Filter by the object’s `scorecardId` field."""
-  scorecardId: UUIDFilter
+  """Filter by the object’s `points` field."""
+  points: BigIntFilter
 
   """Checks for all expressions in this list."""
   and: [HoleScoreFilter!]
@@ -3159,11 +3164,11 @@ type CreateHoleScorePayload {
   """Reads a single `Scorer` that is related to this `HoleScore`."""
   scorer: Scorer
 
-  """Reads a single `CourseHole` that is related to this `HoleScore`."""
-  courseHoleByHoleNrAndCourseName: CourseHole
-
   """Reads a single `Scorecard` that is related to this `HoleScore`."""
   scorecard: Scorecard
+
+  """Reads a single `CourseHole` that is related to this `HoleScore`."""
+  courseHoleByHoleNrAndCourseName: CourseHole
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -3187,11 +3192,11 @@ input CreateHoleScoreInput {
 """An input for mutations affecting `HoleScore`"""
 input HoleScoreInput {
   scorerId: UUID!
-  holeNr: BigInt!
+  scorecardId: UUID!
   courseName: String!
+  holeNr: BigInt!
   strokes: BigInt!
   stamp: Datetime
-  scorecardId: UUID!
 }
 
 """The output of our create `Player` mutation."""
@@ -3738,11 +3743,11 @@ type UpdateHoleScorePayload {
   """Reads a single `Scorer` that is related to this `HoleScore`."""
   scorer: Scorer
 
-  """Reads a single `CourseHole` that is related to this `HoleScore`."""
-  courseHoleByHoleNrAndCourseName: CourseHole
-
   """Reads a single `Scorecard` that is related to this `HoleScore`."""
   scorecard: Scorecard
+
+  """Reads a single `CourseHole` that is related to this `HoleScore`."""
+  courseHoleByHoleNrAndCourseName: CourseHole
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -3775,11 +3780,11 @@ Represents an update to a `HoleScore`. Fields that are set will be updated.
 """
 input HoleScorePatch {
   scorerId: UUID
-  holeNr: BigInt
+  scorecardId: UUID
   courseName: String
+  holeNr: BigInt
   strokes: BigInt
   stamp: Datetime
-  scorecardId: UUID
 }
 
 """All input for the `updateHoleScore` mutation."""
@@ -3795,9 +3800,9 @@ input UpdateHoleScoreInput {
   """
   patch: HoleScorePatch!
   scorerId: UUID!
-  holeNr: BigInt!
-  courseName: String!
   scorecardId: UUID!
+  courseName: String!
+  holeNr: BigInt!
 }
 
 """The output of our update `Player` mutation."""
@@ -4495,11 +4500,11 @@ type DeleteHoleScorePayload {
   """Reads a single `Scorer` that is related to this `HoleScore`."""
   scorer: Scorer
 
-  """Reads a single `CourseHole` that is related to this `HoleScore`."""
-  courseHoleByHoleNrAndCourseName: CourseHole
-
   """Reads a single `Scorecard` that is related to this `HoleScore`."""
   scorecard: Scorecard
+
+  """Reads a single `CourseHole` that is related to this `HoleScore`."""
+  courseHoleByHoleNrAndCourseName: CourseHole
 
   """An edge for our `HoleScore`. May be used by Relay 1."""
   holeScoreEdge(
@@ -4530,9 +4535,9 @@ input DeleteHoleScoreInput {
   """
   clientMutationId: String
   scorerId: UUID!
-  holeNr: BigInt!
-  courseName: String!
   scorecardId: UUID!
+  courseName: String!
+  holeNr: BigInt!
 }
 
 """The output of our delete `Player` mutation."""
@@ -5423,7 +5428,7 @@ type Subscription {
   courseHoleByHoleNrAndCourseNameAndHoleIndex(holeNr: BigInt!, courseName: String!, holeIndex: BigInt!): CourseHole
 
   """ (live)"""
-  holeScore(scorerId: UUID!, holeNr: BigInt!, courseName: String!, scorecardId: UUID!): HoleScore
+  holeScore(scorerId: UUID!, scorecardId: UUID!, courseName: String!, holeNr: BigInt!): HoleScore
 
   """ (live)"""
   player(id: UUID!): Player

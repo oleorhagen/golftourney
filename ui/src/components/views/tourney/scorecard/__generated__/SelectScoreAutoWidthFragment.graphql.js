@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5793884eb78c8967e73d65e6a3495346>>
+ * @generated SignedSource<<0c9ca64e3f377fcd25e3bb0a5828d521>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -62,12 +62,19 @@ var node = {
       "kind": "ScalarField",
       "name": "scorecardId",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "points",
+      "storageKey": null
     }
   ],
   "type": "HoleScore",
   "abstractKey": null
 };
 
-node.hash = "af324341f0718c811665338517c3706d";
+node.hash = "589173559e82f8cfc009113a6237d86f";
 
 module.exports = node;

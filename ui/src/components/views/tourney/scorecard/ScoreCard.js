@@ -16,6 +16,7 @@ const ListAllCoursesAndHolesSubscription = graphql`
   subscription ScoreCardListAllHolesForCourseSubscription(
     $courseName: String!
     $scorerId: UUID!
+    $scorecardId: UUID!
   ) {
     courses(condition: { name: $courseName }) {
       nodes {
@@ -40,6 +41,7 @@ const ListAllCoursesAndHolesFragment = graphql`
         nodeId
         par
         extraStrokes(playerId: $scorerId)
+        points(playerId: $scorerId, scorecardId: $scorecardId)
         holeScoresByHoleNrAndCourseName(condition: { scorerId: $scorerId }) {
           nodes {
             ...SelectScoreAutoWidthFragment
