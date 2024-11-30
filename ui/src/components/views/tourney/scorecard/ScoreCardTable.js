@@ -15,7 +15,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-function PointScore({ par, hcp, score }) {
+function PointScore({ score }) {
   return (
     <div>
       <Typography variant="subtitle1">{score}</Typography>
@@ -61,7 +61,7 @@ const ScoreCardTable = ({ scorerId, scorecardId, courseName, holes }) => {
                 />
               </TableCell>
               <TableCell align="right">
-                <PointScore par={row.par} hcp={row.holeIndex} score={2} />
+                <PointScore score={2} />
               </TableCell>
             </TableRow>
           ))}
