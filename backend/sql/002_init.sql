@@ -41,7 +41,8 @@ group by
 
 create view postgraphile.team as (
   select
-    tm.team_id
+    s.id
+    , s.name
     , avg(handicap) as handicap
   from
     physical.team as t
@@ -49,7 +50,23 @@ create view postgraphile.team as (
   inner join physical.team_member as tm on s.id = tm.team_id
   inner join physical.player as p on p.id = player_id
 group by
-  tm.team_id);
+  s.id);
+
+-- Unify the scorer table, with all required data
+create view postgraphile.scorer as (
+  select
+    id
+    , name
+    , handicap
+  from
+    postgraphile.player
+  union
+  select
+    id
+    , name
+    , handicap
+  from
+    postgraphile.team);
 
 create view postgraphile.team_member as (
   select
