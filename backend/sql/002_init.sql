@@ -124,11 +124,13 @@ create view postgraphile.extra_strokes_per_hole as (
 --
 -- - Calculate the points per whole for a given number of strokes
 --
+--- TODO - Needs to work for teams also
 create view postgraphile.player_points_per_hole as (
   select
     hs.scorer_id
-    , hs.course_name
     , hs.hole_nr
+    , hs.course_name
+    , hs.scorecard_id
     , hs.strokes
     , extra_strokes
     , greatest (0 , par + extra_strokes - strokes + 2) as points
