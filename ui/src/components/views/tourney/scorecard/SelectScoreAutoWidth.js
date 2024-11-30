@@ -24,6 +24,7 @@ const SelectScoreAutoWidthFragment = graphql`
     stamp
     strokes
     scorecardId
+    points
   }
 `;
 
