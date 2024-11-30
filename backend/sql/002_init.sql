@@ -149,6 +149,7 @@ create view postgraphile.player_points_per_hole as (
     , hs.course_name
     , hs.scorecard_id
     , hs.strokes
+    , hs.stamp
     , extra_strokes
     , greatest (0 , par + extra_strokes - strokes + 2) as points
   from
