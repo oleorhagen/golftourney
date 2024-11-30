@@ -217,5 +217,23 @@ create view postgraphile.players_cumulative_scores as (
     , sum(points) over (partition by scorer_id order by course_name , hole_nr)
   from postgraphile.player_points_per_hole order by scorer_id);
 
+create or replace function physical.hole_score_points (
+  hole physical.hole_score
+)
+  returns int8
+  as $$
+  select
+    points
+  from
+    postgraphile.player_points_per_hole as ph
+  where
+    ph.scorer_id = hole.scorer_id
+    and ph.course_name = hole.course_name
+    and ph.scorecard_id = hole.scorecard_id
+    and ph.hole_nr = hole.hole_nr
+$$
+language sql
+stable strict;
+
 grant select on all tables in schema postgraphile to postgraphile;
 
