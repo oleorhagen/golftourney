@@ -95,12 +95,12 @@ create table physical.course_hole (
 
 create table physical.hole_score (
   scorer_id uuid
-  , hole_nr int8
-  , course_name varchar(50)
   , scorecard_id uuid
+  , course_name varchar(50)
+  , hole_nr int8
   , strokes int8 not null check (strokes > 0)
   , stamp timestamp default now()
-  , primary key (scorer_id , hole_nr , course_name , scorecard_id)
+  , primary key (scorer_id , scorecard_id , course_name , hole_nr)
   , foreign key (hole_nr , course_name) references physical.course_hole (hole_nr , course_name)
   , foreign key (scorer_id) references physical.scorer (id) on delete cascade
   , foreign key (scorecard_id) references physical.scorecard (id) on delete cascade
