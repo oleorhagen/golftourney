@@ -235,5 +235,26 @@ $$
 language sql
 stable strict;
 
+-- Returns the points for a hole, given a hole and player_id, and scorecard_id
+create or replace function physical.course_hole_points (
+  hole physical.course_hole
+  , player_id uuid
+  , scorcard_id uuid
+)
+  returns int8
+  as $$
+  select
+    points
+  from
+    postgraphile.player_points_per_hole as ph
+  where
+    ph.scorer_id = scorer_id
+    and ph.scorecard_id = scorecard_id
+    and ph.course_name = hole.course_name
+    and ph.hole_nr = hole.hole_nr
+$$
+language sql
+stable strict;
+
 grant select on all tables in schema postgraphile to postgraphile;
 
