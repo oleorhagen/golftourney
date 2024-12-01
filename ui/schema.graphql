@@ -436,6 +436,30 @@ type Query implements Node {
   tournament(id: UUID!): Tournament
   tournamentCourse(tournamentId: UUID!, courseName: String!): TournamentCourse
   tournamentScorer(tournamentId: UUID!, scorerId: UUID!): TournamentScorer
+  statistics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: StatisticsRecordFilter
+  ): StatisticsConnection
 
   """Reads a single `Course` using its globally unique `ID`."""
   courseByNodeId(
@@ -1817,6 +1841,7 @@ type Player implements Node {
     """
     filter: TeamMemberFilter
   ): TeamMembersConnection!
+  points: BigInt
 }
 
 """A connection to a list of `TeamMember` values."""
@@ -2005,6 +2030,9 @@ input PlayerFilter {
 
   """Filter by the object’s `handicap` field."""
   handicap: ValidHandicapFilter
+
+  """Filter by the object’s `points` field."""
+  points: BigIntFilter
 
   """Checks for all expressions in this list."""
   and: [PlayerFilter!]
@@ -2583,6 +2611,69 @@ input DateFilter {
 
   """Greater than or equal to the specified value."""
   greaterThanOrEqualTo: Date
+}
+
+"""A connection to a list of `StatisticsRecord` values."""
+type StatisticsConnection {
+  """A list of `StatisticsRecord` objects."""
+  nodes: [StatisticsRecord!]!
+
+  """
+  A list of edges which contains the `StatisticsRecord` and cursor to aid in pagination.
+  """
+  edges: [StatisticEdge!]!
+
+  """
+  The count of *all* `StatisticsRecord` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""The return type of our `statistics` query."""
+type StatisticsRecord {
+  scorerId: UUID
+  tournamentId: UUID
+  expectedPoints: BigInt
+  totalPoints: BigInt
+  playerPar: BigInt
+}
+
+"""A `StatisticsRecord` edge in the connection."""
+type StatisticEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `StatisticsRecord` at the end of the edge."""
+  node: StatisticsRecord!
+}
+
+"""
+A filter to be used against `StatisticsRecord` object types. All fields are combined with a logical ‘and.’
+"""
+input StatisticsRecordFilter {
+  """Filter by the object’s `scorerId` field."""
+  scorerId: UUIDFilter
+
+  """Filter by the object’s `tournamentId` field."""
+  tournamentId: UUIDFilter
+
+  """Filter by the object’s `expectedPoints` field."""
+  expectedPoints: BigIntFilter
+
+  """Filter by the object’s `totalPoints` field."""
+  totalPoints: BigIntFilter
+
+  """Filter by the object’s `playerPar` field."""
+  playerPar: BigIntFilter
+
+  """Checks for all expressions in this list."""
+  and: [StatisticsRecordFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [StatisticsRecordFilter!]
+
+  """Negates the expression."""
+  not: StatisticsRecordFilter
 }
 
 """
@@ -5453,6 +5544,32 @@ type Subscription {
 
   """ (live)"""
   tournamentScorer(tournamentId: UUID!, scorerId: UUID!): TournamentScorer
+
+  """ (live)"""
+  statistics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: StatisticsRecordFilter
+  ): StatisticsConnection
 
   """Reads a single `Course` using its globally unique `ID`. (live)"""
   courseByNodeId(

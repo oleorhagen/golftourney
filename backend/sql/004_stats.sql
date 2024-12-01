@@ -45,5 +45,45 @@ create view statistics.player_points as (
       postgraphile.player_points_per_hole as ph
       inner join physical.scorecard as s on s.scorer_id = ph.scorer_id));
 
+-- Add a function to generate a column for a player in the physical schema the
+-- UI is consuming
+-- TODO - it needs to have the team points added
+create or replace function physical.player_par (
+  _player physical.player
+)
+  returns int8
+  as $$
+  select
+    player_par
+  from
+    statistics.player_points as pp
+  where
+    pp.scorer_id = _player.id
+$$
+language sql
+stable strict;
+
+-- A function which is used as a custom query in the GraphQL API
+create or replace function physical.statistics ()
+  returns table (
+      scorer_id uuid
+      , tournament_id uuid
+      , expected_points int8
+      , total_points int8
+      , player_par int8
+    )
+    as $$
+  select
+    scorer_id
+    , tournament_id
+    , expected_points
+    , total_points
+    , player_par
+  from
+    statistics.player_points
+$$
+language sql
+stable strict;
+
 grant select on all tables in schema statistics to statistics;
 
