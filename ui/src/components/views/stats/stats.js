@@ -105,7 +105,7 @@ const ScoreChart = memo(function ScoreChart({ data }) {
           type="monotone"
           dataKey="expectedPoints"
           stroke="#8884d8"
-          // activeDot={{ r: 8 }}
+          activeDot={{ r: 8 }}
         />
         // <Line type="monotone" dataKey="totalPoints" stroke="#82ca9d" />
       </LineChart>
@@ -139,8 +139,7 @@ const ScoreParChart = memo(function ScoreParChart({ data }) {
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis
           type="number"
-          domain={["dataMin - 2", "dataMax + 2"]}
-          minTickGap={1}
+          domain={["dataMin - 1", "dataMax + 1"]}
           tick={true}
           scale={"linear"}
         />
@@ -151,7 +150,7 @@ const ScoreParChart = memo(function ScoreParChart({ data }) {
           type="basic"
           dataKey="playerPar"
           stroke="#8884d8"
-          // activeDot={{ r: 8 }}
+          activeDot={{ r: 8 }}
         />
         <ReferenceLine
           x={0}
