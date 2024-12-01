@@ -112,6 +112,45 @@ const ScoreChart = memo(function ScoreChart({ data }) {
   );
 });
 
+const renderScoreParchartLegend = (value, entry) => {
+  return <span>Score</span>;
+};
+
+const ScoreParChart = memo(function ScoreParChart({ data }) {
+  return (
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      minHeight="40vh"
+      minWidth="40vw"
+    >
+      <LineChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <YAxis type="number" domain={["dataMin - 2", "dataMax + 2"]} />
+        <XAxis />
+        <Tooltip />
+        <Legend formatter={renderScoreParchartLegend} />
+        <Line
+          type="monotone"
+          dataKey="playerPar"
+          stroke="#8884d8"
+          // activeDot={{ r: 8 }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+});
+
 export default function PlayerScoreChart(props) {
   const data = useLazyLoadQuery(
     GetStatisticsQuery,
@@ -126,5 +165,10 @@ export default function PlayerScoreChart(props) {
     return <h1>Loading...</h1>;
   }
 
-  return <ScoreChart data={data?.statistics.nodes} />;
+  return (
+    <>
+      <ScoreChart data={data.statistics.nodes} />
+      <ScoreParChart data={data.statistics.nodes} />
+    </>
+  );
 }
