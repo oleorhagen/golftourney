@@ -29,15 +29,13 @@ create view postgraphile.player as (
   select
     id
     , name
-    , sum(strokes)
+    , handicap
   from
     physical.scorer as s
   natural join physical.player
   natural join physical.hole_score as hs
 where
-  s.id = hs.scorer_id
-group by
-  id);
+  s.id = hs.scorer_id);
 
 create view postgraphile.team as (
   select
@@ -93,52 +91,6 @@ create view postgraphile.hole_score as (
     physical.hole_score);
 
 --
--- - Distribute the extra strokes over the holes
---
--- - The number of extra strokes per hole, per player, or team
---
-create view postgraphile.extra_strokes_per_hole as (
-  select
-    ch.hole_nr
-    , ch.course_name
-    , ch.hole_index
-    , ch.par
-    , p.player_id
-    , (p.extra_strokes_tot / c.nr_holes) + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index)) / c.nr_holes as extra_strokes -- (+17) Normalize to (0,1)
-  from
-    physical.course_hole as ch
-    inner join (
-      select
-        s.id as player_id
-        , c.name as course_name
-        , int8(round(p.handicap * c.slope / 113)) as extra_strokes_tot
-      from
-        physical.scorer as s
-        inner join physical.player as p on s.id = p.id
-        , physical.course as c) as p on ch.course_name = p.course_name
-      inner join physical.course as c on ch.course_name = c.name
-  union
-  select
-    ch.hole_nr
-    , ch.course_name
-    , ch.hole_index
-    , ch.par
-    , p.team_id as player_id
-    , (p.extra_strokes_tot / c.nr_holes) + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index)) / c.nr_holes as extra_strokes -- (+17) Normalize to (0,1)
-  from
-    physical.course_hole as ch
-    inner join (
-      select
-        t.team_id as team_id
-        , c.name as course_name
-        -- The formula for extra strokes on the course
-        , int8(round(t.handicap * c.slope / 113)) as extra_strokes_tot
-      from
-        postgraphile.team as t
-        , physical.course as c) as p on ch.course_name = p.course_name
-      inner join physical.course as c on ch.course_name = c.name);
-
---
 -- - Calculate the points per whole for a given number of strokes
 --
 --- TODO - Needs to work for teams also
@@ -154,7 +106,7 @@ create view postgraphile.player_points_per_hole as (
     , greatest (0 , par + extra_strokes - strokes + 2) as points
   from
     physical.hole_score as hs
-    inner join postgraphile.extra_strokes_per_hole as es on hs.hole_nr = es.hole_nr
+    inner join physical.extra_strokes_per_hole as es on hs.hole_nr = es.hole_nr
       and hs.course_name = es.course_name
       and hs.scorer_id = es.player_id);
 
@@ -227,14 +179,8 @@ create view postgraphile.player_total_points as (
       inner join physical.team_member as tm on p.id = tm.player_id
       inner join postgraphile.player_points pp on tm.team_id = pp.scorer_id) as team_points on s.id = team_points.id);
 
--- - Calculate the cumulative sum of points for the graph
--- - TODO - Need the created at time for this (!)
-create view postgraphile.players_cumulative_scores as (
-  select
-    scorer_id
-    , sum(points) over (partition by scorer_id order by course_name , hole_nr)
-  from postgraphile.player_points_per_hole order by scorer_id);
-
+-- Function which calculates the points for a player per hole given a hole_score
+-- entry (which has all the data we need for this)
 create or replace function physical.hole_score_points (
   hole physical.hole_score
 )
