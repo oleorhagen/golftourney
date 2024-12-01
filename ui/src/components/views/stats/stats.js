@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts";
 
 import graphql from "babel-plugin-relay/macro";
@@ -96,8 +97,8 @@ const ScoreChart = memo(function ScoreChart({ data }) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="expectedPoints" />
         <YAxis />
+        <XAxis dataKey="expectedPoints" />
         <Tooltip />
         <Legend />
         <Line
@@ -136,15 +137,28 @@ const ScoreParChart = memo(function ScoreParChart({ data }) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <YAxis type="number" domain={["dataMin - 2", "dataMax + 2"]} />
+        <YAxis
+          type="number"
+          domain={["dataMin - 2", "dataMax + 2"]}
+          minTickGap={1}
+          tick={true}
+          scale={"linear"}
+        />
         <XAxis />
         <Tooltip />
         <Legend formatter={renderScoreParchartLegend} />
         <Line
-          type="monotone"
+          type="basic"
           dataKey="playerPar"
           stroke="#8884d8"
           // activeDot={{ r: 8 }}
+        />
+        <ReferenceLine
+          x={0}
+          y={0}
+          label="Par"
+          stroke="red"
+          strokeDasharray="3 3"
         />
       </LineChart>
     </ResponsiveContainer>
