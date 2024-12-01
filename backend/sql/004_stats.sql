@@ -12,6 +12,8 @@ grant all privileges on all tables in schema statistics to statistics;
 --
 --- Statistics for all players
 --
+--- Showing stddev, and the average points per hole
+--
 create view statistics.player as (
   select
     scorer_id
@@ -26,35 +28,22 @@ create view statistics.player as (
 group by
   scorer_id , par);
 
--- Add the cumulative of a players score
-create or replace function statistics.cumulative_score (
-  _tournament_id uuid
-)
-  returns table (
-      scorer_id uuid
-      , score int8
-    )
-    as $$
+create view statistics.player_points as (
   select
     scorer_id
-    , sum(points) over (partition by scorer_id order by stamp asc)
-  from
-    postgraphile.player_points_per_hole
-  where
-    scorecard_id in (
-      select
-        scorecard_id
-      from
-        physical.scorecard
-      where
-        tournament_id = _tournament_id
-      group by
-        scorer_id
-      order by
-        stamp)
-$$
-language sql
-stable strict;
+    , tournament_id
+    , expected_points
+    , total_points
+    , total_points - expected_points as player_par
+  from (
+    select
+      s.scorer_id
+      , tournament_id
+      , sum(points) over (partition by s.scorer_id order by stamp asc) as total_points
+      , 2 * count(points) over (partition by s.scorer_id order by stamp asc) as expected_points
+    from
+      postgraphile.player_points_per_hole as ph
+      inner join physical.scorecard as s on s.scorer_id = ph.scorer_id));
 
 grant select on all tables in schema statistics to statistics;
 
