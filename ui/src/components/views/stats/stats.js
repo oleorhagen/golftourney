@@ -62,6 +62,12 @@ const ScoreChart = memo(function ScoreChart({ data }) {
           stroke="#82ca9d"
           activeDot={{ r: 8 }}
         />
+          <ReferenceLine
+          // y={20}
+          label="Par"
+          stroke="red"
+          strokeDasharray="3 3"
+        />
       </LineChart>
     </ResponsiveContainer>
   );
