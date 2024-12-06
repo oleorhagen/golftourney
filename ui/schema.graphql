@@ -187,6 +187,40 @@ type Query implements Node {
     filter: PlayerFilter
   ): PlayersConnection
 
+  """Reads and enables pagination through a set of `PlayerStatistic`."""
+  playerStatistics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerStatistic`."""
+    orderBy: [PlayerStatisticsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerStatisticCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: PlayerStatisticFilter
+  ): PlayerStatisticsConnection
+
   """Reads and enables pagination through a set of `Scorecard`."""
   scorecards(
     """Only read the first `n` values of the set."""
@@ -1841,7 +1875,7 @@ type Player implements Node {
     """
     filter: TeamMemberFilter
   ): TeamMembersConnection!
-  points: BigInt
+  par: BigInt
 }
 
 """A connection to a list of `TeamMember` values."""
@@ -2031,8 +2065,8 @@ input PlayerFilter {
   """Filter by the object’s `handicap` field."""
   handicap: ValidHandicapFilter
 
-  """Filter by the object’s `points` field."""
-  points: BigIntFilter
+  """Filter by the object’s `par` field."""
+  par: BigIntFilter
 
   """Checks for all expressions in this list."""
   and: [PlayerFilter!]
@@ -2424,6 +2458,163 @@ input ExtraStrokesPerHoleFilter {
 
   """Negates the expression."""
   not: ExtraStrokesPerHoleFilter
+}
+
+"""A connection to a list of `PlayerStatistic` values."""
+type PlayerStatisticsConnection {
+  """A list of `PlayerStatistic` objects."""
+  nodes: [PlayerStatistic!]!
+
+  """
+  A list of edges which contains the `PlayerStatistic` and cursor to aid in pagination.
+  """
+  edges: [PlayerStatisticsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `PlayerStatistic` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type PlayerStatistic {
+  scorerId: UUID
+  par: BigInt
+  stddevStrokes: BigFloat
+  stddevPoints: BigFloat
+  averageStrokes: BigFloat
+  averagePoints: BigFloat
+}
+
+"""
+A floating point number that requires more precision than IEEE 754 binary 64
+"""
+scalar BigFloat
+
+"""A `PlayerStatistic` edge in the connection."""
+type PlayerStatisticsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `PlayerStatistic` at the end of the edge."""
+  node: PlayerStatistic!
+}
+
+"""Methods to use when ordering `PlayerStatistic`."""
+enum PlayerStatisticsOrderBy {
+  NATURAL
+  SCORER_ID_ASC
+  SCORER_ID_DESC
+  PAR_ASC
+  PAR_DESC
+  STDDEV_STROKES_ASC
+  STDDEV_STROKES_DESC
+  STDDEV_POINTS_ASC
+  STDDEV_POINTS_DESC
+  AVERAGE_STROKES_ASC
+  AVERAGE_STROKES_DESC
+  AVERAGE_POINTS_ASC
+  AVERAGE_POINTS_DESC
+}
+
+"""
+A condition to be used against `PlayerStatistic` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input PlayerStatisticCondition {
+  """Checks for equality with the object’s `scorerId` field."""
+  scorerId: UUID
+
+  """Checks for equality with the object’s `par` field."""
+  par: BigInt
+
+  """Checks for equality with the object’s `stddevStrokes` field."""
+  stddevStrokes: BigFloat
+
+  """Checks for equality with the object’s `stddevPoints` field."""
+  stddevPoints: BigFloat
+
+  """Checks for equality with the object’s `averageStrokes` field."""
+  averageStrokes: BigFloat
+
+  """Checks for equality with the object’s `averagePoints` field."""
+  averagePoints: BigFloat
+}
+
+"""
+A filter to be used against `PlayerStatistic` object types. All fields are combined with a logical ‘and.’
+"""
+input PlayerStatisticFilter {
+  """Filter by the object’s `scorerId` field."""
+  scorerId: UUIDFilter
+
+  """Filter by the object’s `par` field."""
+  par: BigIntFilter
+
+  """Filter by the object’s `stddevStrokes` field."""
+  stddevStrokes: BigFloatFilter
+
+  """Filter by the object’s `stddevPoints` field."""
+  stddevPoints: BigFloatFilter
+
+  """Filter by the object’s `averageStrokes` field."""
+  averageStrokes: BigFloatFilter
+
+  """Filter by the object’s `averagePoints` field."""
+  averagePoints: BigFloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [PlayerStatisticFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [PlayerStatisticFilter!]
+
+  """Negates the expression."""
+  not: PlayerStatisticFilter
+}
+
+"""
+A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’
+"""
+input BigFloatFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: BigFloat
+
+  """Not equal to the specified value."""
+  notEqualTo: BigFloat
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: BigFloat
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: BigFloat
+
+  """Included in the specified list."""
+  in: [BigFloat!]
+
+  """Not included in the specified list."""
+  notIn: [BigFloat!]
+
+  """Less than the specified value."""
+  lessThan: BigFloat
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: BigFloat
+
+  """Greater than the specified value."""
+  greaterThan: BigFloat
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: BigFloat
 }
 
 """A connection to a list of `Scorer` values."""
@@ -5266,6 +5457,42 @@ type Subscription {
     """
     filter: PlayerFilter
   ): PlayersConnection
+
+  """
+  Reads and enables pagination through a set of `PlayerStatistic`. (live)
+  """
+  playerStatistics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerStatistic`."""
+    orderBy: [PlayerStatisticsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerStatisticCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: PlayerStatisticFilter
+  ): PlayerStatisticsConnection
 
   """Reads and enables pagination through a set of `Scorecard`. (live)"""
   scorecards(

@@ -28,6 +28,19 @@ create view statistics.player as (
 group by
   scorer_id , par);
 
+create view physical.player_statistics as (
+       select * from statistics.player
+);
+
+select
+  s.scorer_id
+  , tournament_id
+  , sum(points) over (partition by s.scorer_id order by stamp asc) as cumulative_score
+from
+  postgraphile.player_points_per_hole as ph
+  inner join physical.scorecard as s on s.scorer_id = ph.scorer_id;
+
+-- A view which contains the columns of the running score of a player.
 create view statistics.player_points as (
   select
     scorer_id

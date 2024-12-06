@@ -6,14 +6,16 @@ import { useOutletContext } from "react-router-dom";
 
 import PlayerScoreChart from "./stats";
 
-import PlayerRadarChart from "./radarchart/radarchart";
+import PlayerStatisticsRadarChart from "./radarchart/radarchart";
 
+// TODO - Add a AreaChartFillByValue
+// https://recharts.org/en-US/examples/AreaChartFillByValue
 const StatsView = () => {
   const { playerId, tournamentId } = useOutletContext();
   return (
     <>
       <PlayerScoreChart tournamentId={tournamentId} />
-      <PlayerRadarChart />
+      <PlayerStatisticsRadarChart scorerId={playerId} />
     </>
   );
 };
