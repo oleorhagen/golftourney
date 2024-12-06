@@ -30,6 +30,13 @@ const GetPlayerStatisticsQuery = graphql`
 `;
 
 const PlayerRadarChart = memo(function PlayerRadarChart({ data }) {
+  // Merge with referenceData, to give a second dataset, with the expected points per hole, namely: 2
+  let mergedData = data.map((item, i) =>
+    Object.assign({}, item, { par: item["par"], referencePoints: 2 }),
+  );
+
+  console.log(`Merged: ${JSON.stringify(mergedData)}`);
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -37,7 +44,7 @@ const PlayerRadarChart = memo(function PlayerRadarChart({ data }) {
       minHeight="60vh"
       minWidth="60vw"
     >
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={mergedData}>
         <PolarGrid />
         <PolarAngleAxis dataKey="par" />
         <PolarRadiusAxis />
@@ -46,6 +53,13 @@ const PlayerRadarChart = memo(function PlayerRadarChart({ data }) {
           dataKey="averagePoints"
           stroke="#8884d8"
           fill="#8884d8"
+          fillOpacity={0.6}
+        />
+        <Radar
+          name="reference"
+          dataKey="referencePoints"
+          stroke="#82ca9d"
+          fill="#82ca9d"
           fillOpacity={0.6}
         />
       </RadarChart>
