@@ -19,9 +19,20 @@ import { Auth } from "aws-amplify";
 import React from "react";
 
 import { Container } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import Drawer from "./components/Drawer";
 import Footer from "./components/Footer";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#ff5252",
+    },
+  },
+});
 
 // Configure Amplify in index file or root file
 Amplify.configure({
@@ -39,34 +50,31 @@ function App(props) {
   };
 
   return (
-    // <Authenticator hideSignUp={true}>
-    //   {({ signOut, user }) => {
-    //     return (
-    <div className="App">
-      <Box sx={{ display: "flex" }}>
-        <Drawer navbarItems={props.navbarItems} />
-        <>
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <Container
-              maxWidth="xl"
-              sx={{ marginTop: (theme) => theme.spacing(10) }}
-            >
-              <main>
-                <RelayEnvironmentProvider environment={RelayEnvironment}>
-                  <React.Suspense fallback={"Loading..."}>
-                    <Outlet context={userInfo} />
-                  </React.Suspense>
-                </RelayEnvironmentProvider>
-              </main>
-            </Container>
-            <Footer />
-          </Box>
-        </>
-      </Box>
-    </div>
-    //     );
-    //   }}
-    // </Authenticator>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <div className="App">
+        <Box sx={{ display: "flex" }}>
+          <Drawer navbarItems={props.navbarItems} />
+          <>
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+              <Container
+                maxWidth="xl"
+                sx={{ marginTop: (theme) => theme.spacing(10) }}
+              >
+                <main>
+                  <RelayEnvironmentProvider environment={RelayEnvironment}>
+                    <React.Suspense fallback={"Loading..."}>
+                      <Outlet context={userInfo} />
+                    </React.Suspense>
+                  </RelayEnvironmentProvider>
+                </main>
+              </Container>
+              <Footer />
+            </Box>
+          </>
+        </Box>
+      </div>
+    </ThemeProvider>
   );
 }
 
