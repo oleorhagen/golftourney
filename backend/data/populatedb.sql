@@ -239,11 +239,11 @@ values (
   , 130
   , 18) , -- From 55
 (
-  'Onsoy' , 45 , 45 , 18) , -- TODO - Get data
+  'Onsoy' , 72.7 , 136 , 18) , -- Tee 59
 (
-  'Gamle Fredrikstad' , 45 , 45 , 18) , -- TODO - Get the data
+  'Gamle Fredrikstad' , 72.8 , 145 , 18) , -- Tee 59
 (
-  'Borregaard' , 45 , 45 , 18) -- TODO - get the data
+  'Borregaard' , 64.4 , 130 , 18) -- Mens 43
 ;
 
 select
