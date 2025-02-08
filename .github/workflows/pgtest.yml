@@ -76,6 +76,6 @@ jobs:
                 --host localhost    \
                 --dbname golf_db    \
                 --username postgres \
-                backend/sql-tests/*_test.sql
+                backend/sql-tests/*
         env:
           PGPASSWORD: password
