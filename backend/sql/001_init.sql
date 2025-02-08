@@ -106,6 +106,19 @@ create table physical.hole_score (
   , foreign key (scorecard_id) references physical.scorecard (id) on delete cascade
 );
 
+create or replace function tot_extra_strokes_per_player (
+    handicap real
+  , slope int
+)
+returns int
+as $$
+select
+    int8(round(handicap * slope / 113)) as extra_strokes_tot
+$$
+language sql
+stable strict
+;
+
 -- TODO - Does not show the team extra points atm
 create view physical.extra_strokes_per_hole as (
   select
