@@ -66,7 +66,7 @@ jobs:
           psql --host localhost --username postgres --dbname golf_db \
                --file backend/sql/001_init.sql                       \
                --file backend/sql/002_init.sql                       \
-               --file backend/sql/004_init.sql
+               --file backend/sql/004_stats.sql
 
         env:
           PGPASSWORD: password
