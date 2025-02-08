@@ -1,4 +1,6 @@
 FROM postgres:17
 RUN apt-get update
-RUN apt-get install -y postgresql-17-wal2json
+RUN apt-get install -y \
+    postgresql-17-wal2json \
+    postgresql-17-pgtap
 # COPY postgres/postgraphile-live.conf /opt/bitnami/postgresql/conf/conf.d/postgraphile-live.conf
