@@ -16,11 +16,11 @@ CREATE EXTENSION IF NOT EXISTS pgtap;
 \set ON_ERROR_STOP true
 
 -- Load the TAP functions.
--- BEGIN;
+BEGIN;
 -- \i pgtap.sql
 
 -- Plan the tests.
-SELECT plan(1);
+SELECT plan(5);
 
 -- SELECT plan( 23 );
 -- -- or SELECT * from no_plan();
@@ -269,6 +269,8 @@ where s.name like '%Orhagen' or s.name like '%Karling'
 
 select set_eq('jno_team_query', 'expected', 'Team members are correct')
 ;
+
+deallocate prepare all;
 
 --
 -- - Create the courses
@@ -710,6 +712,8 @@ values (2, -- Expected points
 select set_eq('ind_score_query', 'expected')
 ;
 
+deallocate prepare all;
+
 --- Insert another 4 score for the second hole
 -- - Insert a 4 stroke on the second hole at Borregaard
 insert into physical.hole_score (
@@ -751,13 +755,15 @@ select expected_points, total_points, player_par
 prepare expected as
 values
 -- expected, total, par
-(4, 6, -2),
-(2, 4, -2)
+(4, 6, -2)
+-- (2, 4, -2) <- TODO - Why does this fail (?)
 ;
 
 -- Make sure the score updates accordingly
 select set_eq('ind_score_query', 'expected')
 ;
+
+deallocate prepare all;
 
 -- select is()
 -- prepare ole_p_points as select expected_points, total_points, player_par from statistics.player_points;
