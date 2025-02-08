@@ -141,33 +141,45 @@ from physical.scorecard as sc
 inner join physical.course as c on sc.course_name = c.name
 );
 
+create or replace function
+    hole_extra_strokes(extra_strokes_tot int, nr_holes int, hole_index int)
+returns int
+as $$
+select int8(
+    (extra_strokes_tot / nr_holes)
+    + (17 + extra_strokes_tot % nr_holes / (hole_index)) / nr_holes
+) as extra_strokes  -- (+17) Normalize to (0,1)
+$$
+language sql
+stable
+strict
+;
+
 -- TODO - Does not show the team extra points atm
 --
 -- - Distribute the extra strokes over the holes
 --
 -- - The number of extra strokes per hole, per player, or team
 --
--- INPROGRESS - Needs to use the scorecard handicap for calculating extra strokes
-create view physical.extra_strokes_per_hole as (
-  select
-    ch.hole_nr
-    , ch.course_name
-    , ch.hole_index
-    , ch.par
-    , p.player_id
-    , (p.extra_strokes_tot / c.nr_holes) + (17 + p.extra_strokes_tot % c.nr_holes / (ch.hole_index)) / c.nr_holes as extra_strokes -- (+17) Normalize to (0,1)
-  from
-    physical.course_hole as ch
-    inner join (
-      select
-        s.id as player_id
-        , c.name as course_name
-        , int8(round(p.handicap * c.slope / 113)) as extra_strokes_tot
-      from
-        physical.scorer as s
-        inner join physical.player as p on s.id = p.id
-        , physical.course as c) as p on ch.course_name = p.course_name
-      inner join physical.course as c on ch.course_name = c.name);
+create or replace view physical.extra_strokes_per_hole as (
+select distinct
+    sc.id,
+    sc.tournament_id,
+    sc.scorer_id as player_id, -- TODO - Is this right ? Gotta do it now for API compat
+    sc.handicap,
+    ch.hole_nr,
+    ch.hole_index,
+    ch.par,
+    ch.course_name,
+    hole_extra_strokes(
+        epc.tot_extra_strokes_per_player, c.nr_holes::integer, ch.hole_index::integer
+    ) as extra_strokes
+from physical.scorecard as sc
+inner join physical.course_hole as ch on sc.course_name = ch.course_name
+inner join physical.course as c on ch.course_name = c.name
+inner join physical.extra_strokes_per_course as epc on c.name = epc.course_name
+)
+;
 
 -- Returns the extra strokes for a hole, given a hole and player_id
 create function physical.course_hole_extra_strokes (

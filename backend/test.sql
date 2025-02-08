@@ -322,7 +322,7 @@ select
   tournament_id
   , scorer_id
   , 20
-  , 'Skjeberg'
+  , 'Borregaard'
 from
   physical.tournament_scorer;
 
@@ -429,7 +429,7 @@ values (
   , 8);
 
 --- TODO - Test the extra awarded strokes per hole
--- From their slope table, a 20 hcp (which is our scorecard), should award 22 extra strokes.
+-- From their slope table, a 20 hcp (which is our scorecard), should award 22 (but now does 23) extra strokes.
 
 --- Meaning that all holes index 1-4 should have two extra strokes, and the rest should have 1.
 select
@@ -441,9 +441,9 @@ select
                 course_name = 'Borregaard'
                 and player_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9'
             order by hole_index
-            limit 4
+            limit 5
         ),
-        array[2, 2, 2, 2]
+        array[2, 2, 2, 2, 2]
     )
     ;
 
@@ -456,10 +456,10 @@ select
             where
                 course_name = 'Borregaard'
                 and player_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9'
-            order by hole_index
-            limit 14
+            order by hole_index desc
+            limit 13
         ),
-        array[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        array[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     )
 ;
 
