@@ -59,7 +59,7 @@ jobs:
         working-directory: pgtap
         run: make && psql --host localhost --username postgres --dbname postgres --file sql/pgtap.sql
         env:
-          PGPASSWORD: postgres
+          PGPASSWORD: password
 
       - name: load sql
         run: >-
@@ -69,9 +69,9 @@ jobs:
                --file backend/sql/004_init.sql
 
         env:
-          PGPASSWORD: postgres
+          PGPASSWORD: password
 
       - name: run tests
         run: pg_prove --host localhost --dbname postgres --username postgres backend/sql-tests/*_test.sql
         env:
-          PGPASSWORD: postgres
+          PGPASSWORD: password
