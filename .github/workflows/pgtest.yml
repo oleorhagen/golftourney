@@ -72,10 +72,11 @@ jobs:
           PGPASSWORD: password
 
       - name: run tests
-        run: pg_prove               \
+        run: >-
+          pg_prove                  \
                 --host localhost    \
                 --dbname golf_db    \
                 --username postgres \
-                backend/sql-tests/*
+                  backend/sql-tests/*
         env:
           PGPASSWORD: password
