@@ -64,14 +64,14 @@ jobs:
       - name: load sql
         run: >-
           psql --host localhost --username postgres --dbname golf_db \
-               --file backend/sql/001_init.sql \
-               --file backend/sql/002_init.sql \
+               --file backend/sql/001_init.sql                       \
+               --file backend/sql/002_init.sql                       \
                --file backend/sql/004_init.sql
 
         env:
           PGPASSWORD: password
 
       - name: run tests
-        run: pg_prove --host localhost --dbname postgres --username postgres backend/sql-tests/*_test.sql
+        run: pg_prove --host localhost --dbname golf_db --username postgres backend/sql-tests/*_test.sql
         env:
           PGPASSWORD: password
