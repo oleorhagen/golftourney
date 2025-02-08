@@ -43,7 +43,7 @@ create table physical.tournament_scorer (
   , foreign key (scorer_id) references physical.scorer (id) on delete cascade
 );
 
-create domain valid_handicap as int8 check (VALUE between -54 and 54);
+create domain valid_handicap as float check (VALUE between -54 and 54);
 
 create table physical.scorecard (
   id uuid default uuid_generate_v4 ()
@@ -106,20 +106,48 @@ create table physical.hole_score (
   , foreign key (scorecard_id) references physical.scorecard (id) on delete cascade
 );
 
-create or replace function tot_extra_strokes_per_player (
-    handicap real
-  , slope int
+create function distribute_strokes (
+  tot_extra_strokes int
+  , nr_holes int
+  , hole_index int
 )
+  returns int
+  as $$
+  select
+    -- Distribute the number             + the remainder
+    (tot_extra_strokes / nr_holes) + (17 + tot_extra_strokes % nr_holes / (hole_index)) / nr_holes -- (+17) Normalize to (0,1)
+$$
+language sql
+stable strict;
+
+create or replace function tot_extra_strokes_per_player(handicap float, slope float)
 returns int
 as $$
 select
-    int8(round(handicap * slope / 113)) as extra_strokes_tot
+    int8(round(handicap * ( slope / 113 ))) as extra_strokes_tot
 $$
 language sql
-stable strict
+stable
+strict
 ;
 
+create view physical.extra_strokes_per_course as (
+select
+    tournament_id,
+    scorer_id,
+    course_name,
+    tot_extra_strokes_per_player(handicap, slope)
+from physical.scorecard as sc
+inner join physical.course as c on sc.course_name = c.name
+);
+
 -- TODO - Does not show the team extra points atm
+--
+-- - Distribute the extra strokes over the holes
+--
+-- - The number of extra strokes per hole, per player, or team
+--
+-- INPROGRESS - Needs to use the scorecard handicap for calculating extra strokes
 create view physical.extra_strokes_per_hole as (
   select
     ch.hole_nr
