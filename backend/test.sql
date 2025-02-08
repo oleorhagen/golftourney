@@ -693,9 +693,71 @@ values (
     where
       name like 'Ole P%'))
   , 3 -- 3 Strokes
-);
+  );
 
 -- -- 1. Test the score for individual players
+prepare ind_score_query as
+select expected_points, total_points, player_par
+from statistics.player_points
+where scorer_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9';
+prepare expected as
+values (2, -- Expected points
+4, -- Total points
+-2 -- To par
+);
+
+-- Make sure the score updates accordingly
+select set_eq('ind_score_query', 'expected')
+;
+
+--- Insert another 4 score for the second hole
+-- - Insert a 4 stroke on the second hole at Borregaard
+insert into physical.hole_score (
+course_name
+, scorer_id
+, hole_nr
+, scorecard_id
+, strokes)
+values (
+'Borregaard'
+, (
+select
+id
+from
+physical.scorer
+natural join physical.player
+where
+name like 'Ole P%')
+, 2 -- Hole Nr
+, (
+select
+id
+from physical.scorecard
+where
+scorer_id in (
+select
+id
+from physical.scorer
+natural join physical.player
+where
+name like 'Ole P%'))
+, 4 -- 3 Strokes
+);
+
+prepare ind_score_query as
+select expected_points, total_points, player_par
+  from statistics.player_points
+  where scorer_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9';
+prepare expected as
+values
+-- expected, total, par
+(4, 6, -2),
+(2, 4, -2)
+;
+
+-- Make sure the score updates accordingly
+select set_eq('ind_score_query', 'expected')
+;
 
 -- select is()
 -- prepare ole_p_points as select expected_points, total_points, player_par from statistics.player_points;

@@ -41,13 +41,13 @@ from
   inner join physical.scorecard as s on s.scorer_id = ph.scorer_id;
 
 -- A view which contains the columns of the running score of a player.
-create view statistics.player_points as (
+create or replace view statistics.player_points as (
   select
     scorer_id
     , tournament_id
     , expected_points
     , total_points
-    , total_points - expected_points as player_par
+    , expected_points - total_points as player_par
   from (
     select
       s.scorer_id
