@@ -1,7 +1,6 @@
 --
 -- - Schema for golf DB
 --
--- TODO - Should I add a scorecard, which then stores the handicap ?
 create extension if not exists "uuid-ossp";
 
 create schema if not exists physical authorization postgres;
@@ -76,11 +75,20 @@ create table physical.team (
 );
 
 create table physical.team_member (
-  player_id uuid
-  , team_id uuid
-  , primary key (player_id , team_id)
-  , foreign key (player_id) references physical.player (id) on delete cascade
-  , foreign key (team_id) references physical.team (id) on delete cascade
+player_id uuid
+, team_id uuid
+, primary key (player_id , team_id)
+, foreign key (player_id) references physical.player (id) on delete cascade
+, foreign key (team_id) references physical.team (id) on delete cascade
+);
+
+-- A team to materialize the handicap for a team
+-- TODO - Make a function for determining the team handicap
+create view physical.team_hcp as (
+  select team_id, avg(handicap) as handicap
+  from physical.team_member as tm
+  inner join physical.player as p on tm.player_id = p.id
+  group by team_id
 );
 
 create table physical.course_hole (

@@ -326,8 +326,22 @@ select
   , 20
   , 'Borregaard'
 from
-  physical.tournament_scorer;
+physical.tournament_scorer;
 
+--- Create the scorecard for the teams on the Skjeberg course
+insert into physical.scorecard (
+tournament_id
+, scorer_id
+, handicap
+, course_name
+)
+select
+    '942b428e-2c9b-4f7a-9077-ea3cde99e184' as tournament_id,
+    team_id as scorer_id,
+    handicap,
+    'Skjeberg' as course_name
+from physical.team_hcp
+;
 
 --
 --- Create the Courses
@@ -745,23 +759,61 @@ from physical.scorer
 natural join physical.player
 where
 name like 'Ole P%'))
-, 4 -- 3 Strokes
+, 4 -- 4 Strokes
 );
 
 prepare ind_score_query as
 select expected_points, total_points, player_par
-  from statistics.player_points
-  where scorer_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9';
+from statistics.player_points
+where scorer_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9';
 prepare expected as
 values
 -- expected, total, par
-(4, 6, -2)
--- (2, 4, -2) <- TODO - Why does this fail (?)
+(4, 6, -2),
+(2, 4, -2)
 ;
 
 -- Make sure the score updates accordingly
 select set_eq('ind_score_query', 'expected')
 ;
+
+--
+--- 2. Test the score for teams
+--
+
+--- Insert another 4 score for the second hole
+-- - Insert a 4 stroke on the second hole at Borregaard
+insert into physical.hole_score (
+course_name
+, scorer_id
+, hole_nr
+, scorecard_id
+, strokes)
+values (
+'Skjeberg'
+, (
+select
+id
+from
+physical.scorer
+natural join physical.team
+where
+name like 'J&O')
+, 1 -- Hole Nr
+, (
+select
+id
+from physical.scorecard
+where
+scorer_id in (
+select
+id
+from physical.scorer
+natural join physical.team
+where
+name like 'J&O'))
+, 4 -- 4 Strokes
+);
 
 deallocate prepare all;
 
