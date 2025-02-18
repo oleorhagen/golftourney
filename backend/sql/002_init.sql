@@ -8,184 +8,199 @@ create schema if not exists postgraphile authorization postgraphile;
 grant all privileges on all tables in schema postgraphile to postgraphile;
 
 create view postgraphile.tournament as (
-  select
-    *
-  from
-    physical.tournament);
+    select *
+    from
+        physical.tournament
+);
 
 create view postgraphile.tournament_course as (
-  select
-    *
-  from
-    physical.tournament_course);
+    select *
+    from
+        physical.tournament_course
+);
 
 create view postgraphile.tournament_scorer as (
-  select
-    *
-  from
-    physical.tournament_scorer);
+    select *
+    from
+        physical.tournament_scorer
+);
 
 create view postgraphile.player as (
-  select
-    id
-    , name
-    , handicap
-  from
-    physical.scorer as s
-  natural join physical.player
-  natural join physical.hole_score as hs
-where
-  s.id = hs.scorer_id);
+    select
+        id,
+        name,
+        handicap
+    from
+        physical.scorer as s
+        natural join physical.player
+        natural join physical.hole_score as hs
+    where
+        s.id = hs.scorer_id
+);
 
 create view postgraphile.team as (
-  select
-    s.id
-    , s.name
-    , avg(handicap) as handicap
-  from
-    physical.team as t
-  natural join physical.scorer as s
-  inner join physical.team_member as tm on s.id = tm.team_id
-  inner join physical.player as p on p.id = player_id
-group by
-  s.id);
+    select
+        s.id,
+        s.name,
+        avg(handicap) as handicap
+    from
+        physical.team as t
+        natural join physical.scorer as s
+        inner join physical.team_member as tm on s.id = tm.team_id
+        inner join physical.player as p on p.id = player_id
+    group by
+        s.id
+);
 
 -- Unify the scorer table, with all required data
 create view postgraphile.scorer as (
-  select
-    id
-    , name
-    , handicap
-  from
-    postgraphile.player
-  union
-  select
-    id
-    , name
-    , handicap
-  from
-    postgraphile.team);
+    select
+        id,
+        name,
+        handicap
+    from
+        postgraphile.player
+    union
+    select
+        id,
+        name,
+        handicap
+    from
+        postgraphile.team
+);
 
 create view postgraphile.team_member as (
-  select
-    *
-  from
-    physical.team_member);
+    select *
+    from
+        physical.team_member
+);
 
 create view postgraphile.course as (
-  select
-    *
-  from
-    physical.course);
+    select *
+    from
+        physical.course
+);
 
 create view postgraphile.course_hole as (
-  select
-    *
-  from
-    physical.course_hole);
+    select *
+    from
+        physical.course_hole
+);
 
 create view postgraphile.hole_score as (
-  select
-    *
-  from
-    physical.hole_score);
+    select *
+    from
+        physical.hole_score
+);
 
 --
 -- - Calculate the points per whole for a given number of strokes
 --
 --- TODO - Needs to work for teams also
 create view postgraphile.player_points_per_hole as (
-  select
-    hs.scorer_id
-    , hs.hole_nr
-    , hs.course_name
-    , hs.scorecard_id
-    , hs.strokes
-    , hs.stamp
-    , extra_strokes
-    , greatest (0 , par + extra_strokes - strokes + 2) as points
-  from
-    physical.hole_score as hs
-    inner join physical.extra_strokes_per_hole as es on hs.hole_nr = es.hole_nr
-      and hs.course_name = es.course_name
-      and hs.scorer_id = es.player_id);
+    select
+        hs.scorer_id,
+        hs.hole_nr,
+        hs.course_name,
+        hs.scorecard_id,
+        hs.strokes,
+        hs.stamp,
+        extra_strokes,
+        greatest(0, par + extra_strokes - strokes + 2) as points
+    from
+        physical.hole_score as hs
+        inner join
+            physical.extra_strokes_per_hole as es
+            on hs.hole_nr = es.hole_nr
+                and hs.course_name = es.course_name
+                and hs.scorer_id = es.player_id
+);
 
 create view postgraphile.scorer_total_points as (
-  select
-    scorer_id
-    , sum(points) as total_points
-  from
-    postgraphile.player_points_per_hole
-  group by
-    scorer_id);
+    select
+        scorer_id,
+        sum(points) as total_points
+    from
+        postgraphile.player_points_per_hole
+    group by
+        scorer_id
+);
 
 -- Nearly works! But does not add the score for the players not having individual
 -- scores! (xD)
-select
-  *
+select *
 from (
-  select
-    scorer_id
-    , sum(points) as total_points
-  from
-    postgraphile.player_points_per_hole
-  group by
-    scorer_id) as t1
-  cross join (
     select
-      scorer_id
-      , sum(points) as total_points
+        scorer_id,
+        sum(points) as total_points
     from
-      postgraphile.player_points_per_hole
+        postgraphile.player_points_per_hole
     group by
-      scorer_id) as t2
-  inner join physical.team_member as tm on t1.scorer_id = tm.player_id
-    and t2.scorer_id = tm.team_id
-  inner join physical.scorer as s on t1.scorer_id = s.id;
+        scorer_id
+) as t1
+    cross join (
+        select
+            scorer_id,
+            sum(points) as total_points
+        from
+            postgraphile.player_points_per_hole
+        group by
+            scorer_id
+    ) as t2
+    inner join physical.team_member as tm
+        on t1.scorer_id = tm.player_id
+            and t2.scorer_id = tm.team_id
+    inner join physical.scorer as s on t1.scorer_id = s.id;
 
 create view postgraphile.player_points as (
-  select
-    scorer_id
-    , sum(points) as total_points
-  from
-    postgraphile.player_points_per_hole
-  group by
-    scorer_id);
+    select
+        scorer_id,
+        sum(points) as total_points
+    from
+        postgraphile.player_points_per_hole
+    group by
+        scorer_id
+);
 
 -- Get each players team points
 select
-  p.id
-  , total_points
+    p.id,
+    total_points
 from
-  physical.player as p
-  inner join physical.team_member as tm on p.id = tm.player_id
-  inner join postgraphile.player_points pp on tm.team_id = pp.scorer_id;
+    physical.player as p
+    inner join physical.team_member as tm on p.id = tm.player_id
+    inner join postgraphile.player_points pp on tm.team_id = pp.scorer_id;
 
 -- Functioning score board for all scorers (!)
 -- TODO - Do the same for strokes
 create view postgraphile.player_total_points as (
-  select
-    s.id
-    , coalesce(pp.total_points , 0) + coalesce(team_points.total_points , 0) as total_points
-  from
-    physical.scorer as s
-  left outer join postgraphile.player_points as pp on s.id = pp.scorer_id
-  left outer join (
     select
-      p.id
-      , total_points
+        s.id,
+        coalesce(pp.total_points, 0)
+        + coalesce(team_points.total_points, 0) as total_points
     from
-      physical.player as p
-      inner join physical.team_member as tm on p.id = tm.player_id
-      inner join postgraphile.player_points pp on tm.team_id = pp.scorer_id) as team_points on s.id = team_points.id);
+        physical.scorer as s
+        left outer join postgraphile.player_points as pp on s.id = pp.scorer_id
+        left outer join (
+            select
+                p.id,
+                total_points
+            from
+                physical.player as p
+                inner join physical.team_member as tm on p.id = tm.player_id
+                inner join
+                    postgraphile.player_points pp
+                    on tm.team_id = pp.scorer_id
+        ) as team_points on s.id = team_points.id
+);
 
 -- Function which calculates the points for a player per hole given a hole_score
 -- entry (which has all the data we need for this)
-create or replace function physical.hole_score_points (
-  hole physical.hole_score
+create or replace function physical.hole_score_points(
+    hole physical.hole_score
 )
-  returns int8
-  as $$
+returns int8
+as $$
   select
     points
   from
@@ -200,13 +215,13 @@ language sql
 stable strict;
 
 -- Returns the points for a hole, given a hole and player_id, and scorecard_id
-create or replace function physical.course_hole_points (
-  hole physical.course_hole
-  , player_id uuid
-  , scorecard_id uuid
+create or replace function physical.course_hole_points(
+    hole physical.course_hole,
+    player_id uuid,
+    scorecard_id uuid
 )
-  returns int8
-  as $$
+returns int8
+as $$
   select
     points
   from
@@ -221,4 +236,3 @@ language sql
 stable strict;
 
 grant select on all tables in schema postgraphile to postgraphile;
-
