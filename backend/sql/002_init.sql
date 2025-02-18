@@ -96,7 +96,6 @@ create view postgraphile.hole_score as (
 --
 -- - Calculate the points per whole for a given number of strokes
 --
---- TODO - Needs to work for teams also
 create view postgraphile.player_points_per_hole as (
     select
         hs.scorer_id,
@@ -126,32 +125,6 @@ create view postgraphile.scorer_total_points as (
         scorer_id
 );
 
--- Nearly works! But does not add the score for the players not having individual
--- scores! (xD)
-select *
-from (
-    select
-        scorer_id,
-        sum(points) as total_points
-    from
-        postgraphile.player_points_per_hole
-    group by
-        scorer_id
-) as t1
-    cross join (
-        select
-            scorer_id,
-            sum(points) as total_points
-        from
-            postgraphile.player_points_per_hole
-        group by
-            scorer_id
-    ) as t2
-    inner join physical.team_member as tm
-        on t1.scorer_id = tm.player_id
-            and t2.scorer_id = tm.team_id
-    inner join physical.scorer as s on t1.scorer_id = s.id;
-
 create view postgraphile.player_points as (
     select
         scorer_id,
@@ -162,17 +135,7 @@ create view postgraphile.player_points as (
         scorer_id
 );
 
--- Get each players team points
-select
-    p.id,
-    total_points
-from
-    physical.player as p
-    inner join physical.team_member as tm on p.id = tm.player_id
-    inner join postgraphile.player_points pp on tm.team_id = pp.scorer_id;
-
--- Functioning score board for all scorers (!)
--- TODO - Do the same for strokes
+-- Functioning score board for all scorers
 create view postgraphile.player_total_points as (
     select
         s.id,
