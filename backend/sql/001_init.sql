@@ -163,16 +163,6 @@ stable
 strict
 ;
 
-create view physical.extra_strokes_per_course as (
-    select
-        tournament_id,
-        scorer_id,
-        course_name,
-        tot_extra_strokes_per_player(handicap, slope)
-    from physical.scorecard as sc
-        inner join physical.course as c on sc.course_name = c.name
-);
-
 create or replace function
 hole_extra_strokes(extra_strokes_tot int, nr_holes int, hole_index int)
 returns int
@@ -204,16 +194,13 @@ create or replace view physical.extra_strokes_per_hole as (
         ch.par,
         ch.course_name,
         hole_extra_strokes(
-            epc.tot_extra_strokes_per_player,
+            tot_extra_strokes_per_player(sc.handicap, c.slope),
             c.nr_holes::integer,
             ch.hole_index::integer
         )            as extra_strokes
     from physical.scorecard as sc
         inner join physical.course_hole as ch on sc.course_name = ch.course_name
         inner join physical.course as c on ch.course_name = c.name
-        inner join
-            physical.extra_strokes_per_course as epc
-            on c.name = epc.course_name
 )
 ;
 
