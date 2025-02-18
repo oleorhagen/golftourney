@@ -197,7 +197,6 @@ create or replace view physical.extra_strokes_per_hole as (
     select distinct
         sc.id,
         sc.tournament_id,
-        -- TODO - Is this right ? Gotta do it now for API compat
         sc.scorer_id as player_id,
         sc.handicap,
         ch.hole_nr,

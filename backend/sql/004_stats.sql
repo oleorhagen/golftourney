@@ -77,7 +77,6 @@ create or replace view statistics.player_points as (
 
 -- Add a function to generate a column for a player in the physical schema the
 -- UI is consuming
--- TODO - it needs to have the team points added
 create or replace function physical.player_par(
     _player physical.player
 )
