@@ -1,79 +1,133 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
-import ScoreCardHeader from "./ScoreCardHeader";
-import ScoreCardBody from "./ScoreCardBody";
+import graphql from "babel-plugin-relay/macro";
+
+import ScoreCardTable from "./ScoreCardTable";
 import ScoreCardFooter from "./ScoreCardFooter";
 
-export const ScoreCard = (props) => {
-  console.log(`Received the course data: ${props.courseData}`);
+import {
+  loadQuery,
+  useLazyLoadQuery,
+  useSubscription,
+  useFragment,
+} from "react-relay/hooks";
 
-  const [scoresFront, setScoresFront] = useState(Array(9).fill(null));
-  const [scoresBack, setScoresBack] = useState(Array(9).fill(null));
-
-  const onChangeFront = (index) => {
-    return (val) => {
-      let newScores = [...scoresFront];
-      newScores[index] = val;
-      setScoresFront(newScores);
-      console.log(`Changing score for the front.. ${index} : ${val}`);
-    };
-  };
-
-  const onChangeBack = (index) => {
-    return (val) => {
-      let newScores = [...scoresBack];
-      newScores[index] = val;
-      setScoresBack(newScores);
-    };
-  };
-
-  const {
-    holesByCourseId: { nodes },
-  } = props.courseData;
-
-  const holes = nodes; // alias it to holes
-
-  console.log("scorecard course data:");
-  console.log(holes);
-
-  if (holes.length == 0) {
-    return "Noo data";
+const ListAllCoursesAndHolesSubscription = graphql`
+  subscription ScoreCardListAllHolesForCourseSubscription(
+    $courseName: String!
+    $scorerId: UUID!
+    $scorecardId: UUID!
+  ) {
+    courses(condition: { name: $courseName }) {
+      nodes {
+        ...ScoreCardListAllHolesForCourseFragment
+      }
+    }
   }
+`;
+
+const ListAllCoursesAndHolesFragment = graphql`
+  fragment ScoreCardListAllHolesForCourseFragment on Course {
+    courseRating
+    name
+    nodeId
+    nrHoles
+    slope
+    courseHolesByCourseName {
+      nodes {
+        courseName
+        holeIndex
+        holeNr
+        nodeId
+        par
+        extraStrokes(playerId: $scorerId)
+        points(playerId: $scorerId, scorecardId: $scorecardId)
+        holeScoresByHoleNrAndCourseName(condition: { scorerId: $scorerId }) {
+          nodes {
+            ...SelectScoreAutoWidthFragment
+          }
+        }
+      }
+    }
+  }
+`;
+
+const ListAllCoursesAndHolesQuery = graphql`
+  query ScoreCardListAllHolesForCourse2Query(
+    $courseName: String!
+    $scorerId: UUID!
+  ) {
+    courses(condition: { name: $courseName }) {
+      nodes {
+        courseRating
+        name
+        nodeId
+        nrHoles
+        slope
+        courseHolesByCourseName {
+          nodes {
+            courseName
+            holeIndex
+            holeNr
+            nodeId
+            par
+            extraStrokes(playerId: $scorerId)
+            holeScoresByHoleNrAndCourseName(
+              condition: { scorerId: $scorerId }
+            ) {
+              nodes {
+                ...SelectScoreAutoWidthFragment
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const ScoreCard = (props) => {
+  const [fragmentRef, setFragmentRef] = useState(null);
+
+  const config = useMemo(
+    () => ({
+      variables: {
+        scorerId: props.scorerId,
+        courseName: props.courseName,
+        scorecardId: props.scorecardId,
+      },
+
+      subscription: ListAllCoursesAndHolesSubscription,
+      onNext: (res) => {
+        console.log(`received res: ${JSON.stringify(res)}`);
+        setFragmentRef(res);
+      },
+      onCompleted: () => {
+        console.log("Completed!");
+      },
+      onError: (err) => {
+        console.log(`subscription onError: ${JSON.stringify(err)}`);
+      },
+    }),
+    [props],
+  );
+
+  useSubscription(config);
+
+  const data = useFragment(
+    ListAllCoursesAndHolesFragment,
+    fragmentRef?.courses?.nodes?.[0] || null,
+  );
+
+  const courseHoles = data?.courseHolesByCourseName?.nodes || [];
 
   return (
     <>
-      <ScoreCardHeader
-        score={
-          scoresFront.reduce((a, b) => a + b, 0) +
-          scoresBack.reduce((a, b) => a + b, 0)
-        }
-        points={
-          scoresFront
-            .map((score, index) => {
-              if (!score) {
-                return 0;
-              }
-              return score;
-            })
-            .reduce((a, b) => a + b, 0) +
-          scoresBack
-            .map((score, index) => {
-              if (!score) {
-                return 0;
-              }
-              return score;
-            })
-            .reduce((a, b) => a + b, 0)
-        }
-      />
-      <ScoreCardBody
-        scorecard={props.scorecard}
-        onChangeFront={onChangeFront}
-        onChangeBack={onChangeBack}
-        scoresFront={scoresFront}
-        scoresBack={scoresBack}
-        data={holes}
-        {...props}
+      <ScoreCardTable
+        scorerId={props.scorerId}
+        courseName={props.courseName}
+        scorecardId={props.scorecardId}
+        holes={courseHoles}
       />
       <ScoreCardFooter />
     </>

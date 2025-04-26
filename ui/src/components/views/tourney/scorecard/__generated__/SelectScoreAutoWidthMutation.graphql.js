@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7f1440e27acd0879900e180c8fc2e766>>
+ * @generated SignedSource<<9243939b0fa46018858be8a91588489d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,22 +9,14 @@
 'use strict';
 
 var node = (function(){
-var v0 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "nodeId"
-},
-v1 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "points"
-},
-v2 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "strokes"
-},
-v3 = [
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "holeScore"
+  }
+],
+v1 = [
   {
     "alias": null,
     "args": [
@@ -32,55 +24,39 @@ v3 = [
         "fields": [
           {
             "kind": "Variable",
-            "name": "nodeId",
-            "variableName": "nodeId"
-          },
-          {
-            "fields": [
-              {
-                "kind": "Variable",
-                "name": "points",
-                "variableName": "points"
-              },
-              {
-                "kind": "Variable",
-                "name": "strokes",
-                "variableName": "strokes"
-              }
-            ],
-            "kind": "ObjectValue",
-            "name": "scorePatch"
+            "name": "holeScore",
+            "variableName": "holeScore"
           }
         ],
         "kind": "ObjectValue",
         "name": "input"
       }
     ],
-    "concreteType": "UpdateScorePayload",
+    "concreteType": "CreateHoleScorePayload",
     "kind": "LinkedField",
-    "name": "updateScore",
+    "name": "createHoleScore",
     "plural": false,
     "selections": [
       {
         "alias": null,
         "args": null,
-        "kind": "ScalarField",
-        "name": "clientMutationId",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Score",
+        "concreteType": "HoleScore",
         "kind": "LinkedField",
-        "name": "score",
+        "name": "holeScore",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "id",
+            "name": "courseName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "holeNr",
             "storageKey": null
           },
           {
@@ -88,6 +64,20 @@ v3 = [
             "args": null,
             "kind": "ScalarField",
             "name": "nodeId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "scorerId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "stamp",
             "storageKey": null
           },
           {
@@ -101,7 +91,7 @@ v3 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "points",
+            "name": "scorecardId",
             "storageKey": null
           }
         ],
@@ -113,40 +103,32 @@ v3 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/),
-      (v2/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "SelectScoreAutoWidthMutation",
-    "selections": (v3/*: any*/),
+    "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v2/*: any*/),
-      (v1/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "SelectScoreAutoWidthMutation",
-    "selections": (v3/*: any*/)
+    "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "7278476d46e349b536fc8c654cccb6b2",
+    "cacheID": "71d904d10ac48ae69bd085f00bf28598",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthMutation(\n  $nodeId: ID!\n  $strokes: BigInt!\n  $points: BigInt!\n) {\n  updateScore(input: {nodeId: $nodeId, scorePatch: {strokes: $strokes, points: $points}}) {\n    clientMutationId\n    score {\n      id\n      nodeId\n      strokes\n      points\n    }\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthMutation(\n  $holeScore: HoleScoreInput!\n) {\n  createHoleScore(input: {holeScore: $holeScore}) {\n    holeScore {\n      courseName\n      holeNr\n      nodeId\n      scorerId\n      stamp\n      strokes\n      scorecardId\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "a321d58d00634d6de5a01f6b66cd4024";
+node.hash = "51bcc6966bd86012562fc5d92c7c94c2";
 
 module.exports = node;

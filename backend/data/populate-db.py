@@ -2,33 +2,122 @@
 # Populate the database from the given data-files in this repository
 #
 
+from collections import namedtuple
+import os
+
 from python_graphql_client import GraphqlClient
 
+
 # Instantiate the client with an endpoint.
-client = GraphqlClient(endpoint="http://localhost:5433/graphql")
+host=os.getenv("PG_HOST", default="localhost")
+port=os.getenv("PG_PORT", default="5433")
+client = GraphqlClient(endpoint=f"http://{host}:{port}/graphql")
 
 # Asynchronous request
 import asyncio
 
-PLAYERS = ("Juliane", "Marius", "Ole P", "Ole M")
-COURSES = ("gamle fredrikstad", "skjeberg", "borregaard", "onsoy")
+
+my_queries = """
+mutation CreatePlayerScorer {
+  createScorer(
+    input: {scorer: {id: "626fa9fd-95ed-40e8-90f3-139ec79e79b9", name: "Ole P"}}
+  ) {
+    clientMutationId
+  }
+}
+
+mutation CreateTeam {
+  createScorer(
+    input: {scorer: {id: "a892ead4-9d58-4e0f-8111-ce17b2f364e4", name: "KAU"}}
+  ) {
+    clientMutationId
+  }
+}
+
+mutation CreatePlayer {
+  createPlayer(input: {player: {id: "626fa9fd-95ed-40e8-90f3-139ec79e79b9"}}) {
+    clientMutationId
+  }
+}
+
+query GetAllTeams {
+  allTeams {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+
+query GetAllPlayers {
+  allPlayers {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+
+"""
+
+
+class Person:
+    def __init__(self, name, id):
+        self.name = name
+        self.id = id
+
+
+class Course:
+    def __init__(self, name, csv_file):
+        self.name = name
+        self.csv_file = csv_file
+        self.id = None
+
+
+class Hole:
+    def __init__(self, dict_):
+        self.id = dict_["id"]
+        self.nr = dict_["nr"]
+        self.index = dict_["index"]
+        self.par = dict_["par"]
+
+
+PLAYERS = (
+    Person(name="Juliane", id="a892ead4-9d58-4e0f-8111-ce17b2f364e4"),
+    Person(name="Marius", id="9a771ff0-a6f6-462d-b66a-0e2f66ffb21b"),
+    Person(name="Ole P", id="626fa9fd-95ed-40e8-90f3-139ec79e79b9"),
+    Person(name="Ole M", id="47e28a8a-8aab-4f5d-a4b4-3c2151514ba6"),
+)
+
+COURSES = (
+    Course(name="gamle fredrikstad", csv_file="gamle-fredrikstad.csv"),
+    Course(name="skjeberg", csv_file="skjeberg.csv"),
+    Course(name="borregaard", csv_file="borregaard.csv"),
+    Course(name="onsoy", csv_file="onsoy.csv"),
+)
+
+COMPETITIONS = ("driver", "iron", "chipping", "putting")
 
 
 def populate_players(players):
     for player in players:
         query = """
-    mutation PlayerCreation($playa: String!) {
-    createPlayer(input: { player: { name: $playa } }) {
-        player {
-        id
-        name
-        }
+mutation PlayerCreation($playa: String!, $id: UUID!) {
+  createPlayer(input: { player: { name: $playa, id: $id } }) {
+    player {
+      id
+      name
     }
-    }
+  }
+}
         """
-        variables = {"playa": player}
+        variables = {"playa": player.name, "id": player.id}
         data = client.execute(query=query, variables=variables)
-        print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
+        print(f"Created player: {data}")
+        player.id = data["data"]["createPlayer"]["player"]["id"]
+        print(player)
 
 
 def populate_courses(courses):
@@ -43,27 +132,67 @@ mutation createCourse($name: String!) {
   }
 }
         """
-        variables = {"name": course}
+        variables = {"name": course.name}
         data = client.execute(query=query, variables=variables)
-        print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
+        print(f"Populate courses received: {data}")
+        course.id = data["data"]["createCourse"]["course"]["id"]
+        print(course)
 
 
-def populate_holes(filename):
+score_query = """
+mutation createScore(
+  $courseId: UUID!
+  $holeId: UUID!
+  $strokes: BigInt!
+  $points: BigInt!
+  $playerId: UUID!
+) {
+  createScore(
+    input: {
+      score: {
+        strokes: $strokes
+        points: $points
+        courseId: $courseId
+        holeId: $holeId
+        playerId: $playerId
+      }
+    }
+  ) {
+    clientMutationId
+    score {
+      nodeId
+      id
+      strokes
+      points
+    }
+  }
+}
+                """
+
+
+def populate_holes(courses, players):
+    print("Populating the holes")
     import csv
 
-    with open(filename, mode="r") as f:
-        # reading the CSV file
-        csvFile = csv.reader(f)
+    holes = []
 
-        # displaying the contents of the CSV file
-        nr = 1
-        for lines in csvFile:
-            if lines:
-                print(lines)
-                par, index = lines[0], lines[1]
-                query = """
-mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!, $par: BigInt!) {
-  createHole(input: {hole: {nr: $nr, index: $index, courseId: $courseID, par: $par}}) {
+    for idx, course in enumerate(courses):
+
+        with open(course.csv_file, mode="r") as f:
+            # reading the CSV file
+            csvFile = csv.reader(f)
+
+            # displaying the contents of the CSV file
+            nr = 1  # Hole number
+            for lines in csvFile:
+                if lines:
+                    print(lines)
+                    par, index = lines[0], lines[1]
+                    query = """
+mutation createHole($courseId: UUID!, $nr: BigInt!, $index: BigInt!, $par: BigInt!) {
+  createHole(
+    input: { hole: { nr: $nr, index: $index, courseId: $courseId, par: $par } }
+  ) {
     hole {
       id
       nr
@@ -72,58 +201,56 @@ mutation createHole($courseID: BigInt!, $nr: BigInt!, $index: BigInt!, $par: Big
     }
   }
 }
-                """
-                variables = {
-                    "courseID": 1,  # TODO - Set the correct course ID
-                    "nr": nr,
-                    "index": index,
-                    "par": par,
-                }
+                    """
+                    variables = {
+                        "courseId": course.id,
+                        "nr": nr,
+                        "index": index,
+                        "par": par,
+                    }
 
-                data = client.execute(query=query, variables=variables)
-                print(
-                    data
-                )  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
-                nr += 1
-
-
-def populate_scores(players, courses):
-
-    # for player in players:
-    for player in [1]:
-        for course in [1]:
-            for hole_number in range(1,18+1):
-
-                query = """
-                    mutation createScore($courseId: BigInt!, $holeId: BigInt!, $strokes: BigInt!, $points: BigInt!, $playerId: BigInt!) {
-                    createScore(
-                        input: {score: {strokes: $strokes, points: $points, courseId: $courseId, holeId: $holeId, playerId: $playerId}}
-                    ) {
-                        clientMutationId
-                        score {
-                            nodeId
-                            id
-                            strokes
-                            points
+                    data = client.execute(query=query, variables=variables)
+                    print(f"populate holes data: {data}")
+                    nr += 1
+                    hole = Hole(data["data"]["createHole"]["hole"])
+                    holes.append(hole)
+                    for player in players:
+                        # Create the initial empty score
+                        variables = {
+                            "courseId": course.id,
+                            "holeId": hole.id,
+                            "strokes": "0",
+                            "points": "0",
+                            "playerId": player.id,
                         }
-                    }
-                    }
-                """
+                        data = client.execute(query=score_query, variables=variables)
+                        print(f"Created scores: {data}")
 
-                variables = {
-                    "courseID": 1,  # TODO - Set the correct course ID
-                    "strokes": 0,
-                    "points": 0,
-                    "playerId": 1, # TODO - retrieve
-                    "courseId": 1, # TODO - retrieve
-                    "holeId": hole_number
-                }
+    return holes
 
-                data = client.execute(query=query, variables=variables)
-                print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
+
+def populate_competitions(types):
+    query = """
+mutation CreateCompetitionMutation($type: String!) {
+  createCompetition(input: {competition: {competitionType: $type}}) {
+    competition {
+      competitionType
+      id
+      nodeId
+    }
+  }
+}
+     """
+    for comp_type in types:
+        variables = {
+            "type": comp_type,
+        }
+        data = client.execute(query=query, variables=variables)
+        print(f"populate competition data: {data}")
 
 
 populate_players(players=PLAYERS)
-populate_courses(courses=COURSES)
-populate_holes(filename="gamle-fredrikstad.csv")
-populate_scores(players=PLAYERS, courses=COURSES)
+# populate_courses(courses=COURSES)
+# populate_competitions(types=COMPETITIONS)
+# HOLES = populate_holes(courses=COURSES, players=PLAYERS)
+# print(HOLES)

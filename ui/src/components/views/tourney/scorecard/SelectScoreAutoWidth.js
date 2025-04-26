@@ -1,90 +1,124 @@
-import * as React from "react";
+import React, { useState } from "react";
 // import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import { graphql } from "babel-plugin-relay/macro";
-import { useMutation } from "react-relay";
+
+import { useMutation, useFragment } from "react-relay";
 
 import "./SelectScoreAutoWidth.css";
 
+// TODO - See https://github.com/stanlemon/example-relay-app/blob/master/src/People.jsx
+//         for a sane updater example (!)
+// Also, my current setup is:
+// client:local:2:allCourses(condition:{"name":"Skjeberg"}):nodes:0' for the link from root
+
+const SelectScoreAutoWidthFragment = graphql`
+  fragment SelectScoreAutoWidthFragment on HoleScore {
+    courseName
+    holeNr
+    nodeId
+    scorerId
+    stamp
+    strokes
+    scorecardId
+    points
+  }
+`;
+
 const SelectScoreAutoWidthMutation = graphql`
-  mutation SelectScoreAutoWidthMutation(
-    $nodeId: ID!
-    $strokes: BigInt!
-    $points: BigInt!
-  ) {
-    updateScore(
-      input: {
-        nodeId: $nodeId
-        scorePatch: { strokes: $strokes, points: $points }
-      }
-    ) {
-      clientMutationId
-      score {
-        id
+  mutation SelectScoreAutoWidthMutation($holeScore: HoleScoreInput!) {
+    createHoleScore(input: { holeScore: $holeScore }) {
+      holeScore {
+        courseName
+        holeNr
         nodeId
+        scorerId
+        stamp
         strokes
-        points
+        scorecardId
       }
     }
   }
 `;
 
-const acceptableScores = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-// TODO - Make this create the correct score on the server
-function PointsFromScore(par, extraHcpStrokes, score) {
-  console.log(
-    `pointsFromScore: par: ${par}, extraHcpStrokes: ${extraHcpStrokes}, score: ${score}`
-  );
-  console.log(typeof par);
-  console.log(typeof extraHcpStrokes);
-  console.log(typeof score);
-  console.log(Number(par));
-  console.log(Number(extraHcpStrokes));
-  console.log(Number(score));
-  let res = Number(par) + Number(extraHcpStrokes) - Number(score) + 2;
-  if (res <= 0) {
-    return 0;
+const SelectScoreAutoWidthUpdateMutation = graphql`
+  mutation SelectScoreAutoWidthUpdateMutation(
+    $holeScore: UpdateHoleScoreInput!
+  ) {
+    updateHoleScore(input: $holeScore) {
+      holeScore {
+        courseName
+        holeNr
+        nodeId
+        scorerId
+        stamp
+        strokes
+        scorecardId
+      }
+    }
   }
-  console.log(`PointsFromScore result: ${res}`);
-  return res;
-}
+`;
+
+const maxAcceptableScore = 12;
 
 export default function SelectScoreAutoWidth({
-  onChange,
-  holeNumber,
-  nodeId,
-  strokes,
-  par,
-  hcpe,
+  scorerId,
+  scorecardId,
+  courseName,
+  holeNr,
+  hole,
 }) {
-  if (strokes == 0) {
-    strokes = "";
-  }
-  const [score, setScore] = React.useState(strokes);
+  const data = useFragment(SelectScoreAutoWidthFragment, hole);
 
-  const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
-    SelectScoreAutoWidthMutation
+  const [commitMutation, isMutationInFlight] = useMutation(
+    hole ? SelectScoreAutoWidthUpdateMutation : SelectScoreAutoWidthMutation,
   );
 
   const handleChange = (event) => {
-    console.log("selectScoreAutoWidth: ...");
+    const updateVariables = {
+      holeScore: {
+        patch: {
+          strokes: event.target.value,
+        },
+        scorerId: scorerId,
+        holeNr: holeNr,
+        courseName: courseName,
+        scorecardId: scorecardId,
+      },
+    };
+
     commitMutation({
-      variables: {
-        strokes: event.target.value,
-        points: PointsFromScore(par, hcpe, event.target.value),
-        playerId: 1,
-        courseId: 1,
-        nodeId: nodeId,
+      variables: hole
+        ? updateVariables
+        : {
+            holeScore: {
+              scorerId: scorerId,
+              holeNr: holeNr,
+              courseName: courseName,
+              scorecardId: scorecardId,
+              strokes: event.target.value,
+            },
+          },
+      onCompleted: (res) => {
+        console.log(
+          `successfully mutated the hole score: ${JSON.stringify(res)}`,
+        );
+      },
+      onError: (err) => {
+        console.log(`Error updating the holeScore: ${err}`);
+      },
+      updater: (store, _data) => {
+        // const payload = store.getRootField("createEntry");
+        // const newEdge = payload.getLinkedRecord("entryEdge");
+        // sharedUpdater(store, diaryId, newEdge);
+        console.log(store);
+        console.log(_data);
+        // store.invalidateStore();
       },
     });
-    console.log("created score!");
-    console.log(createdData);
-    setScore(event.target.value);
-    onChange(event.target.value);
   };
 
   return (
@@ -93,15 +127,16 @@ export default function SelectScoreAutoWidth({
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="score-simple-select-autowidth"
-          value={score}
+          value={data?.strokes || ""}
           onChange={handleChange}
           label="Score"
           variant="standard"
           IconComponent={() => ""}
+          disabled={isMutationInFlight}
         >
-          {acceptableScores.map((score) => (
-            <MenuItem key={score} value={score}>
-              {score}
+          {[...Array(maxAcceptableScore)].map((_, i) => (
+            <MenuItem key={i} value={i}>
+              {i}
             </MenuItem>
           ))}
         </Select>

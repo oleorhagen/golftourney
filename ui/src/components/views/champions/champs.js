@@ -2,37 +2,90 @@ import React from "react";
 
 import "./champs.css";
 
-import { Paper, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 export const PreviousChampion = (props) => {
-  // TODO - Layout should be a grid with champs
-  // The latest champion should wear a crown
-  // Every champion should have an img (this I have for both years)
-  // And the name is shining lights
-  // Johnny b good' to'nite
-  // Arrow pointing to the latest champ, saying: `This Is the Champ!!!`
+  const [expanded, setExpanded] = React.useState(false);
 
-  //
-  // TODO - How does HTML img automatically choose the png size ? I don't remember
-  // https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images - Look at responsive images here
-  //
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
-  // TODO - Generate multiple formats of the images used, the one currently is too big!
   return (
-    <Paper elevation={3}>
-      <Typography gutterBottom variant="h1" component="div" align="center">
-        {props.name}
-      </Typography>
-      <figure>
-        <img
-          src={props.img}
-          alt="2021 champion"
-          title={props.text}
-          width="80%"
-        />
-        <figcaption>{props.text}</figcaption>
-      </figure>
-    </Paper>
+    <Card sx={{ maxWidth: 345 }}>
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: props.bgColor }} aria-label={props.avatarName}>
+            {props.avatarName}
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={props.text}
+        subheader={props.date}
+      />
+      <CardMedia
+        component="img"
+        height="194"
+        image={props.img}
+        alt="champion-img"
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {props.short}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>Story:</Typography>
+          <Typography paragraph>{props.story}</Typography>
+        </CardContent>
+      </Collapse>
+    </Card>
   );
 };
 

@@ -1,4 +1,7 @@
 version: '3.8'
+# volumes:
+#   golfdata:
+
 services:
 
   gateway:
@@ -14,40 +17,67 @@ services:
       retries: 10
 
   db:
-    image: bitnami/postgresql:latest
+    image: bitnami/postgresql:17
     container_name: golf-db
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
     ports:
-      - "5432"
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: golf-db
+      POSTGRES_DB: golf_db
     healthcheck:
-      test: pg_isready --user=postgres --dbname=golf-db
+      test: pg_isready --user=postgres --dbname=golf_db
       interval: 10s
       timeout: 5s
       retries: 10
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
+    #   - ./postgresql.conf:/etc/postgresql/postgresql.conf
+    #   - ./postgres/postgraphile-live.conf:/etc/postgresql/conf.d/postgraphile-live.conf
+    # command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    command: postgres -c wal_level=logical
+
 
 
   postgraphile:
     image: graphile/postgraphile
     container_name: postgraphile
+    build:
+      context: .
+      dockerfile: Dockerfile.postgraphile
     depends_on:
       db:
         condition: service_healthy
     ports:
       - "5433:5433"
+    # See https://www.graphile.org/postgraphile/usage-cli/
     command:
       [
+        '--append-plugins',
+        '@graphile/subscriptions-lds,postgraphile-plugin-connection-filter,@graphile-contrib/pg-simplify-inflector',
         '--connection',
-        'postgres://postgres:password@db:5432/golf-db',
+        'postgres://postgres:password@db:5432/golf_db',
         '--port',
         '5433',
         '--schema',
-        'public',
+        'physical',
         '--enhance-graphiql',
+        '--watch',
+        '--subscriptions',
+        '--live',
+        '--dynamic-json',
+        '--show-error-stack=json',
+        '--extended-errors',
+        'hint,detail,errcode',
+        '--no-setof-functions-contain-nulls',
+        '--export-schema-graphql',
+        '/tmp/schema.graphql',
+        '--allow-explain',
+        '--no-ignore-rbac',
       ]
+
   # ui:
   #   image: oleorhagen/golf-ui:master
   #   build:

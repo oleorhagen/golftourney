@@ -1,29 +1,38 @@
 import logo from "./logo.svg";
 import "./App.css";
 
+import Box from "@mui/material/Box";
+
+import { Outlet } from "react-router-dom";
+
+import { RelayEnvironmentProvider } from "react-relay/hooks";
+
+import RelayEnvironment from "./RelayEnvironment";
+
 // AWS user authentication
 import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { Auth } from "aws-amplify";
-// TODO
-// (await Auth.currentSession()).getIdToken().getJwtToken()
 
-import React, { useState } from "react";
+import React from "react";
 
 import { Container } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
-import NavBar from "./components/Navbar";
+import Drawer from "./components/Drawer";
 import Footer from "./components/Footer";
 
-// Views
-import ChampionsView from "./components/views/champions/champions";
-import MainView from "./components/views/main/view";
-import TourneyView from "./components/views/tourney/view";
-
-// Utils
-import user2ID from "./user-to-id";
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#ff5252",
+    },
+  },
+});
 
 // Configure Amplify in index file or root file
 Amplify.configure({
@@ -34,40 +43,38 @@ Amplify.configure({
   },
 });
 
-function App() {
-  const [currentView, setView] = useState(MainView);
-  const navBarItems = [
-    { name: "Home", view: () => setView(MainView) },
-    { name: "Tourney", view: () => setView(TourneyView) },
-    { name: "Champions", view: () => setView(ChampionsView) },
-  ];
+function App(props) {
+  const userInfo = {
+    playerId: "626fa9fd-95ed-40e8-90f3-139ec79e79b9",
+    tournamentId: "942b428e-2c9b-4f7a-9077-ea3cde99e184",
+  };
 
   return (
-    <Authenticator hideSignUp={true}>
-      {({ signOut, user }) => {
-        console.log(user);
-        return (
-          <div className="App">
-            <>
-              <NavBar navBarItems={navBarItems} />
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <div className="App">
+        <Box sx={{ display: "flex" }}>
+          <Drawer navbarItems={props.navbarItems} />
+          <>
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Container
                 maxWidth="xl"
-                sx={{ marginTop: (theme) => theme.spacing(4) }}
+                sx={{ marginTop: (theme) => theme.spacing(10) }}
               >
-                <div>
-                  <p>Welcome {user.username}</p>
-                  <p>With user id: {user2ID(user.username)}</p>
-                  <p>Welcome {user.attributes.sub}</p>
-                  <button onClick={signOut}>Sign out</button>
-                </div>
-                <main>{currentView}</main>
+                <main>
+                  <RelayEnvironmentProvider environment={RelayEnvironment}>
+                    <React.Suspense fallback={"Loading..."}>
+                      <Outlet context={userInfo} />
+                    </React.Suspense>
+                  </RelayEnvironmentProvider>
+                </main>
               </Container>
               <Footer />
-            </>
-          </div>
-        );
-      }}
-    </Authenticator>
+            </Box>
+          </>
+        </Box>
+      </div>
+    </ThemeProvider>
   );
 }
 

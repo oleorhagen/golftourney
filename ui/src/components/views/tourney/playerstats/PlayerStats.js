@@ -1,37 +1,171 @@
 import React, { useState } from "react";
 
-import { TextField, Typography, Paper } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  TextField,
+  Typography,
+  Paper,
+} from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+
+import graphql from "babel-plugin-relay/macro";
+import { useFragment, useMutation } from "react-relay";
+
+const PlayerStatsSetHandicapMutation = graphql`mutation tempMut1($id: ID!) {
+  id
+}`;
+
+const PlayerStatsUpdateHandicapMutation = graphql`mutation tempMut2($id: ID!) {
+  id
+}`;
+
+const HandicapFragment = graphql`mutation tempMut3($id: ID!) {
+  id
+}`;
+
+// function PlayerHandicapExisting(props) {
+//   return (
+//     <Container maxWidth="sm">
+//       <div className="player-state">
+//         <Paper elevation={2} sx={{ marginBottom: 10 }}>
+//           <TextField
+//             id="outlined-controlled-hcp-select"
+//             error={error}
+//             helperText={helpText}
+//             label="Extra Strokes on the Course"
+//             value={hcp || data?.handicap}
+//             onChange={(event) => {
+//               if (isNaN(Number(event.target.value))) {
+//                 setError(true);
+//                 return;
+//               }
+//               const inputHcp = Number(event.target.value);
+//               if (!(inputHcp >= 0 && inputHcp <= 54)) {
+//                 setError(true);
+//                 return;
+//               }
+//               setError(false);
+//               setHcp(event.target.value);
+//             }}
+//           />
+//           <Button
+//             variant="outlined"
+//             onClick={() => {
+//               commitMutation({
+//                 variables: {
+//                   handicap: hcp,
+//                   playerId: props.playerId,
+//                   courseId: props.course_id,
+//                   id: data?.id,
+//                 },
+//                 onError: (e) => {
+//                   console.log(
+//                     `oh nooo, error creating mutation player handicap ${e}`
+//                   );
+//                   setHcp("");
+//                   setError(true);
+//                   setHelpText("Please try again");
+//                 },
+//                 onCompleted: (data) => {
+//                   console.log(
+//                     `successfully updated (completed) the handicap on the server ${data}`
+//                   );
+//                   setHcp(hcp);
+//                   props.onChange(hcp);
+//                   setHelpText("");
+//                 },
+//               });
+//             }}
+//           >
+//             Submit
+//           </Button>
+//         </Paper>
+//       </div>
+//     </Container>
+//   );
+// }
 
 export default function PlayerStats(props) {
-  const [hcp, setHcp] = useState("");
+  const data = useFragment(HandicapFragment, props.handicap_fragment);
+
+  const [hcp, setHcp] = useState(data?.handicap || "");
   const [error, setError] = useState(false);
+  const [helpText, setHelpText] = useState("");
+  const [textFieldType, setTextFieldType] = useState(
+    data?.handicap ? "outlined" : "filled"
+  );
+
+  const [commitMutation, { createdData, isMutationInFlight }] = useMutation(
+    props.handicap_fragment
+      ? PlayerStatsUpdateHandicapMutation
+      : PlayerStatsSetHandicapMutation
+  );
 
   return (
-    <div className="player-state">
-      <Paper>
-        <Typography>Player ID: {props.id} </Typography>
-        <Typography>Player HCP: {props.id} </Typography>
-        <TextField
-          id="outlined-controlled-hcp-select"
-          error={error}
-          label="Extra Strokes on the Course"
-          value={hcp}
-          onChange={(event) => {
-            if (isNaN(Number(event.target.value))) {
-              setError(true);
-              return;
-            }
-            const inputHcp = Number(event.target.value);
-            if (!(inputHcp >= 0 && inputHcp <= 54)) {
-              setError(true);
-              return;
-            }
-            setError(false);
-            setHcp(event.target.value);
-            props.onChange(event.target.value);
-          }}
-        />
-      </Paper>
-    </div>
+    <Container maxWidth="sm">
+      <div className="player-state">
+        <Paper elevation={2} sx={{ marginBottom: 10 }}>
+          {(isMutationInFlight && <CircularProgress />) || (
+            <TextField
+              variant={textFieldType}
+              id="outlined-controlled-hcp-select"
+              inputProps={{ inputMode: "numeric" }}
+              error={error}
+              helperText={helpText}
+              label="Extra Strokes on the Course"
+              value={hcp}
+              onChange={(event) => {
+                setTextFieldType("filled");
+                if (isNaN(Number(event.target.value))) {
+                  setError(true);
+                  return;
+                }
+                const inputHcp = Number(event.target.value);
+                if (!(inputHcp >= 0 && inputHcp <= 54)) {
+                  setError(true);
+                  return;
+                }
+                setError(false);
+                setHcp(event.target.value);
+              }}
+            />
+          )}
+          <Button
+            variant="outlined"
+            onClick={() => {
+              commitMutation({
+                variables: {
+                  handicap: hcp,
+                  playerId: props.playerId,
+                  courseId: props.course_id,
+                  id: data?.id,
+                },
+                onError: (e) => {
+                  console.log(
+                    `oh nooo, error creating mutation player handicap ${e}`
+                  );
+                  setHcp("");
+                  setError(true);
+                  setHelpText("Please try again");
+                },
+                onCompleted: (data) => {
+                  console.log(
+                    `successfully updated (completed) the handicap on the server ${data}`
+                  );
+                  setHcp(hcp);
+                  props.onChange(hcp);
+                  setHelpText("");
+                  setTextFieldType("outlined");
+                },
+              });
+            }}
+          >
+            Submit
+          </Button>
+        </Paper>
+      </div>
+    </Container>
   );
 }

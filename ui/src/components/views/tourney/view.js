@@ -1,21 +1,99 @@
 import React, { useState } from "react";
+import graphql from "babel-plugin-relay/macro";
+
+import { useOutletContext, Outlet } from "react-router-dom";
+import Link from "../../router/Link";
 
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 
-import PlayerStats from "./playerstats/PlayerStats";
+// import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
-import TourneyGraph from "./scoregraph/scoreGraph";
 
-import RelayEnvironment from "../../../RelayEnvironment";
+import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
-import graphql from "babel-plugin-relay/macro";
+const ListAllScorecardsQuery = graphql`
+  query viewListScorecardsByTournamentIDQuery(
+    $tournamentId: UUID!
+    $scorerId: UUID!
+  ) {
+    scorecards(
+      condition: { tournamentId: $tournamentId, scorerId: $scorerId }
+    ) {
+      nodes {
+        id
+        courseName
+        handicap
+        nodeId
+        scorerId
+        tournamentId
+      }
+    }
+  }
+`;
 
-import {
-  RelayEnvironmentProvider,
-  loadQuery,
-  usePreloadedQuery,
-  useLazyLoadQuery,
-} from "react-relay/hooks";
+export function RouterScoreCard() {
+  const props = useOutletContext();
+  return <ScoreCard {...props} />;
+}
+
+function ScheduleScoreCard(props) {
+  const [value, setValue] = useState(0);
+  const [hcp, setHcp] = useState(0);
+
+  const data = useLazyLoadQuery(
+    ListAllScorecardsQuery,
+    { tournamentId: props.tournamentId, scorerId: props.scorerId },
+    { fetchPolicy: "network-only" },
+  );
+
+  var courseNodes = data?.scorecards?.nodes || [];
+
+  const handleTabChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <div className="TourneyApp">
+      <div className="TourneyApp-header">
+        <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+          <Tabs
+            value={value}
+            onChange={handleTabChange}
+            variant="fullWidth"
+            orientation="vertical"
+          >
+            {courseNodes.map((n, i) => (
+              <Tab
+                component={Link}
+                to={
+                  "/scorecards/" +
+                  n.courseName.replace(/\W+/g, "-").toLowerCase()
+                }
+                label={n.courseName}
+                key={i}
+              />
+            ))}
+          </Tabs>
+        </Box>
+        {courseNodes.map((courseNode, i) => {
+          return (
+            <CustomTabPanel value={value} index={i} key={i}>
+              <div>
+                <Outlet
+                  context={{
+                    courseName: courseNode.courseName,
+                    scorecardId: courseNode.id,
+                    ...props,
+                  }}
+                />
+              </div>
+            </CustomTabPanel>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -33,170 +111,13 @@ function CustomTabPanel(props) {
   );
 }
 
-const coursesQuery = graphql`
-  query viewAllCoursesAndHolesQuery {
-    allCourses {
-      nodes {
-        id
-        name
-        holesByCourseId {
-          nodes {
-            courseId
-            id
-            index
-            nr
-            par
-            nodeId
-            scoresByHoleId(condition: { playerId: "1" }) {
-              nodes {
-                points
-                strokes
-                id
-                holeId
-                nodeId
-                courseId
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-// const coursesQueryReference = loadQuery(RelayEnvironment, coursesQuery);
-
-// const holesQuery = graphql`
-//   query viewGetHolesForCourseQuery($courseId: BigInt!, $playerId: BigInt!) {
-//     allHoles(condition: { courseId: $courseId }) {
-//       nodes {
-//         id
-//         index
-//         nr
-//         par
-//         scoresByHoleId(
-//           condition: { courseId: $courseId, playerId: $playerId }
-//         ) {
-//           nodes {
-//             id
-//             nodeId
-//             strokes
-//             points
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
-// Inner component that reads the preloaded query results via `usePreloadedQuery()`.
-// This works as follows:
-// - If the query has completed, it returns the results of the query.
-// - If the query is still pending, it "suspends" (indicates to React that the
-//   component isn't ready to render yet). This will show the nearest <Suspense>
-//   fallback.
-// - If the query failed, it throws the failure error. For simplicity we aren't
-//   handling the failure case here.
-function TourneyApp(props) {
-  const [hcpStrokes, setHcpStrokes] = useState("");
-  // const data = useLazyLoadQuery(holesQuery, holesQueryReference);
-
-  const course_data = useLazyLoadQuery(coursesQuery);
-  console.log("course data:");
-  console.log(course_data);
-
-  var course_nodes = [];
-
-  {
-    const {
-      allCourses: { nodes },
-    } = course_data;
-    course_nodes = nodes;
-  }
-
-  console.log("course nodes:");
-  console.log(course_nodes);
-
-  // const data = useLazyLoadQuery(holesQuery, {
-  //   playerId: 1,
-  //   courseId: 1,
-  // });
-
-  const [value, setValue] = useState(0);
-
-  const handleTabChange = (event, newValue) => {
-    console.log("Handle tab change");
-    console.log(event);
-    setValue(newValue);
-  };
-
-  // console.log(`tourney app: data: ${data}`);
-  // console.log(data);
-
-  // const {
-  //   allHoles: { nodes },
-  // } = data;
-
-  if (course_nodes.length > 0) {
-    const id = course_nodes[0].id;
-
-    console.log(`id:`);
-    console.log(id);
-    // Set the extra strokes here (?)
-
-    return (
-      <div className="TourneyApp">
-        <div className="TourneyApp-header">
-          <p>{id}</p>
-          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-            <Tabs value={value} onChange={handleTabChange} centered>
-              {course_nodes.map((n, i) => (
-                <Tab label={n.name} key={i} />
-              ))}
-            </Tabs>
-          </Box>
-          {course_nodes.map((n, i) => {
-            return (
-              <CustomTabPanel value={value} index={i} key={i}>
-                <div>
-                  <PlayerStats
-                    id={id}
-                    onChange={(extraStrokes) => {
-                      setHcpStrokes(extraStrokes);
-                    }}
-                  />
-                  <ScoreCard
-                    playerId={props.playerId}
-                    courseId={i}
-                    courseData={course_nodes[i]}
-                    extraStrokes={hcpStrokes}
-                  />
-                </div>
-              </CustomTabPanel>
-            );
-          })}
-          {/* <TourneyGraph /> */}
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div className="TourneyApp">
-      <header className="TourneyApp-header">
-        <p>No data present...</p>
-      </header>
-    </div>
-  );
-}
-
 function TourneyView(props) {
+  const { playerId, tournamentId } = useOutletContext();
+
   return (
     <>
-      <h1>Tourney</h1>
-      <RelayEnvironmentProvider environment={RelayEnvironment}>
-        <React.Suspense fallback={"Loading..."}>
-          <TourneyApp playerId={1} />
-        </React.Suspense>
-      </RelayEnvironmentProvider>
+      <Typography variant="h2">Scorecards</Typography>
+      <ScheduleScoreCard scorerId={playerId} tournamentId={tournamentId} />
     </>
   );
 }
