@@ -1,79 +1,31 @@
-
 --
 -- - Create the players (Scorers) and the teams, and set up the memberships
 --
-insert into physical.scorer (
-id,
-name
-)
-values (
-'626fa9fd-95ed-40e8-90f3-139ec79e79b9',
-'Ole Petter Orhagen'
-),
-(
-'b885afc9-4f16-423a-b7cf-b880c99fa3f8',
-'Juliane Skuland Karling'
-),
-(
-'fcca86fa-fdf3-4814-8c7e-ce9ea320dd08',
-'Ole Martin Hellerud'
-),
-(
-'e66ac21a-36ff-441f-9102-755f3515416a',
-'Marius Sollie'
-);
-
+INSERT INTO physical.scorer (id, name)
+    VALUES (:oleo_id, 'Ole Petter Orhagen'),
+    (:julius_id, 'Juliane Skuland Karling'),
+    (:olem_id, 'Ole Martin Hellerud'),
+    (:marius_id, 'Marius Sollie');
 
 --
 -- Add the players to the tournament
 --
-insert into physical.tournament_scorer (
-    tournament_id,
-    scorer_id
-)
-values ((
-    select id
-    from
-        physical.tournament
-    where
-        name like 'Skjeberg%'
-), (
-    select id
-    from
-        physical.scorer
-    where
-        name like 'Ole P%'
-)),
-((
-    select id
-    from physical.tournament
-    where
-        name like 'Skjeberg%'
-), (
-    select id
-    from physical.scorer
-    where
-        name like 'Juliane%'
-)),
-((
-    select id
-    from physical.tournament
-    where
-        name like 'Skjeberg%'
-), (
-    select id
-    from physical.scorer
-    where
-        name like 'Marius%'
-)),
-((
-    select id
-    from physical.tournament
-    where
-        name like 'Skjeberg%'
-), (
-    select id
-    from physical.scorer
-    where
-        name like 'Ole M%'
-));
+INSERT INTO physical.tournament_scorer (tournament_id, scorer_id)
+    VALUES ((:tournament_id),
+        (:oleo_id)),
+    ((:tournament_id),
+        (:julius_id)),
+    ((:tournament_id),
+        (:marius_id)),
+    ((:tournament_id),
+        (:olem_id));
+
+--
+-- Create the players, with their handicaps
+--
+INSERT INTO physical.player (id, handicap)
+    VALUES ((:oleo_id), 24),
+    ((:julius_id), 20),
+    ((:marius_id), 37),
+    ((:olem_id), 25);
+
