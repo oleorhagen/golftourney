@@ -70,3 +70,24 @@ INSERT INTO physical.course_hole (course_name, hole_nr, par, hole_index)
     ('Gamle Fredrikstad', 17, 4, 16),
     ('Gamle Fredrikstad', 18, 5, 6);
 
+--- Create the Skjeberg course
+INSERT INTO physical.course_hole (course_name, hole_nr, par, hole_index)
+    VALUES ('Skjeberg', 1, 4, 11),
+    ('Skjeberg', 2, 3, 13),
+    ('Skjeberg', 3, 4, 3),
+    ('Skjeberg', 4, 4, 9),
+    ('Skjeberg', 5, 3, 15),
+    ('Skjeberg', 6, 4, 1),
+    ('Skjeberg', 7, 3, 17),
+    ('Skjeberg', 8, 4, 7),
+    ('Skjeberg', 9, 5, 5),
+    ('Skjeberg', 10, 4, 4),
+    ('Skjeberg', 11, 4, 6),
+    ('Skjeberg', 12, 5, 18),
+    ('Skjeberg', 13, 5, 2),
+    ('Skjeberg', 14, 4, 16),
+    ('Skjeberg', 15, 4, 12),
+    ('Skjeberg', 16, 5, 8),
+    ('Skjeberg', 17, 3, 14),
+    ('Skjeberg', 18, 4, 10);
+
