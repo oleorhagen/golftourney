@@ -1,0 +1,93 @@
+--
+-- - Create the courses
+--
+INSERT INTO physical.course (name, course_rating, slope, nr_holes)
+    VALUES ('Skjeberg', 70.7, 130, 18), -- From 55
+    ('Onsoy', 72.7, 136, 18), -- Tee 59
+    ('Gamle Fredrikstad', 72.8, 145, 18), -- Tee 59
+    ('Borregaard', 64.4, 130, 18) -- Mens 43
+;
+
+--
+-- Add the courses we are playing to the tournament
+--
+INSERT INTO physical.tournament_course (tournament_id, course_name)
+    VALUES ((
+            SELECT
+                id
+            FROM
+                physical.tournament
+            WHERE
+                name LIKE 'Skjeberg%'), 'Skjeberg'), ((
+        SELECT
+            id
+        FROM physical.tournament
+        WHERE
+            name LIKE 'Skjeberg%'), 'Borregaard');
+
+--
+--- Create the Courses
+--
+--- Create Borregaard
+INSERT INTO physical.course_hole (course_name, hole_nr, par, hole_index)
+    VALUES ('Borregaard', 1, 3, 3),
+    ('Borregaard', 2, 3, 17),
+    ('Borregaard', 3, 4, 7),
+    ('Borregaard', 4, 3, 11),
+    ('Borregaard', 5, 4, 5),
+    ('Borregaard', 6, 3, 13),
+    ('Borregaard', 7, 4, 1),
+    ('Borregaard', 8, 4, 15),
+    ('Borregaard', 9, 4, 9),
+    ('Borregaard', 10, 3, 3),
+    ('Borregaard', 11, 3, 16),
+    ('Borregaard', 12, 4, 4),
+    ('Borregaard', 13, 3, 14),
+    ('Borregaard', 14, 4, 6),
+    ('Borregaard', 15, 3, 12),
+    ('Borregaard', 16, 5, 18),
+    ('Borregaard', 17, 4, 10),
+    ('Borregaard', 18, 4, 8);
+
+-- Create Gamle Fredrikstad
+INSERT INTO physical.course_hole (course_name, hole_nr, par, hole_index)
+    VALUES ('Gamle Fredrikstad', 1, 4, 15),
+    ('Gamle Fredrikstad', 2, 4, 1),
+    ('Gamle Fredrikstad', 3, 5, 7),
+    ('Gamle Fredrikstad', 4, 3, 13),
+    ('Gamle Fredrikstad', 5, 4, 11),
+    ('Gamle Fredrikstad', 6, 5, 3),
+    ('Gamle Fredrikstad', 7, 4, 17),
+    ('Gamle Fredrikstad', 8, 3, 9),
+    ('Gamle Fredrikstad', 9, 4, 5),
+    ('Gamle Fredrikstad', 10, 4, 4),
+    ('Gamle Fredrikstad', 11, 4, 2),
+    ('Gamle Fredrikstad', 12, 4, 18),
+    ('Gamle Fredrikstad', 13, 3, 14),
+    ('Gamle Fredrikstad', 14, 5, 10),
+    ('Gamle Fredrikstad', 15, 4, 12),
+    ('Gamle Fredrikstad', 16, 3, 8),
+    ('Gamle Fredrikstad', 17, 4, 16),
+    ('Gamle Fredrikstad', 18, 5, 6);
+
+--- Create the Skjeberg course
+INSERT INTO physical.course_hole (course_name, hole_nr, par, hole_index)
+    VALUES ('Skjeberg', 1, 4, 11),
+    ('Skjeberg', 2, 3, 13),
+    ('Skjeberg', 3, 4, 3),
+    ('Skjeberg', 4, 4, 9),
+    ('Skjeberg', 5, 3, 15),
+    ('Skjeberg', 6, 4, 1),
+    ('Skjeberg', 7, 3, 17),
+    ('Skjeberg', 8, 4, 7),
+    ('Skjeberg', 9, 5, 5),
+    ('Skjeberg', 10, 4, 4),
+    ('Skjeberg', 11, 4, 6),
+    ('Skjeberg', 12, 5, 18),
+    ('Skjeberg', 13, 5, 2),
+    ('Skjeberg', 14, 4, 16),
+    ('Skjeberg', 15, 4, 12),
+    ('Skjeberg', 16, 5, 8),
+    ('Skjeberg', 17, 3, 14),
+    ('Skjeberg', 18, 4, 10);
+
