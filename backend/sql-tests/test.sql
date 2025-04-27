@@ -105,7 +105,6 @@ select
 -- it is a 20 hcp)
 
 
-
 -- - Insert a 3 stroke on the first hole at Borregaard
 insert into physical.hole_score (
     course_name,
@@ -116,26 +115,13 @@ insert into physical.hole_score (
 )
 values (
     'Borregaard',
-    (
-        select id
-        from
-            physical.scorer
-            natural join physical.player
-        where
-            name like 'Ole P%'
-    ),
+    :oleo_id,
     1, -- Hole Nr
     (
         select id
         from physical.scorecard
         where
-            scorer_id in (
-                select id
-                from physical.scorer
-                    natural join physical.player
-                where
-                    name like 'Ole P%'
-            )
+            scorer_id = :oleo_id
     ),
     3 -- 3 Strokes
 );
@@ -148,7 +134,7 @@ select
         array(
             select total_points::int
             from postgraphile.player_points
-            where scorer_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9'
+            where scorer_id = :oleo_id
         ),
         array[ 4 ],
         'First score inserted for player should give 4 points'
@@ -166,27 +152,14 @@ insert into physical.hole_score (
 )
 values (
     'Borregaard',
-    (
-        select id
-        from
-            physical.scorer
-            natural join physical.player
-        where
-            name like 'Ole P%'
-    ),
+    :oleo_id,
     2, -- Hole Nr
     (
         select id
         from physical.scorecard
         where
-            scorer_id in (
-                select id
-                from physical.scorer
-                    natural join physical.player
-                where
-                    name like 'Ole P%'
-            )
-    ),
+            scorer_id = :oleo_id
+            ),
     4 -- 4 Strokes
 );
 
@@ -196,7 +169,7 @@ select
         array(
             select total_points::int
             from postgraphile.player_points
-            where scorer_id = '626fa9fd-95ed-40e8-90f3-139ec79e79b9'
+            where scorer_id = :oleo_id
         ),
         array[ 6 ],
         'Second score for player should give two, and total to 4+2=6 points'
@@ -218,26 +191,13 @@ insert into physical.hole_score (
 )
 values (
     'Skjeberg',
-    (
-        select id
-        from
-            physical.scorer
-            natural join physical.team
-        where
-            name like 'J&O'
-    ),
+    :team_jo_id,
     1, -- Hole Nr
     (
         select id
         from physical.scorecard
         where
-            scorer_id in (
-                select id
-                from physical.scorer
-                    natural join physical.team
-                where
-                    name like 'J&O'
-            )
+            scorer_id = :team_jo_id
     ),
     4 -- 4 Strokes
 );
@@ -248,7 +208,7 @@ select
         array(
             select total_points::int
             from postgraphile.player_points
-            where scorer_id = '94ee90bb-7660-4ca3-ad7e-34ade5131276'
+            where scorer_id = :team_jo_id
         ),
         array[ 3 ],
         'Team score did update correctly'
