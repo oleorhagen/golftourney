@@ -1,7 +1,7 @@
 select plan(1);
 
 
-PREPARE expected AS
+prepare expected as
 values (:team_hm_id, 'H&M', 31),
 (:team_jo_id, 'J&O', 22);
 
@@ -13,7 +13,7 @@ select results_eq(
 );
 
 
-DEALLOCATE PREPARE ALL;
+deallocate prepare all;
 
 select *
 from
