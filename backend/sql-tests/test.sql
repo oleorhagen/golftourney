@@ -35,6 +35,9 @@ BEGIN;
 -- 001 - public.player
 \i backend/sql-tests/001_public_player_test.sql
 
+-- 002 - public.team
+\i backend/sql-tests/002_public_team_test.sql
+
 -- Verify that the team memberships are correct
 PREPARE jno_team_query AS
 SELECT
