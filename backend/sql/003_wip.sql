@@ -1,0 +1,66 @@
+-- CREATE FUNCTION distribute_strokes (tot_extra_strokes int, nr_holes int, hole_index int)
+--     RETURNS int
+--     AS $$
+--     SELECT
+--         -- Distribute the number             + the remainder
+--         (tot_extra_strokes / nr_holes) + (17 + tot_extra_strokes % nr_holes / (hole_index)) / nr_holes -- (+17) Normalize to (0,1)
+-- $$
+-- LANGUAGE sql
+-- STABLE STRICT;
+
+-- CREATE OR REPLACE FUNCTION tot_extra_strokes_per_player (handicap float, slope float)
+--     RETURNS int
+--     AS $$
+--     SELECT
+--         int8(round(handicap * (slope / 113))) AS extra_strokes_tot
+-- $$
+-- LANGUAGE sql
+-- STABLE STRICT;
+
+-- CREATE OR REPLACE FUNCTION hole_extra_strokes (extra_strokes_tot int, nr_holes int, hole_index int)
+--     RETURNS int
+--     AS $$
+--     SELECT
+--         int8((extra_strokes_tot / nr_holes) + (17 + extra_strokes_tot % nr_holes / (hole_index)) / nr_holes) AS extra_strokes -- (+17) Normalize to (0,1)
+-- $$
+-- LANGUAGE sql
+-- STABLE STRICT;
+
+-- -- TODO - Does not show the team extra points atm
+-- --
+-- -- - Distribute the extra strokes over the holes
+-- --
+-- -- - The number of extra strokes per hole, per player, or team
+-- --
+-- CREATE OR REPLACE VIEW extra_strokes_per_hole AS (
+--     SELECT DISTINCT
+--         sc.id,
+--         sc.tournament_id,
+--         sc.scorer_id AS player_id,
+--         sc.handicap,
+--         ch.hole_nr,
+--         ch.hole_index,
+--         ch.par,
+--         ch.course_name,
+--         hole_extra_strokes (tot_extra_strokes_per_player (sc.handicap, c.slope), c.nr_holes::integer, ch.hole_index::integer) AS extra_strokes
+--     FROM
+--         physical.scorecard AS sc
+--         INNER JOIN physical.course_hole AS ch ON sc.course_name = ch.course_name
+--         INNER JOIN physical.course AS c ON ch.course_name = c.name);
+
+-- -- Returns the extra strokes for a hole, given a hole and player_id
+-- CREATE FUNCTION course_hole_extra_strokes (hole physical.course_hole, player_id uuid)
+--     RETURNS int8
+--     AS $$
+--     SELECT
+--         extra_strokes
+--     FROM
+--         extra_strokes_per_hole AS e
+--     WHERE
+--         e.hole_nr = hole.hole_nr
+--         AND e.course_name = hole.course_name
+--         AND e.player_id = player_id
+-- $$
+-- LANGUAGE sql
+-- STABLE STRICT;
+
