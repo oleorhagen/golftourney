@@ -63,4 +63,3 @@
 -- $$
 -- LANGUAGE sql
 -- STABLE STRICT;
-

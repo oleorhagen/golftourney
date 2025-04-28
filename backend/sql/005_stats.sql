@@ -93,4 +93,3 @@
 -- STABLE STRICT;
 
 -- GRANT SELECT ON ALL tables IN SCHEMA statistics TO statistics;
-
