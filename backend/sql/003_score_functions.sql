@@ -66,4 +66,3 @@
 --         INNER JOIN extra_strokes_per_hole AS es ON hs.hole_nr = es.hole_nr
 --             AND hs.course_name = es.course_name
 --             AND hs.scorer_id = es.player_id);
-

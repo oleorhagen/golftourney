@@ -135,4 +135,3 @@ create table physical.hole_score (
         id
     ) on delete cascade
 );
-

@@ -1,51 +1,54 @@
 -- Schema for golf DB
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+create extension if not exists "uuid-ossp";
 
-CREATE ROLE postgraphile WITH LOGIN PASSWORD 'foobarbaz';
+create role postgraphile with login password 'foobarbaz';
 
 -- create schema if not exists public authorization postgraphile;
-GRANT ALL privileges ON ALL tables IN SCHEMA public TO postgraphile;
+grant all privileges on all tables in schema public to postgraphile;
 
-CREATE VIEW player AS (
-    SELECT
+create view player as (
+    select
         id,
         name,
         handicap
-    FROM
-        physical.scorer AS s
-    NATURAL JOIN physical.player
-    NATURAL JOIN physical.hole_score AS hs
-WHERE
-    s.id = hs.scorer_id);
+    from
+        physical.scorer as s
+        natural join physical.player
+        natural join physical.hole_score as hs
+    where
+        s.id = hs.scorer_id
+);
 
-CREATE VIEW team AS (
-    SELECT
+create view team as (
+    select
         s.id,
         s.name,
-        avg(handicap) AS handicap
-    FROM
-        physical.team AS t
-    NATURAL JOIN physical.scorer AS s
-    INNER JOIN physical.team_member AS tm ON s.id = tm.team_id
-    INNER JOIN physical.player AS p ON p.id = player_id
-GROUP BY
-    s.id);
+        avg(handicap) as handicap
+    from
+        physical.team as t
+        natural join physical.scorer as s
+        inner join physical.team_member as tm on s.id = tm.team_id
+        inner join physical.player as p on p.id = player_id
+    group by
+        s.id
+);
 
 -- Unify the scorer table, with all required data
-CREATE VIEW scorer AS (
-    SELECT
+create view scorer as (
+    select
         id,
         name,
         handicap
-    FROM
+    from
         player
-    UNION
-    SELECT
+    union
+    select
         id,
         name,
         handicap
-    FROM
-        team);
+    from
+        team
+);
 
 -- create view scorer_total_points as (
 --     select
@@ -125,5 +128,4 @@ CREATE VIEW scorer AS (
 -- $$
 -- language sql
 -- stable strict;
-GRANT SELECT ON ALL tables IN SCHEMA public TO postgraphile;
-
+grant select on all tables in schema public to postgraphile;
