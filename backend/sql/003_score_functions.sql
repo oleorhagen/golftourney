@@ -1,0 +1,69 @@
+-- -- Utility function for calculating the extra strokes given slope and hcp
+-- create function tot_extra_strokes_per_player(handicap float, slope float)
+-- returns int
+-- as $$
+--     SELECT
+--         int8(round(handicap * (slope / 113))) AS extra_strokes_tot
+-- $$
+-- language sql
+-- stable
+-- strict
+-- ;
+
+
+-- -- extra strokes for a given hole, given tot extra strokes, nr holes, and the
+-- -- index. Is just a bucket function essentially, distributing the strokes mod nr
+-- -- holes.
+-- create function hole_extra_strokes(extra_strokes_tot int, nr_holes int, hole_index int)
+-- returns int
+-- as
+--     $$
+-- SELECT
+-- int8((extra_strokes_tot / nr_holes) + (17 + extra_strokes_tot % nr_holes / (hole_index)) / nr_holes) AS extra_strokes -- (+17) Normalize to (0,1)
+-- $$
+-- language sql
+-- stable
+-- strict
+-- ;
+
+
+-- --
+-- -- - Distribute the extra strokes over the holes
+-- --
+-- -- - The number of extra strokes per hole, per player, or team
+-- --
+-- CREATE OR REPLACE VIEW extra_strokes_per_hole AS (
+--     SELECT DISTINCT
+--         sc.id,
+--         sc.tournament_id,
+--         sc.scorer_id AS player_id,
+--         sc.handicap,
+--         ch.hole_nr,
+--         ch.hole_index,
+--         ch.par,
+--         ch.course_name,
+--         hole_extra_strokes (tot_extra_strokes_per_player (sc.handicap, c.slope), c.nr_holes::integer, ch.hole_index::integer) AS extra_strokes
+--     FROM
+--         physical.scorecard AS sc
+--         INNER JOIN physical.course_hole AS ch ON sc.course_name = ch.course_name
+--         INNER JOIN physical.course AS c ON ch.course_name = c.name);
+
+-- --
+-- -- - Calculate the points per whole for a given number of strokes
+-- --
+-- CREATE VIEW player_points_per_hole AS (
+--     SELECT
+--         hs.scorer_id,
+--         hs.hole_nr,
+--         hs.course_name,
+--         hs.scorecard_id,
+--         hs.strokes,
+--         hs.stamp,
+--         extra_strokes,
+--         greatest (0, par + extra_strokes - strokes + 2) AS points
+--     FROM
+--         physical.hole_score AS hs
+--         INNER JOIN extra_strokes_per_hole AS es ON hs.hole_nr = es.hole_nr
+--             AND hs.course_name = es.course_name
+--             AND hs.scorer_id = es.player_id);
+
