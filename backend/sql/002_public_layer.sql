@@ -14,9 +14,6 @@ create view player as (
     from
         physical.scorer as s
         natural join physical.player
-        natural join physical.hole_score as hs
-    where
-        s.id = hs.scorer_id
 );
 
 create view team as (
