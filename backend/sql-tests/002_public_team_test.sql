@@ -1,3 +1,7 @@
+-- Test the public team schema
+
+\i backend/sql-tests/setup.inc
+
 select plan(1);
 
 
@@ -17,4 +21,7 @@ deallocate prepare all;
 
 select *
 from
-    finish();
+finish();
+
+
+ROLLBACK;
