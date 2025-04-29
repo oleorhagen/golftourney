@@ -14,28 +14,6 @@ SELECT
 FROM
     finish ();
 
--- -- -- TODO - Test the extra awarded strokes per hole for a 20 hcp (On the scorecard
--- -- -- it is a 20 hcp)
--- -- -- - Insert a 3 stroke on the first hole at Borregaard
--- -- INSERT INTO physical.hole_score (course_name, scorer_id, hole_nr, scorecard_id, strokes)
--- --     VALUES ('Borregaard', :oleo_id, 1, -- Hole Nr
--- --         (
--- --             SELECT
--- --                 id
--- --             FROM physical.scorecard
--- --             WHERE
--- --                 scorer_id = :oleo_id), 3 -- 3 Strokes
--- -- );
--- -- -- 1. Test the score for individual players
--- -- -- Make sure the score updates accordingly
--- -- SELECT
--- --     IS (ARRAY (
--- --             SELECT
--- --                 total_points::int
--- --             FROM
--- --                 player_points
--- --             WHERE
--- --                 scorer_id = :oleo_id), ARRAY[4], 'First score inserted for player should give 4 points');
 -- -- --- Insert another 4 score for the second hole
 -- -- -- - Insert a 4 stroke on the second hole at Borregaard
 -- -- INSERT INTO physical.hole_score (course_name, scorer_id, hole_nr, scorecard_id, strokes)
