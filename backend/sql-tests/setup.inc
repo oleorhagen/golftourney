@@ -13,7 +13,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap;
 -- Revert all changes on failure.
 \set ON_ERROR_ROLLBACK 1
 \set ON_ERROR_STOP true
--- BEGIN;
+BEGIN;
 
 \set tournament_id '\'942b428e-2c9b-4f7a-9077-ea3cde99e184\''
 -- Players IDs

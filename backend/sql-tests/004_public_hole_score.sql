@@ -5,7 +5,6 @@
 select plan(1);
 
 
--- TODO - Test the extra awarded strokes per hole for a 20 hcp (On the scorecard
 -- it is a 20 hcp)
 -- - Insert a 3 stroke on the first hole at Borregaard
 insert into physical.hole_score (course_name, scorer_id, hole_nr, scorecard_id, strokes)
@@ -33,3 +32,5 @@ select
 select *
 from
     finish();
+
+rollback;
