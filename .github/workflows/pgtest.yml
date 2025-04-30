@@ -38,10 +38,10 @@ jobs:
 
       - name: load sql
         run: >-
-          psql --host localhost --username postgres --dbname golf_db \
-               --file backend/sql/001_init.sql                       \
-               --file backend/sql/002_init.sql                       \
-               --file backend/sql/004_stats.sql
+          for f in backend/sql/*.sql; do
+            psql --host localhost --username postgres --dbname golf_db \
+                --file $f
+          done
         env:
           PGPASSWORD: password
 
@@ -51,6 +51,6 @@ jobs:
                 --host localhost    \
                 --dbname golf_db    \
                 --username postgres \
-                  backend/sql-tests/*
+                  backend/sql-tests/*.sql
         env:
           PGPASSWORD: password

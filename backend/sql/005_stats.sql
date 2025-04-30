@@ -1,0 +1,95 @@
+-- CREATE ROLE statistics WITH login PASSWORD 'foobarbaz';
+
+-- CREATE SCHEMA IF NOT EXISTS statistics AUTHORIZATION statistics;
+
+-- GRANT ALL privileges ON ALL tables IN SCHEMA statistics TO statistics;
+
+-- -- Create statistics for all holes:
+-- --
+-- --- par 3
+-- --- par 4
+-- --- par 5
+-- --
+-- --- Statistics for all players
+-- --
+-- --- Showing stddev, and the average points per hole
+-- --
+-- CREATE VIEW statistics.player AS (
+--     SELECT
+--         scorer_id,
+--         par,
+--         stddev(strokes) AS stddev_strokes,
+--         stddev(points) AS stddev_points,
+--         avg(strokes) AS average_strokes,
+--         avg(points) AS average_points
+--     FROM
+--         player_points_per_hole
+--     NATURAL JOIN physical.course_hole
+-- GROUP BY
+--     scorer_id,
+--     par);
+
+-- SELECT
+--     s.scorer_id,
+--     tournament_id,
+--     sum(points) OVER (PARTITION BY s.scorer_id ORDER BY stamp ASC) AS cumulative_score
+-- FROM
+--     player_points_per_hole AS ph
+--     INNER JOIN physical.scorecard AS s ON s.scorer_id = ph.scorer_id;
+
+-- -- A view which contains the columns of the running score of a player.
+-- CREATE OR REPLACE VIEW statistics.player_points AS (
+--     SELECT
+--         scorer_id,
+--         tournament_id,
+--         expected_points,
+--         total_points,
+--         expected_points - total_points AS player_par
+--     FROM (
+--         SELECT
+--             s.scorer_id,
+--             tournament_id,
+--             sum(points) OVER (PARTITION BY s.scorer_id ORDER BY stamp ASC) AS total_points,
+--             2 * count(points) OVER (PARTITION BY s.scorer_id ORDER BY stamp ASC) AS expected_points
+--         FROM
+--             player_points_per_hole AS ph
+--             INNER JOIN physical.scorecard AS s ON s.scorer_id = ph.scorer_id));
+
+-- -- Add a function to generate a column for a player in the physical schema the
+-- -- UI is consuming
+-- CREATE OR REPLACE FUNCTION physical.player_par (_player physical.player)
+--     RETURNS int8
+--     AS $$
+--     SELECT
+--         player_par
+--     FROM
+--         statistics.player_points AS pp
+--     WHERE
+--         pp.scorer_id = _player.id
+-- $$
+-- LANGUAGE sql
+-- STABLE STRICT;
+
+-- -- A function which is used as a custom query in the GraphQL API
+-- CREATE OR REPLACE FUNCTION physical.statistics ()
+--     RETURNS TABLE (
+--         scorer_id uuid,
+--         tournament_id uuid,
+--         expected_points int8,
+--         total_points int8,
+--         player_par int8
+--     )
+--     AS $$
+--     SELECT
+--         scorer_id,
+--         tournament_id,
+--         expected_points,
+--         total_points,
+--         player_par
+--     FROM
+--         statistics.player_points
+-- $$
+-- LANGUAGE sql
+-- STABLE STRICT;
+
+-- GRANT SELECT ON ALL tables IN SCHEMA statistics TO statistics;
