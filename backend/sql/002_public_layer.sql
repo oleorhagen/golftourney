@@ -47,6 +47,19 @@ create view scorer as (
         team
 );
 
+
+create view tournament as (
+    select * from physical.tournament
+);
+
+create view scorecard as (
+    select * from physical.scorecard
+);
+
+create view course as (
+    select * from physical.course
+);
+
 -- create view scorer_total_points as (
 --     select
 --         scorer_id,
