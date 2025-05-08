@@ -1,10 +1,10 @@
 -- Schema for golf DB
 create extension if not exists "uuid-ossp";
 
-create role postgraphile with login password 'foobarbaz';
+-- create role postgraphile with login password 'foobarbaz';
 
 -- create schema if not exists public authorization postgraphile;
-grant all privileges on all tables in schema public to postgraphile;
+-- grant all privileges on all tables in schema public to postgraphile;
 
 create view player as (
     select
@@ -125,4 +125,4 @@ create view scorer as (
 -- $$
 -- language sql
 -- stable strict;
-grant select on all tables in schema public to postgraphile;
+-- grant select on all tables in schema public to postgraphile;
