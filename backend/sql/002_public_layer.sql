@@ -58,6 +58,10 @@ create view scorecard as (
 
 create view course as (
     select * from physical.course
+    );
+
+create view hole as (
+    select * from physical.course_hole
 );
 
 -- create view scorer_total_points as (
