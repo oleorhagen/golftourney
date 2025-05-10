@@ -30,6 +30,19 @@ create view team as (
         s.id
 );
 
+create view team_member as (
+    select
+        player.id   player_id,
+        player.name as player_name,
+        team_id,
+        team.name   as team_name,
+        team.handicap
+    from
+        player
+        inner join physical.team_member on player.id = physical.team_member.player_id
+        inner join team on physical.team_member.team_id = team.id
+);
+
 -- Unify the scorer table, with all required data
 create view scorer as (
     select
