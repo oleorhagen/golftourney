@@ -49,7 +49,7 @@ const ScoreCardTable = ({ scorerId, scorecardId, courseName, holes }) => {
               <TableCell align="center">{hole.par}</TableCell>
               <TableCell align="center">{hole.index}</TableCell>
               <TableCell align="center">
-                <RomanNumeralScore number={hole.extraStrokes} />
+                <RomanNumeralScore number={hole.extra_strokes} />
               </TableCell>
               <TableCell align="center">
                 <SelectScoreAutoWidth

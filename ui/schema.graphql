@@ -17,8 +17,24 @@ type Scorecard {
   id: ID!
   tournament_id: ID!
   handicap: Int!
-  course: Course!
+  course(condition: CourseCondition): ScorecardCourse!
   player: Player!
+}
+
+type ScorecardHole {
+  nr: Int!
+  index: Int!
+  par: Int!
+  strokes: Int!
+  extra_strokes: Int!
+}
+
+type ScorecardCourse {
+  name: String!
+  slope: Int!
+  course_rating: Float!
+  nr_holes: Int!
+  holes: [ScorecardHole!]!
 }
 
 type Course {

@@ -26,6 +26,7 @@ const ListAllScorecardsQuery = graphql`
           nr
           index
           par
+          extra_strokes
         }
       }
       player {
