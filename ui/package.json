@@ -43,7 +43,10 @@
         "schema": "./schema.graphql",
         "language": "javascript",
         "excludes": [
-            "src/components/views/tourney/playerstats/**"
+            "src/components/views/tourney/playerstats/**",
+            "src/components/views/tourney/scorecard/**",
+            "src/components/views/tourney/scoregraph/**",
+            "src/components/views/stats/**"
         ],
         "schemaConfig": {
             "nodeInterfaceIdField": "nodeId"
