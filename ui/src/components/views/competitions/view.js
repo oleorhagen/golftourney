@@ -74,7 +74,7 @@ function CompetitionApp(props) {
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>{n.competitionType}</div>
-                  {n.name}
+                  {n.name}---
                   {n.year}
                 {/* <PlacementSelection */}
                 {/*   playerId={props.playerId} */}
