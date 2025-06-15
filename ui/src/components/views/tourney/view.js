@@ -12,20 +12,18 @@ import ScoreCard from "./scorecard/ScoreCard";
 import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
 const ListAllScorecardsQuery = graphql`
-  query viewListScorecardsByTournamentIDQuery(
-    $tournamentId: UUID!
-    $scorerId: UUID!
-  ) {
+  query viewListScorecardsQuery($tournamentId: ID!, $playerId: ID!) {
     scorecards(
-      condition: { tournamentId: $tournamentId, scorerId: $scorerId }
+      condition: { tournamentId: $tournamentId, playerId: $playerId }
     ) {
-      nodes {
+      id
+      tournament_id
+      handicap
+      course_name
+      player {
         id
-        courseName
+        name
         handicap
-        nodeId
-        scorerId
-        tournamentId
       }
     }
   }
@@ -42,11 +40,11 @@ function ScheduleScoreCard(props) {
 
   const data = useLazyLoadQuery(
     ListAllScorecardsQuery,
-    { tournamentId: props.tournamentId, scorerId: props.scorerId },
+    { tournamentId: props.tournamentId, playerId: props.scorerId },
     { fetchPolicy: "network-only" },
   );
 
-  var courseNodes = data?.scorecards?.nodes || [];
+  var courseNodes = data?.scorecards || [];
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -67,9 +65,9 @@ function ScheduleScoreCard(props) {
                 component={Link}
                 to={
                   "/scorecards/" +
-                  n.courseName.replace(/\W+/g, "-").toLowerCase()
+                  n.course_name.replace(/\W+/g, "-").toLowerCase()
                 }
-                label={n.courseName}
+                label={n.course_name}
                 key={i}
               />
             ))}
@@ -81,7 +79,7 @@ function ScheduleScoreCard(props) {
               <div>
                 <Outlet
                   context={{
-                    courseName: courseNode.courseName,
+                    courseName: courseNode.course_name,
                     scorecardId: courseNode.id,
                     ...props,
                   }}

@@ -19,10 +19,10 @@ import { RouterScoreCard } from "./components/views/tourney/view";
 import ChampionsView from "./components/views/champions/champions";
 import CompetitionView from "./components/views/competitions/view";
 import PlayersView from "./components/views/players/view";
-import LeaderBoardView from "./components/views/leaderboard/view";
+// import LeaderBoardView from "./components/views/leaderboard/view";
 import RulesView from "./components/views/rules/view";
 import FormatView from "./components/views/format/view";
-import StatsView from "./components/views/stats/view";
+// import StatsView from "./components/views/stats/view";
 
 const navbarItems = [
   { name: "Home", link: "/" },
@@ -30,10 +30,10 @@ const navbarItems = [
   { name: "Competitions", link: "/competition" },
   { name: "Players", link: "/players" },
   { name: "Champions", link: "/champions" },
-  { name: "LeaderBoard", link: "/leaderboard" },
+  // { name: "LeaderBoard", link: "/leaderboard" },
   { name: "Rules", link: "/rules" },
   { name: "Format", link: "/format" },
-  { name: "Stats", link: "/stats" },
+  // { name: "Stats", link: "/stats" },
 ];
 
 const router = createBrowserRouter([
@@ -54,10 +54,10 @@ const router = createBrowserRouter([
         path: "/competition",
         element: <CompetitionView />,
       },
-      {
-        path: "/leaderboard",
-        element: <LeaderBoardView />,
-      },
+      // {
+      //   path: "/leaderboard",
+      //   element: <LeaderBoardView />,
+      // },
       {
         path: "/players",
         element: <PlayersView />,
@@ -80,10 +80,10 @@ const router = createBrowserRouter([
         path: "/format",
         element: <FormatView />,
       },
-      {
-        path: "/stats",
-        element: <StatsView />,
-      },
+      // {
+      //   path: "/stats",
+      //   element: <StatsView />,
+      // },
     ],
   },
 ]);
