@@ -87,8 +87,6 @@ function ScheduleScoreCard(props) {
               <div>
                 <Outlet
                   context={{
-                    // courseName: courseNode.course.name,
-                    // scorecardId: courseNode.id,
                     ...courseNode,
                     ...props,
                   }}
