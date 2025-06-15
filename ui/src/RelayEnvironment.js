@@ -31,7 +31,7 @@ const subscribe = (operation, variables) => {
 // to call our fetchGraphQL utility with params.text.
 async function fetchRelay(params, variables) {
   console.log(
-    `fetching query ${params.name} with ${JSON.stringify(variables)}`,
+    `fetching query ${params.name} ${JSON.stringify(params)} with variables ${JSON.stringify(variables)}`,
   );
   return fetchGraphQL(params.text, variables);
 }

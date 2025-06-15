@@ -8,6 +8,7 @@ async function fetchGraphQL(text, variables) {
     headers: {
       // Authorization: `bearer ${REACT_APP_GITHUB_AUTH_TOKEN}`,
       "Content-Type": "application/json",
+      // "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
       query: text,

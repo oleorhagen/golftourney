@@ -31,19 +31,13 @@ function CustomTabPanel(props) {
 }
 
 const competitionsQuery = graphql`
-query viewListAllTournamentsQuery {
-  query {
+  query viewListAllTournamentsQuery {
     tournaments {
-      edges {
-        node {
-          id
-          name
-          year
-        }
-      }
+      id
+      name
+      year
     }
   }
-}
 `;
 
 // Inner component that reads the preloaded query results via `usePreloadedQuery()`.
@@ -112,7 +106,7 @@ function CompetitionApp(props) {
 }
 
 function CompetitionView(props) {
-  const [playerId] = useOutletContext();
+  const { playerId } = useOutletContext();
 
   return (
     <>
