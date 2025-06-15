@@ -80,7 +80,7 @@ const Player = (props) => {
 
 // TODO - Get the players info from the DB
 const PlayersView = () => {
-  const [playerId] = useOutletContext();
+  const { playerId } = useOutletContext();
   return (
     <>
       <Typography variant="h1" color="text.primary" align="center">
