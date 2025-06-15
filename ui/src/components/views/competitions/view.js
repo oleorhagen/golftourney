@@ -53,36 +53,29 @@ function CompetitionApp(props) {
     playerId: props.playerId,
   });
 
-  var competition_nodes = [];
-
-  {
-    const {
-      allCompetitions: { nodes },
-    } = competition_data;
-    competition_nodes = nodes;
-  }
-
   const [value, setValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  if (competition_nodes.length > 0) {
+  if (competition_data.tournaments.length > 0) {
     return (
       <div className="CompetitionApp">
         <div className="CompetitionApp-header">
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <Tabs value={value} onChange={handleTabChange} centered>
-              {competition_nodes.map((n, i) => (
+              {competition_data.tournaments.map((n, i) => (
                 <Tab label={n.competitionType} key={i} />
               ))}
             </Tabs>
           </Box>
-          {competition_nodes.map((n, i) => {
+          {competition_data.tournaments.map((n, i) => {
             return (
               <CustomTabPanel value={value} index={i} key={i}>
                 <div>{n.competitionType}</div>
+                  {n.name}
+                  {n.year}
                 {/* <PlacementSelection */}
                 {/*   playerId={props.playerId} */}
                 {/*   competitionId={n.id} */}
