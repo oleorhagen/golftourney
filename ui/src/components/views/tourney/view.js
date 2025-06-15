@@ -19,7 +19,15 @@ const ListAllScorecardsQuery = graphql`
       id
       tournament_id
       handicap
-      course_name
+      course {
+        name
+        nr_holes
+        holes {
+          nr
+          index
+          par
+        }
+      }
       player {
         id
         name
@@ -65,9 +73,9 @@ function ScheduleScoreCard(props) {
                 component={Link}
                 to={
                   "/scorecards/" +
-                  n.course_name.replace(/\W+/g, "-").toLowerCase()
+                  n.course.name.replace(/\W+/g, "-").toLowerCase()
                 }
-                label={n.course_name}
+                label={n.course.name}
                 key={i}
               />
             ))}
@@ -79,8 +87,9 @@ function ScheduleScoreCard(props) {
               <div>
                 <Outlet
                   context={{
-                    courseName: courseNode.course_name,
-                    scorecardId: courseNode.id,
+                    // courseName: courseNode.course.name,
+                    // scorecardId: courseNode.id,
+                    ...courseNode,
                     ...props,
                   }}
                 />
