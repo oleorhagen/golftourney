@@ -38,30 +38,30 @@ const ScoreCardTable = ({ scorerId, scorecardId, courseName, holes }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {holes.map((row, index) => (
+          {holes.map((hole, index) => (
             <TableRow
-              key={row.holeNr}
+              key={hole.nr}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.holeNr}
+              <TableCell component="th" scope="hole">
+                {hole.nr}
               </TableCell>
-              <TableCell align="right">{row.par}</TableCell>
-              <TableCell align="right">{row.holeIndex}</TableCell>
+              <TableCell align="right">{hole.par}</TableCell>
+              <TableCell align="right">{hole.index}</TableCell>
               <TableCell align="right">
-                <RomanNumeralScore number={row.extraStrokes} />
+                <RomanNumeralScore number={hole.extraStrokes} />
               </TableCell>
               <TableCell align="right">
                 <SelectScoreAutoWidth
                   scorerId={scorerId}
                   courseName={courseName}
-                  holeNr={row.holeNr}
+                  holeNr={hole.nr}
                   scorecardId={scorecardId}
-                  hole={row.holeScoresByHoleNrAndCourseName?.nodes?.[0]}
+                  hole={hole.holeScoresByHoleNrAndCourseName?.nodes?.[0]}
                 />
               </TableCell>
               <TableCell align="right">
-                <PointScore score={row.points} />
+                <PointScore score={hole.points} />
               </TableCell>
             </TableRow>
           ))}
