@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0c9ca64e3f377fcd25e3bb0a5828d521>>
+ * @generated SignedSource<<ddeb1ec1516e3fed94aadcb7f8aaf1ea>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,35 +18,7 @@ var node = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "courseName",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "holeNr",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "nodeId",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "scorerId",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "stamp",
+      "name": "nr",
       "storageKey": null
     },
     {
@@ -55,26 +27,12 @@ var node = {
       "kind": "ScalarField",
       "name": "strokes",
       "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "scorecardId",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "points",
-      "storageKey": null
     }
   ],
-  "type": "HoleScore",
+  "type": "ScorecardHole",
   "abstractKey": null
 };
 
-node.hash = "589173559e82f8cfc009113a6237d86f";
+node.hash = "c9f8c88c6ad1caa019c969b9fe0c7661";
 
 module.exports = node;

@@ -16,47 +16,21 @@ import "./SelectScoreAutoWidth.css";
 // client:local:2:allCourses(condition:{"name":"Skjeberg"}):nodes:0' for the link from root
 
 const SelectScoreAutoWidthFragment = graphql`
-  fragment SelectScoreAutoWidthFragment on HoleScore {
-    courseName
-    holeNr
-    nodeId
-    scorerId
-    stamp
+  fragment SelectScoreAutoWidthFragment on ScorecardHole {
+    nr
     strokes
-    scorecardId
-    points
-  }
-`;
-
-const SelectScoreAutoWidthMutation = graphql`
-  mutation SelectScoreAutoWidthMutation($holeScore: HoleScoreInput!) {
-    createHoleScore(input: { holeScore: $holeScore }) {
-      holeScore {
-        courseName
-        holeNr
-        nodeId
-        scorerId
-        stamp
-        strokes
-        scorecardId
-      }
-    }
   }
 `;
 
 const SelectScoreAutoWidthUpdateMutation = graphql`
-  mutation SelectScoreAutoWidthUpdateMutation(
-    $holeScore: UpdateHoleScoreInput!
-  ) {
-    updateHoleScore(input: $holeScore) {
-      holeScore {
-        courseName
-        holeNr
-        nodeId
-        scorerId
-        stamp
-        strokes
-        scorecardId
+  mutation SelectScoreAutoWidthUpdateMutation($input: UpdateScorecard!) {
+    updateScorecard(input: $input) {
+      id
+      course {
+        holes {
+          nr
+          strokes
+        }
       }
     }
   }
@@ -65,58 +39,40 @@ const SelectScoreAutoWidthUpdateMutation = graphql`
 const maxAcceptableScore = 12;
 
 export default function SelectScoreAutoWidth({
-  scorerId,
   scorecardId,
-  courseName,
   holeNr,
   hole,
 }) {
   const data = useFragment(SelectScoreAutoWidthFragment, hole);
 
   const [commitMutation, isMutationInFlight] = useMutation(
-    hole ? SelectScoreAutoWidthUpdateMutation : SelectScoreAutoWidthMutation,
+    SelectScoreAutoWidthUpdateMutation,
   );
 
   const handleChange = (event) => {
-    const updateVariables = {
-      holeScore: {
-        patch: {
-          strokes: event.target.value,
-        },
-        scorerId: scorerId,
-        holeNr: holeNr,
-        courseName: courseName,
-        scorecardId: scorecardId,
-      },
-    };
-
     commitMutation({
-      variables: hole
-        ? updateVariables
-        : {
-            holeScore: {
-              scorerId: scorerId,
-              holeNr: holeNr,
-              courseName: courseName,
-              scorecardId: scorecardId,
-              strokes: event.target.value,
+      variables: {
+        input: {
+          id: scorecardId,
+          holes: [
+            {
+              nr: holeNr,
+              strokes: parseInt(event.target.value),
             },
-          },
+          ],
+        },
+      },
       onCompleted: (res) => {
         console.log(
-          `successfully mutated the hole score: ${JSON.stringify(res)}`,
+          `successfully updated the scorecard: ${JSON.stringify(res)}`,
         );
       },
       onError: (err) => {
-        console.log(`Error updating the holeScore: ${err}`);
+        console.log(`Error updating the scorecard: ${err}`);
       },
       updater: (store, _data) => {
-        // const payload = store.getRootField("createEntry");
-        // const newEdge = payload.getLinkedRecord("entryEdge");
-        // sharedUpdater(store, diaryId, newEdge);
         console.log(store);
         console.log(_data);
-        // store.invalidateStore();
       },
     });
   };

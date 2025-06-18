@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a56a119ffa476ba8a6b43a911c3bdd08>>
+ * @generated SignedSource<<b8791771d34272b9e48727cdeade370a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "holeScore"
+    "name": "input"
   }
 ],
 v1 = [
@@ -23,69 +23,52 @@ v1 = [
       {
         "kind": "Variable",
         "name": "input",
-        "variableName": "holeScore"
+        "variableName": "input"
       }
     ],
-    "concreteType": "UpdateHoleScorePayload",
+    "concreteType": "Scorecard",
     "kind": "LinkedField",
-    "name": "updateHoleScore",
+    "name": "updateScorecard",
     "plural": false,
     "selections": [
       {
         "alias": null,
         "args": null,
-        "concreteType": "HoleScore",
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "ScorecardCourse",
         "kind": "LinkedField",
-        "name": "holeScore",
+        "name": "course",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "kind": "ScalarField",
-            "name": "courseName",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "holeNr",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "nodeId",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "scorerId",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "stamp",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "strokes",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "scorecardId",
+            "concreteType": "ScorecardHole",
+            "kind": "LinkedField",
+            "name": "holes",
+            "plural": true,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "nr",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "strokes",
+                "storageKey": null
+              }
+            ],
             "storageKey": null
           }
         ],
@@ -113,16 +96,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "7b1112ac9acbc18a3ad7f17016605b9b",
+    "cacheID": "507dfbd75e51871d8b7d7b2cc6b9b3cc",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthUpdateMutation(\n  $holeScore: UpdateHoleScoreInput!\n) {\n  updateHoleScore(input: $holeScore) {\n    holeScore {\n      courseName\n      holeNr\n      nodeId\n      scorerId\n      stamp\n      strokes\n      scorecardId\n    }\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthUpdateMutation(\n  $input: UpdateScorecard!\n) {\n  updateScorecard(input: $input) {\n    id\n    course {\n      holes {\n        nr\n        strokes\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "89d8b4a70db1e1cef77dab2ee43a9fc3";
+node.hash = "9558bdc7b1756bb0b184c48fa81053e9";
 
 module.exports = node;
