@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #fefefe;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -14,7 +16,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,10 +24,52 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.2);
 }
 
 .App-link {
-  color: #61dafb;
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.App-link:hover {
+  color: #2e7d32;
+  text-decoration: underline;
+}
+
+/* Golf Tournament Specific Styles */
+.tournament-title {
+  font-family: "Times New Roman", serif;
+  color: #2e7d32;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.scorecard-section {
+  background-color: #ffffff;
+  border: 2px solid #2e7d32;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.1);
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.golf-button {
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
+  transition: all 0.3s ease;
+}
+
+.golf-button:hover {
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4);
+  transform: translateY(-1px);
 }
 
 @keyframes App-logo-spin {
