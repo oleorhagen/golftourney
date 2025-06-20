@@ -30,6 +30,7 @@ const SelectScoreAutoWidthUpdateMutation = graphql`
         holes {
           nr
           strokes
+          points
         }
       }
     }

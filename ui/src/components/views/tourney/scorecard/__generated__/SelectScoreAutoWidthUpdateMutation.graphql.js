@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b8791771d34272b9e48727cdeade370a>>
+ * @generated SignedSource<<bd84f124b802115bffb29b9a1c57a700>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -67,6 +67,13 @@ v1 = [
                 "kind": "ScalarField",
                 "name": "strokes",
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "points",
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -96,16 +103,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "507dfbd75e51871d8b7d7b2cc6b9b3cc",
+    "cacheID": "8c8a30c23bc308575cfc3b667c8355ef",
     "id": null,
     "metadata": {},
     "name": "SelectScoreAutoWidthUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation SelectScoreAutoWidthUpdateMutation(\n  $input: UpdateScorecard!\n) {\n  updateScorecard(input: $input) {\n    id\n    course {\n      holes {\n        nr\n        strokes\n      }\n    }\n  }\n}\n"
+    "text": "mutation SelectScoreAutoWidthUpdateMutation(\n  $input: UpdateScorecard!\n) {\n  updateScorecard(input: $input) {\n    id\n    course {\n      holes {\n        nr\n        strokes\n        points\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "9558bdc7b1756bb0b184c48fa81053e9";
+node.hash = "c661e36448f72b38324e852c09fe09da";
 
 module.exports = node;
