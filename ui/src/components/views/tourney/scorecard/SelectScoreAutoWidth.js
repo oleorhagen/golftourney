@@ -83,7 +83,7 @@ export default function SelectScoreAutoWidth({
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="score-simple-select-autowidth"
-          value={data?.strokes || ""}
+          value={data?.strokes ?? ""}
           onChange={handleChange}
           label="Score"
           variant="standard"
