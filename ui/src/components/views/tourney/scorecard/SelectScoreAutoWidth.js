@@ -15,7 +15,7 @@ import "./SelectScoreAutoWidth.css";
 // Also, my current setup is:
 // client:local:2:allCourses(condition:{"name":"Skjeberg"}):nodes:0' for the link from root
 
-const SelectScoreAutoWidthFragment = graphql`
+export const SelectScoreAutoWidthFragment = graphql`
   fragment SelectScoreAutoWidthFragment on ScorecardHole {
     nr
     strokes

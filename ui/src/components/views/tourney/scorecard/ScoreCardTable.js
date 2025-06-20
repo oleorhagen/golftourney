@@ -53,11 +53,9 @@ const ScoreCardTable = ({ scorerId, scorecardId, courseName, holes }) => {
               </TableCell>
               <TableCell align="center">
                 <SelectScoreAutoWidth
-                  scorerId={scorerId}
-                  courseName={courseName}
-                  holeNr={hole.nr}
                   scorecardId={scorecardId}
-                  hole={hole.holeScoresByHoleNrAndCourseName?.nodes?.[0]}
+                  holeNr={hole.nr}
+                  hole={hole}
                 />
               </TableCell>
               <TableCell align="center">

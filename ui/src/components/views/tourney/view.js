@@ -8,6 +8,7 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 // import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
+import { SelectScoreAutoWidthFragment } from "./scorecard/SelectScoreAutoWidth";
 
 import { loadQuery, useLazyLoadQuery } from "react-relay/hooks";
 
@@ -28,6 +29,7 @@ const ListAllScorecardsQuery = graphql`
           par
           extra_strokes
           strokes
+          ...SelectScoreAutoWidthFragment
         }
       }
       player {
@@ -46,7 +48,6 @@ export function RouterScoreCard() {
 
 function ScheduleScoreCard(props) {
   const [value, setValue] = useState(0);
-  const [hcp, setHcp] = useState(0);
 
   const data = useLazyLoadQuery(
     ListAllScorecardsQuery,
