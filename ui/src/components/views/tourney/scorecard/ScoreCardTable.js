@@ -54,7 +54,6 @@ const ScoreCardTable = ({ scorerId, scorecardId, courseName, holes }) => {
               <TableCell align="center">
                 <SelectScoreAutoWidth
                   scorecardId={scorecardId}
-                  holeNr={hole.nr}
                   hole={hole}
                 />
               </TableCell>

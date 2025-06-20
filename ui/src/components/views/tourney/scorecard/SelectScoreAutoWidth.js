@@ -40,7 +40,6 @@ const maxAcceptableScore = 12;
 
 export default function SelectScoreAutoWidth({
   scorecardId,
-  holeNr,
   hole,
 }) {
   const data = useFragment(SelectScoreAutoWidthFragment, hole);
@@ -56,7 +55,7 @@ export default function SelectScoreAutoWidth({
           id: scorecardId,
           holes: [
             {
-              nr: holeNr,
+              nr: data.nr,
               strokes: parseInt(event.target.value),
             },
           ],
