@@ -28,6 +28,7 @@ type ScorecardHole {
   par: Int!
   strokes: Int!
   extra_strokes: Int!
+  points: Int
 }
 
 type ScorecardCourse {

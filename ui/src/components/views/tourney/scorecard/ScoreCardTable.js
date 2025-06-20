@@ -58,7 +58,7 @@ const ScoreCardTable = ({ scorerId, scorecardId, courseName, holes }) => {
                 />
               </TableCell>
               <TableCell align="center">
-                <PointScore score={hole.points} />
+                <PointScore score={hole?.points ?? ""} />
               </TableCell>
             </TableRow>
           ))}

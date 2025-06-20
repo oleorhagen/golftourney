@@ -29,6 +29,7 @@ const ListAllScorecardsQuery = graphql`
           par
           extra_strokes
           strokes
+          points
           ...SelectScoreAutoWidthFragment
         }
       }
