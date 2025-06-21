@@ -1,13 +1,39 @@
 import React from "react";
 
-import { Container, Grid } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Typography,
+  Box
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import PreviousChampion from "./champs";
-
-import Typography from "@mui/material/Typography";
 
 import champImg23 from "./champs/champ23-small.jpg";
 import champImg22 from "./champs/champ22-small.jpg";
 import champImg21 from "./champs/champ21-small.jpg";
+
+const ChampionsContainer = styled(Box)(({ theme }) => ({
+  background: 'linear-gradient(135deg, #f8f9fa 0%, #e8f5e8 100%)',
+  minHeight: '100vh',
+  padding: theme.spacing(4, 2),
+}));
+
+const TournamentHeader = styled(Box)(({ theme }) => ({
+  textAlign: 'center',
+  marginBottom: theme.spacing(5),
+  padding: theme.spacing(4),
+  background: 'linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%)',
+  borderRadius: 12,
+  boxShadow: '0 8px 32px rgba(46, 125, 50, 0.3)',
+  color: 'white',
+}));
+
+const TrophyIcon = styled(Box)(({ theme }) => ({
+  fontSize: '4rem',
+  marginBottom: theme.spacing(2),
+  display: 'inline-block',
+}));
 
 export const Champions = () => {
   const previousChamps = [
@@ -47,22 +73,67 @@ export const Champions = () => {
   ];
 
   return (
-    <>
-      <Container maxWidth="sm">
-        <Typography variant="h1">
-          Champions
-        </Typography >
-        <div id="champ-root">
-          <Grid container spacing={2}>
-            {previousChamps.map((champ) => (
-              <Grid key={champ.name} item>
-                <PreviousChampion {...champ} />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
+    <ChampionsContainer>
+      <TournamentHeader>
+        <TrophyIcon>🏆</TrophyIcon>
+        <Typography
+          variant="h2"
+          sx={{
+            fontFamily: '"Times New Roman", serif',
+            fontWeight: 'bold',
+            marginBottom: 2,
+            color: 'white'
+          }}
+        >
+          Tournament Champions
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            opacity: 0.9,
+            fontWeight: 400,
+            color: 'white'
+          }}
+        >
+          Hall of Fame - Skjeberg Invitational Winners
+        </Typography>
+      </TournamentHeader>
+
+      <Container maxWidth="lg">
+        <Grid
+          container
+          spacing={4}
+          justifyContent="center"
+          sx={{ maxWidth: 1200, margin: '0 auto' }}
+        >
+          {previousChamps.map((champ, index) => (
+            <Grid
+              key={`${champ.name}-${champ.date}`}
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <PreviousChampion {...champ} championRank={index + 1} />
+            </Grid>
+          ))}
+        </Grid>
+
+        <Box sx={{ textAlign: 'center', marginTop: 6 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: '#666666',
+              fontStyle: 'italic',
+              fontSize: '1rem'
+            }}
+          >
+            "Champions are made, not born"
+          </Typography>
+        </Box>
       </Container>
-    </>
+    </ChampionsContainer>
   );
 };
 
