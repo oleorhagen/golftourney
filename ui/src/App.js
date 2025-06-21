@@ -212,25 +212,35 @@ function App(props) {
     <ThemeProvider theme={golfTheme}>
       <CssBaseline />
       <div className="App">
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", minHeight: "100vh" }}>
           <Drawer navbarItems={props.navbarItems} />
-          <>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-              <Container
-                maxWidth="xl"
-                sx={{ marginTop: (theme) => theme.spacing(10) }}
-              >
-                <main>
-                  <RelayEnvironmentProvider environment={RelayEnvironment}>
-                    <React.Suspense fallback={"Loading..."}>
-                      <Outlet context={userInfo} />
-                    </React.Suspense>
-                  </RelayEnvironmentProvider>
-                </main>
-              </Container>
-              <Footer />
-            </Box>
-          </>
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              p: 3,
+              overflow: "auto",
+              height: "100vh",
+              display: "flex",
+              flexDirection: "column"
+            }}
+          >
+            <Container
+              maxWidth="xl"
+              sx={{
+                marginTop: (theme) => theme.spacing(10),
+                flexGrow: 1,
+                overflow: "visible"
+              }}
+            >
+              <RelayEnvironmentProvider environment={RelayEnvironment}>
+                <React.Suspense fallback={"Loading..."}>
+                  <Outlet context={userInfo} />
+                </React.Suspense>
+              </RelayEnvironmentProvider>
+            </Container>
+            <Footer />
+          </Box>
         </Box>
       </div>
     </ThemeProvider>
