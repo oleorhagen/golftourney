@@ -23,6 +23,8 @@ const ListAllScorecardsQuery = graphql`
       course {
         name
         nr_holes
+        slope
+        course_rating
         holes {
           nr
           index
