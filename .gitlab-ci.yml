@@ -16,15 +16,6 @@ stages:
     - docker build  --tag "$CI_REGISTRY_IMAGE/$WEBSITE_NAME:latest" ui
     - docker push "$CI_REGISTRY_IMAGE/$WEBSITE_NAME:latest"
 
-build:postgraphile:
-  extends: .build:site-build-template
-  only:
-    changes:
-      - backend/Dockerfile.postgraphile
-  variables:
-    WEBSITE_NAME: "postgraphile"
-    NODE_OPTIONS: "--openssl-legacy-provider"
-
 build:golfsite:
   extends: .build:site-build-template
   only:
