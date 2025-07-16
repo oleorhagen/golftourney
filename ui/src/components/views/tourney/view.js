@@ -21,6 +21,7 @@ const ListAllScorecardsQuery = graphql`
       id
       tournament_id
       handicap
+      created_at
       course {
         name
         nr_holes
@@ -54,6 +55,7 @@ const CreateScorecardMutation = graphql`
       id
       tournament_id
       handicap
+      created_at
       course {
         name
         nr_holes
@@ -151,7 +153,22 @@ function ScheduleScoreCard(props) {
                   "/scorecards/" +
                   n.course.name.replace(/\W+/g, "-").toLowerCase()
                 }
-                label={n.course.name}
+                label={
+                  <div>
+                    <div>{n.course.name}</div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>
+                      {n.created_at ?
+                        (() => {
+                          const date = new Date(n.created_at);
+                          return isNaN(date.getTime()) ?
+                            `Created: ${n.created_at}` :
+                            `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+                        })()
+                        : 'No date'
+                      }
+                    </div>
+                  </div>
+                }
                 key={i}
               />
             ))}
