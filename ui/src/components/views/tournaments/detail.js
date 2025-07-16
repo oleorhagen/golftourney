@@ -80,19 +80,22 @@ function TournamentDetail() {
               <Tab
                 component={Link}
                 to={`/scorecards/${scorecard.course.name.replace(/\W+/g, "-").toLowerCase()}`}
+                sx={{
+                  height: "auto",
+                  minHeight: "120px",
+                  alignItems: "stretch",
+                  padding: 0
+                }}
                 label={
-                  <Card sx={{ width: "100%", textAlign: "left" }}>
+                  <Card sx={{ width: "100%", textAlign: "left", height: "100%" }}>
                     <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-                      <Typography variant="h6" component="div">
-                        {scorecard.player.name}
+                      <Typography variant="h6" component="div" sx={{ color: "text.primary" }}>
+                        {scorecard.course.name}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Course: {scorecard.course.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body2" sx={{ color: "text.primary" }}>
                         Player Handicap: {scorecard.player.handicap} | Scorecard Handicap: {scorecard.handicap}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body2" sx={{ color: "text.primary" }}>
                         {scorecard.created_at ?
                           (() => {
                             const date = new Date(scorecard.created_at);
