@@ -88,11 +88,12 @@ function ScheduleScoreCard(props) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [courseName, setCourseName] = useState("");
   const [handicap, setHandicap] = useState("");
+  const [queryKey, setQueryKey] = useState(0);
 
   const data = useLazyLoadQuery(
     ListAllScorecardsQuery,
     { tournamentId: props.tournamentId, playerId: props.scorerId },
-    { fetchPolicy: "network-only" },
+    { fetchPolicy: "network-only", fetchKey: queryKey },
   );
 
   const [createScorecard] = useMutation(CreateScorecardMutation);
@@ -114,10 +115,14 @@ function ScheduleScoreCard(props) {
           handicap: parseInt(handicap)
         }
       },
-      onCompleted: () => {
+      onCompleted: (response) => {
         setDialogOpen(false);
         setCourseName("");
         setHandicap("");
+        setQueryKey(prev => prev + 1);
+      },
+      onError: (error) => {
+        console.error('Error creating scorecard:', error);
       }
     });
   };
