@@ -16,7 +16,7 @@ type Team {
 
 type Scorecard {
   id: ID!
-  tournament_id: ID!
+  tournament_id: ID
   handicap: Int!
   course(condition: CourseCondition): ScorecardCourse!
   player: Player!
@@ -26,8 +26,8 @@ type ScorecardHole {
   nr: Int!
   index: Int!
   par: Int!
-  strokes: Int!
   extra_strokes: Int!
+  strokes: Int
   points: Int
 }
 
@@ -197,6 +197,13 @@ input UpdateScorecardHole {
   strokes: Int!
 }
 
+input NewScorecard {
+  tournament_id: ID
+  player_id: ID!
+  course_name: String!
+  handicap: Int!
+}
+
 input UpdateScorecard {
   id: ID!
   holes: [UpdateScorecardHole!]!
@@ -204,5 +211,6 @@ input UpdateScorecard {
 
 type Mutation {
   createPlayer(input: NewPlayer!): Player!
+  createScorecard(input: NewScorecard!): Scorecard!
   updateScorecard(input: UpdateScorecard!): Scorecard!
 }
