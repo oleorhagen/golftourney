@@ -17,6 +17,7 @@ const ListAllScorecardsQuery = graphql`
   query viewListScorecardsQuery($tournamentId: ID!, $playerId: ID!) {
     scorecards(
       condition: { tournamentId: $tournamentId, playerId: $playerId }
+      orderBy: CREATED_AT_DESC
     ) {
       id
       tournament_id
