@@ -38,11 +38,12 @@ const TournamentDetailQuery = graphql`
 
 function TournamentDetail() {
   const { tournamentId } = useParams();
+  const { playerId } = useOutletContext();
   const [value, setValue] = useState(0);
 
   const data = useLazyLoadQuery(
     TournamentDetailQuery,
-    { tournamentId },
+    { tournamentId, playerId },
     { fetchPolicy: "network-only" },
   );
 

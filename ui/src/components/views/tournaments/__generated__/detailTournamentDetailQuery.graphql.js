@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8767305ea747033a0c9e2111ab8925d0>>
+ * @generated SignedSource<<8ce8c113da1799115668da4a3b4eb6ec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,35 +9,38 @@
 'use strict';
 
 var node = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "tournamentId"
-  }
-],
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "playerId"
+},
 v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "tournamentId"
+},
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v2 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v3 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "handicap",
   "storageKey": null
 },
-v4 = [
+v5 = [
   {
     "alias": null,
     "args": [
@@ -58,8 +61,8 @@ v4 = [
     "name": "tournaments",
     "plural": true,
     "selections": [
-      (v1/*: any*/),
       (v2/*: any*/),
+      (v3/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -75,6 +78,11 @@ v4 = [
     "args": [
       {
         "fields": [
+          {
+            "kind": "Variable",
+            "name": "playerId",
+            "variableName": "playerId"
+          },
           {
             "kind": "Variable",
             "name": "tournamentId",
@@ -95,8 +103,8 @@ v4 = [
     "name": "scorecards",
     "plural": true,
     "selections": [
-      (v1/*: any*/),
-      (v3/*: any*/),
+      (v2/*: any*/),
+      (v4/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -112,7 +120,7 @@ v4 = [
         "name": "course",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -145,9 +153,9 @@ v4 = [
         "name": "player",
         "plural": false,
         "selections": [
-          (v1/*: any*/),
           (v2/*: any*/),
-          (v3/*: any*/)
+          (v3/*: any*/),
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
@@ -157,32 +165,38 @@ v4 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "detailTournamentDetailQuery",
-    "selections": (v4/*: any*/),
+    "selections": (v5/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
     "kind": "Operation",
     "name": "detailTournamentDetailQuery",
-    "selections": (v4/*: any*/)
+    "selections": (v5/*: any*/)
   },
   "params": {
-    "cacheID": "25dec01819e934a3d9c5b93e14a72e22",
+    "cacheID": "0df928cfd9c3ec1795676c409d7eb4a2",
     "id": null,
     "metadata": {},
     "name": "detailTournamentDetailQuery",
     "operationKind": "query",
-    "text": "query detailTournamentDetailQuery(\n  $tournamentId: ID!\n) {\n  tournaments(condition: {id: $tournamentId}) {\n    id\n    name\n    year\n  }\n  scorecards(condition: {tournamentId: $tournamentId}, orderBy: CREATED_AT_DESC) {\n    id\n    handicap\n    created_at\n    course {\n      name\n      nr_holes\n      slope\n      course_rating\n    }\n    player {\n      id\n      name\n      handicap\n    }\n  }\n}\n"
+    "text": "query detailTournamentDetailQuery(\n  $tournamentId: ID!\n  $playerId: ID!\n) {\n  tournaments(condition: {id: $tournamentId}) {\n    id\n    name\n    year\n  }\n  scorecards(condition: {tournamentId: $tournamentId, playerId: $playerId}, orderBy: CREATED_AT_DESC) {\n    id\n    handicap\n    created_at\n    course {\n      name\n      nr_holes\n      slope\n      course_rating\n    }\n    player {\n      id\n      name\n      handicap\n    }\n  }\n}\n"
   }
 };
 })();
 
-node.hash = "6a2a945dcd9e8ce9136f10594287eb7b";
+node.hash = "1093f7bd32c2636035a54dd2472ea74a";
 
 module.exports = node;
