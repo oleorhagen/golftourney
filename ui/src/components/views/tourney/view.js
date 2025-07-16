@@ -4,7 +4,8 @@ import graphql from "babel-plugin-relay/macro";
 import { useOutletContext, Outlet } from "react-router-dom";
 import Link from "../../router/Link";
 
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem } from "@mui/material";
+import { useMutation } from "react-relay/hooks";
 
 // import PlayerStats from "./playerstats/PlayerStats";
 import ScoreCard from "./scorecard/ScoreCard";
@@ -16,10 +17,46 @@ const ListAllScorecardsQuery = graphql`
   query viewListScorecardsQuery($tournamentId: ID!, $playerId: ID!) {
     scorecards(
       condition: { tournamentId: $tournamentId, playerId: $playerId }
+      orderBy: CREATED_AT_DESC
     ) {
       id
       tournament_id
       handicap
+      created_at
+      course {
+        name
+        nr_holes
+        slope
+        course_rating
+        holes {
+          nr
+          index
+          par
+          extra_strokes
+          strokes
+          points
+          ...SelectScoreAutoWidthFragment
+        }
+      }
+      player {
+        id
+        name
+        handicap
+      }
+    }
+    courses {
+      name
+    }
+  }
+`;
+
+const CreateScorecardMutation = graphql`
+  mutation viewCreateScorecardMutation($input: NewScorecard!) {
+    createScorecard(input: $input) {
+      id
+      tournament_id
+      handicap
+      created_at
       course {
         name
         nr_holes
@@ -51,23 +88,67 @@ export function RouterScoreCard() {
 
 function ScheduleScoreCard(props) {
   const [value, setValue] = useState(0);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [courseName, setCourseName] = useState("");
+  const [handicap, setHandicap] = useState("");
+  const [queryKey, setQueryKey] = useState(0);
 
   const data = useLazyLoadQuery(
     ListAllScorecardsQuery,
     { tournamentId: props.tournamentId, playerId: props.scorerId },
-    { fetchPolicy: "network-only" },
+    { fetchPolicy: "network-only", fetchKey: queryKey },
   );
 
+  const [createScorecard] = useMutation(CreateScorecardMutation);
+
   var courseNodes = data?.scorecards || [];
+  var availableCourses = data?.courses || [];
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const handleCreateScorecard = () => {
+    console.log('Creating scorecard with:', {
+      tournament_id: props.tournamentId,
+      player_id: props.scorerId,
+      course_name: courseName,
+      handicap: parseInt(handicap)
+    });
+
+    createScorecard({
+      variables: {
+        input: {
+          tournament_id: props.tournamentId,
+          player_id: props.scorerId,
+          course_name: courseName,
+          handicap: parseInt(handicap)
+        }
+      },
+      onCompleted: (response) => {
+        console.log('Scorecard created successfully:', response);
+        setDialogOpen(false);
+        setCourseName("");
+        setHandicap("");
+        setQueryKey(prev => prev + 1);
+      },
+      onError: (error) => {
+        console.error('Error creating scorecard:', error);
+      }
+    });
+  };
+
   return (
     <div className="TourneyApp">
       <div className="TourneyApp-header">
-        <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+        <Box sx={{ width: "100%", bgcolor: "background.paper", mb: 2 }}>
+          <Button
+            variant="contained"
+            onClick={() => setDialogOpen(true)}
+            sx={{ mb: 2 }}
+          >
+            Create New Scorecard
+          </Button>
           <Tabs
             value={value}
             onChange={handleTabChange}
@@ -81,7 +162,22 @@ function ScheduleScoreCard(props) {
                   "/scorecards/" +
                   n.course.name.replace(/\W+/g, "-").toLowerCase()
                 }
-                label={n.course.name}
+                label={
+                  <div>
+                    <div>{n.course.name}</div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>
+                      {n.created_at ?
+                        (() => {
+                          const date = new Date(n.created_at);
+                          return isNaN(date.getTime()) ?
+                            `Created: ${n.created_at}` :
+                            `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+                        })()
+                        : 'No date'
+                      }
+                    </div>
+                  </div>
+                }
                 key={i}
               />
             ))}
@@ -101,6 +197,44 @@ function ScheduleScoreCard(props) {
             </CustomTabPanel>
           );
         })}
+
+        <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>Create New Scorecard</DialogTitle>
+          <DialogContent>
+            <TextField
+              select
+              label="Course"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+              fullWidth
+              margin="normal"
+            >
+              {availableCourses.map((course) => (
+                <MenuItem key={course.name} value={course.name}>
+                  {course.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              label="Handicap"
+              type="number"
+              value={handicap}
+              onChange={(e) => setHandicap(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
+            <Button
+              onClick={handleCreateScorecard}
+              variant="contained"
+              disabled={!courseName || !handicap}
+            >
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );

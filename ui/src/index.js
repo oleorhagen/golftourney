@@ -16,6 +16,8 @@ import ErrorPage from "./routes/error-page";
 import MainView from "./components/views/main/view";
 import TourneyView from "./components/views/tourney/view";
 import { RouterScoreCard } from "./components/views/tourney/view";
+import TournamentsView from "./components/views/tournaments/view";
+import TournamentDetail from "./components/views/tournaments/detail";
 import ChampionsView from "./components/views/champions/champions";
 import CompetitionView from "./components/views/competitions/view";
 import PlayersView from "./components/views/players/view";
@@ -27,6 +29,7 @@ import FormatView from "./components/views/format/view";
 const navbarItems = [
   { name: "Home", link: "/" },
   { name: "Scorecards", link: "/scorecards" },
+  { name: "Tournaments", link: "/tournaments" },
   { name: "Competitions", link: "/competition" },
   { name: "Players", link: "/players" },
   { name: "Champions", link: "/champions" },
@@ -71,6 +74,14 @@ const router = createBrowserRouter([
             element: <RouterScoreCard />,
           },
         ],
+      },
+      {
+        path: "/tournaments",
+        element: <TournamentsView />,
+      },
+      {
+        path: "/tournaments/:tournamentId",
+        element: <TournamentDetail />,
       },
       {
         path: "/rules",

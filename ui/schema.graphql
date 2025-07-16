@@ -1,4 +1,3 @@
-
 type Player {
   id: ID!
   name: String!
@@ -16,8 +15,9 @@ type Team {
 
 type Scorecard {
   id: ID!
-  tournament_id: ID!
+  tournament_id: ID
   handicap: Int!
+  created_at: Time!
   course(condition: CourseCondition): ScorecardCourse!
   player: Player!
 }
@@ -26,8 +26,8 @@ type ScorecardHole {
   nr: Int!
   index: Int!
   par: Int!
-  strokes: Int!
   extra_strokes: Int!
+  strokes: Int
   points: Int
 }
 
@@ -130,6 +130,7 @@ enum TournamentsOrderBy {
 
 # Tournament filtering input
 input TournamentCondition {
+  id: ID
   name: String
   year: Time
 }
@@ -140,6 +141,8 @@ enum ScorecardsOrderBy {
   HANDICAP_DESC
   ID_ASC
   ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
 }
 
 # Scorecard filtering input
@@ -197,6 +200,14 @@ input UpdateScorecardHole {
   strokes: Int!
 }
 
+input NewScorecard {
+  tournament_id: ID
+  player_id: ID!
+  course_name: String!
+  handicap: Int!
+  created_at: Time
+}
+
 input UpdateScorecard {
   id: ID!
   holes: [UpdateScorecardHole!]!
@@ -204,5 +215,6 @@ input UpdateScorecard {
 
 type Mutation {
   createPlayer(input: NewPlayer!): Player!
+  createScorecard(input: NewScorecard!): Scorecard!
   updateScorecard(input: UpdateScorecard!): Scorecard!
 }

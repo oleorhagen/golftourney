@@ -11,4 +11,3 @@ track of the scores live.
 
 ## Implementation
 
-

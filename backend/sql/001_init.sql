@@ -54,6 +54,7 @@ create domain valid_handicap as float check (value between -54 and 54);
 
 create table physical.scorecard (
     id uuid default uuid_generate_v4(),
+    created_at timestamp default now(),
     tournament_id uuid references physical.tournament (id) on delete cascade,
     scorer_id uuid not null references physical.scorer (id) on delete cascade,
     handicap valid_handicap not null,
