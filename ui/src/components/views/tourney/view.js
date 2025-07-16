@@ -109,6 +109,13 @@ function ScheduleScoreCard(props) {
   };
 
   const handleCreateScorecard = () => {
+    console.log('Creating scorecard with:', {
+      tournament_id: props.tournamentId,
+      player_id: props.scorerId,
+      course_name: courseName,
+      handicap: parseInt(handicap)
+    });
+
     createScorecard({
       variables: {
         input: {
@@ -119,6 +126,7 @@ function ScheduleScoreCard(props) {
         }
       },
       onCompleted: (response) => {
+        console.log('Scorecard created successfully:', response);
         setDialogOpen(false);
         setCourseName("");
         setHandicap("");
