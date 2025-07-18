@@ -2,6 +2,9 @@
 async function fetchGraphQL(text, variables) {
     const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT || 'http://localhost:5433/query';
 
+
+  console.log(`Endpoint used: ${GRAPHQL_ENDPOINT}`);
+
   const response = await fetch(GRAPHQL_ENDPOINT, {
     method: "POST",
     headers: {
